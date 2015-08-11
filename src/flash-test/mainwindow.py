@@ -28,12 +28,22 @@ from device_manager import DeviceManager
 from plugin_system.plugin_base import PluginBase
 from plugin_system.tinkerforge.brick_master import BrickMaster
 
+import urllib.request
+
 class PluginNotImplemented(PluginBase):
     pass
                 
 class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
+        
+        auth_handler = urllib.request.HTTPBasicAuthHandler()
+        auth_handler.add_password(realm='Staging area',
+                                  uri='http://stagingwww.tinkerforge.com/uid',
+                                  user='staging',
+                                  passwd='Parryenderg4')
+        opener = urllib.request.build_opener(auth_handler)
+        urllib.request.install_opener(opener)
 
         self.setupUi(self)
         self.current_plugin = None

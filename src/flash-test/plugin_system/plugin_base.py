@@ -50,14 +50,6 @@ class PluginBase(QtGui.QWidget, object):
         self.device_information = None
         
     def get_new_uid(self):
-        auth_handler = urllib.request.HTTPBasicAuthHandler()
-        auth_handler.add_password(realm='Staging area',
-                                  uri='http://stagingwww.tinkerforge.com/uid',
-                                  user='staging',
-                                  passwd='Parryenderg4')
-        opener = urllib.request.build_opener(auth_handler)
-        
-        urllib.request.install_opener(opener)
         return int(urllib.request.urlopen('http://stagingwww.tinkerforge.com/uid').read())
         
     def get_ipcon(self):
