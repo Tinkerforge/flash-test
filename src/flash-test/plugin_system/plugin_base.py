@@ -28,6 +28,7 @@ from .tinkerforge.ip_connection import IPConnection
 import urllib.request
 import urllib.parse
 import traceback
+import os
 
 BASE58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
 def base58encode(value):
@@ -142,6 +143,11 @@ class PluginBase(QtGui.QWidget, object):
             
         return True
 
+    def get_bricklets_firmware_directory(self, name):
+        file_directory = os.path.dirname(os.path.realpath(__file__))
+        root_directory = os.path.join(os.path.split(os.path.split(os.path.split(file_directory)[0])[0])[0])
+        return os.path.join(root_directory, 'firmwares', 'bricklets', name, 'bricklet_' + name + '_firmware_latest.bin')
+        
 
 
         

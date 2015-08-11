@@ -1,0 +1,7 @@
+*.pyc
+ui_*.py
+*.py_minified
+*.py_prepared
+.project
+.pydevproject
+.settings
