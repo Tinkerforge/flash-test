@@ -81,7 +81,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.current_plugin.stop()
             self.current_plugin.destroy()
 
-        sys.exit(0)
+        os._exit(0)
 
     def get_master_brick_device_information(self):
         return self.device_manager.devices.get(BrickMaster.DEVICE_IDENTIFIER)
