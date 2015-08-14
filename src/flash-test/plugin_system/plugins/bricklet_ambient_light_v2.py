@@ -34,8 +34,8 @@ class Plugin(PluginBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 4. Überprüfe Wert:
- * Wert sollte größer sein wenn Helligkeit steigt
- * Wert sollte zwischen ~100 und ~10000 liegen innen
+     * Wert sollte größer sein wenn Helligkeit steigt
+     * Wert sollte zwischen ~100 und ~10000 liegen innen
 5. Das Bricklet ist fertig. In kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben.
 6. Gehe zu 1
 """
