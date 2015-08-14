@@ -5,3 +5,4 @@ ui_*.py
 .project
 .pydevproject
 .settings
+staging_password.txt
