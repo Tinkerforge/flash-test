@@ -6,3 +6,4 @@ ui_*.py
 .pydevproject
 .settings
 staging_password.txt
+firmwares
