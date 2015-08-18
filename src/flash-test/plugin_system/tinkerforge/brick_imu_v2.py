@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-04-23.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -205,15 +203,15 @@ class BrickIMUV2(Device):
         """
         Returns the current orientation (heading, roll, pitch) of the IMU Brick as Euler
         angles in 1/16 degree. Note that Euler angles always experience a
-        `gimbal lock <http://en.wikipedia.org/wiki/Gimbal_lock>`__.
+        `gimbal lock <https://en.wikipedia.org/wiki/Gimbal_lock>`__.
         
         We recommend that you use quaternions instead.
         
         The rotation angle has the following ranges:
         
-        * heading: 0° - 360°
-        * roll: -90° - 90°
-        * pitch: -180° - 180°
+        * heading: 0° to 360°
+        * roll: -90° to +90°
+        * pitch: -180° to +180°
         
         If you want to get the orientation periodically, it is recommended 
         to use the callback :func:`Orientation` and set the period with 
@@ -257,11 +255,11 @@ class BrickIMUV2(Device):
 
     def get_quaternion(self):
         """
-        Returns the current orientation (w, x, y, z) of the IMU as 
-        `quaternions <http://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation>`__.
+        Returns the current orientation (w, x, y, z) of the IMU Brick as
+        `quaternions <https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation>`__.
         
-        You have to divide the returnes values by 16383 (14 bit) to get
-        the usual range of -1 to 1 for quaternions.
+        You have to divide the returns values by 16383 (14 bit) to get
+        the usual range of -1.0 to +1.0 for quaternions.
         
         If you want to get the quaternions periodically, it is recommended 
         to use the callback :func:`Quaternion` and set the period with 
@@ -276,7 +274,7 @@ class BrickIMUV2(Device):
         * acceleration in 1/100 m/s² (see :func:`GetAcceleration`)
         * magnetic field in 1/16 µT (see :func:`GetMagneticField`)
         * angular velocity in 1/16 °/s (see :func:`GetAngularVelocity`)
-        * euler angles in 1/16 ° (see :func:`GetOrientation`)
+        * Euler angles in 1/16 ° (see :func:`GetOrientation`)
         * quaternion 1/16383 (see :func:`GetQuaternion`)
         * linear acceleration 1/100 m/s² (see :func:`GetLinearAcceleration`)
         * gravity vector 1/100 m/s² (see :func:`GetGravityVector`)
@@ -481,7 +479,7 @@ class BrickIMUV2(Device):
 
     def is_status_led_enabled(self):
         """
-        Returns *true* if the status led is enabled, *false* otherwise.
+        Returns *true* if the status LED is enabled, *false* otherwise.
         """
         return self.ipcon.send_request(self, BrickIMUV2.FUNCTION_IS_STATUS_LED_ENABLED, (), '', '?')
 

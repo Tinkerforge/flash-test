@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -112,7 +110,7 @@ class BrickletAccelerometer(Device):
     def get_acceleration(self):
         """
         Returns the acceleration in x, y and z direction. The values
-        are given in mG (1/1000 G).
+        are given in mg (1/1000 g), not to be confused with grams.
         
         If you want to get the acceleration periodically, it is recommended 
         to use the callback :func:`Acceleration` and set the period with 

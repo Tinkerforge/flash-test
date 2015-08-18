@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-04-23.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -208,7 +208,7 @@ class BrickIMU(Device):
         """
         Returns the current orientation (roll, pitch, yaw) of the IMU Brick as Euler
         angles in one-hundredth degree. Note that Euler angles always experience a
-        `gimbal lock <http://en.wikipedia.org/wiki/Gimbal_lock>`__.
+        `gimbal lock <https://en.wikipedia.org/wiki/Gimbal_lock>`__.
         
         We recommend that you use quaternions instead.
         
@@ -224,7 +224,7 @@ class BrickIMU(Device):
     def get_quaternion(self):
         """
         Returns the current orientation (x, y, z, w) of the IMU as 
-        `quaternions <http://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation>`__.
+        `quaternions <https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation>`__.
         
         You can go from quaternions to Euler angles with the following formula::
         
@@ -233,7 +233,7 @@ class BrickIMU(Device):
          zAngle =  asin(2*x*y + 2*z*w)
         
         This process is not reversible, because of the 
-        `gimbal lock <http://en.wikipedia.org/wiki/Gimbal_lock>`__.
+        `gimbal lock <https://en.wikipedia.org/wiki/Gimbal_lock>`__.
         
         It is also possible to calculate independent angles. You can calculate 
         yaw, pitch and roll in a right-handed vehicle coordinate system according to DIN70000
@@ -476,7 +476,7 @@ class BrickIMU(Device):
         
         As default the calculation is on.
         
-        .. versionadded:: 2.0.2~(Firmware)
+        .. versionadded:: 2.0.2$nbsp;(Firmware)
         """
         self.ipcon.send_request(self, BrickIMU.FUNCTION_ORIENTATION_CALCULATION_ON, (), '', '')
 
@@ -494,7 +494,7 @@ class BrickIMU(Device):
         
         As default the calculation is on.
         
-        .. versionadded:: 2.0.2~(Firmware)
+        .. versionadded:: 2.0.2$nbsp;(Firmware)
         """
         self.ipcon.send_request(self, BrickIMU.FUNCTION_ORIENTATION_CALCULATION_OFF, (), '', '')
 
@@ -503,7 +503,7 @@ class BrickIMU(Device):
         Returns *true* if the orientation calculation of the IMU Brick
         is on, *false* otherwise.
         
-        .. versionadded:: 2.0.2~(Firmware)
+        .. versionadded:: 2.0.2$nbsp;(Firmware)
         """
         return self.ipcon.send_request(self, BrickIMU.FUNCTION_IS_ORIENTATION_CALCULATION_ON, (), '', '?')
 
@@ -516,7 +516,7 @@ class BrickIMU(Device):
         
         The default state is enabled.
         
-        .. versionadded:: 2.3.1~(Firmware)
+        .. versionadded:: 2.3.1$nbsp;(Firmware)
         """
         self.ipcon.send_request(self, BrickIMU.FUNCTION_ENABLE_STATUS_LED, (), '', '')
 
@@ -529,15 +529,15 @@ class BrickIMU(Device):
         
         The default state is enabled.
         
-        .. versionadded:: 2.3.1~(Firmware)
+        .. versionadded:: 2.3.1$nbsp;(Firmware)
         """
         self.ipcon.send_request(self, BrickIMU.FUNCTION_DISABLE_STATUS_LED, (), '', '')
 
     def is_status_led_enabled(self):
         """
-        Returns *true* if the status led is enabled, *false* otherwise.
+        Returns *true* if the status LED is enabled, *false* otherwise.
         
-        .. versionadded:: 2.3.1~(Firmware)
+        .. versionadded:: 2.3.1$nbsp;(Firmware)
         """
         return self.ipcon.send_request(self, BrickIMU.FUNCTION_IS_STATUS_LED_ENABLED, (), '', '?')
 

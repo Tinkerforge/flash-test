@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-14.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -123,7 +123,6 @@ class BrickMaster(Device):
     FUNCTION_GET_ETHERNET_AUTHENTICATION_SECRET = 74
     FUNCTION_SET_WIFI_AUTHENTICATION_SECRET = 75
     FUNCTION_GET_WIFI_AUTHENTICATION_SECRET = 76
-    FUNCTION_TEST = 77
     FUNCTION_ENABLE_STATUS_LED = 238
     FUNCTION_DISABLE_STATUS_LED = 239
     FUNCTION_IS_STATUS_LED_ENABLED = 240
@@ -265,7 +264,6 @@ class BrickMaster(Device):
         self.response_expected[BrickMaster.FUNCTION_GET_ETHERNET_AUTHENTICATION_SECRET] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_SET_WIFI_AUTHENTICATION_SECRET] = BrickMaster.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMaster.FUNCTION_GET_WIFI_AUTHENTICATION_SECRET] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickMaster.FUNCTION_TEST] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_ENABLE_STATUS_LED] = BrickMaster.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMaster.FUNCTION_DISABLE_STATUS_LED] = BrickMaster.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMaster.FUNCTION_IS_STATUS_LED_ENABLED] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -1167,12 +1165,6 @@ class BrickMaster(Device):
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
         return self.ipcon.send_request(self, BrickMaster.FUNCTION_GET_WIFI_AUTHENTICATION_SECRET, (), '', '64s')
-
-    def test(self, a):
-        """
-        .. versionadded:: 2.3.4$nbsp;(Firmware)
-        """
-        return self.ipcon.send_request(self, BrickMaster.FUNCTION_TEST, (a,), 'B', 'B')
 
     def enable_status_led(self):
         """

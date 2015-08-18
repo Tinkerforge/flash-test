@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -165,7 +165,7 @@ class BrickletLCD16x2(Device):
         Custom characters are stored by the LCD in RAM, so they have to be set
         after each startup.
         
-        .. versionadded:: 2.0.1~(Plugin)
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
         """
         self.ipcon.send_request(self, BrickletLCD16x2.FUNCTION_SET_CUSTOM_CHARACTER, (index, character), 'B 8B', '')
 
@@ -174,7 +174,7 @@ class BrickletLCD16x2(Device):
         Returns the custom character for a given index, as set with
         :func:`SetCustomCharacter`.
         
-        .. versionadded:: 2.0.1~(Plugin)
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
         """
         return self.ipcon.send_request(self, BrickletLCD16x2.FUNCTION_GET_CUSTOM_CHARACTER, (index,), 'B', '8B')
 

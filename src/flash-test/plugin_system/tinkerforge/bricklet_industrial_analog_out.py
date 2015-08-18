@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2015-07-28.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Bindings Version 2.1.5                                    #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -99,6 +97,9 @@ class BrickletIndustrialAnalogOut(Device):
     def set_voltage(self, voltage):
         """
         Sets the output voltage in mV.
+        
+        The output voltage and output current are linked. Changing the output voltage
+        also changes the output current.
         """
         self.ipcon.send_request(self, BrickletIndustrialAnalogOut.FUNCTION_SET_VOLTAGE, (voltage,), 'H', '')
 
@@ -111,6 +112,9 @@ class BrickletIndustrialAnalogOut(Device):
     def set_current(self, current):
         """
         Sets the output current in µA.
+        
+        The output current and output voltage are linked. Changing the output current
+        also changes the output voltage.
         """
         self.ipcon.send_request(self, BrickletIndustrialAnalogOut.FUNCTION_SET_CURRENT, (current,), 'H', '')
 
