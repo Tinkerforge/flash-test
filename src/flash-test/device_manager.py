@@ -59,3 +59,8 @@ class DeviceManager(QtCore.QObject):
             if self.mw.current_plugin:
                 if self.mw.current_plugin.get_device_identifier() == device_identifier:
                     self.mw.current_plugin.new_enum(device_information)
+                    return
+
+            if device_identifier == BrickMaster.DEVICE_IDENTIFIER and \
+               self.mw.label_tool_status.text() == 'Master Brick startet neu':
+                self.mw.set_tool_status_normal('Master Brick wurde neu gestartet')
