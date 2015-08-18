@@ -77,6 +77,10 @@ class PluginBase(QtGui.QWidget, object):
             port = 'c'
             uid = base58encode(int(self.get_new_uid()))
             self.get_ipcon().write_bricklet_uid(self.get_current_master(), port, uid)
+            uid_read = self.get_ipcon().read_bricklet_uid(self.get_current_master(), port)
+            if uid != uid_read:
+                self.mw.set_uid_status_error("Konnte UID an Port " + port.upper() + ' nicht verifizieren')
+                return
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte UID für Port ' + port.upper() + ' nicht setzen')
