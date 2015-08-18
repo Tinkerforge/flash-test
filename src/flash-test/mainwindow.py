@@ -101,5 +101,66 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.current_plugin.start(device_information)
 
     def flash_clicked(self):
+        self.set_tool_status_normal('-')
+        self.set_uid_status_normal('-')
+        self.set_flash_status_normal('-')
+        self.set_value_normal('-')
+
         if self.current_plugin:
             self.current_plugin.flash_clicked()
+
+    def set_label_text(self, label, text, color):
+        label.setText(text)
+
+        if color != None:
+            label.setStyleSheet('QLabel {{ color : {0} }}'.format(color))
+        else:
+            label.setStyleSheet('')
+
+    def set_tool_status_normal(self, text):
+        self.set_label_text(self.label_tool_status, text, None)
+
+    def set_tool_status_okay(self, text):
+        self.set_label_text(self.label_tool_status, text, 'green')
+
+    def set_tool_status_error(self, text):
+        self.set_label_text(self.label_tool_status, text, 'red')
+
+    def set_tool_status_action(self, text):
+        self.set_label_text(self.label_tool_status, text, 'blue')
+
+    def set_uid_status_normal(self, text):
+        self.set_label_text(self.label_uid_status, text, None)
+
+    def set_uid_status_okay(self, text):
+        self.set_label_text(self.label_uid_status, text, 'green')
+
+    def set_uid_status_error(self, text):
+        self.set_label_text(self.label_uid_status, text, 'red')
+
+    def set_uid_status_action(self, text):
+        self.set_label_text(self.label_uid_status, text, 'blue')
+
+    def set_flash_status_normal(self, text):
+        self.set_label_text(self.label_flash_status, text, None)
+
+    def set_flash_status_okay(self, text):
+        self.set_label_text(self.label_flash_status, text, 'green')
+
+    def set_flash_status_error(self, text):
+        self.set_label_text(self.label_flash_status, text, 'red')
+
+    def set_flash_status_action(self, text):
+        self.set_label_text(self.label_flash_status, text, 'blue')
+
+    def set_value_normal(self, text):
+        self.set_label_text(self.label_value, text, None)
+
+    def set_value_okay(self, text):
+        self.set_label_text(self.label_value, text, 'green')
+
+    def set_value_error(self, text):
+        self.set_label_text(self.label_value, text, 'red')
+
+    def set_value_action(self, text):
+        self.set_label_text(self.label_value, text, 'blue')

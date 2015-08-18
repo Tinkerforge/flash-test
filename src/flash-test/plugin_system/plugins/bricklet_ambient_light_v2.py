@@ -63,14 +63,13 @@ class Plugin(PluginBase):
         self.master_reset()
         
     def new_enum(self, device_information):
-        if device_information:
-            self.al = BrickletAmbientLightV2(device_information.uid, self.get_ipcon())
-            self.al.set_configuration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_8000LUX, BrickletAmbientLightV2.INTEGRATION_TIME_50MS)
-            self.cbe_illuminance = CallbackEmulator(self.al.get_illuminance,
-                                                    self.cb_illuminance)
-            self.cbe_illuminance.set_period(100)
-            
-            self.mw.label_tool_status.setText("Plugin gefunden")
+        self.al = BrickletAmbientLightV2(device_information.uid, self.get_ipcon())
+        self.al.set_configuration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_8000LUX, BrickletAmbientLightV2.INTEGRATION_TIME_50MS)
+        self.cbe_illuminance = CallbackEmulator(self.al.get_illuminance,
+                                                self.cb_illuminance)
+        self.cbe_illuminance.set_period(100)
+
+        self.mw.set_tool_status_okay("Plugin gefunden")
             
     def cb_illuminance(self, illuminance):
-        self.mw.label_value.setText(str(illuminance//100) + ' Lux')
+        self.mw.set_value_normal(str(illuminance//100) + ' Lux')

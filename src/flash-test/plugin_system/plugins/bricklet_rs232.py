@@ -28,6 +28,14 @@ from ..plugin_base import PluginBase
 
 from ..callback_emulator import CallbackEmulator
 
+def string_to_char_list(message):
+    chars = list(message)
+    chars.extend(['\0']*(60 - len(message)))
+    return chars, len(message)
+
+def char_list_to_string(message, length):
+    return ''.join(message[:length])
+
 class Plugin(PluginBase):
     TODO_TEXT = u"""\
 1. Verbinde RS232 Bricklet mit Port C
@@ -40,13 +48,18 @@ class Plugin(PluginBase):
 8. Gehe zu 1
 """
 
+    qtcb_read = QtCore.pyqtSignal(object, int)
+
     def __init__(self, *args):
-        self.message = ''
         PluginBase.__init__(self, *args)
+
+        self.message = ''
+
+        self.qtcb_read.connect(self.cb_read)
 
     def start(self, device_information):
         PluginBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -57,36 +70,26 @@ class Plugin(PluginBase):
         return BrickletRS232.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.mw.label_value.setText("Warte auf Reset")
+        self.mw.set_value_action("Warte auf Reset")
         QtGui.QApplication.processEvents()
         self.write_new_uid_to_bricklet()
         self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('rs232'))
         self.master_reset()
         
     def new_enum(self, device_information):
-        def string_to_char_list(message):
-            chars = list(message)
-            chars.extend(['\0']*(60 - len(message)))
-            return chars, len(message)
-        
-        def char_list_to_string(message, length):
-            return ''.join(message[:length])
-        
-        def cb_read(message, length):
-            s = char_list_to_string(message, length)
-            self.message += s
+        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.mw.set_value_action("Warte auf Antwort")
+        self.rs232 = BrickletRS232(device_information.uid, self.get_ipcon())
+        self.rs232.register_callback(self.rs232.CALLBACK_READ_CALLBACK, self.qtcb_read.emit)
+        self.rs232.enable_read_callback()
 
-            if self.message == '0123456789'*6:
-                self.message = ''
-                self.mw.label_value.setText("Test OK!")
-                
-        if device_information:
-            self.mw.label_tool_status.setText("Plugin gefunden")
-            self.mw.label_value.setText("Warte auf Antwort")
-            self.rs232 = BrickletRS232(device_information.uid, self.get_ipcon())
-            self.rs232.register_callback(self.rs232.CALLBACK_READ_CALLBACK, cb_read)
-            self.rs232.enable_read_callback()
+        self.message = ''
+        self.rs232.write(*string_to_char_list('0123456789'*6))
 
+    def cb_read(self, message, length):
+        s = char_list_to_string(message, length)
+        self.message += s
+
+        if self.message == '0123456789'*6:
             self.message = ''
-            self.rs232.write(*string_to_char_list('0123456789'*6))
-            
+            self.mw.set_value_okay("Test OK!")

@@ -34,7 +34,7 @@ class Plugin(PluginBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 4. Überprüfe Wert:
-     * Wert sollte sinken wenn man das Bricklet anpackt.
+     * Wert sollte sinken wenn man das Bricklet anfasst.
 5. Überprüfe ob Bricklet durch Gehäuseschlitz passt. Eventuell nachpfeilen. 
 6. Das Bricklet ist fertig. In ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben.
 7. Gehe zu 1
@@ -63,13 +63,12 @@ class Plugin(PluginBase):
         self.master_reset()
         
     def new_enum(self, device_information):
-        if device_information:
-            self.al = BrickletMoisture(device_information.uid, self.get_ipcon())
-            self.cbe_moisture = CallbackEmulator(self.al.get_moisture_value,
-                                                 self.cb_moisture)
-            self.cbe_moisture.set_period(100)
-            
-            self.mw.label_tool_status.setText("Plugin gefunden")
+        self.m = BrickletMoisture(device_information.uid, self.get_ipcon())
+        self.cbe_moisture = CallbackEmulator(self.m.get_moisture_value,
+                                             self.cb_moisture)
+        self.cbe_moisture.set_period(100)
+
+        self.mw.set_tool_status_okay("Plugin gefunden")
             
     def cb_moisture(self, moisture):
-        self.mw.label_value.setText('Feuchtewert: ' + str(moisture))
+        self.mw.set_value_normal('Feuchtewert: ' + str(moisture))

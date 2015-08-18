@@ -22,6 +22,10 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
+import sip
+sip.setapi('QString', 2)
+sip.setapi('QVariant', 2)
+
 import sys
 
 from PyQt4 import Qt, QtGui, QtCore
