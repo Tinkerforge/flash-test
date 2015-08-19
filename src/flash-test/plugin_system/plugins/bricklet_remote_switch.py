@@ -63,7 +63,7 @@ class Plugin(PluginBase):
 
     def flash_clicked(self):
         self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('remove_switch'))
+        self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('remote_switch'))
         self.master_reset()
 
     def new_enum(self, device_information):
