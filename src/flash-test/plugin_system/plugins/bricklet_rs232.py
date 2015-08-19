@@ -29,12 +29,20 @@ from ..plugin_base import PluginBase
 from ..callback_emulator import CallbackEmulator
 
 def string_to_char_list(message):
-    chars = list(message)
-    chars.extend(['\0']*(60 - len(message)))
+    chars = [bytes([x]) for x in list(message)]
+    chars.extend([b'\0']*(60 - len(message)))
     return chars, len(message)
 
 def char_list_to_string(message, length):
-    return ''.join(message[:length])
+    chars = []
+
+    for c in message[:length]:
+        if type(c) == str:
+            c = c.encode('ascii')
+
+        chars.append(c)
+
+    return b''.join(chars)
 
 class Plugin(PluginBase):
     TODO_TEXT = u"""\
@@ -53,7 +61,7 @@ class Plugin(PluginBase):
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
 
-        self.message = ''
+        self.message = b''
 
         self.qtcb_read.connect(self.cb_read)
 
@@ -68,14 +76,14 @@ class Plugin(PluginBase):
 
     def get_device_identifier(self):
         return BrickletRS232.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.mw.set_value_action("Warte auf Reset")
         QtGui.QApplication.processEvents()
         self.write_new_uid_to_bricklet()
         self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('rs232'))
         self.master_reset()
-        
+
     def new_enum(self, device_information):
         self.mw.set_tool_status_okay("Plugin gefunden")
         self.mw.set_value_action("Warte auf Antwort")
@@ -83,13 +91,15 @@ class Plugin(PluginBase):
         self.rs232.register_callback(self.rs232.CALLBACK_READ_CALLBACK, self.qtcb_read.emit)
         self.rs232.enable_read_callback()
 
-        self.message = ''
-        self.rs232.write(*string_to_char_list('0123456789'*6))
+        self.message = b''
+        self.rs232.write(*string_to_char_list(b'012345678\xee'*6))
 
     def cb_read(self, message, length):
         s = char_list_to_string(message, length)
         self.message += s
 
-        if self.message == '0123456789'*6:
-            self.message = ''
+        self.mw.set_value_action("Warte auf Antwort: {0} Bytes fehlen noch".format(60 - len(self.message)))
+
+        if self.message == b'012345678\xee'*6:
+            self.message = b''
             self.mw.set_value_okay("Test OK!")
