@@ -34,9 +34,9 @@ class Plugin(PluginBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 4. Überprüfe Wert:
-     * Wert sollte sinken wenn man das Bricklet anfasst.
-5. Überprüfe ob Bricklet durch Gehäuseschlitz passt. Eventuell nachpfeilen. 
-6. Das Bricklet ist fertig. In ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben.
+     * Wert sollte sinken wenn man das Bricklet anfasst
+5. Überprüfe ob Bricklet durch Gehäuseschlitz passt, eventuell nachpfeilen
+6. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
 

@@ -52,7 +52,7 @@ class Plugin(PluginBase):
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 5. Warte bis Wert sich auf "Test OK!" ändert
 6. Setze Jumper um zwischen RX1 und RX2
-7. Das Bricklet ist fertig. In ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben.
+7. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1
 """
 
