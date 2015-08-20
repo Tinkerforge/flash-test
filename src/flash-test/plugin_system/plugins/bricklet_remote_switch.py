@@ -24,9 +24,9 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_remote_switch import BrickletRemoteSwitch
-from ..plugin_base import PluginBase
+from ..bricklet_base import BrickletBase
 
-class Plugin(PluginBase):
+class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Remove Switch Bricklet mit Port C
 2. Verbinde Test-Antenne mit Remove Switch Bricklet
@@ -42,7 +42,7 @@ class Plugin(PluginBase):
     qtcb_switching_done = QtCore.pyqtSignal()
 
     def __init__(self, *args):
-        PluginBase.__init__(self, *args)
+        BrickletBase.__init__(self, *args)
 
         self.next_switch_to = BrickletRemoteSwitch.SWITCH_TO_OFF
         self.switchings_left = 5
@@ -50,7 +50,7 @@ class Plugin(PluginBase):
         self.qtcb_switching_done.connect(self.cb_switching_done)
 
     def start(self, device_information):
-        PluginBase.start(self, device_information)
+        BrickletBase.start(self, device_information)
 
         if device_information:
             self.new_enum(device_information)

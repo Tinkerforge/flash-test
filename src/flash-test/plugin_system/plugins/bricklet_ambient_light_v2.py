@@ -24,11 +24,11 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_ambient_light_v2 import BrickletAmbientLightV2
-from ..plugin_base import PluginBase
+from ..bricklet_base import BrickletBase
 
 from ..callback_emulator import CallbackEmulator
 
-class Plugin(PluginBase):
+class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Ambient Light 2.0 Bricklet mit Port C
 2. Drücke "Flashen"
@@ -41,11 +41,11 @@ class Plugin(PluginBase):
 """
 
     def __init__(self, *args):
-        PluginBase.__init__(self, *args)
+        BrickletBase.__init__(self, *args)
         self.cbe_illuminance = None
 
     def start(self, device_information):
-        PluginBase.start(self, device_information)
+        BrickletBase.start(self, device_information)
         
         if device_information:
             self.new_enum(device_information)

@@ -114,7 +114,6 @@ class PluginBase(QtGui.QWidget, object):
                 position += 1
 
                 self.mw.set_flash_status_action("Schreibe Port " + port.upper() +  ": " + str(position) + '/' + str(len(plugin_chunks)))
-                QtGui.QApplication.processEvents()
                 
             position = 0
             for chunk in plugin_chunks:
@@ -123,44 +122,26 @@ class PluginBase(QtGui.QWidget, object):
 
                 if read_chunk != chunk:
                     self.mw.set_flash_status_error("Konnte Plugin an Port " + port.upper() + ' nicht verifizieren')
-                    QtGui.QApplication.processEvents()
                     return False
                 position += 1
-                QtGui.QApplication.processEvents()
                 
         except:
             traceback.print_exc()
             return False
         else:
             self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
-            QtGui.QApplication.processEvents()
             
         return True
-
-    def get_bricklets_firmware_directory(self, name):
-        file_directory = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricklets', name, 'bricklet_' + name + '_firmware_latest.bin')
 
     # To be overridden by inheriting class
     def stop(self):
         pass
-
+    
     def start(self, device_information):
         self.device_information = device_information
         self.mw.text_edit_todo.setPlainText(self.TODO_TEXT)
-
-        if device_information != None:
-            self.mw.set_tool_status_okay("Plugin gefunden")
-            self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
-            self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
-            self.mw.set_value_normal('-')
-        else:
-            self.mw.set_tool_status_normal("Kein Plugin gefunden")
-            self.mw.set_uid_status_normal('-')
-            self.mw.set_flash_status_normal('-')
-            self.mw.set_value_normal('-')
             
-    def new_enum(self):
+    def new_enum(self, device_information):
         pass
 
     def destroy(self):

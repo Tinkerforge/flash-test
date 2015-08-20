@@ -117,6 +117,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         else:
             label.setStyleSheet('')
 
+        QtGui.QApplication.processEvents()
+
     def set_tool_status_normal(self, text):
         self.set_label_text(self.label_tool_status, text, None)
 

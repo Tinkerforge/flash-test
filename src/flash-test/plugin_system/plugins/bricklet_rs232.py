@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_rs232 import BrickletRS232
-from ..plugin_base import PluginBase
+from ..bricklet_base import BrickletBase
 
 from ..callback_emulator import CallbackEmulator
 
@@ -44,7 +44,7 @@ def char_list_to_string(message, length):
 
     return b''.join(chars)
 
-class Plugin(PluginBase):
+class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde RS232 Bricklet mit Port C
 2. Setze Jumper zwischen TX und RX1
@@ -59,14 +59,14 @@ class Plugin(PluginBase):
     qtcb_read = QtCore.pyqtSignal(object, int)
 
     def __init__(self, *args):
-        PluginBase.__init__(self, *args)
+        BrickletBase.__init__(self, *args)
 
         self.message = b''
 
         self.qtcb_read.connect(self.cb_read)
 
     def start(self, device_information):
-        PluginBase.start(self, device_information)
+        BrickletBase.start(self, device_information)
 
         if device_information:
             self.new_enum(device_information)
