@@ -72,7 +72,7 @@ class Plugin(PluginBase):
         self.rs.register_callback(self.rs.CALLBACK_SWITCHING_DONE, self.qtcb_switching_done.emit)
         self.rs.switch_socket_a(11, 11, self.rs.SWITCH_TO_ON)
         self.next_switch_to = self.rs.SWITCH_TO_OFF
-        self.switchings_left = 3
+        self.switchings_left = 2
         self.mw.set_value_action("Einschaltbefehl wurde gesendet")
 
     def cb_switching_done(self):
