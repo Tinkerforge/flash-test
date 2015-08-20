@@ -21,6 +21,8 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
+import os
+
 from plugin_system.plugin_base import PluginBase
 
 class BrickletBase(PluginBase):    

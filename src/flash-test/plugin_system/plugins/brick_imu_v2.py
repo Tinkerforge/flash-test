@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickBase):
     TODO_TEXT = u"""\
-1. Verbinde IMU Brick mit PC per mini USB
+1. Verbinde IMU Brick 2.0 mit PC per Mini-USB
 2. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
 3. Gehe zu 1 
 
