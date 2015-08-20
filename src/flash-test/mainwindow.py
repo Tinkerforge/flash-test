@@ -76,6 +76,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.combo_device.currentIndexChanged.connect(self.device_index_changed)
         self.button_flash.clicked.connect(self.flash_clicked)
 
+        self.space_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Space), self, self.flash_clicked)
+        self.space_shortcut.setAutoRepeat(False)
+
     def closeEvent(self, event):
         if self.current_plugin:
             self.current_plugin.stop()
