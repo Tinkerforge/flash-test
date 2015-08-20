@@ -24,8 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_imu_v2 import BrickIMUV2
-from ..brick_base import BrickBase
-
+from ..brick_base import BrickBase, get_brick_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickBase):
@@ -36,10 +35,7 @@ class Plugin(BrickBase):
 
 * Kalibrieren und testen findet im Brick Viewer statt
 """
-
-    def __init__(self, *args):
-        self.firmware_file = self.get_brick_firmware_directory('imu_v2')
-        BrickBase.__init__(self, *args)
+    FIRMWARE_FILENAME = get_brick_firmware_filename('imu_v2')
 
     def start(self, device_information):
         BrickBase.start(self, device_information)

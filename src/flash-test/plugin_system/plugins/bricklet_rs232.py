@@ -24,8 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_rs232 import BrickletRS232
-from ..bricklet_base import BrickletBase
-
+from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
 def string_to_char_list(message):
@@ -81,7 +80,7 @@ class Plugin(BrickletBase):
         self.mw.set_value_action("Warte auf Reset")
         QtGui.QApplication.processEvents()
         self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('rs232'))
+        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('rs232'))
         self.master_reset()
 
     def new_enum(self, device_information):

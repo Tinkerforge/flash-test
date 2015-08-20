@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_remote_switch import BrickletRemoteSwitch
-from ..bricklet_base import BrickletBase
+from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
@@ -63,7 +63,7 @@ class Plugin(BrickletBase):
 
     def flash_clicked(self):
         self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(self.get_bricklets_firmware_directory('remote_switch'))
+        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('remote_switch'))
         self.master_reset()
 
     def new_enum(self, device_information):

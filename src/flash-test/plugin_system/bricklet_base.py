@@ -25,13 +25,13 @@ import os
 
 from plugin_system.plugin_base import PluginBase
 
+def get_bricklet_firmware_filename(name):
+    file_directory = os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricklets', name, 'bricklet_' + name + '_firmware_latest.bin')
+
 class BrickletBase(PluginBase):    
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
-            
-    def get_bricklets_firmware_directory(self, name):
-        file_directory = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricklets', name, 'bricklet_' + name + '_firmware_latest.bin')
 
     def start(self, device_information):
         PluginBase.start(self, device_information)

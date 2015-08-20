@@ -31,6 +31,10 @@ import os
 import time
 import threading
 
+def get_brick_firmware_filename(name):
+    file_directory = os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricks', name, 'brick_' + name + '_firmware_latest.bin')
+
 class Progress:
     def __init__(self, mw):
         self.mw = mw
@@ -45,12 +49,13 @@ class Progress:
 
 class FlashThread(QtCore.QThread):
     flash_signal = QtCore.pyqtSignal([str])
+
     def __init__(self, mw, bb, filename):
         QtCore.QThread.__init__(self)
         self.mw = mw
         self.bb = bb
         self.filename = filename
-        
+
         self.stopped = False
 
     def run(self):
@@ -64,25 +69,21 @@ class FlashThread(QtCore.QThread):
 class BrickBase(PluginBase):
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
-        
-        self.flash_thread = FlashThread(self.mw, self, '/home/olaf/ee/flash-test/firmwares/bricks/imu_v2/brick_imu_v2_firmware_latest.bin')
+
+        self.flash_thread = FlashThread(self.mw, self, self.FIRMWARE_FILENAME)
         self.flash_thread.flash_signal.connect(self.flash)
         self.is_flashing = False
-    
-    def get_brick_firmware_directory(self, name):
-        file_directory = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricks', name, 'brick_' + name + '_firmware_latest.bin')
-    
+
     def flash(self, filename):
         if self.is_flashing:
             return
 
         self.is_flashing = True
-
         firmware = None
+
         try:
-            with open(filename, "rb") as firmware_file:
-                firmware = firmware_file.read()
+            with open(filename, "rb") as f:
+                firmware = f.read()
         except IOError as e:
             self.mw.set_tool_status_error("Konnte Firmware Datei nicht lesen: {0}".format(e.strerror))
             self.is_flashing = False
