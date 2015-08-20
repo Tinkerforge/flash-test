@@ -29,14 +29,14 @@ from ..plugin_base import PluginBase
 class Plugin(PluginBase):
     TODO_TEXT = u"""\
 1. Verbinde Remove Switch Bricklet mit Port C
-2. Verbinde Antenne mit Remove Switch Bricklet
+2. Verbinde Test-Antenne mit Remove Switch Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 5. Warte bis Wert sich auf "Alle Schaltbefehle wurden gesendet" ändert:
      * Die Funksteckdose muss währenddessen mehrfach klicken
-6. Antenne vom Bricklet abziehen
-6. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-7. Gehe zu 1
+6. Test-Antenne vom Bricklet abziehen
+7. Das Bricklet ist fertig, mit Antenne in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
 
     qtcb_switching_done = QtCore.pyqtSignal()
