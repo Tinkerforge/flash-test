@@ -43,6 +43,7 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
         self.cbe_acceleration = None
+        self.led_is_on = False
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -71,6 +72,11 @@ class Plugin(BrickletBase):
         self.mw.set_tool_status_okay("Plugin gefunden")
             
     def cb_acceleration(self, data):
+        if self.accelerometer.is_led_on():
+            self.accelerometer.led_off()
+        else:
+            self.accelerometer.led_on()
+        
         x, y, z = data
 
         try:
