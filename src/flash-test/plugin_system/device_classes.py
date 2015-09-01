@@ -1,4 +1,5 @@
 from .plugins.brick_imu_v2 import Plugin as brick_imu_v2_class
+from .plugins.brick_master import Plugin as brick_master_class
 from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_class
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
@@ -11,6 +12,7 @@ from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
 
 device_classes = [
     brick_imu_v2_class,
+    brick_master_class,
     bricklet_accelerometer_class,
     bricklet_ambient_light_v2_class,
     bricklet_analog_in_v2_class,
