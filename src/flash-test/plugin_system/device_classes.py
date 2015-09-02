@@ -4,6 +4,7 @@ from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_cla
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
+from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_class
 from .plugins.bricklet_laser_range_finder import Plugin as bricklet_laser_range_finder_class
 from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
@@ -17,6 +18,7 @@ device_classes = [
     bricklet_ambient_light_v2_class,
     bricklet_analog_in_v2_class,
     bricklet_analog_out_v2_class,
+    bricklet_dust_detector_class,
     bricklet_laser_range_finder_class,
     bricklet_load_cell_class,
     bricklet_moisture_class,
