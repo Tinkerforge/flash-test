@@ -10,6 +10,7 @@ from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
 from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
+from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
 
 device_classes = [
     brick_imu_v2_class,
@@ -24,4 +25,5 @@ device_classes = [
     bricklet_moisture_class,
     bricklet_remote_switch_class,
     bricklet_rs232_class,
+    bricklet_sound_intensity_class,
 ]
