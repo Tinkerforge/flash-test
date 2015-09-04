@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2015 Olaf Lüke <olaf@tinkerforge.com>
 
-ft.py: Base for Bricks 
+brick_base.py: Base for Bricks
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
