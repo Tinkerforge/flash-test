@@ -35,7 +35,7 @@ class Plugin(BrickletBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 4. Überprüfe Wert:
-     * Wert sollte mit höherer Lautstärke steigen.
+     * Wert sollte mit höherer Lautstärke steigen
 5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """

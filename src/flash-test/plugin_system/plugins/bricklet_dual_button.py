@@ -33,9 +33,9 @@ class Plugin(BrickletBase):
 1. Verbinde Dual Button Bricklet mit Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
-4. Überprüfe Taster und LEDs:
-     * Tasterdruck schaltet LED an und aus.
-     * Tasterdruck wird angezeigt.
+4. Überprüfe beide Taster und beide LEDs:
+     * Tasterdruck schaltet LED an und aus
+     * Tasterdruck wird angezeigt
 5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
@@ -75,56 +75,45 @@ class Plugin(BrickletBase):
         self.button_transition = [0, 0]
         button_l, button_r = self.dual_button.get_button_state()
 
-        left = 'nicht '
-        if button_l != 1:
-            left = ''
+        self.update_button_transition(button_l, button_r)
 
-        right = 'nicht '
-        if button_r != 1:
-            right = ''
-
-        self.mw.set_value_normal("Links: {0}gedrückt, Rechts: {1}gedrückt, Warte auf Tasterdruck links und rechts".format(left, right))
-
-    def cb_state_changed(self, button_l, button_r, led_l, led_r):
-        if self.button_transition[0] == 0 and button_l == 0:
+    def update_button_transition(self, button_l, button_r):
+        if self.button_transition[0] == 0 and button_l == self.dual_button.BUTTON_STATE_PRESSED:
             self.button_transition[0] = 1
-        elif self.button_transition[0] == 1 and button_l == 1:
+        elif self.button_transition[0] == 1 and button_l == self.dual_button.BUTTON_STATE_RELEASED:
             self.button_transition[0] = 2
 
-        if self.button_transition[1] == 0 and button_r == 0:
+        if self.button_transition[1] == 0 and button_r == self.dual_button.BUTTON_STATE_PRESSED:
             self.button_transition[1] = 1
-        elif self.button_transition[1] == 1 and button_r == 1:
+        elif self.button_transition[1] == 1 and button_r == self.dual_button.BUTTON_STATE_RELEASED:
             self.button_transition[1] = 2
 
-        left = 'nicht '
-        if button_l != 1:
-            left = ''
+        left = '\u25C7'
+        if button_l == self.dual_button.BUTTON_STATE_PRESSED:
+            left = '\u25C6'
 
-        right = 'nicht '
-        if button_r != 1:
-            right = ''
-            
-        set_value = self.mw.set_value_normal
-        if self.button_transition == [0, 0]:
-            status = 'Warte auf Tasterdruck links und rechts'
-        elif self.button_transition == [0, 1]:
-            status = 'Warte auf Tasterdruck links und -loslassen rechts'
-        elif self.button_transition == [1, 0]:
-            status = 'Warte auf Tasterloslassen links und -druck rechts'
-        elif self.button_transition == [0, 2]:
-            status = 'Warte auf Tasterdruck links'
-        elif self.button_transition == [2, 0]:
-            status = 'Warte auf Tasterdruck rechts'
-        elif self.button_transition == [1, 1]:
-            status = 'Warte auf Tasterloslassen links und rechts'
-        elif self.button_transition == [1, 2]:
-            status = 'Warte auf Tasterloslassen links'
-        elif self.button_transition == [2, 1]:
-            status = 'Warte auf Tasterloslassen rechts'
-        elif self.button_transition == [2, 2]:
+        right = '\u25C7'
+        if button_r == self.dual_button.BUTTON_STATE_PRESSED:
+            right = '\u25C6'
+
+        if self.button_transition != [2, 2]:
+            status = 'Warte auf '
+            set_value = self.mw.set_value_action
+
+            for bs in self.button_transition:
+                if bs == 0:
+                    status += '\u25C6 '
+                elif bs == 1:
+                    status += '\u25C7 '
+                elif bs == 2:
+                    status += '\u2611 '
+                else:
+                    status += '? '
+        else:
             status = 'Test OK!'
             set_value = self.mw.set_value_okay
-        else:
-            status = 'Logikfehler!' + str(self.button_transition)
 
-        set_value("Links: {0}gedrückt, Rechts: {1}gedrückt, {2}".format(left, right, status))
+        set_value("Taster: {0} {1}, {2} (\u25C6 = gedrückt, \u25C7 = losgelassen, \u2611 = OK)".format(left, right, status))
+
+    def cb_state_changed(self, button_l, button_r, led_l, led_r):
+        self.update_button_transition(button_l, button_r)
