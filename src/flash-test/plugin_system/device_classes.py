@@ -8,6 +8,7 @@ from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
 from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_class
 from .plugins.bricklet_industrial_dual_analog_in import Plugin as bricklet_industrial_dual_analog_in_class
 from .plugins.bricklet_laser_range_finder import Plugin as bricklet_laser_range_finder_class
+from .plugins.bricklet_lcd_20x4 import Plugin as bricklet_lcd_20x4_class
 from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
@@ -25,6 +26,7 @@ device_classes = [
     bricklet_dust_detector_class,
     bricklet_industrial_dual_analog_in_class,
     bricklet_laser_range_finder_class,
+    bricklet_lcd_20x4_class,
     bricklet_load_cell_class,
     bricklet_moisture_class,
     bricklet_remote_switch_class,
