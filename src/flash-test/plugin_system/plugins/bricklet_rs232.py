@@ -84,14 +84,16 @@ class Plugin(BrickletBase):
         self.master_reset()
 
     def new_enum(self, device_information):
-        self.mw.set_tool_status_okay("Plugin gefunden")
-        self.mw.set_value_action("Warte auf Antwort")
         self.rs232 = BrickletRS232(device_information.uid, self.get_ipcon())
         self.rs232.register_callback(self.rs232.CALLBACK_READ_CALLBACK, self.qtcb_read.emit)
         self.rs232.enable_read_callback()
 
+        self.mw.set_tool_status_okay("Plugin gefunden")
+
         self.message = b''
         self.rs232.write(*string_to_char_list(b'012345678\xee'*6))
+
+        self.mw.set_value_action("Warte auf Antwort")
 
     def cb_read(self, message, length):
         s = char_list_to_string(message, length)

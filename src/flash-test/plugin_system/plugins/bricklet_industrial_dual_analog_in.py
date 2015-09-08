@@ -138,4 +138,3 @@ class Plugin(BrickletBase):
         self.industrial_dual_analog_in.set_calibration((old_cal.offset[0], old_cal.offset[1]), (gain0, gain1))
 
         self.mw.set_tool_status_okay('Kalibrierung OK: ' + str((gain0, gain1)))
-        

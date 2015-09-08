@@ -67,12 +67,15 @@ class Plugin(BrickletBase):
         self.master_reset()
 
     def new_enum(self, device_information):
-        self.mw.set_tool_status_okay("Plugin gefunden")
         self.rs = BrickletRemoteSwitch(device_information.uid, self.get_ipcon())
         self.rs.register_callback(self.rs.CALLBACK_SWITCHING_DONE, self.qtcb_switching_done.emit)
-        self.rs.switch_socket_a(11, 11, self.rs.SWITCH_TO_ON)
+
+        self.mw.set_tool_status_okay("Plugin gefunden")
+
         self.next_switch_to = self.rs.SWITCH_TO_OFF
         self.switchings_left = 2
+        self.rs.switch_socket_a(11, 11, self.rs.SWITCH_TO_ON)
+
         self.mw.set_value_action("Einschaltbefehl wurde gesendet")
 
     def cb_switching_done(self):

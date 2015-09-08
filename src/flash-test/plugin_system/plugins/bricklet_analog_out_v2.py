@@ -66,4 +66,3 @@ class Plugin(BrickletBase):
 
         self.mw.set_tool_status_okay("Plugin gefunden")
         self.mw.set_value_okay("3.0V angelegt")
-
