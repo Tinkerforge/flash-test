@@ -37,7 +37,7 @@ class Plugin(BrickletBase):
 4. Überprüfe Wert:
      * Stecke Bricklet in Testaufbau, überprüfe ob Wert steigt wenn auf Wägezelle gedrückt wird
      * LED muss dabei durchgängig blinken
-5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
 

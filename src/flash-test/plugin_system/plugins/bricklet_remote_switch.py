@@ -35,7 +35,7 @@ class Plugin(BrickletBase):
 5. Warte bis Wert sich auf "Alle Schaltbefehle wurden gesendet" ändert:
      * Die Funksteckdose muss währenddessen mehrfach klicken
 6. Test-Antenne vom Bricklet abziehen
-7. Das Bricklet ist fertig, mit Antenne in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Das Bricklet ist fertig, mit Antenne in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1
 """
 

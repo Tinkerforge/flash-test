@@ -33,7 +33,7 @@ class Plugin(BrickBase):
 2. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
 3. Gehe zu 1 
 
-* Kalibrieren und testen findet im Brick Viewer statt
+* Testen findet im Brick Viewer statt
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename('master')
 

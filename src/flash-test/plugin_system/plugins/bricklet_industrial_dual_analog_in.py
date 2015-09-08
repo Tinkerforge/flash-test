@@ -41,7 +41,7 @@ class Plugin(BrickletBase):
    * Schließe Testadapter 2 an (Netzteil)     -> Drücke 'Gain'
    * Überprüfe Anzeige = ~24V
    * Überprüfe Drittspannung
-5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
 

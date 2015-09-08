@@ -35,7 +35,7 @@ class Plugin(BrickletBase):
 4. Überprüfe Wert:
      * Wert sollte sinken wenn man das Bricklet anfasst
 5. Überprüfe ob Bricklet durch Gehäuseschlitz passt, eventuell nachpfeilen
-6. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
 

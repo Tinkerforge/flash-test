@@ -36,7 +36,7 @@ class Plugin(BrickletBase):
 4. Überprüfe beide Taster und beide LEDs:
      * Tasterdruck schaltet LED an und aus
      * Tasterdruck wird angezeigt
-5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
 

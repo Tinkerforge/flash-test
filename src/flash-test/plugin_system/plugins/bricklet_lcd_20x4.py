@@ -38,7 +38,7 @@ class Plugin(BrickletBase):
 6. Überprüfe die vier Taster:
      * Tasterdruck wird angezeigt
 7. Ziehe LCD von LCD 20x4 Bricklet ab
-8. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 9. Gehe zu 1
 """
 
