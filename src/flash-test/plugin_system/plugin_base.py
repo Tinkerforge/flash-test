@@ -74,8 +74,14 @@ class PluginBase(QtGui.QWidget, object):
 
     def write_new_uid_to_bricklet(self):
         try:
-            port = 'c'
             uid = base58encode(int(self.get_new_uid()))
+        except:
+            traceback.print_exc()
+            self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
+            return
+
+        try:
+            port = 'c'
             self.get_ipcon().write_bricklet_uid(self.get_current_master(), port, uid)
             uid_read = self.get_ipcon().read_bricklet_uid(self.get_current_master(), port)
             if uid != uid_read:
@@ -84,8 +90,9 @@ class PluginBase(QtGui.QWidget, object):
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte UID für Port ' + port.upper() + ' nicht setzen')
-        else:
-            self.mw.set_uid_status_okay('Neue UID "' + uid + '" für Port ' + port.upper() + ' gesetzt')
+            return
+
+        self.mw.set_uid_status_okay('Neue UID "' + uid + '" für Port ' + port.upper() + ' gesetzt')
 
     def write_plugin_to_bricklet(self, plugin_url):
         try:
