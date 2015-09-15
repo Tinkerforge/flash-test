@@ -62,9 +62,7 @@ class Plugin(BrickletBase):
         return BrickletDualButton.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('dual_button'))
-        self.master_reset()
+        self.flash_bricklet(get_bricklet_firmware_filename('dual_button'))
 
     def new_enum(self, device_information):
         self.dual_button = BrickletDualButton(device_information.uid, self.get_ipcon())

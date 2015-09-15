@@ -79,9 +79,7 @@ class Plugin(BrickletBase):
     def flash_clicked(self):
         self.mw.set_value_action("Warte auf Reset")
         QtGui.QApplication.processEvents()
-        self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('rs232'))
-        self.master_reset()
+        self.flash_bricklet(get_bricklet_firmware_filename('rs232'))
 
     def new_enum(self, device_information):
         self.rs232 = BrickletRS232(device_information.uid, self.get_ipcon())

@@ -78,7 +78,7 @@ class PluginBase(QtGui.QWidget, object):
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
-            return
+            return False
 
         try:
             port = 'c'
@@ -86,18 +86,19 @@ class PluginBase(QtGui.QWidget, object):
             uid_read = self.get_ipcon().read_bricklet_uid(self.get_current_master(), port)
             if uid != uid_read:
                 self.mw.set_uid_status_error("Konnte UID an Port " + port.upper() + ' nicht verifizieren')
-                return
+                return False
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte UID für Port ' + port.upper() + ' nicht setzen')
-            return
+            return False
 
         self.mw.set_uid_status_okay('Neue UID "' + uid + '" für Port ' + port.upper() + ' gesetzt')
+        return True
 
-    def write_plugin_to_bricklet(self, plugin_url):
+    def write_plugin_to_bricklet(self, plugin_filename):
         try:
             port = 'c'
-            plugin = open(plugin_url, mode='rb').read()
+            plugin = open(plugin_filename, mode='rb').read()
             plugin_chunks = []
             offset = 0
             ipcon = self.get_ipcon()
@@ -139,6 +140,13 @@ class PluginBase(QtGui.QWidget, object):
             self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
             
         return True
+
+    def flash_bricklet(self, plugin_filename):
+        uid_success = self.write_new_uid_to_bricklet()
+        plugin_success = self.write_plugin_to_bricklet(plugin_filename)
+
+        if uid_success and plugin_success:
+            self.master_reset()
 
     # To be overridden by inheriting class
     def stop(self):

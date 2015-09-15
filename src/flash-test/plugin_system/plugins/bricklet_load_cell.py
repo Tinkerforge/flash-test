@@ -60,9 +60,7 @@ class Plugin(BrickletBase):
         return BrickletLoadCell.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('load_cell'))
-        self.master_reset()
+        self.flash_bricklet(get_bricklet_firmware_filename('load_cell'))
         
     def new_enum(self, device_information):
         self.load_cell = BrickletLoadCell(device_information.uid, self.get_ipcon())

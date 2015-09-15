@@ -77,9 +77,7 @@ class Plugin(BrickletBase):
         return BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.write_new_uid_to_bricklet()
-        self.write_plugin_to_bricklet(get_bricklet_firmware_filename('industrial_dual_analog_in'))
-        self.master_reset()
+        self.flash_bricklet(get_bricklet_firmware_filename('industrial_dual_analog_in'))
         
     def new_enum(self, device_information):
         l = self.mw.industrial_dual_analog_in_layout
