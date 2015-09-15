@@ -80,9 +80,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         self.combo_device.currentIndexChanged.connect(self.device_index_changed)
         self.button_flash.clicked.connect(self.flash_clicked)
+        self.button_continue.clicked.connect(self.continue_clicked)
 
         self.space_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Space), self, self.flash_clicked)
         self.space_shortcut.setAutoRepeat(False)
+
+        self.button_continue.hide()
 
     def closeEvent(self, event):
         if self.current_plugin:
@@ -116,6 +119,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         if self.current_plugin:
             self.current_plugin.flash_clicked()
+
+    def continue_clicked(self):
+        if self.current_plugin:
+            self.current_plugin.continue_clicked()
 
     def set_label_text(self, label, text, color):
         label.setText(text)

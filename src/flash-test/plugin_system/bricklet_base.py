@@ -34,6 +34,7 @@ class BrickletBase(PluginBase):
         PluginBase.__init__(self, *args)
 
     def start(self, device_information):
+        self.mw.button_continue.hide()
         PluginBase.start(self, device_information)
         self.show_device_information(device_information, clear_value=True)
 

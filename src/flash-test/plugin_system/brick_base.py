@@ -92,7 +92,7 @@ class BrickBase(PluginBase):
                 firmware = f.read()
         except IOError as e:
             self.mw.set_tool_status_error("Konnte Firmware Datei nicht lesen: {0}".format(e.strerror))
-            self.is_flashing = False
+            self.mw.button_continue.show()
             return
 
         try:
@@ -104,7 +104,7 @@ class BrickBase(PluginBase):
             return
         except SAMBAException as e:
             self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
-            self.is_flashing = False
+            self.mw.button_continue.show()
             return
 
         self.mw.set_tool_status_okay("Brick geflashed")
@@ -117,20 +117,27 @@ class BrickBase(PluginBase):
         self.is_flashing = False
         self.flash_thread.start()
 
-    def show_device_information(self, device_information):
+    def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
             self.mw.set_tool_status_okay("Firmware gefunden")
             self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
             self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
-            self.mw.set_value_normal('-')
-            self.is_flashing = False
         else:
             self.mw.set_tool_status_normal("Keine Firmware gefunden")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
+
+        self.mw.button_continue.hide()
+        self.is_flashing = False
+
+        if clear_value:
             self.mw.set_value_normal('-')
 
     def stop(self):
         self.mw.button_flash.show()
         PluginBase.stop(self)
         self.flash_thread.stop()
+
+    def continue_clicked(self):
+        self.mw.button_continue.hide()
+        self.is_flashing = False

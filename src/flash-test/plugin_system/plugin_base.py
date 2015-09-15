@@ -153,6 +153,7 @@ class PluginBase(QtGui.QWidget, object):
         pass
     
     def start(self, device_information):
+        self.mw.button_continue.hide()
         self.device_information = device_information
         self.mw.text_edit_todo.setPlainText(self.TODO_TEXT)
             
@@ -166,4 +167,7 @@ class PluginBase(QtGui.QWidget, object):
         return -1
     
     def flash_clicked(self):
+        pass
+
+    def continue_clicked(self):
         pass
