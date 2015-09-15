@@ -38,7 +38,12 @@ class BrickletBase(PluginBase):
 
         if device_information != None:
             self.mw.set_tool_status_okay("Plugin gefunden")
-            self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
+
+            if device_information.uid in ['1', '7xwQ9g']:
+                self.mw.set_uid_status_error("Aktuelle UID " + device_information.uid + " ist ungültig")
+            else:
+                self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
+
             self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
             self.mw.set_value_normal('-')
         else:
