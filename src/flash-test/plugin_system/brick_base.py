@@ -55,13 +55,16 @@ class FlashThread(QtCore.QThread):
         self.mw = mw
         self.bb = bb
         self.filename = filename
-
         self.stopped = False
 
     def run(self):
         while not self.stopped:
             self.flash_signal.emit(self.filename)
             time.sleep(0.5)
+
+    def start(self):
+        self.stopped = False
+        QtCore.QThread.start(self)
 
     def stop(self):
         self.stopped = True
