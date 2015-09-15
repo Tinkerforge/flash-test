@@ -68,7 +68,7 @@ class Plugin(BrickletBase):
                                                  self.cb_acceleration)
         self.cbe_acceleration.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_acceleration(self, data):
         if self.accelerometer.is_led_on():

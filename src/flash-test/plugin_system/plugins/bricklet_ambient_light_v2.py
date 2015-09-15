@@ -66,7 +66,7 @@ class Plugin(BrickletBase):
                                                 self.cb_illuminance)
         self.cbe_illuminance.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_illuminance(self, illuminance):
         self.mw.set_value_normal(str(illuminance//100) + ' Lux')

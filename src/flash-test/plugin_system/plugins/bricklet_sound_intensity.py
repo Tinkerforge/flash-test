@@ -67,7 +67,7 @@ class Plugin(BrickletBase):
                                               self.cb_intensity)
         self.cbe_intensity.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_intensity(self, intensity):
         self.mw.set_value_normal('Lautstärkenwert: ' + str(intensity))

@@ -35,7 +35,9 @@ class BrickletBase(PluginBase):
 
     def start(self, device_information):
         PluginBase.start(self, device_information)
+        self.show_device_information(device_information, clear_value=True)
 
+    def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
             self.mw.set_tool_status_okay("Plugin gefunden")
 
@@ -45,9 +47,10 @@ class BrickletBase(PluginBase):
                 self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
 
             self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
-            self.mw.set_value_normal('-')
         else:
             self.mw.set_tool_status_normal("Kein Plugin gefunden")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
+
+        if clear_value:
             self.mw.set_value_normal('-')

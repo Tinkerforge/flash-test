@@ -68,7 +68,7 @@ class Plugin(BrickletBase):
                                            self.cb_weight)
         self.cbe_weight.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_weight(self, weight):
         if self.load_cell.is_led_on():

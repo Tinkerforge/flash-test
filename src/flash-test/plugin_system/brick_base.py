@@ -39,11 +39,14 @@ class Progress:
     def __init__(self, mw):
         self.mw = mw
         self.m = 0
-    
+
     def update(self, value):
         if value % 10 or value == self.m:
             self.mw.set_tool_status_action("Fortschritt: " + str(value) + '/' + str(self.m))
-        
+            self.mw.set_uid_status_normal('-')
+            self.mw.set_flash_status_normal('-')
+            self.mw.set_value_normal('-')
+
     def reset(self, t, m):
         self.m = m
 
@@ -91,7 +94,7 @@ class BrickBase(PluginBase):
             self.mw.set_tool_status_error("Konnte Firmware Datei nicht lesen: {0}".format(e.strerror))
             self.is_flashing = False
             return
-        
+
         try:
             samba = SAMBA('/dev/ttyACM0', Progress(self.mw))
             samba.flash(firmware, None, False)
@@ -100,30 +103,33 @@ class BrickBase(PluginBase):
             self.is_flashing = False
             return
         except SAMBAException as e:
-            self.mw.set_tool_status_error('Verbindung zu Brick konnte nicht hergestellt werden: {0}'.format(e))
+            self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
             self.is_flashing = False
             return
-            
+
         self.mw.set_tool_status_okay("Brick geflashed")
         self.is_flashing = False
 
     def start(self, device_information):
         self.mw.button_flash.hide()
         PluginBase.start(self, device_information)
+        self.show_device_information(device_information, clear_value=True)
+        self.is_flashing = False
+        self.flash_thread.start()
 
+    def show_device_information(self, device_information):
         if device_information != None:
             self.mw.set_tool_status_okay("Firmware gefunden")
             self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
             self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
             self.mw.set_value_normal('-')
+            self.is_flashing = False
         else:
             self.mw.set_tool_status_normal("Keine Firmware gefunden")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
             self.mw.set_value_normal('-')
-            
-        self.flash_thread.start()
-        
+
     def stop(self):
         self.mw.button_flash.show()
         PluginBase.stop(self)

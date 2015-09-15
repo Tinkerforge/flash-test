@@ -64,7 +64,7 @@ class Plugin(BrickletBase):
                                             self.cb_voltage)
         self.cbe_voltage.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_voltage(self, voltage):
         self.mw.set_value_normal(str(round(voltage/1000.0, 2)) + ' V')

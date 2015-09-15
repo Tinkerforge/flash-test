@@ -93,7 +93,7 @@ class Plugin(BrickletBase):
                                              lambda v: self.cb_voltage(1, v))
         self.cbe_voltage1.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_voltage(self, channel, voltage):
         self.last_voltage[channel] =  voltage/1000.0

@@ -68,7 +68,7 @@ class Plugin(BrickletBase):
         self.rs = BrickletRemoteSwitch(device_information.uid, self.get_ipcon())
         self.rs.register_callback(self.rs.CALLBACK_SWITCHING_DONE, self.qtcb_switching_done.emit)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
 
         self.next_switch_to = self.rs.SWITCH_TO_OFF
         self.switchings_left = 2

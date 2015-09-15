@@ -86,7 +86,7 @@ class Plugin(BrickletBase):
         self.rs232.register_callback(self.rs232.CALLBACK_READ_CALLBACK, self.qtcb_read.emit)
         self.rs232.enable_read_callback()
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
 
         self.message = b''
         self.rs232.write(*string_to_char_list(b'012345678\xee'*6))

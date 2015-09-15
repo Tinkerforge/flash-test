@@ -73,7 +73,7 @@ class Plugin(BrickletBase):
         self.lcd.register_callback(self.lcd.CALLBACK_BUTTON_PRESSED, self.qtcb_button_pressed.emit)
         self.lcd.register_callback(self.lcd.CALLBACK_BUTTON_RELEASED, self.qtcb_button_released.emit)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
 
         self.lcd.clear_display()
         self.lcd.backlight_on()

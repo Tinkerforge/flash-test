@@ -65,5 +65,5 @@ class Plugin(BrickletBase):
         self.industrial_analog_out.set_voltage(10000)
         self.industrial_analog_out.enable()
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
         self.mw.set_value_normal("10V angelegt")

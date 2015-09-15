@@ -63,5 +63,5 @@ class Plugin(BrickletBase):
         self.aout = BrickletAnalogOutV2(device_information.uid, self.get_ipcon())
         self.aout.set_output_voltage(3000)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
         self.mw.set_value_normal("3V angelegt")

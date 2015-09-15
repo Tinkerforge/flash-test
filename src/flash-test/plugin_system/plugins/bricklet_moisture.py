@@ -65,7 +65,7 @@ class Plugin(BrickletBase):
                                              self.cb_moisture)
         self.cbe_moisture.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_moisture(self, moisture):
         self.mw.set_value_normal('Feuchtewert: ' + str(moisture))

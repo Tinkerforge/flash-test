@@ -68,7 +68,7 @@ class Plugin(BrickletBase):
         self.dual_button = BrickletDualButton(device_information.uid, self.get_ipcon())
         self.dual_button.register_callback(self.dual_button.CALLBACK_STATE_CHANGED, self.qtcb_state_changed.emit)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
 
         self.button_transition = [0, 0]
         button_l, button_r = self.dual_button.get_button_state()

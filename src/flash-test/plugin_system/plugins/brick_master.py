@@ -42,3 +42,6 @@ class Plugin(BrickBase):
 
     def get_device_identifier(self):
         return BrickMaster.DEVICE_IDENTIFIER
+
+    def new_enum(self, device_information):
+        self.show_device_information(device_information)

@@ -68,7 +68,7 @@ class Plugin(BrickletBase):
         self.cbe_distance.set_period(100)
         self.laser_range_finder.enable_laser()
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_distance(self, distance):
         self.mw.set_value_normal('Entfernung: ' + str(distance) + ' cm')

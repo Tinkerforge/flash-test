@@ -66,7 +66,7 @@ class Plugin(BrickletBase):
                                            self.cb_dust_density)
         self.cbe_dust_density.set_period(100)
 
-        self.mw.set_tool_status_okay("Plugin gefunden")
+        self.show_device_information(device_information)
             
     def cb_dust_density(self, dust_density):
         self.mw.set_value_normal('Staubdichte: ' + str(dust_density) + ' µg/m³')
