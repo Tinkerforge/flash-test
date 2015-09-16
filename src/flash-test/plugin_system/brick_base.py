@@ -95,17 +95,27 @@ class BrickBase(PluginBase):
             self.mw.button_continue.show()
             return
 
-        try:
-            samba = SAMBA('/dev/ttyACM0', Progress(self.mw))
-            samba.flash(firmware, None, False)
-        except SerialException as e:
-            self.mw.set_tool_status_normal("Aktuell kein Brick im Bootloader-Modus")
-            self.is_flashing = False
-            return
-        except SAMBAException as e:
-            self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
-            self.mw.button_continue.show()
-            return
+        retry = True
+        retry_counter = 0
+        while retry and retry_counter < 2:
+            retry = False
+            retry_counter += 1
+
+            try:
+                samba = SAMBA('/dev/ttyACM0', Progress(self.mw))
+                samba.flash(firmware, None, False)
+            except SerialException as e:
+                self.mw.set_tool_status_normal("Aktuell kein Brick im Bootloader-Modus")
+                self.is_flashing = False
+                return
+            except SAMBAException as e:
+                if 'No permission to open serial port' in str(e):
+                    time.sleep(0.5)
+                    retry = True
+                else:
+                    self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
+                    self.mw.button_continue.show()
+                    return
 
         self.mw.set_tool_status_okay("Brick geflashed")
         self.is_flashing = False
