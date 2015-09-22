@@ -43,6 +43,9 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
         self.cbe_value = None
+        
+        self.last_values = None
+        self.changes = [0, 0, 0, 0]
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -65,4 +68,23 @@ class Plugin(BrickletBase):
             
     def cb_value(self, value):
         values = [value & 1, (value >> 1) & 1, (value >> 2) & 1, (value >> 3) & 1]
-        self.mw.set_value_normal('ch0: ' + str(values[0]) +  ', ch1: ' + str(values[1]) +  ', ch2: ' + str(values[2]) +  ', ch3: ' + str(values[3]))
+        if self.last_values == None:
+            self.last_values = values
+        else:
+            for i in range(4):
+                if self.last_values[i] != values[i]:
+                    self.changes[i] += 1
+            self.last_values = values
+
+        show = []
+        for i in range(4):
+            if self.changes[i] > 1:
+                show.append('\u2611')
+            else:
+                show.append(values[i])
+        
+        set_value = self.mw.set_value_action
+        if show[0] == '\u2611' and show[1] == '\u2611' and show[2] == '\u2611' and show[3] == '\u2611':
+            set_value =  self.mw.set_value_okay
+        
+        set_value("Werte: {0} {1} {2} {3} (0 = Masse, 1 = 24V, \u2611 = OK)".format(show[0], show[1], show[2], show[3]))
