@@ -43,8 +43,6 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
         self.cbe_value = None
-        self.cbe_voltage1 = None
-        self.last_voltage = [0, 0]
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
