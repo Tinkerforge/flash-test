@@ -60,6 +60,8 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('industrial_digital_in_4'))
         
     def new_enum(self, device_information):
+        self.changes = [0, 0, 0, 0]
+        self.last_values = None
         self.industrial_digital_in_4 = BrickletIndustrialDigitalIn4(device_information.uid, self.get_ipcon())
         self.cbe_value = CallbackEmulator(self.industrial_digital_in_4.get_value, self.cb_value)
         self.cbe_value.set_period(100)
