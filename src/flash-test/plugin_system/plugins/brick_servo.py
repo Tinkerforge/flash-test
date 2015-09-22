@@ -31,10 +31,14 @@ import time
 
 class Plugin(BrickBase):
     TODO_TEXT = u"""\
-1. Verbinde Servo Brick mit PC per Mini-USB
-2. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
-3. Überprüfe ob Servo sich dreht
-3. Gehe zu 1 
+1. Stecke schwarzen Stecker in Servo, Stecke Servo an Position 6 (schwarz unten)
+2. Verbinde Servo Brick mit PC per Mini-USB
+3. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
+4. Überprüfe ob Servo sich dreht (Mittelposition, +90°, -90°)
+5. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben*
+6. Gehe zu 1
+
+* Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Servo Brick und 2x Extension gemacht werden. 
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename('servo')
 
