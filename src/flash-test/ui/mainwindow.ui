@@ -189,6 +189,41 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="distance_ir_layout">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Sharp Distanz-Sensor:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="distance_ir_sensor_combo">
+          <item>
+           <property name="text">
+            <string>2D120</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2Y0A02</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2Y0A21</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>A41SK</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="layout_plugin_bottom"/>
       </item>
       <item>

@@ -56,10 +56,13 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         urllib.request.install_opener(opener)
 
         self.setupUi(self)
-        temp_layouts = [self.industrial_dual_analog_in_layout]
+        temp_layouts = [self.industrial_dual_analog_in_layout, self.distance_ir_layout]
         for l in temp_layouts:
             for i in range(l.count()):
-                l.itemAt(i).widget().setVisible(False)
+                item = l.itemAt(i)
+                widget = item.widget()
+                if widget:
+                    widget.setVisible(False)
                 
         self.current_plugin = None
         self.device_manager = DeviceManager(self)
