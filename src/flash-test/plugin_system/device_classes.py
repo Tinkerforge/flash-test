@@ -1,3 +1,4 @@
+from .plugins.brick_dc import Plugin as brick_dc_class
 from .plugins.brick_imu_v2 import Plugin as brick_imu_v2_class
 from .plugins.brick_master import Plugin as brick_master_class
 from .plugins.brick_servo import Plugin as brick_servo_class
@@ -22,6 +23,7 @@ from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
 
 device_classes = [
+    brick_dc_class,
     brick_imu_v2_class,
     brick_master_class,
     brick_servo_class,
