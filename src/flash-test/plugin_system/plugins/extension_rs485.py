@@ -43,7 +43,6 @@ class Plugin(ExtensionBase):
         return 10000 + BrickMaster.DEVICE_IDENTIFIER
     
     def reconfigure(self, master):
-        master.set_extension_type(0, 2)
         master.set_rs485_configuration(1000000, 'n', 1)
         master.set_rs485_address(0)
         master.set_rs485_slave_address(0, 42)
@@ -73,5 +72,6 @@ class Plugin(ExtensionBase):
                 self.reconfigure(master)
                 
         else:
-            self.reconfigure(master)
+            master.set_extension_type(0, 2)
+            master.reset()
 
