@@ -29,12 +29,14 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(ExtensionBase):
     TODO_TEXT = u"""\
-1. Stecker RS485 Extension auf Master Brick
-2. Verbinde RS485 Stapel miteinander
-3. Verbinde Master Brick mit PC per Mini-USB
-4. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
-5. Überprüfe Wert 
-6. Gehe zu 1 
+1. Verbinde RS485 Stapel miteinander
+2. Stecker RS485 Extension auf Master Brick
+3. Starte RS485 Master neu
+4. Warte bis RS485 Master gefunden wird
+5. Starter RS485 Slave neu
+6. Warte bis RS485 Slave gefunden wird
+7. Die Extension ist fertig, mit grauem 3-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1 
 """
     def start(self, device_information):
         ExtensionBase.start(self, device_information)
