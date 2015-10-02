@@ -57,7 +57,7 @@ class DeviceManager(QtCore.QObject):
             # Overwrite device if it already exists
             self.devices[device_identifier] = device_information
             if self.mw.current_plugin:
-                if self.mw.current_plugin.get_device_identifier() == device_identifier:
+                if (self.mw.current_plugin.get_device_identifier() % 10000) == device_identifier:
                     self.mw.current_plugin.new_enum(device_information)
                     return
 

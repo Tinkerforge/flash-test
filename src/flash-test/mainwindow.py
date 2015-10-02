@@ -70,6 +70,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         from device_identifiers import device_identifiers
         from plugin_system.device_classes import device_classes
+        
+        device_identifiers.append((10013, 'RS485 Extension', '')) # RS485
 
         self.device_by_identifier = {}
         for cls in device_classes:
