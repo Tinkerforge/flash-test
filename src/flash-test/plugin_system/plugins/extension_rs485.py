@@ -66,7 +66,7 @@ class Plugin(ExtensionBase):
             adr = master.get_rs485_address()
             slave_adr = (master.get_rs485_slave_address(0), master.get_rs485_slave_address(1))
             if conf == (1000000, 'n', 1) and adr == 0 and typ == 2 and slave_adr == (42, 0):
-                self.mw.set_value_action('RS485 Master gefunden". Drücke Reset-Knopf an RS485 Slave.')
+                self.mw.set_value_action('RS485 Master gefunden. Drücke Reset-Knopf an RS485 Slave.')
             elif conf == (1000000, 'n', 1) and adr == 42 and typ == 2 and slave_adr == (0, 0):
                 self.mw.set_value_okay('RS485 Slave gefunden. Alles OK!')
             else:
