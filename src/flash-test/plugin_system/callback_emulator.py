@@ -28,13 +28,14 @@ class CallbackEmulator(QObject):
     qtcb_data = pyqtSignal(object)
     qtcb_error = pyqtSignal()
 
-    def __init__(self, data_getter, data_callback, error_callback=None, use_data_signal=True):
+    def __init__(self, data_getter, data_callback, error_callback=None, use_data_signal=True, ignore_last_data=False):
         QObject.__init__(self)
 
         self.period = 0 # milliseconds
         self.timer = None
         self.data_getter = data_getter
         self.use_data_signal = use_data_signal
+        self.ignore_last_data = ignore_last_data
         self.data_callback = data_callback
         self.error_callback = error_callback
         self.last_data = None
@@ -72,7 +73,7 @@ class CallbackEmulator(QObject):
 
             return
 
-        if self.last_data != data:
+        if self.ignore_last_data or self.last_data != data:
             self.last_data = data
 
             if self.use_data_signal:
