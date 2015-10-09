@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
-    <height>522</height>
+    <width>720</width>
+    <height>549</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -222,6 +222,47 @@
             <string>A41SK</string>
            </property>
           </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="ethernet_extension_layout">
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>MAC Adresse:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>40:D8:55:02:A</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="edit_ethernet_extension"/>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_ethernet_extension">
+          <property name="text">
+           <string>MAC Adresse schreiben</string>
+          </property>
          </widget>
         </item>
        </layout>

@@ -56,13 +56,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         urllib.request.install_opener(opener)
 
         self.setupUi(self)
-        temp_layouts = [self.industrial_dual_analog_in_layout, self.distance_ir_layout]
+        temp_layouts = [self.industrial_dual_analog_in_layout, self.distance_ir_layout, self.ethernet_extension_layout]
         for l in temp_layouts:
-            for i in range(l.count()):
-                item = l.itemAt(i)
-                widget = item.widget()
-                if widget:
-                    widget.setVisible(False)
+            self.hide_layout(l)
+
                 
         self.current_plugin = None
         self.device_manager = DeviceManager(self)
@@ -71,7 +68,11 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         from device_identifiers import device_identifiers
         from plugin_system.device_classes import device_classes
         
-        device_identifiers.append((10013, 'RS485 Extension', '')) # RS485
+        device_identifiers.append((10013, 'Chibi Extension', ''))
+        device_identifiers.append((20013, 'RS485 Extension', ''))
+        device_identifiers.append((30013, 'WIFI Extension', ''))
+        device_identifiers.append((40013, 'Ethernet Extension', ''))
+        device_identifiers.append((50013, 'WIFI Extension 2.0', ''))
 
         self.device_by_identifier = {}
         for cls in device_classes:
@@ -91,6 +92,20 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.space_shortcut.setAutoRepeat(False)
 
         self.button_continue.hide()
+        
+    def hide_layout(self, l):
+        for i in range(l.count()):
+            item = l.itemAt(i)
+            widget = item.widget()
+            if widget:
+                widget.setVisible(False)
+                
+    def show_layout(self, l):
+        for i in range(l.count()):
+            item = l.itemAt(i)
+            widget = item.widget()
+            if widget:
+                widget.setVisible(True)
 
     def closeEvent(self, event):
         if self.current_plugin:

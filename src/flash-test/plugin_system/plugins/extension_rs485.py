@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2015 Olaf Lüke <olaf@tinkerforge.com>
 
-brick_master.py: Master plugin
+extension_rs485.py: RS485 Extension plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ class Plugin(ExtensionBase):
         ExtensionBase.start(self, device_information)
 
     def get_device_identifier(self):
-        return 10000 + BrickMaster.DEVICE_IDENTIFIER
+        return BrickMaster.EXTENSION_TYPE_RS485*10000 + BrickMaster.DEVICE_IDENTIFIER
     
     def reconfigure(self, master):
         master.set_rs485_configuration(1000000, 'n', 1)
@@ -74,6 +74,6 @@ class Plugin(ExtensionBase):
                 self.reconfigure(master)
                 
         else:
-            master.set_extension_type(0, 2)
+            master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_RS485)
             master.reset()
 
