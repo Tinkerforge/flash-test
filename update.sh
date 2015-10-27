@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 echo "Lade Firmwares herunter..."
 rm -rf download.tinkerforge.com firmwares
@@ -18,3 +18,6 @@ popd
 
 echo ""
 echo "Update erfolgreich durchgeführt!"
+
+echo ""
+read -p "Enter drücken zum Beenden " dummy
