@@ -20,6 +20,7 @@ from .plugins.bricklet_lcd_20x4 import Plugin as bricklet_lcd_20x4_class
 from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
 from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector_class
+from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
 from .plugins.bricklet_rotary_encoder import Plugin as bricklet_rotary_encoder_class
 from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
@@ -50,6 +51,7 @@ device_classes = [
     bricklet_load_cell_class,
     bricklet_moisture_class,
     bricklet_motion_detector_class,
+    bricklet_ptc_class,
     bricklet_remote_switch_class,
     bricklet_rotary_encoder_class,
     bricklet_rs232_class,
