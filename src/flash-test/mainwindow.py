@@ -88,8 +88,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.button_flash.clicked.connect(self.flash_clicked)
         self.button_continue.clicked.connect(self.continue_clicked)
 
-        self.space_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Space), self, self.flash_clicked)
-        self.space_shortcut.setAutoRepeat(False)
+        self.flash_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_0), self, self.flash_clicked)
+        self.flash_shortcut.setAutoRepeat(False)
 
         self.button_continue.hide()
         
