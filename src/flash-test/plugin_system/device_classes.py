@@ -9,6 +9,7 @@ from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_cla
 from .plugins.bricklet_barometer import Plugin as bricklet_barometer_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
 from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
+from .plugins.bricklet_dual_relay import Plugin as bricklet_dual_relay_class
 from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_class
 from .plugins.bricklet_industrial_analog_out import Plugin as bricklet_industrial_analog_out_class
 from .plugins.bricklet_industrial_digital_in_4 import Plugin as bricklet_industrial_digital_in_4_class
@@ -40,6 +41,7 @@ device_classes = [
     bricklet_barometer_class,
     bricklet_distance_ir_class,
     bricklet_dual_button_class,
+    bricklet_dual_relay_class,
     bricklet_dust_detector_class,
     bricklet_industrial_analog_out_class,
     bricklet_industrial_digital_in_4_class,
