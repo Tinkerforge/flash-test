@@ -58,6 +58,7 @@ class Plugin(BrickletBase):
 
     def new_enum(self, device_information):
         self.led_strip = BrickletLEDStrip(device_information.uid, self.get_ipcon())
+        self.led_strip.set_chip_type(BrickletLEDStrip.CHIP_TYPE_WS2811)
         self.cbe_state = CallbackEmulator(lambda: self.led_strip.get_rgb_values(0, 1), self.cb_rgb_values)
         self.cbe_state.set_period(250)
 
