@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
-Copyright (C) 2015 Matthias Bolte <matthias@tinkerforge.com>
+Copyright (C) 2015 Olaf Lüke <olaf@tinkerforge.com>
 
 bricklet_led_strip.py: LED Strip plugin
 
