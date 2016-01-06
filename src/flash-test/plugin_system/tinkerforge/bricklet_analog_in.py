@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-28.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.5                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -76,7 +76,7 @@ class BrickletAnalogIn(Device):
         """
         Device.__init__(self, uid, ipcon)
 
-        self.api_version = (2, 0, 2)
+        self.api_version = (2, 0, 3)
 
         self.response_expected[BrickletAnalogIn.FUNCTION_GET_VOLTAGE] = BrickletAnalogIn.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletAnalogIn.FUNCTION_GET_ANALOG_VALUE] = BrickletAnalogIn.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -188,13 +188,13 @@ class BrickletAnalogIn(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletAnalogIn.FUNCTION_SET_VOLTAGE_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
+        self.ipcon.send_request(self, BrickletAnalogIn.FUNCTION_SET_VOLTAGE_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_voltage_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetVoltageCallbackThreshold`.
         """
-        return GetVoltageCallbackThreshold(*self.ipcon.send_request(self, BrickletAnalogIn.FUNCTION_GET_VOLTAGE_CALLBACK_THRESHOLD, (), '', 'c h h'))
+        return GetVoltageCallbackThreshold(*self.ipcon.send_request(self, BrickletAnalogIn.FUNCTION_GET_VOLTAGE_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_analog_value_callback_threshold(self, option, min, max):
         """
@@ -255,7 +255,7 @@ class BrickletAnalogIn(Device):
         * 2: 0V - 10.32V, ~2.52mV resolution
         * 3: 0V - 36.30V, ~8.86mV resolution
         * 4: 0V - 45.00V, ~11.25mV resolution
-        * 5: 0V - 3.3V, ~0.81mV resolution, new in version 2.0.3 (Plugin)
+        * 5: 0V - 3.3V, ~0.81mV resolution, new in version 2.0.3$nbsp;(Plugin)
         
         The default measurement range is 0.
         

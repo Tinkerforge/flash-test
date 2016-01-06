@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-28.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.5                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -134,8 +134,9 @@ class BrickletLCD16x2(Device):
 
     def is_button_pressed(self, button):
         """
-        Returns *true* if the button (0 to 2) is pressed. If you want to react
-        on button presses and releases it is recommended to use the
+        Returns *true* if the button (0 to 2) is pressed.
+        
+        If you want to react on button presses and releases it is recommended to use the
         :func:`ButtonPressed` and :func:`ButtonReleased` callbacks.
         """
         return self.ipcon.send_request(self, BrickletLCD16x2.FUNCTION_IS_BUTTON_PRESSED, (button,), 'B', '?')

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-28.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.5                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -69,7 +69,7 @@ class BrickletPiezoSpeaker(Device):
         the piezo buzzer will beep for one second with a frequency of
         approximately 2 kHz.
         
-        .. versionchanged:: 2.0.2~(Plugin)
+        .. versionchanged:: 2.0.2$nbsp;(Plugin)
            A duration of 0 stops the current beep if any, the frequency parameter is
            ignored. A duration of 4294967295 results in an infinite beep.
         

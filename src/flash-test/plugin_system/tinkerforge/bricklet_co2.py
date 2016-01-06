@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -79,8 +79,8 @@ class BrickletCO2(Device):
     def get_co2_concentration(self):
         """
         Returns the measured CO2 concentration. The value is in 
-        `ppm (parts-per-million) <http://en.wikipedia.org/wiki/Parts-per_notation>`__ 
-        and between TBD to TBD.
+        `ppm (parts per million) <https://en.wikipedia.org/wiki/Parts-per_notation>`__
+        and between 0 to 10000.
         
         If you want to get the CO2 concentration periodically, it is recommended to use the
         callback :func:`CO2Concentration` and set the period with
@@ -124,13 +124,13 @@ class BrickletCO2(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletCO2.FUNCTION_SET_CO2_CONCENTRATION_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
+        self.ipcon.send_request(self, BrickletCO2.FUNCTION_SET_CO2_CONCENTRATION_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_co2_concentration_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetCO2ConcentrationCallbackThreshold`.
         """
-        return GetCO2ConcentrationCallbackThreshold(*self.ipcon.send_request(self, BrickletCO2.FUNCTION_GET_CO2_CONCENTRATION_CALLBACK_THRESHOLD, (), '', 'c h h'))
+        return GetCO2ConcentrationCallbackThreshold(*self.ipcon.send_request(self, BrickletCO2.FUNCTION_GET_CO2_CONCENTRATION_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_debounce_period(self, debounce):
         """

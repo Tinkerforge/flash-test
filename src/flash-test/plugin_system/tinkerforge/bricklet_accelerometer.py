@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-28.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.5                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -85,7 +85,7 @@ class BrickletAccelerometer(Device):
         """
         Device.__init__(self, uid, ipcon)
 
-        self.api_version = (2, 0, 0)
+        self.api_version = (2, 0, 1)
 
         self.response_expected[BrickletAccelerometer.FUNCTION_GET_ACCELERATION] = BrickletAccelerometer.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletAccelerometer.FUNCTION_SET_ACCELERATION_CALLBACK_PERIOD] = BrickletAccelerometer.RESPONSE_EXPECTED_TRUE
@@ -110,7 +110,7 @@ class BrickletAccelerometer(Device):
     def get_acceleration(self):
         """
         Returns the acceleration in x, y and z direction. The values
-        are given in mg (1/1000 g), not to be confused with grams.
+        are given in g/1000 (1g = 9.80665m/s²), not to be confused with grams.
         
         If you want to get the acceleration periodically, it is recommended 
         to use the callback :func:`Acceleration` and set the period with 
@@ -147,10 +147,10 @@ class BrickletAccelerometer(Device):
          :widths: 10, 100
         
          "'x'",    "Callback is turned off"
-         "'o'",    "Callback is triggered when the temperature is *outside* the min and max values"
-         "'i'",    "Callback is triggered when the temperature is *inside* the min and max values"
-         "'<'",    "Callback is triggered when the temperature is smaller than the min value (max is ignored)"
-         "'>'",    "Callback is triggered when the temperature is greater than the min value (max is ignored)"
+         "'o'",    "Callback is triggered when the acceleration is *outside* the min and max values"
+         "'i'",    "Callback is triggered when the acceleration is *inside* the min and max values"
+         "'<'",    "Callback is triggered when the acceleration is smaller than the min value (max is ignored)"
+         "'>'",    "Callback is triggered when the acceleration is greater than the min value (max is ignored)"
         
         The default value is ('x', 0, 0, 0, 0, 0, 0).
         """
@@ -229,7 +229,7 @@ class BrickletAccelerometer(Device):
         """
         Returns *true* if the LED is enabled, *false* otherwise.
         """
-        return self.ipcon.send_request(self, BrickletAccelerometer.FUNCTION_IS_LED_ON, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletAccelerometer.FUNCTION_IS_LED_ON, (), '', '?')
 
     def get_identity(self):
         """

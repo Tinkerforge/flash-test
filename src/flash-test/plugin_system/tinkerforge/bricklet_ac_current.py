@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -176,13 +176,13 @@ class BrickletACCurrent(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletACCurrent.FUNCTION_SET_CURRENT_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
+        self.ipcon.send_request(self, BrickletACCurrent.FUNCTION_SET_CURRENT_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_current_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetCurrentCallbackThreshold`.
         """
-        return GetCurrentCallbackThreshold(*self.ipcon.send_request(self, BrickletACCurrent.FUNCTION_GET_CURRENT_CALLBACK_THRESHOLD, (), '', 'c h h'))
+        return GetCurrentCallbackThreshold(*self.ipcon.send_request(self, BrickletACCurrent.FUNCTION_GET_CURRENT_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_analog_value_callback_threshold(self, option, min, max):
         """
@@ -236,7 +236,7 @@ class BrickletACCurrent(Device):
 
     def set_moving_average(self, average):
         """
-        Sets the length of a `moving averaging <http://en.wikipedia.org/wiki/Moving_average>`__
+        Sets the length of a `moving averaging <https://en.wikipedia.org/wiki/Moving_average>`__
         for the moisture value.
         
         Setting the length to 1 will turn the averaging off. With less

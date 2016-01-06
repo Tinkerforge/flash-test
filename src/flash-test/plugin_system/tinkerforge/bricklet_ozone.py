@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-06-23.      #
+# This file was automatically generated on 2016-01-05.      #
 #                                                           #
-# Bindings Version 2.1.4                                    #
+# Python Bindings Version 2.1.6                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -100,7 +100,7 @@ class BrickletOzone(Device):
     def get_ozone_concentration(self):
         """
         Returns the measured ozone concentration. The value is in 
-        `ppb (parts-per-billion) <http://en.wikipedia.org/wiki/Parts-per_notation>`__
+        `ppb (parts per billion) <https://en.wikipedia.org/wiki/Parts-per_notation>`__
         and between 0 to 250.
         
         If you want to get the ozone concentration periodically, it is recommended to use the
@@ -174,13 +174,13 @@ class BrickletOzone(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletOzone.FUNCTION_SET_OZONE_CONCENTRATION_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
+        self.ipcon.send_request(self, BrickletOzone.FUNCTION_SET_OZONE_CONCENTRATION_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_ozone_concentration_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetOzoneConcentrationCallbackThreshold`.
         """
-        return GetOzoneConcentrationCallbackThreshold(*self.ipcon.send_request(self, BrickletOzone.FUNCTION_GET_OZONE_CONCENTRATION_CALLBACK_THRESHOLD, (), '', 'c h h'))
+        return GetOzoneConcentrationCallbackThreshold(*self.ipcon.send_request(self, BrickletOzone.FUNCTION_GET_OZONE_CONCENTRATION_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_analog_value_callback_threshold(self, option, min, max):
         """
@@ -234,7 +234,7 @@ class BrickletOzone(Device):
 
     def set_moving_average(self, average):
         """
-        Sets the length of a `moving averaging <http://en.wikipedia.org/wiki/Moving_average>`__
+        Sets the length of a `moving averaging <https://en.wikipedia.org/wiki/Moving_average>`__
         for the ozone concentration.
         
         Setting the length to 1 will turn the averaging off. With less

@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 try:
     from collections import namedtuple
 except ImportError:
@@ -25,30 +27,31 @@ except ValueError:
 GetRGBValues = namedtuple('RGBValues', ['r', 'g', 'b'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletLEDStrip(Device):
+class BrickletRGBLEDMatrix(Device):
     """
-    Controls up to 320 RGB LEDs
+    TODO
     """
 
-    DEVICE_IDENTIFIER = 231
-    DEVICE_DISPLAY_NAME = 'LED Strip Bricklet'
+    DEVICE_IDENTIFIER = 269
+    DEVICE_DISPLAY_NAME = 'RGB LED Matrix Bricklet'
 
-    CALLBACK_FRAME_RENDERED = 6
+    CALLBACK_FRAME_RENDERED = 12
 
-    FUNCTION_SET_RGB_VALUES = 1
-    FUNCTION_GET_RGB_VALUES = 2
-    FUNCTION_SET_FRAME_DURATION = 3
-    FUNCTION_GET_FRAME_DURATION = 4
-    FUNCTION_GET_SUPPLY_VOLTAGE = 5
-    FUNCTION_SET_CLOCK_FREQUENCY = 7
-    FUNCTION_GET_CLOCK_FREQUENCY = 8
-    FUNCTION_SET_CHIP_TYPE = 9
-    FUNCTION_GET_CHIP_TYPE = 10
+    FUNCTION_SET_RED_VALUES = 1
+    FUNCTION_GET_RED_VALUES = 2
+    FUNCTION_SET_GREEN_VALUES = 3
+    FUNCTION_GET_GREEN_VALUES = 4
+    FUNCTION_SET_BLUE_VALUES = 5
+    FUNCTION_GET_BLUE_VALUES = 6
+    FUNCTION_SET_RGB_VALUES = 7
+    FUNCTION_GET_RGB_VALUES = 8
+    FUNCTION_SET_FRAME_DURATION = 9
+    FUNCTION_GET_FRAME_DURATION = 10
+    FUNCTION_GET_SUPPLY_VOLTAGE = 11
+    FUNCTION_SET_CLOCK_FREQUENCY = 13
+    FUNCTION_GET_CLOCK_FREQUENCY = 14
     FUNCTION_GET_IDENTITY = 255
 
-    CHIP_TYPE_WS2801 = 2801
-    CHIP_TYPE_WS2811 = 2811
-    CHIP_TYPE_WS2812 = 2812
 
     def __init__(self, uid, ipcon):
         """
@@ -57,28 +60,68 @@ class BrickletLEDStrip(Device):
         """
         Device.__init__(self, uid, ipcon)
 
-        self.api_version = (2, 0, 2)
+        self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletLEDStrip.FUNCTION_SET_RGB_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_RGB_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletLEDStrip.FUNCTION_SET_FRAME_DURATION] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_FRAME_DURATION] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_SUPPLY_VOLTAGE] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletLEDStrip.CALLBACK_FRAME_RENDERED] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletLEDStrip.FUNCTION_SET_CLOCK_FREQUENCY] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_CLOCK_FREQUENCY] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletLEDStrip.FUNCTION_SET_CHIP_TYPE] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_CHIP_TYPE] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletLEDStrip.FUNCTION_GET_IDENTITY] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_RED_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_RED_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_GREEN_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_GREEN_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_BLUE_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_BLUE_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_RGB_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_RGB_VALUES] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_FRAME_DURATION] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_FRAME_DURATION] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_SUPPLY_VOLTAGE] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.CALLBACK_FRAME_RENDERED] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_SET_CLOCK_FREQUENCY] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_CLOCK_FREQUENCY] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLEDMatrix.FUNCTION_GET_IDENTITY] = BrickletRGBLEDMatrix.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletLEDStrip.CALLBACK_FRAME_RENDERED] = 'H'
+        self.callback_formats[BrickletRGBLEDMatrix.CALLBACK_FRAME_RENDERED] = 'H'
+
+    def set_red_values(self, red):
+        """
+        
+        """
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_RED_VALUES, (red,), '64B', '')
+
+    def get_red_values(self):
+        """
+        
+        """
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_RED_VALUES, (), '', '64B')
+
+    def set_green_values(self, green):
+        """
+        
+        """
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_GREEN_VALUES, (green,), '64B', '')
+
+    def get_green_values(self):
+        """
+        
+        """
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_GREEN_VALUES, (), '', '64B')
+
+    def set_blue_values(self, blue):
+        """
+        
+        """
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_BLUE_VALUES, (blue,), '64B', '')
+
+    def get_blue_values(self):
+        """
+        
+        """
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_BLUE_VALUES, (), '', '64B')
 
     def set_rgb_values(self, index, length, r, g, b):
         """
         Sets the *rgb* values for the LEDs with the given *length* starting 
         from *index*.
         
-        The maximum length is 16, the index goes from 0 to 319 and the rgb values
+        The maximum length is 16, the index goes from 0 to 63 and the rgb values
         have 8 bits each.
         
         Example: If you set
@@ -114,7 +157,7 @@ class BrickletLEDStrip(Device):
         information. A call of :func:`SetRGBValues` with index + length above the
         bounds is ignored completely.
         """
-        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_RGB_VALUES, (index, length, r, g, b), 'H B 16B 16B 16B', '')
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_RGB_VALUES, (index, length, r, g, b), 'H B 16B 16B 16B', '')
 
     def get_rgb_values(self, index, length):
         """
@@ -123,7 +166,7 @@ class BrickletLEDStrip(Device):
         
         The values are the last values that were set by :func:`SetRGBValues`.
         """
-        return GetRGBValues(*self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_RGB_VALUES, (index, length), 'H B', '16B 16B 16B'))
+        return GetRGBValues(*self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_RGB_VALUES, (index, length), 'H B', '16B 16B 16B'))
 
     def set_frame_duration(self, duration):
         """
@@ -136,19 +179,19 @@ class BrickletLEDStrip(Device):
         
         Default value: 100ms (10 frames per second).
         """
-        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_FRAME_DURATION, (duration,), 'H', '')
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_FRAME_DURATION, (duration,), 'H', '')
 
     def get_frame_duration(self):
         """
         Returns the frame duration in ms as set by :func:`SetFrameDuration`.
         """
-        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_FRAME_DURATION, (), '', 'H')
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_FRAME_DURATION, (), '', 'H')
 
     def get_supply_voltage(self):
         """
         Returns the current supply voltage of the LEDs. The voltage is given in mV.
         """
-        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_SUPPLY_VOLTAGE, (), '', 'H')
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_SUPPLY_VOLTAGE, (), '', 'H')
 
     def set_clock_frequency(self, frequency):
         """
@@ -173,7 +216,7 @@ class BrickletLEDStrip(Device):
         
         .. versionadded:: 2.0.1$nbsp;(Plugin)
         """
-        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_CLOCK_FREQUENCY, (frequency,), 'I', '')
+        self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_SET_CLOCK_FREQUENCY, (frequency,), 'I', '')
 
     def get_clock_frequency(self):
         """
@@ -181,33 +224,7 @@ class BrickletLEDStrip(Device):
         
         .. versionadded:: 2.0.1$nbsp;(Plugin)
         """
-        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_CLOCK_FREQUENCY, (), '', 'I')
-
-    def set_chip_type(self, chip):
-        """
-        Sets the type of the led driver chip. We currently support
-        the chips
-        
-        * WS2801 (``chip`` = 2801),
-        * WS2811 (``chip`` = 2811) and
-        * WS2812 (``chip`` = 2812).
-        
-        The WS2812 is sometimes also called "NeoPixel", a name coined by
-        Adafruit.
-        
-        The default value is WS2801 (``chip`` = 2801).
-        
-        .. versionadded:: 2.0.2$nbsp;(Plugin)
-        """
-        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_CHIP_TYPE, (chip,), 'H', '')
-
-    def get_chip_type(self):
-        """
-        Returns the currently used chip type as set by :func:`SetChipType`.
-        
-        .. versionadded:: 2.0.2$nbsp;(Plugin)
-        """
-        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_CHIP_TYPE, (), '', 'H')
+        return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_CLOCK_FREQUENCY, (), '', 'I')
 
     def get_identity(self):
         """
@@ -220,7 +237,7 @@ class BrickletLEDStrip(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, id, callback):
         """
@@ -228,4 +245,4 @@ class BrickletLEDStrip(Device):
         """
         self.registered_callbacks[id] = callback
 
-LEDStrip = BrickletLEDStrip # for backward compatibility
+RGBLEDMatrix = BrickletRGBLEDMatrix # for backward compatibility

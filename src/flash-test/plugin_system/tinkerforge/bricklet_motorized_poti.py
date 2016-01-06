@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 try:
     from collections import namedtuple
 except ImportError:
@@ -24,15 +26,16 @@ except ValueError:
 
 GetPositionCallbackThreshold = namedtuple('PositionCallbackThreshold', ['option', 'min', 'max'])
 GetAnalogValueCallbackThreshold = namedtuple('AnalogValueCallbackThreshold', ['option', 'min', 'max'])
+GetMotorPosition = namedtuple('MotorPosition', ['position', 'disable_after_reach'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletRotaryPoti(Device):
+class BrickletMotorizedPoti(Device):
     """
-    300° rotary potentiometer
+    TODO
     """
 
-    DEVICE_IDENTIFIER = 215
-    DEVICE_DISPLAY_NAME = 'Rotary Poti Bricklet'
+    DEVICE_IDENTIFIER = 267
+    DEVICE_DISPLAY_NAME = 'Motorized Poti Bricklet'
 
     CALLBACK_POSITION = 13
     CALLBACK_ANALOG_VALUE = 14
@@ -51,6 +54,11 @@ class BrickletRotaryPoti(Device):
     FUNCTION_GET_ANALOG_VALUE_CALLBACK_THRESHOLD = 10
     FUNCTION_SET_DEBOUNCE_PERIOD = 11
     FUNCTION_GET_DEBOUNCE_PERIOD = 12
+    FUNCTION_SET_MOTOR_POSITION = 17
+    FUNCTION_GET_MOTOR_POSITION = 18
+    FUNCTION_ENABLE_MOTOR = 19
+    FUNCTION_DISABLE_MOTOR = 20
+    FUNCTION_IS_MOTOR_ENABLED = 21
     FUNCTION_GET_IDENTITY = 255
 
     THRESHOLD_OPTION_OFF = 'x'
@@ -68,39 +76,44 @@ class BrickletRotaryPoti(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_POSITION] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_SET_POSITION_CALLBACK_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_POSITION_CALLBACK_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_SET_POSITION_CALLBACK_THRESHOLD] = BrickletRotaryPoti.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_POSITION_CALLBACK_THRESHOLD] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_THRESHOLD] = BrickletRotaryPoti.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_THRESHOLD] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_SET_DEBOUNCE_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_DEBOUNCE_PERIOD] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRotaryPoti.CALLBACK_POSITION] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRotaryPoti.CALLBACK_ANALOG_VALUE] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRotaryPoti.CALLBACK_POSITION_REACHED] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRotaryPoti.CALLBACK_ANALOG_VALUE_REACHED] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRotaryPoti.FUNCTION_GET_IDENTITY] = BrickletRotaryPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_POSITION] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_POSITION_CALLBACK_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_POSITION_CALLBACK_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_POSITION_CALLBACK_THRESHOLD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_POSITION_CALLBACK_THRESHOLD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_THRESHOLD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_THRESHOLD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_DEBOUNCE_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_DEBOUNCE_PERIOD] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.CALLBACK_POSITION] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletMotorizedPoti.CALLBACK_ANALOG_VALUE] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletMotorizedPoti.CALLBACK_POSITION_REACHED] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletMotorizedPoti.CALLBACK_ANALOG_VALUE_REACHED] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_SET_MOTOR_POSITION] = BrickletMotorizedPoti.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_MOTOR_POSITION] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_ENABLE_MOTOR] = BrickletMotorizedPoti.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_DISABLE_MOTOR] = BrickletMotorizedPoti.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_IS_MOTOR_ENABLED] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletMotorizedPoti.FUNCTION_GET_IDENTITY] = BrickletMotorizedPoti.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletRotaryPoti.CALLBACK_POSITION] = 'h'
-        self.callback_formats[BrickletRotaryPoti.CALLBACK_ANALOG_VALUE] = 'H'
-        self.callback_formats[BrickletRotaryPoti.CALLBACK_POSITION_REACHED] = 'h'
-        self.callback_formats[BrickletRotaryPoti.CALLBACK_ANALOG_VALUE_REACHED] = 'H'
+        self.callback_formats[BrickletMotorizedPoti.CALLBACK_POSITION] = 'H'
+        self.callback_formats[BrickletMotorizedPoti.CALLBACK_ANALOG_VALUE] = 'H'
+        self.callback_formats[BrickletMotorizedPoti.CALLBACK_POSITION_REACHED] = 'H'
+        self.callback_formats[BrickletMotorizedPoti.CALLBACK_ANALOG_VALUE_REACHED] = 'H'
 
     def get_position(self):
         """
-        Returns the position of the Rotary Potentiometer. The value is in degree 
-        and between -150° (turned left) and 150° (turned right).
+        Returns the position of the Linear Potentiometer. The value is  
+        between 0 (slider down) and 100 (slider up).
         
         If you want to get the position periodically, it is recommended to use the
         callback :func:`Position` and set the period with 
         :func:`SetPositionCallbackPeriod`.
         """
-        return self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_POSITION, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_POSITION, (), '', 'H')
 
     def get_analog_value(self):
         """
@@ -117,7 +130,7 @@ class BrickletRotaryPoti(Device):
         callback :func:`AnalogValue` and set the period with 
         :func:`SetAnalogValueCallbackPeriod`.
         """
-        return self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE, (), '', 'H')
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE, (), '', 'H')
 
     def set_position_callback_period(self, period):
         """
@@ -129,13 +142,13 @@ class BrickletRotaryPoti(Device):
         
         The default value is 0.
         """
-        self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_SET_POSITION_CALLBACK_PERIOD, (period,), 'I', '')
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_POSITION_CALLBACK_PERIOD, (period,), 'I', '')
 
     def get_position_callback_period(self):
         """
         Returns the period as set by :func:`SetPositionCallbackPeriod`.
         """
-        return self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_POSITION_CALLBACK_PERIOD, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_POSITION_CALLBACK_PERIOD, (), '', 'I')
 
     def set_analog_value_callback_period(self, period):
         """
@@ -147,13 +160,13 @@ class BrickletRotaryPoti(Device):
         
         The default value is 0.
         """
-        self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_PERIOD, (period,), 'I', '')
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_PERIOD, (period,), 'I', '')
 
     def get_analog_value_callback_period(self):
         """
         Returns the period as set by :func:`SetAnalogValueCallbackPeriod`.
         """
-        return self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_PERIOD, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_PERIOD, (), '', 'I')
 
     def set_position_callback_threshold(self, option, min, max):
         """
@@ -173,13 +186,13 @@ class BrickletRotaryPoti(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_SET_POSITION_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_POSITION_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_position_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetPositionCallbackThreshold`.
         """
-        return GetPositionCallbackThreshold(*self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_POSITION_CALLBACK_THRESHOLD, (), '', 'c h h'))
+        return GetPositionCallbackThreshold(*self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_POSITION_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_analog_value_callback_threshold(self, option, min, max):
         """
@@ -199,13 +212,13 @@ class BrickletRotaryPoti(Device):
         
         The default value is ('x', 0, 0).
         """
-        self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_ANALOG_VALUE_CALLBACK_THRESHOLD, (option, min, max), 'c H H', '')
 
     def get_analog_value_callback_threshold(self):
         """
         Returns the threshold as set by :func:`SetAnalogValueCallbackThreshold`.
         """
-        return GetAnalogValueCallbackThreshold(*self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_THRESHOLD, (), '', 'c H H'))
+        return GetAnalogValueCallbackThreshold(*self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_ANALOG_VALUE_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_debounce_period(self, debounce):
         """
@@ -223,13 +236,43 @@ class BrickletRotaryPoti(Device):
         
         The default value is 100.
         """
-        self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
 
     def get_debounce_period(self):
         """
         Returns the debounce period as set by :func:`SetDebouncePeriod`.
         """
-        return self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_DEBOUNCE_PERIOD, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_DEBOUNCE_PERIOD, (), '', 'I')
+
+    def set_motor_position(self, position, disable_after_reach):
+        """
+        TODO
+        """
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_SET_MOTOR_POSITION, (position, disable_after_reach), 'H ?', '')
+
+    def get_motor_position(self):
+        """
+        TODO
+        """
+        return GetMotorPosition(*self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_MOTOR_POSITION, (), '', 'H ?'))
+
+    def enable_motor(self):
+        """
+        TODO
+        """
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_ENABLE_MOTOR, (), '', '')
+
+    def disable_motor(self):
+        """
+        TODO
+        """
+        self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_DISABLE_MOTOR, (), '', '')
+
+    def is_motor_enabled(self):
+        """
+        TODO
+        """
+        return self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_IS_MOTOR_ENABLED, (), '', '?')
 
     def get_identity(self):
         """
@@ -242,7 +285,7 @@ class BrickletRotaryPoti(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletRotaryPoti.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletMotorizedPoti.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, id, callback):
         """
@@ -250,4 +293,4 @@ class BrickletRotaryPoti(Device):
         """
         self.registered_callbacks[id] = callback
 
-RotaryPoti = BrickletRotaryPoti # for backward compatibility
+MotorizedPoti = BrickletMotorizedPoti # for backward compatibility
