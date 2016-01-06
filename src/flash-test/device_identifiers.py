@@ -66,4 +66,10 @@ device_identifiers = \
  (257, 'AC Current Bricklet', 'ac_current_bricklet'),
  (258, 'Industrial Analog Out Bricklet', 'industrial_analog_out_bricklet'),
  (259, 'Ambient Light Bricklet 2.0', 'ambient_light_v2_bricklet'),
- (260, 'Dust Detector Bricklet', 'dust_detector_bricklet')]
+ (260, 'Dust Detector Bricklet', 'dust_detector_bricklet'),
+ (262, 'CO2 Bricklet', 'co2_bricklet'),
+ (263, 'OLED 128x64 Bricklet', 'oled_128x64_bricklet'),
+ (264, 'OLED 64x48 Bricklet', 'oled_64x48_bricklet'),
+ (265, 'UV Light Bricklet', 'uv_light_bricklet'),
+ (266, 'Thermocouple Bricklet', 'thermocouple_bricklet'),
+]
