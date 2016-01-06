@@ -39,7 +39,6 @@ class Plugin(BrickletBase):
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
-        self.cbe_voltage = None
         self.vertical = True
         self.num = 0
 
@@ -50,8 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_voltage:
-            self.cbe_voltage.set_period(0)
+        pass
 
     def get_device_identifier(self):
         return BrickletOLED64x48.DEVICE_IDENTIFIER
