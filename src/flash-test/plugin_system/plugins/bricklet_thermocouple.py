@@ -32,9 +32,10 @@ class Plugin(BrickletBase):
 1. Verbinde Thermocouple Bricklet mit Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
-4. Verbinde Thermoelement mit Bricklet und überprüfe Wert
-5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+4. Überprüfe ob rote LED leuchtet
+5. Verbinde Thermoelement mit Bricklet und überprüfe Wert (rote LED sollte ausgehen)
+6. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):
