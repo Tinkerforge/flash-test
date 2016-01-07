@@ -41,6 +41,7 @@ class Plugin(BrickletBase):
         BrickletBase.__init__(self, *args)
         self.vertical = True
         self.num = 0
+        self.cbe_state = None
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -56,6 +57,8 @@ class Plugin(BrickletBase):
 
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename('oled_64x48'))
+        if self.cbe_state != None:
+            self.cbe_state.set_period(0)
 
     def new_enum(self, device_information):
         self.oled = BrickletOLED64x48(device_information.uid, self.get_ipcon())
