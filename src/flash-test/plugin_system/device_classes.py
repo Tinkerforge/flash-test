@@ -7,6 +7,7 @@ from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
 from .plugins.bricklet_barometer import Plugin as bricklet_barometer_class
+from .plugins.bricklet_co2 import Plugin as bricklet_co2_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
 from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
 from .plugins.bricklet_dual_relay import Plugin as bricklet_dual_relay_class
@@ -32,6 +33,8 @@ from .plugins.bricklet_segment_display_4x7 import Plugin as bricklet_segment_dis
 from .plugins.bricklet_solid_state_relay import Plugin as bricklet_solid_state_relay_class
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
 from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_class
+from .plugins.bricklet_thermocouple import Plugin as bricklet_thermocouple_class
+from .plugins.bricklet_uv_light import Plugin as bricklet_uv_light_class
 from .plugins.extension_ethernet import Plugin as extension_ethernet_class
 from .plugins.extension_rs485 import Plugin as extension_rs485_class
 
@@ -45,6 +48,7 @@ device_classes = [
     bricklet_analog_in_v2_class,
     bricklet_analog_out_v2_class,
     bricklet_barometer_class,
+    bricklet_co2_class,
     bricklet_distance_ir_class,
     bricklet_dual_button_class,
     bricklet_dual_relay_class,
@@ -70,6 +74,8 @@ device_classes = [
     bricklet_solid_state_relay_class,
     bricklet_sound_intensity_class,
     bricklet_temperature_ir_class,
+    bricklet_thermocouple_class,
+    bricklet_uv_light_class,
     extension_ethernet_class,
     extension_rs485_class,
 ]
