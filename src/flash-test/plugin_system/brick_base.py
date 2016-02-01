@@ -97,6 +97,8 @@ class BrickBase(PluginBase):
 
         retry = True
         retry_counter = 0
+        success = False
+
         while retry and retry_counter < 2:
             retry = False
             retry_counter += 1
@@ -104,6 +106,7 @@ class BrickBase(PluginBase):
             try:
                 samba = SAMBA('/dev/ttyACM0', Progress(self.mw))
                 samba.flash(firmware, None, False)
+                success = True
             except SerialException as e:
                 self.mw.set_tool_status_normal("Aktuell kein Brick im Bootloader-Modus")
                 self.is_flashing = False
@@ -116,6 +119,15 @@ class BrickBase(PluginBase):
                     self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
                     self.mw.button_continue.show()
                     return
+            except Exception as e:
+                self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
+                self.mw.button_continue.show()
+                return
+
+        if not success:
+            self.mw.set_tool_status_error('Konnte Brick nicht flashen: Kein Zugriff auf /dev/ttyACM0 möglich?')
+            self.mw.button_continue.show()
+            return
 
         self.mw.set_tool_status_okay("Brick geflashed")
         self.is_flashing = False
