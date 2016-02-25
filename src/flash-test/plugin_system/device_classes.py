@@ -36,6 +36,7 @@ from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity
 from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_class
 from .plugins.bricklet_thermocouple import Plugin as bricklet_thermocouple_class
 from .plugins.bricklet_uv_light import Plugin as bricklet_uv_light_class
+from .plugins.bricklet_voltage_current import Plugin as bricklet_voltage_current_class
 from .plugins.extension_ethernet import Plugin as extension_ethernet_class
 from .plugins.extension_rs485 import Plugin as extension_rs485_class
 
@@ -78,6 +79,7 @@ device_classes = [
     bricklet_temperature_ir_class,
     bricklet_thermocouple_class,
     bricklet_uv_light_class,
+    bricklet_voltage_current_class,
     extension_ethernet_class,
     extension_rs485_class,
 ]

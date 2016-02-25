@@ -38,7 +38,7 @@ class Plugin(BrickletBase):
 4. Kalibriere Spannung:
    * Schließe Testadapter 1 an (zwei Brücken) -> Drücke 'Offset'
    * Überprüfe Anzeige = 0V
-   * Schließe Testadapter 2 an (Netzteil)     -> Drücke 'Gain'
+   * Schließe Testadapter 2 an (Netzteil) -> Drücke 'Gain'
    * Überprüfe Anzeige = ~24V
    * Überprüfe Drittspannung
 5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
@@ -100,7 +100,7 @@ class Plugin(BrickletBase):
         self.mw.set_value_normal('Voltage ch0: ' + str(self.last_voltage[0]) +  ', ch1: ' + str(self.last_voltage[1]))
 
     def offset_clicked(self):
-        self.mw.set_tool_status_okay('Kalibriere Offset... ')
+        self.mw.set_tool_status_action('Kalibriere Offset... ')
         self.industrial_dual_analog_in.set_calibration((0, 0), (0, 0))
         time.sleep(0.5)
         adc0 = 0
@@ -115,7 +115,7 @@ class Plugin(BrickletBase):
         self.mw.set_tool_status_okay('Kalibrierung OK: ' + str((-adc0//10, -adc1//10)))
 
     def gain_clicked(self):
-        self.mw.set_tool_status_okay('Kalibriere Gain... ')
+        self.mw.set_tool_status_action('Kalibriere Gain... ')
         old_cal = self.industrial_dual_analog_in.get_calibration()
 
         adc0 = 0

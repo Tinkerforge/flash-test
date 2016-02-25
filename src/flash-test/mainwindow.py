@@ -56,7 +56,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         urllib.request.install_opener(opener)
 
         self.setupUi(self)
-        temp_layouts = [self.industrial_dual_analog_in_layout, self.distance_ir_layout, self.ethernet_extension_layout]
+        temp_layouts = [self.industrial_dual_analog_in_layout, self.voltage_current_layout, self.distance_ir_layout, self.ethernet_extension_layout]
         for l in temp_layouts:
             self.hide_layout(l)
 
