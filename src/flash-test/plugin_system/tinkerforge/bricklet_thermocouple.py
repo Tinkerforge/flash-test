@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-01-05.      #
+# This file was automatically generated on 2016-02-10.      #
 #                                                           #
-# Python Bindings Version 2.1.6                             #
+# Python Bindings Version 2.1.8                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -193,8 +191,8 @@ class BrickletThermocouple(Device):
         G8 and G32. With these types the returned value will not be in °C/100,
         it will be calculated by the following formulas:
         
-        * G8:  value = 8  * 1.6 * 2^17 * Vin
-        * G32: value = 32 * 1.6 * 2^17 * Vin
+        * G8: ``value = 8 * 1.6 * 2^17 * Vin``
+        * G32: ``value = 32 * 1.6 * 2^17 * Vin``
         
         where Vin is the thermocouple input voltage.
         
@@ -204,8 +202,8 @@ class BrickletThermocouple(Device):
         The conversion time depends on the averaging and filter configuration, it can
         be calculated as follows:
         
-        * 60Hz: 82 + (samples-1)*16.67
-        * 50Hz: 98 + (samples-1)*20
+        * 60Hz: ``time = 82 + (samples - 1) * 16.67``
+        * 50Hz: ``time = 98 + (samples - 1) * 20``
         
         The default configuration is 16 samples, K type and 50Hz.
         """

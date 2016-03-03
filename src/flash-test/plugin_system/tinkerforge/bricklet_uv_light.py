@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-01-05.      #
+# This file was automatically generated on 2016-02-10.      #
 #                                                           #
-# Python Bindings Version 2.1.6                             #
+# Python Bindings Version 2.1.8                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -29,7 +27,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletUVLight(Device):
     """
-    Measures UV Light
+    Measures UV light
     """
 
     DEVICE_IDENTIFIER = 265
@@ -78,7 +76,7 @@ class BrickletUVLight(Device):
 
     def get_uv_light(self):
         """
-        Returns the UV Light intensity of the sensor, the intensity is given 
+        Returns the UV light intensity of the sensor, the intensity is given
         in µW/cm².
         
         To get UV Index you have to divide the value by 250. For example, a UV Light

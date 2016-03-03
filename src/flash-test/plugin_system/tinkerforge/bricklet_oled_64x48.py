@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-01-05.      #
+# This file was automatically generated on 2016-02-10.      #
 #                                                           #
-# Python Bindings Version 2.1.6                             #
+# Python Bindings Version 2.1.8                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -29,7 +27,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletOLED64x48(Device):
     """
-    0.66" OLED with 64x48 pixels
+    1.68cm (0.66") OLED with 64x48 pixels
     """
 
     DEVICE_IDENTIFIER = 264
@@ -65,13 +63,13 @@ class BrickletOLED64x48(Device):
 
     def write(self, data):
         """
-        Appends the data to the window as set by :func:`NewWindow`.
+        Appends 64 byte of data to the window as set by :func:`NewWindow`.
         
         Each row has a height of 8 pixels which corresponds to one byte of data.
         
-        Example: if we call :func:`NewWindow` with column from 0 to 63 and row
-        from 0 to 5 (the whole display) each call of :func:`Write` will write
-        one row.
+        Example: if you call :func:`NewWindow` with column from 0 to 63 and row
+        from 0 to 5 (the whole display) each call of :func:`Write` (red arrow) will
+        write one row.
         
         .. image:: /Images/Bricklets/bricklet_oled_64x48_display.png
            :scale: 100 %
@@ -92,13 +90,13 @@ class BrickletOLED64x48(Device):
         Sets the window in which you can write with :func:`Write`. One row
         has a height of 8 pixels.
         
-        The collumns have a range of 0 to 63 and the rows have a range of 0-5.
+        The columns have a range of 0 to 63 and the rows have a range of 0 to 5.
         """
         self.ipcon.send_request(self, BrickletOLED64x48.FUNCTION_NEW_WINDOW, (column_from, column_to, row_from, row_to), 'B B B B', '')
 
     def clear_display(self):
         """
-        Clears the current content of the display.
+        Clears the current content of the window as set by :func:`NewWindow`.
         """
         self.ipcon.send_request(self, BrickletOLED64x48.FUNCTION_CLEAR_DISPLAY, (), '', '')
 
@@ -106,9 +104,10 @@ class BrickletOLED64x48(Device):
         """
         Sets the configuration of the display.
         
-        You can set a contrast value from 0-255 and you can invert the display.
+        You can set a contrast value from 0 to 255 and you can invert the color
+        (black/white) of the display.
         
-        The default values are contrast 143 and invert off.
+        The default values are contrast 143 and inverting off.
         """
         self.ipcon.send_request(self, BrickletOLED64x48.FUNCTION_SET_DISPLAY_CONFIGURATION, (contrast, invert), 'B ?', '')
 
@@ -121,7 +120,7 @@ class BrickletOLED64x48(Device):
     def write_line(self, line, position, text):
         """
         Writes text to a specific line (0 to 5) with a specific position 
-        (0 to 13). The text can have a maximum of 14 characters.
+        (0 to 12). The text can have a maximum of 13 characters.
         
         For example: (1, 4, "Hello") will write *Hello* in the middle of the
         second line of the display.
@@ -130,7 +129,7 @@ class BrickletOLED64x48(Device):
         afterwards.
         
         The display uses a special 5x7 pixel charset. You can view the characters 
-        of the charset in the Brick Viewer.
+        of the charset in Brick Viewer.
         """
         self.ipcon.send_request(self, BrickletOLED64x48.FUNCTION_WRITE_LINE, (line, position, text), 'B B 13s', '')
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2015-07-28.      #
+# This file was automatically generated on 2016-02-10.      #
 #                                                           #
-# Bindings Version 2.1.5                                    #
+# Python Bindings Version 2.1.8                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -160,7 +160,7 @@ class BrickIMU(Device):
     def get_acceleration(self):
         """
         Returns the calibrated acceleration from the accelerometer for the 
-        x, y and z axis in mG (G/1000, 1G = 9.80605m/s²).
+        x, y and z axis in g/1000 (1g = 9.80665m/s²).
         
         If you want to get the acceleration periodically, it is recommended 
         to use the callback :func:`Acceleration` and set the period with 

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-01-05.      #
+# This file was automatically generated on 2016-02-10.      #
 #                                                           #
-# Python Bindings Version 2.1.6                             #
+# Python Bindings Version 2.1.8                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -29,7 +27,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletOLED128x64(Device):
     """
-    1.3" OLED with 128x64 pixels
+    3.3cm (1.3") OLED with 128x64 pixels
     """
 
     DEVICE_IDENTIFIER = 263
@@ -65,13 +63,13 @@ class BrickletOLED128x64(Device):
 
     def write(self, data):
         """
-        Appends the data to the window as set by :func:`NewWindow`.
+        Appends 64 byte of data to the window as set by :func:`NewWindow`.
         
         Each row has a height of 8 pixels which corresponds to one byte of data.
         
-        Example: if we call :func:`NewWindow` with column from 0 to 127 and row
-        from 0 to 7 (the whole display) each call of :func:`Write` will write
-        one half of a row.
+        Example: if you call :func:`NewWindow` with column from 0 to 127 and row
+        from 0 to 7 (the whole display) each call of :func:`Write` (red arrow) will
+        write half of a row.
         
         .. image:: /Images/Bricklets/bricklet_oled_128x64_display.png
            :scale: 100 %
@@ -82,7 +80,7 @@ class BrickletOLED128x64(Device):
         The LSB (D0) of each data byte is at the top and the MSB (D7) is at the 
         bottom of the row.
         
-        The next call of :func:`Write` will write the second part of the row 
+        The next call of :func:`Write` will write the second half of the row
         and the next two the second row and so on. To fill the whole display 
         you need to call :func:`Write` 16 times.
         """
@@ -93,13 +91,13 @@ class BrickletOLED128x64(Device):
         Sets the window in which you can write with :func:`Write`. One row
         has a height of 8 pixels.
         
-        The collumns have a range of 0 to 127 and the rows have a range of 0-7.
+        The columns have a range of 0 to 127 and the rows have a range of 0 to 7.
         """
         self.ipcon.send_request(self, BrickletOLED128x64.FUNCTION_NEW_WINDOW, (column_from, column_to, row_from, row_to), 'B B B B', '')
 
     def clear_display(self):
         """
-        Clears the current content of the display.
+        Clears the current content of the window as set by :func:`NewWindow`.
         """
         self.ipcon.send_request(self, BrickletOLED128x64.FUNCTION_CLEAR_DISPLAY, (), '', '')
 
@@ -107,9 +105,10 @@ class BrickletOLED128x64(Device):
         """
         Sets the configuration of the display.
         
-        You can set a contrast value from 0-255 and you can invert the display.
+        You can set a contrast value from 0 to 255 and you can invert the color
+        (black/white) of the display.
         
-        The default values are contrast 143 and invert off.
+        The default values are contrast 143 and inverting off.
         """
         self.ipcon.send_request(self, BrickletOLED128x64.FUNCTION_SET_DISPLAY_CONFIGURATION, (contrast, invert), 'B ?', '')
 
@@ -131,7 +130,7 @@ class BrickletOLED128x64(Device):
         afterwards.
         
         The display uses a special 5x7 pixel charset. You can view the characters 
-        of the charset in the Brick Viewer.
+        of the charset in Brick Viewer.
         """
         self.ipcon.send_request(self, BrickletOLED128x64.FUNCTION_WRITE_LINE, (line, position, text), 'B B 26s', '')
 
