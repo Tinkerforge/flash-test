@@ -27,6 +27,7 @@ from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector
 from .plugins.bricklet_oled_128x64 import Plugin as bricklet_oled_128x64_class
 from .plugins.bricklet_oled_64x48 import Plugin as bricklet_oled_64x48_class
 from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
+from .plugins.bricklet_real_time_clock import Plugin as bricklet_real_time_clock_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
 from .plugins.bricklet_rotary_encoder import Plugin as bricklet_rotary_encoder_class
 from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
@@ -70,6 +71,7 @@ device_classes = [
     bricklet_oled_128x64_class,
     bricklet_oled_64x48_class,
     bricklet_ptc_class,
+    bricklet_real_time_clock_class,
     bricklet_remote_switch_class,
     bricklet_rotary_encoder_class,
     bricklet_rs232_class,
