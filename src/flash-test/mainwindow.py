@@ -60,19 +60,23 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         for l in temp_layouts:
             self.hide_layout(l)
 
-                
         self.current_plugin = None
         self.device_manager = DeviceManager(self)
         self.plugin_not_implemented = PluginNotImplemented(self)
 
-        from device_identifiers import device_identifiers
+        from plugin_system.tinkerforge.device_factory import DEVICE_CLASSES
         from plugin_system.device_classes import device_classes
-        
-        device_identifiers.append((10013, 'Chibi Extension', ''))
-        device_identifiers.append((20013, 'RS485 Extension', ''))
-        device_identifiers.append((30013, 'WIFI Extension', ''))
-        device_identifiers.append((40013, 'Ethernet Extension', ''))
-        device_identifiers.append((50013, 'WIFI Extension 2.0', ''))
+
+        device_identifiers = []
+
+        for key, value in DEVICE_CLASSES.items():
+            device_identifiers.append((key, value.DEVICE_DISPLAY_NAME))
+
+        device_identifiers.append((10013, 'Chibi Extension'))
+        device_identifiers.append((20013, 'RS485 Extension'))
+        device_identifiers.append((30013, 'WIFI Extension'))
+        device_identifiers.append((40013, 'Ethernet Extension'))
+        device_identifiers.append((50013, 'WIFI Extension 2.0'))
 
         self.device_by_identifier = {}
         for cls in device_classes:
