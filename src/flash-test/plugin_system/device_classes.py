@@ -2,6 +2,7 @@ from .plugins.brick_dc import Plugin as brick_dc_class
 from .plugins.brick_imu_v2 import Plugin as brick_imu_v2_class
 from .plugins.brick_master import Plugin as brick_master_class
 from .plugins.brick_servo import Plugin as brick_servo_class
+from .plugins.brick_stepper import Plugin as brick_stepper_class
 from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_class
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
@@ -47,6 +48,7 @@ device_classes = [
     brick_imu_v2_class,
     brick_master_class,
     brick_servo_class,
+    brick_stepper_class,
     bricklet_accelerometer_class,
     bricklet_ambient_light_v2_class,
     bricklet_analog_in_v2_class,
