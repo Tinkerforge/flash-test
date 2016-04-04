@@ -35,9 +35,11 @@ class Plugin(BrickBase):
 2. Verbinde Stepper Brick mit PC per Mini-USB
 3. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
 4. Überprüfe ob Schrittmotor sich abwechselnd in beide Richtungen dreht
-5. Kühlkörper auf Stepper Brick aufkleben
-6. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker und grünem 4-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben*
-7. Gehe zu 1
+5. Überprüfe Wert:
+    * Externe Versorungsspannung sollte um die 24V liegen
+6. Kühlkörper auf Stepper Brick aufkleben
+7. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker und grünem 4-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben*
+8. Gehe zu 1
 
 * Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Stepper Brick und 2x Extension gemacht werden.
 """
@@ -53,6 +55,11 @@ class Plugin(BrickBase):
         self.show_device_information(device_information)
 
         stepper = BrickStepper(device_information.uid, self.get_ipcon())
+        self.cbe_voltage = CallbackEmulator(stepper.get_external_input_voltage,
+                                            self.cb_voltage)
+        self.cbe_voltage.set_period(100)
+        self.cb_voltage(stepper.get_external_input_voltage())
+        QtGui.QApplication.processEvents()
 
         stepper.set_motor_current(1200)
         stepper.set_step_mode(8)
@@ -61,10 +68,17 @@ class Plugin(BrickBase):
         stepper.enable()
         stepper.drive_forward()
         time.sleep(0.75)
+        QtGui.QApplication.processEvents()
         stepper.stop()
         time.sleep(0.25)
+        QtGui.QApplication.processEvents()
         stepper.drive_backward()
         time.sleep(0.75)
+        QtGui.QApplication.processEvents()
         stepper.stop()
         time.sleep(0.25)
+        QtGui.QApplication.processEvents()
         stepper.disable()
+
+    def cb_voltage(self, voltage):
+        self.mw.set_value_normal("Externe Versorungsspannung: " + str(round(voltage/1000.0, 2)) + ' V')
