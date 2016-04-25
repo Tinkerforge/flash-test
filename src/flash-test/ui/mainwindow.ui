@@ -348,6 +348,137 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="multi_touch_layout">
+        <item>
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Elektroden:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_0">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_1">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_2">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_3">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_4">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_5">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_6">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_7">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_8">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_9">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_10">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_11">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="layout_plugin_bottom"/>
       </item>
       <item>
