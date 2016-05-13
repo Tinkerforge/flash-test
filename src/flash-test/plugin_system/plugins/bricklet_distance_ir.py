@@ -137,7 +137,7 @@ class Plugin(BrickletBase):
 1. Verbinde Distance IR Bricklet (inklusive Sensor) mit Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
-4. Calibrierung wird geflasht, danach startet Master Brick nochmal neu
+4. Kalibrierung wird geflasht, danach startet Master Brick nochmal neu
 5. Entfernung wird angezeigt, überprüfe Entfernung.
 6. Das Bricklet ist fertig, mit Sensor in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
@@ -188,7 +188,7 @@ class Plugin(BrickletBase):
             self.cbe_distance.set_period(100)
             
     def cb_distance(self, distance):
-        self.mw.set_value_normal('Distance: ' + str(distance/10) +  'cm')
+        self.mw.set_value_normal('Entfernung: ' + str(distance/10) +  'cm')
 
     def sample_interpolate(self, x, y):
         spline = NaturalSpline()
