@@ -54,15 +54,15 @@ class Plugin(BrickletBase):
     def start(self, device_information):
         BrickletBase.start(self, device_information)
         
-        self.mw.button_offset_idai.pressed.connect(self.offset_clicked)
-        self.mw.button_gain_idai.pressed.connect(self.gain_clicked)
+        self.mw.button_offset_idai.clicked.connect(self.offset_clicked)
+        self.mw.button_gain_idai.clicked.connect(self.gain_clicked)
         
         if device_information:
             self.new_enum(device_information)
 
     def stop(self):
-        self.mw.button_offset_idai.pressed.disconnect(self.offset_clicked)
-        self.mw.button_gain_idai.pressed.disconnect(self.gain_clicked)
+        self.mw.button_offset_idai.clicked.disconnect(self.offset_clicked)
+        self.mw.button_gain_idai.clicked.disconnect(self.gain_clicked)
         
         if self.cbe_voltage0:
             self.cbe_voltage0.set_period(0)

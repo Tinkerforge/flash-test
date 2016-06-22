@@ -48,7 +48,7 @@ class Plugin(ExtensionBase):
         
         self.mw.edit_ethernet_extension.setInputMask("H:HH;_")
         self.mw.edit_ethernet_extension.setText("0:01")
-        self.mw.button_ethernet_extension.pressed.connect(self.button_clicked)
+        self.mw.button_ethernet_extension.clicked.connect(self.button_clicked)
         ExtensionBase.start(self, device_information)
         
     def stop(self):

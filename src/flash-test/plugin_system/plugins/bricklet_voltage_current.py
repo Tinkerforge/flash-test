@@ -52,13 +52,13 @@ class Plugin(BrickletBase):
     def start(self, device_information):
         BrickletBase.start(self, device_information)
         
-        self.mw.button_save_vc.pressed.connect(self.save_clicked)
+        self.mw.button_save_vc.clicked.connect(self.save_clicked)
         
         if device_information:
             self.new_enum(device_information)
 
     def stop(self):
-        self.mw.button_save_vc.pressed.disconnect(self.save_clicked)
+        self.mw.button_save_vc.clicked.disconnect(self.save_clicked)
         
         if self.cbe_voltage:
             self.cbe_voltage.set_period(0)
