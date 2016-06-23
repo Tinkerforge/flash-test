@@ -133,11 +133,11 @@ class Plugin(ExtensionBase):
             time.sleep(0.01)
 
         self.master.reset()
-        self.mw.set_tool_status_action('Extension-Typ geschrieben, starte Master neu')
+        self.mw.set_tool_status_action('Extension-Typ geschrieben, starte Master Brick neu')
 
     def try_connect(self):
         i = 0
-        range_to = 300
+        range_to = 100
 
         for i in range(range_to):
             try:
@@ -154,7 +154,8 @@ class Plugin(ExtensionBase):
                 time.sleep(0.01)
 
         if i == range_to-1:
-            self.mw.set_tool_status_error('Konnte keine WLAN-Verbindung aufbauen')
+            self.master.reset()
+            self.mw.set_tool_status_error('Konnte keine WLAN-Verbindung aufbauen, starte Master Brick neu')
             return
 
         self.mw.set_tool_status_okay('WLAN-Verbindung aufgebaut. Fertig!')
