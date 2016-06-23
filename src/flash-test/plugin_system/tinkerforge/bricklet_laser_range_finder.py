@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-02-10.      #
+# This file was automatically generated on 2016-05-31.      #
 #                                                           #
-# Python Bindings Version 2.1.8                             #
+# Python Bindings Version 2.1.9                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -129,7 +129,7 @@ class BrickletLaserRangeFinder(Device):
 
     def get_velocity(self):
         """
-        Returns the measured velocity. The value has a range of 0 to 12700
+        Returns the measured velocity. The value has a range of -12800 to 12700
         and is given in 1/100 m/s.
         
         The Laser Range Finder Bricklet knows different modes. Velocity 

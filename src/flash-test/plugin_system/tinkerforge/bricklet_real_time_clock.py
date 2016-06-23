@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-02-10.      #
+# This file was automatically generated on 2016-06-10.      #
 #                                                           #
-# Python Bindings Version 2.1.8                             #
+# Python Bindings Version 2.1.9                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -23,6 +23,7 @@ except ValueError:
     from ip_connection import Device, IPConnection, Error
 
 GetDateTime = namedtuple('DateTime', ['year', 'month', 'day', 'hour', 'minute', 'second', 'centisecond', 'weekday'])
+GetAlarm = namedtuple('Alarm', ['month', 'day', 'hour', 'minute', 'second', 'weekday', 'interval'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
 class BrickletRealTimeClock(Device):
@@ -33,12 +34,18 @@ class BrickletRealTimeClock(Device):
     DEVICE_IDENTIFIER = 268
     DEVICE_DISPLAY_NAME = 'Real-Time Clock Bricklet'
 
+    CALLBACK_DATE_TIME = 10
+    CALLBACK_ALARM = 11
 
     FUNCTION_SET_DATE_TIME = 1
     FUNCTION_GET_DATE_TIME = 2
     FUNCTION_GET_TIMESTAMP = 3
     FUNCTION_SET_OFFSET = 4
     FUNCTION_GET_OFFSET = 5
+    FUNCTION_SET_DATE_TIME_CALLBACK_PERIOD = 6
+    FUNCTION_GET_DATE_TIME_CALLBACK_PERIOD = 7
+    FUNCTION_SET_ALARM = 8
+    FUNCTION_GET_ALARM = 9
     FUNCTION_GET_IDENTITY = 255
 
     WEEKDAY_MONDAY = 1
@@ -48,6 +55,8 @@ class BrickletRealTimeClock(Device):
     WEEKDAY_FRIDAY = 5
     WEEKDAY_SATURDAY = 6
     WEEKDAY_SUNDAY = 7
+    ALARM_MATCH_DISABLED = -1
+    ALARM_INTERVAL_DISABLED = -1
 
     def __init__(self, uid, ipcon):
         """
@@ -56,15 +65,23 @@ class BrickletRealTimeClock(Device):
         """
         Device.__init__(self, uid, ipcon)
 
-        self.api_version = (2, 0, 0)
+        self.api_version = (2, 0, 1)
 
         self.response_expected[BrickletRealTimeClock.FUNCTION_SET_DATE_TIME] = BrickletRealTimeClock.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletRealTimeClock.FUNCTION_GET_DATE_TIME] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRealTimeClock.FUNCTION_GET_TIMESTAMP] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRealTimeClock.FUNCTION_SET_OFFSET] = BrickletRealTimeClock.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletRealTimeClock.FUNCTION_GET_OFFSET] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRealTimeClock.FUNCTION_SET_DATE_TIME_CALLBACK_PERIOD] = BrickletRealTimeClock.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletRealTimeClock.FUNCTION_GET_DATE_TIME_CALLBACK_PERIOD] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRealTimeClock.FUNCTION_SET_ALARM] = BrickletRealTimeClock.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletRealTimeClock.FUNCTION_GET_ALARM] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRealTimeClock.CALLBACK_DATE_TIME] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_FALSE
+        self.response_expected[BrickletRealTimeClock.CALLBACK_ALARM] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_FALSE
         self.response_expected[BrickletRealTimeClock.FUNCTION_GET_IDENTITY] = BrickletRealTimeClock.RESPONSE_EXPECTED_ALWAYS_TRUE
 
+        self.callback_formats[BrickletRealTimeClock.CALLBACK_DATE_TIME] = 'H B B B B B B B q'
+        self.callback_formats[BrickletRealTimeClock.CALLBACK_ALARM] = 'H B B B B B B B q'
 
     def set_date_time(self, year, month, day, hour, minute, second, centisecond, weekday):
         """
@@ -142,6 +159,67 @@ class BrickletRealTimeClock(Device):
         """
         return self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_GET_OFFSET, (), '', 'b')
 
+    def set_date_time_callback_period(self, period):
+        """
+        Sets the period in ms with which the :func:`DateTime` callback is triggered
+        periodically. A value of 0 turns the callback off.
+        
+        :func:`DateTime` is only triggered if the date or time changed since the
+        last triggering.
+        
+        The default value is 0.
+        
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_SET_DATE_TIME_CALLBACK_PERIOD, (period,), 'I', '')
+
+    def get_date_time_callback_period(self):
+        """
+        Returns the period as set by :func:`SetDateTimeCallbackPeriod`.
+        
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
+        """
+        return self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_GET_DATE_TIME_CALLBACK_PERIOD, (), '', 'I')
+
+    def set_alarm(self, month, day, hour, minute, second, weekday, interval):
+        """
+        Configures a repeatable alarm. The :func:`Alarm` callback is triggered if the
+        current date and time matches the configured alarm.
+        
+        Setting a parameter to -1 means that it should be disabled and doesn't take part
+        in the match. Setting all parameters to -1 disables the alarm completely.
+        
+        For example, to make the alarm trigger every day at 7:30 AM it can be
+        configured as (-1, -1, 7, 30, -1, -1, -1). The hour is set to match 7 and the
+        minute is set to match 30. The alarm is triggered if all enabled parameters
+        match.
+        
+        The interval has a special role. It allows to make the alarm reconfigure itself.
+        This is useful if you need a repeated alarm that cannot be expressed by matching
+        the current date and time. For example, to make the alarm trigger every 23
+        seconds it can be configured as (-1, -1, -1, -1, -1, -1, 23). Internally the
+        Bricklet will take the current date and time, add 23 seconds to it and set the
+        result as its alarm. The first alarm will be triggered 23 seconds after the
+        call. Because the interval is not -1, the Bricklet will do the same again
+        internally, take the current date and time, add 23 seconds to it and set that
+        as its alarm. This results in a repeated alarm that triggers every 23 seconds.
+        
+        The interval can also be used in combination with the other parameters. For
+        example, configuring the alarm as (-1, -1, 7, 30, -1, -1, 300) results in an
+        alarm that triggers every day at 7:30 AM and is then repeated every 5 minutes.
+        
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_SET_ALARM, (month, day, hour, minute, second, weekday, interval), 'b b b b b b i', '')
+
+    def get_alarm(self):
+        """
+        Returns the alarm configuration as set by :func:`SetAlarm`.
+        
+        .. versionadded:: 2.0.1$nbsp;(Plugin)
+        """
+        return GetAlarm(*self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_GET_ALARM, (), '', 'b b b b b b i'))
+
     def get_identity(self):
         """
         Returns the UID, the UID where the Bricklet is connected to, 
@@ -154,5 +232,11 @@ class BrickletRealTimeClock(Device):
         |device_identifier_constant|
         """
         return GetIdentity(*self.ipcon.send_request(self, BrickletRealTimeClock.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+
+    def register_callback(self, id, callback):
+        """
+        Registers a callback with ID *id* to the function *callback*.
+        """
+        self.registered_callbacks[id] = callback
 
 RealTimeClock = BrickletRealTimeClock # for backward compatibility

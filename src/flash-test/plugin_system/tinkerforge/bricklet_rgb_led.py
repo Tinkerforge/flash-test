@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-05-31.      #
+# This file was automatically generated on 2016-06-10.      #
 #                                                           #
 # Python Bindings Version 2.1.9                             #
 #                                                           #
@@ -8,6 +8,8 @@
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
+
+#### __DEVICE_IS_NOT_RELEASED__ ####
 
 try:
     from collections import namedtuple
@@ -22,20 +24,20 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error
 
+GetRGBValue = namedtuple('RGBValue', ['r', 'g', 'b'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletAnalogOutV2(Device):
+class BrickletRGBLED(Device):
     """
-    Generates configurable DC voltage between 0V and 12V
+    Controls one RGB LED
     """
 
-    DEVICE_IDENTIFIER = 256
-    DEVICE_DISPLAY_NAME = 'Analog Out Bricklet 2.0'
+    DEVICE_IDENTIFIER = 271
+    DEVICE_DISPLAY_NAME = 'RGB LED Bricklet'
 
 
-    FUNCTION_SET_OUTPUT_VOLTAGE = 1
-    FUNCTION_GET_OUTPUT_VOLTAGE = 2
-    FUNCTION_GET_INPUT_VOLTAGE = 3
+    FUNCTION_SET_RGB_VALUE = 1
+    FUNCTION_GET_RGB_VALUE = 2
     FUNCTION_GET_IDENTITY = 255
 
 
@@ -48,29 +50,22 @@ class BrickletAnalogOutV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletAnalogOutV2.FUNCTION_SET_OUTPUT_VOLTAGE] = BrickletAnalogOutV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletAnalogOutV2.FUNCTION_GET_OUTPUT_VOLTAGE] = BrickletAnalogOutV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletAnalogOutV2.FUNCTION_GET_INPUT_VOLTAGE] = BrickletAnalogOutV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletAnalogOutV2.FUNCTION_GET_IDENTITY] = BrickletAnalogOutV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLED.FUNCTION_SET_RGB_VALUE] = BrickletRGBLED.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletRGBLED.FUNCTION_GET_RGB_VALUE] = BrickletRGBLED.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRGBLED.FUNCTION_GET_IDENTITY] = BrickletRGBLED.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
-    def set_output_voltage(self, voltage):
+    def set_rgb_value(self, r, g, b):
         """
-        Sets the voltage in mV. The possible range is 0V to 12V (0-12000).
+        TODO
         """
-        self.ipcon.send_request(self, BrickletAnalogOutV2.FUNCTION_SET_OUTPUT_VOLTAGE, (voltage,), 'H', '')
+        self.ipcon.send_request(self, BrickletRGBLED.FUNCTION_SET_RGB_VALUE, (r, g, b), 'B B B', '')
 
-    def get_output_voltage(self):
+    def get_rgb_value(self):
         """
-        Returns the voltage as set by :func:`SetOutputVoltage`.
+        TODO
         """
-        return self.ipcon.send_request(self, BrickletAnalogOutV2.FUNCTION_GET_OUTPUT_VOLTAGE, (), '', 'H')
-
-    def get_input_voltage(self):
-        """
-        Returns the input voltage in mV.
-        """
-        return self.ipcon.send_request(self, BrickletAnalogOutV2.FUNCTION_GET_INPUT_VOLTAGE, (), '', 'H')
+        return GetRGBValue(*self.ipcon.send_request(self, BrickletRGBLED.FUNCTION_GET_RGB_VALUE, (), '', 'B B B'))
 
     def get_identity(self):
         """
@@ -83,6 +78,6 @@ class BrickletAnalogOutV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletAnalogOutV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletRGBLED.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-AnalogOutV2 = BrickletAnalogOutV2 # for backward compatibility
+RGBLED = BrickletRGBLED # for backward compatibility

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-02-10.      #
+# This file was automatically generated on 2016-06-10.      #
 #                                                           #
-# Python Bindings Version 2.1.8                             #
+# Python Bindings Version 2.1.9                             #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -232,7 +232,7 @@ class BrickletIO16(Device):
         
         .. note::
          This function does nothing for pins that are configured as input.
-         Pull-up resistors can be switched on with :func:`SetConfiguration`.
+         Pull-up resistors can be switched on with :func:`SetPortConfiguration`.
         """
         self.ipcon.send_request(self, BrickletIO16.FUNCTION_SET_SELECTED_VALUES, (port, selection_mask, value_mask), 'c B B', '')
 
