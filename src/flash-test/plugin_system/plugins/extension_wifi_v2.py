@@ -52,8 +52,9 @@ class Plugin(ExtensionBase):
 3. Warte bis Flash-Vorgang abgeschlossen wird
 4. Warte bis WLAN-Verbindung hergestellt wird
 5. Grüne LED muss blinken, blaue LED muss leuchten
-6. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-7. Gehe zu 1
+6. Pinken Punkt mit Alkohol entfernen
+7. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
     def start(self, device_information):
         self.device_information = None
