@@ -29,6 +29,7 @@ from ..callback_emulator import CallbackEmulator
 from ..esp_flash import ESPFlash
 
 import time
+import os
 
 class Progress:
     def __init__(self, mw):
@@ -82,6 +83,7 @@ class Plugin(ExtensionBase):
             present = self.master.is_wifi2_present()
         except:
             self.mw.set_tool_status_normal('Fehler beim Abfragen der Extension aufgetreten')
+            os.system('beep -r 5 -l 50')
             return
 
         if present:
@@ -92,6 +94,7 @@ class Plugin(ExtensionBase):
                 self.mw.set_flash_status_okay('Aktuelle Firmware Version lautet ' + '.'.join([str(fw) for fw in self.master.get_wifi2_firmware_version()]))
             except:
                 self.mw.set_flash_status_error('Fehler beim Abfragen der Firmware Version aufgetreten')
+                os.system('beep -r 5 -l 50')
 
             self.mw.set_value_normal('-')
 
@@ -110,6 +113,7 @@ class Plugin(ExtensionBase):
                 firmware = f.read()
         except IOError as e:
             self.mw.set_tool_status_error("Konnte Firmware Datei nicht lesen: {0}".format(e.strerror))
+            os.system('beep -r 5 -l 50')
             return
 
         try:
@@ -118,11 +122,12 @@ class Plugin(ExtensionBase):
             import traceback
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Flashen: {0}".format(e))
+            os.system('beep -r 5 -l 50')
             return
 
         self.mw.set_tool_status_okay('Extension geflasht')
 
-        for x in range(10):
+        for x in range(50):
             QtGui.QApplication.processEvents()
             time.sleep(0.01)
 
@@ -134,6 +139,8 @@ class Plugin(ExtensionBase):
             QtGui.QApplication.processEvents()
             time.sleep(0.01)
 
+        counter = 0
+
         try:
             while self.master.get_extension_type(0) != BrickMaster.EXTENSION_TYPE_WIFI2:
                 self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
@@ -141,10 +148,18 @@ class Plugin(ExtensionBase):
                 for x in range(10):
                     QtGui.QApplication.processEvents()
                     time.sleep(0.01)
+
+                if counter > 100:
+                    self.mw.set_tool_status_error("Setzten des Extension-Typs fehlgeschlagen")
+                    os.system('beep -r 5 -l 50')
+                    return
+
+                counter += 1
         except Exception as e:
             import traceback
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Setzen des Extension-Typ: {0}".format(e))
+            os.system('beep -r 5 -l 50')
             return
 
         self.master.reset()
@@ -174,3 +189,4 @@ class Plugin(ExtensionBase):
             return
 
         self.mw.set_tool_status_okay('WLAN-Verbindung aufgebaut. Fertig!')
+        os.system('beep -r 2')
