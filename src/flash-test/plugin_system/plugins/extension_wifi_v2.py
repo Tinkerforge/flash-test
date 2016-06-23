@@ -126,14 +126,29 @@ class Plugin(ExtensionBase):
             QtGui.QApplication.processEvents()
             time.sleep(0.01)
 
+        self.mw.set_tool_status_action('Setze Extension-Typ')
+
         self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
 
         for x in range(10):
             QtGui.QApplication.processEvents()
             time.sleep(0.01)
 
+        try:
+            while self.master.get_extension_type(0) != BrickMaster.EXTENSION_TYPE_WIFI2:
+                self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
+
+                for x in range(10):
+                    QtGui.QApplication.processEvents()
+                    time.sleep(0.01)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            self.mw.set_tool_status_error("Fehler beim Setzen des Extension-Typ: {0}".format(e))
+            return
+
         self.master.reset()
-        self.mw.set_tool_status_action('Extension-Typ geschrieben, starte Master Brick neu')
+        self.mw.set_tool_status_action('Extension-Typ gesetzt, starte Master Brick neu')
 
     def try_connect(self):
         i = 0
