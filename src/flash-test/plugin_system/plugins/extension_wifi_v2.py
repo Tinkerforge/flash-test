@@ -127,6 +127,11 @@ class Plugin(ExtensionBase):
             time.sleep(0.01)
 
         self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
+
+        for x in range(10):
+            QtGui.QApplication.processEvents()
+            time.sleep(0.01)
+
         self.master.reset()
         self.mw.set_tool_status_action('Extension-Typ geschrieben, starte Master neu')
 
