@@ -73,7 +73,17 @@ class Plugin(ExtensionBase):
 
         self.mw.set_tool_status_normal('Master Brick gefunden')
 
-        if self.master.is_wifi2_present():
+        for x in range(10):
+            QtGui.QApplication.processEvents()
+            time.sleep(0.01)
+
+        try:
+            present = self.master.is_wifi2_present()
+        except:
+            self.mw.set_tool_status_normal('Fehler beim Abfragen der Extension aufgetreten')
+            return
+
+        if present:
             self.mw.set_tool_status_action('Versuche WLAN-Verbindung aufzubauen')
             self.mw.set_uid_status_normal('-')
 
@@ -110,6 +120,10 @@ class Plugin(ExtensionBase):
             return
 
         self.mw.set_tool_status_okay('Extension geflasht')
+
+        for x in range(10):
+            QtGui.QApplication.processEvents()
+            time.sleep(0.01)
 
         self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
         self.master.reset()
