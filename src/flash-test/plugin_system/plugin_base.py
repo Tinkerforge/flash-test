@@ -132,7 +132,6 @@ class PluginBase(QtGui.QWidget, object):
                     self.mw.set_flash_status_error("Konnte Plugin an Port " + port.upper() + ' nicht verifizieren')
                     return False
                 position += 1
-                
         except:
             traceback.print_exc()
             return False

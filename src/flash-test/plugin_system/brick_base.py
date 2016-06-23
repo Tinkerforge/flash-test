@@ -129,7 +129,7 @@ class BrickBase(PluginBase):
             self.mw.button_continue.show()
             return
 
-        self.mw.set_tool_status_okay("Brick geflashed")
+        self.mw.set_tool_status_okay("Brick geflasht")
         self.is_flashing = False
 
     def start(self, device_information):

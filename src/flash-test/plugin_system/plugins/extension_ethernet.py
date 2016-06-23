@@ -33,30 +33,30 @@ class Plugin(ExtensionBase):
     TODO_TEXT = u"""\
 1. Verbinde Ethernet-Kabel mit Ethernet Extension (über PoE falls möglich)
 2. Stecke Ethernet Extension auf Master Brick
-3. Starte Master neu
+3. Starte Master Brick neu
 4. Warte bis Ethernet gefunden wird
 5. Trage MAC Adresse ein und drücke Knopf "Mac Adresse schreiben"
 6. Warte bis Ethernet-Verbindung hergestellt wird
 7. Falls mit PoE: Entferne USB. Läuft Master weiter?
 8. MAC Adressen-Aufkleber aufkleben
 9. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-10. Gehe zu 1 
+10. Gehe zu 1
 """
     def start(self, device_information):
         self.device_information = None
         self.master = None
-        
+
         self.mw.edit_ethernet_extension.setInputMask("H:HH;_")
         self.mw.edit_ethernet_extension.setText("0:01")
         self.mw.button_ethernet_extension.clicked.connect(self.button_clicked)
         ExtensionBase.start(self, device_information)
-        
+
     def stop(self):
         self.mw.hide_layout(self.mw.ethernet_extension_layout)
 
     def get_device_identifier(self):
         return BrickMaster.EXTENSION_TYPE_ETHERNET*10000 + BrickMaster.DEVICE_IDENTIFIER
-    
+
     def try_connect(self):
         i = 0
         range_to = 200
@@ -66,14 +66,14 @@ class Plugin(ExtensionBase):
                 i = 0
                 break
             time.sleep(0.1)
-            
+
         if i == range_to-1:
             self.mw.set_value_error('Konnte keine Ethernet-Verbindung aufbauen')
             return
-        
 
-        self.mw.set_value_okay('Verbindung aufgebaut. Fertig!')
-        
+
+        self.mw.set_value_okay('Ethernet-Verbindung aufgebaut. Fertig!')
+
     def button_clicked(self):
         if self.master == None or self.device_information == None:
             self.mw.set_value_error('self.master == None or self.device_information == None')
@@ -89,8 +89,6 @@ class Plugin(ExtensionBase):
         if len(mac) != 6:
             self.mw.set_value_error('MAC Adresse hat ungültige Länge')
             return
-        
-        
 
         mac = [int(x, 16) for x in mac]
 
@@ -98,14 +96,14 @@ class Plugin(ExtensionBase):
         self.master.set_ethernet_hostname('Tinkerforge' + ''.join(['%02X' % x for x in mac[3:]]))
         self.master.reset()
         self.mw.set_value_action('Übertrage MAC Adresse')
-        
+
         mac[-1] += 1
         if mac[-1] > 255:
             mac[-1] = 0
             mac[-2] += 1
 
         self.mw.edit_ethernet_extension.setText(':'.join(['%02X' % x for x in mac])[-4:])
-    
+
     def new_enum(self, device_information):
         self.device_information = device_information
         self.master = BrickMaster(device_information.uid, self.get_ipcon())
@@ -117,11 +115,10 @@ class Plugin(ExtensionBase):
             else:
                 mac = map(hex, status.mac_address)
                 mac = map(lambda x: x.replace('0x', ''), mac)
-                mac = map(lambda x: '0'+x if len(x) == 1 else x, mac) 
+                mac = map(lambda x: '0'+x if len(x) == 1 else x, mac)
                 self.mw.set_value_action('Versuche Ethernet-Verbindung aufzubauen (Mac: ' + ':'.join(mac).upper() + ')')
                 QtCore.QTimer.singleShot(0.1, self.try_connect)
         else:
             self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_ETHERNET)
             self.master.reset()
             self.mw.set_value_action('Extension-Typ geschrieben, starte Master neu')
-

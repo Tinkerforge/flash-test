@@ -22,14 +22,16 @@ Boston, MA 02111-1307, USA.
 """
 
 from plugin_system.plugin_base import PluginBase
-from plugin_system.samba import SAMBA, SAMBAException
-from serial import SerialException
 
 from PyQt4 import QtCore
 
 import os
 import time
 import threading
+
+def get_extension_firmware_filename(name, extension='bin'):
+    file_directory = os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'extensions', name, 'extension_' + name + '_firmware_latest.' + extension)
 
 class ExtensionBase(PluginBase):
     def __init__(self, *args):
@@ -47,6 +49,3 @@ class ExtensionBase(PluginBase):
     def stop(self):
         self.mw.button_flash.show()
         PluginBase.stop(self)
-
-    def continue_clicked(self):
-        self.mw.button_continue.hide()
