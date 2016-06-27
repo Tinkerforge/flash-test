@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-05-31.      #
+# This file was automatically generated on 2016-06-27.      #
 #                                                           #
 # Python Bindings Version 2.1.9                             #
 #                                                           #
@@ -118,7 +118,7 @@ class BrickletLEDStrip(Device):
 
     def get_rgb_values(self, index, length):
         """
-        Returns the rgb with the given *length* starting from the
+        Returns *rgb* values with the given *length* starting from the
         given *index*.
         
         The values are the last values that were set by :func:`SetRGBValues`.

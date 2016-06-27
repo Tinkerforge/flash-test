@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-06-22.      #
+# This file was automatically generated on 2016-06-27.      #
 #                                                           #
 # Python Bindings Version 2.1.9                             #
 #                                                           #
@@ -35,7 +35,7 @@ GetUSBVoltageCallbackThreshold = namedtuple('USBVoltageCallbackThreshold', ['opt
 GetEthernetConfiguration = namedtuple('EthernetConfiguration', ['connection', 'ip', 'subnet_mask', 'gateway', 'port'])
 GetEthernetStatus = namedtuple('EthernetStatus', ['mac_address', 'ip', 'subnet_mask', 'gateway', 'rx_count', 'tx_count', 'hostname'])
 GetEthernetWebsocketConfiguration = namedtuple('EthernetWebsocketConfiguration', ['sockets', 'port'])
-ReadWifi2Flash = namedtuple('ReadWifi2Flash', ['data', 'length_out'])
+ReadWifi2SerialPort = namedtuple('ReadWifi2SerialPort', ['data', 'result'])
 GetWifi2Configuration = namedtuple('Wifi2Configuration', ['port', 'websocket_port', 'website_port', 'phy_mode', 'sleep_mode', 'website'])
 GetWifi2Status = namedtuple('Wifi2Status', ['client_enabled', 'client_status', 'client_ip', 'client_subnet_mask', 'client_gateway', 'client_mac_address', 'client_rx_count', 'client_tx_count', 'client_rssi', 'ap_enabled', 'ap_ip', 'ap_subnet_mask', 'ap_gateway', 'ap_mac_address', 'ap_rx_count', 'ap_tx_count', 'ap_connected_count'])
 GetWifi2ClientConfiguration = namedtuple('Wifi2ClientConfiguration', ['enable', 'ssid', 'ip', 'subnet_mask', 'gateway', 'mac_address', 'bssid'])
@@ -131,8 +131,8 @@ class BrickMaster(Device):
     FUNCTION_GET_CONNECTION_TYPE = 77
     FUNCTION_IS_WIFI2_PRESENT = 78
     FUNCTION_START_WIFI2_BOOTLOADER = 79
-    FUNCTION_WRITE_WIFI2_FLASH = 80
-    FUNCTION_READ_WIFI2_FLASH = 81
+    FUNCTION_WRITE_WIFI2_SERIAL_PORT = 80
+    FUNCTION_READ_WIFI2_SERIAL_PORT = 81
     FUNCTION_SET_WIFI2_AUTHENTICATION_SECRET = 82
     FUNCTION_GET_WIFI2_AUTHENTICATION_SECRET = 83
     FUNCTION_SET_WIFI2_CONFIGURATION = 84
@@ -217,6 +217,20 @@ class BrickMaster(Device):
     CONNECTION_TYPE_WIFI = 5
     CONNECTION_TYPE_ETHERNET = 6
     CONNECTION_TYPE_WIFI2 = 7
+    WIFI2_PHY_MODE_B = 0
+    WIFI2_PHY_MODE_G = 1
+    WIFI2_PHY_MODE_N = 2
+    WIFI2_CLIENT_STATUS_IDLE = 0
+    WIFI2_CLIENT_STATUS_CONNECTING = 1
+    WIFI2_CLIENT_STATUS_WRONG_PASSWORD = 2
+    WIFI2_CLIENT_STATUS_NO_AP_FOUND = 3
+    WIFI2_CLIENT_STATUS_CONNECT_FAILED = 4
+    WIFI2_CLIENT_STATUS_GOT_IP = 5
+    WIFI2_AP_ENCRYPTION_NO_ENCRYPTION = 0
+    WIFI2_AP_ENCRYPTION_WEP = 1
+    WIFI2_AP_ENCRYPTION_WPA_PSK = 2
+    WIFI2_AP_ENCRYPTION_WPA2_PSK = 3
+    WIFI2_AP_ENCRYPTION_WPA_WPA2_PSK = 4
 
     def __init__(self, uid, ipcon):
         """
@@ -306,8 +320,8 @@ class BrickMaster(Device):
         self.response_expected[BrickMaster.FUNCTION_GET_CONNECTION_TYPE] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_IS_WIFI2_PRESENT] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_START_WIFI2_BOOTLOADER] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickMaster.FUNCTION_WRITE_WIFI2_FLASH] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickMaster.FUNCTION_READ_WIFI2_FLASH] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickMaster.FUNCTION_WRITE_WIFI2_SERIAL_PORT] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickMaster.FUNCTION_READ_WIFI2_SERIAL_PORT] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_SET_WIFI2_AUTHENTICATION_SECRET] = BrickMaster.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMaster.FUNCTION_GET_WIFI2_AUTHENTICATION_SECRET] = BrickMaster.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMaster.FUNCTION_SET_WIFI2_CONFIGURATION] = BrickMaster.RESPONSE_EXPECTED_FALSE
@@ -1252,17 +1266,17 @@ class BrickMaster(Device):
         """
         return self.ipcon.send_request(self, BrickMaster.FUNCTION_START_WIFI2_BOOTLOADER, (), '', 'b')
 
-    def write_wifi2_flash(self, data, length):
+    def write_wifi2_serial_port(self, data, length):
         """
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return self.ipcon.send_request(self, BrickMaster.FUNCTION_WRITE_WIFI2_FLASH, (data, length), '60B B', 'b')
+        return self.ipcon.send_request(self, BrickMaster.FUNCTION_WRITE_WIFI2_SERIAL_PORT, (data, length), '60B B', 'b')
 
-    def read_wifi2_flash(self, length_in):
+    def read_wifi2_serial_port(self, length):
         """
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return ReadWifi2Flash(*self.ipcon.send_request(self, BrickMaster.FUNCTION_READ_WIFI2_FLASH, (length_in,), 'B', '60B B'))
+        return ReadWifi2SerialPort(*self.ipcon.send_request(self, BrickMaster.FUNCTION_READ_WIFI2_SERIAL_PORT, (length,), 'B', '60B B'))
 
     def set_wifi2_authentication_secret(self, secret):
         """
@@ -1345,11 +1359,11 @@ class BrickMaster(Device):
         """
         return self.ipcon.send_request(self, BrickMaster.FUNCTION_GET_WIFI2_CLIENT_PASSWORD, (), '', '64s')
 
-    def set_wifi2_ap_configuration(self, enable, ssid, ip, subnet_mask, gateway, auth, hidden, channel, mac_address):
+    def set_wifi2_ap_configuration(self, enable, ssid, ip, subnet_mask, gateway, encryption, hidden, channel, mac_address):
         """
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        self.ipcon.send_request(self, BrickMaster.FUNCTION_SET_WIFI2_AP_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, auth, hidden, channel, mac_address), '? 32s 4B 4B 4B B ? B 6B', '')
+        self.ipcon.send_request(self, BrickMaster.FUNCTION_SET_WIFI2_AP_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, encryption, hidden, channel, mac_address), '? 32s 4B 4B 4B B ? B 6B', '')
 
     def get_wifi2_ap_configuration(self):
         """
