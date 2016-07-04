@@ -30,6 +30,7 @@ from ..esp_flash import ESPFlash
 
 import time
 import os
+import traceback
 
 class Progress:
     def __init__(self, mw):
@@ -37,6 +38,9 @@ class Progress:
         self.m = 0
 
     def update(self, value):
+        if value == None:
+            return
+
         if value % 10 or value == self.m:
             self.mw.set_tool_status_action("Fortschritt: " + str(value) + '/' + str(self.m))
             self.mw.set_uid_status_normal('-')
@@ -119,7 +123,6 @@ class Plugin(ExtensionBase):
         try:
             ESPFlash(self.master, Progress(self.mw)).flash(firmware)
         except Exception as e:
-            import traceback
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Flashen: {0}".format(e))
             os.system('beep -r 5 -l 50')
@@ -156,7 +159,6 @@ class Plugin(ExtensionBase):
 
                 counter += 1
         except Exception as e:
-            import traceback
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Setzen des Extension-Typ: {0}".format(e))
             os.system('beep -r 5 -l 50')
