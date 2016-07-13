@@ -25,6 +25,7 @@ from .plugins.bricklet_joystick import Plugin as bricklet_joystick_class
 from .plugins.bricklet_laser_range_finder import Plugin as bricklet_laser_range_finder_class
 from .plugins.bricklet_lcd_20x4 import Plugin as bricklet_lcd_20x4_class
 from .plugins.bricklet_led_strip import Plugin as bricklet_led_strip_class
+from .plugins.bricklet_linear_poti import Plugin as bricklet_linear_poti_class
 from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
 from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector_class
@@ -77,6 +78,7 @@ device_classes = [
     bricklet_laser_range_finder_class,
     bricklet_lcd_20x4_class,
     bricklet_led_strip_class,
+    bricklet_linear_poti_class,
     bricklet_load_cell_class,
     bricklet_moisture_class,
     bricklet_motion_detector_class,
