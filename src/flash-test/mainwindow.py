@@ -101,7 +101,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.flash_shortcut.setAutoRepeat(False)
 
         self.button_continue.hide()
-        
+
+        self.device_index_changed(0)
+
     def hide_layout(self, l):
         for i in range(l.count()):
             item = l.itemAt(i)
