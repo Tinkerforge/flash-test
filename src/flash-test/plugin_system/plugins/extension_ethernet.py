@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase
-from ..callback_emulator import CallbackEmulator
 
 import time
 

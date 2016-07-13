@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_segment_display_4x7 import BrickletSegmentDisplay4x7
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
@@ -39,7 +38,6 @@ class Plugin(BrickletBase):
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
-        self.cbe_voltage = None
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -48,8 +46,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_voltage:
-            self.cbe_voltage.set_period(0)
+        pass
 
     def get_device_identifier(self):
         return BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER

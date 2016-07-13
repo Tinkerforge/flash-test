@@ -39,9 +39,9 @@ class Plugin(BrickletBase):
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
+        self.cbe_state = None
         self.vertical = True
         self.num = 0
-        self.cbe_state = None
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -50,24 +50,23 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        pass
+        if self.cbe_state != None:
+            self.cbe_state.set_period(0)
 
     def get_device_identifier(self):
         return BrickletOLED64x48.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        if self.cbe_state != None:
-            self.cbe_state.set_period(0)
         self.flash_bricklet(get_bricklet_firmware_filename('oled_64x48'))
 
     def new_enum(self, device_information):
         self.oled = BrickletOLED64x48(device_information.uid, self.get_ipcon())
-        self.cbe_state = CallbackEmulator(self.oled.get_api_version, self.cb, ignore_last_data=True)
+        self.cbe_state = CallbackEmulator(self.oled.get_api_version, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(10)
 
         self.show_device_information(device_information)
 
-    def cb(self, _):
+    def cb_state(self, _):
         self.oled.new_window(0, 63, 0, 5)
         if self.vertical:
             for i in range(6):

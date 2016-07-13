@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -59,14 +59,14 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletRotaryPoti.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename('rotary_poti'))
-        
+
     def new_enum(self, device_information):
         self.reached_negative = False
         self.reached_positive = False
-        
+
         self.rotary_poti = BrickletRotaryPoti(device_information.uid, self.get_ipcon())
         self.cbe_position = CallbackEmulator(self.rotary_poti.get_position,
                                              self.cb_position,
@@ -74,7 +74,7 @@ class Plugin(BrickletBase):
         self.cbe_position.set_period(25)
 
         self.show_device_information(device_information)
-            
+
     def cb_position(self, position):
         if position <= -150:
             self.reached_negative = True
@@ -87,11 +87,10 @@ class Plugin(BrickletBase):
             neg = '\u25C6'
         if self.reached_positive:
             pos = '\u25C6'
-            
+
         if self.reached_negative and self.reached_positive:
             call = self.mw.set_value_okay
         else:
             call = self.mw.set_value_action
-                
-        call('Wert: ' + str(position) + ' | -150: ' + neg + ' | +150: ' + pos) 
-            
+
+        call('Wert: ' + str(position) + ' | -150: ' + neg + ' | +150: ' + pos)

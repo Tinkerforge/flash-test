@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_can import BrickletCAN
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\

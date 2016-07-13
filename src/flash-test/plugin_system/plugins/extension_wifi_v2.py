@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase, get_extension_firmware_filename
-from ..callback_emulator import CallbackEmulator
 from ..esp_flash import ESPFlash
 
 import time

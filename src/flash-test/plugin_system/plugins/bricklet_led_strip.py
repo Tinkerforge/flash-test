@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
-1. Drücke LED Strip Bricklet tester auf LED Strip Bricklet
+1. Drücke LED Strip Bricklet Tester auf LED Strip Bricklet
 2. Verbinde LED Strip Bricklet mit Port C
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
@@ -40,6 +40,7 @@ class Plugin(BrickletBase):
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
+        self.cbe_rgb_values = None
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -48,7 +49,8 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        pass
+        if self.cbe_rgb_values:
+            self.cbe_rgb_values.set_period(0)
 
     def get_device_identifier(self):
         return BrickletLEDStrip.DEVICE_IDENTIFIER
@@ -59,8 +61,8 @@ class Plugin(BrickletBase):
     def new_enum(self, device_information):
         self.led_strip = BrickletLEDStrip(device_information.uid, self.get_ipcon())
         self.led_strip.set_chip_type(BrickletLEDStrip.CHIP_TYPE_WS2811)
-        self.cbe_state = CallbackEmulator(lambda: self.led_strip.get_rgb_values(0, 1), self.cb_rgb_values)
-        self.cbe_state.set_period(250)
+        self.cbe_rgb_values = CallbackEmulator(lambda: self.led_strip.get_rgb_values(0, 1), self.cb_rgb_values)
+        self.cbe_rgb_values.set_period(250)
 
         self.show_device_information(device_information)
 

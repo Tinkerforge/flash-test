@@ -45,8 +45,16 @@ class Plugin(BrickBase):
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename('stepper')
 
+    def __init__(self, *args):
+        BrickBase.__init__(self, *args)
+        self.cbe_voltage = None
+
     def start(self, device_information):
         BrickBase.start(self, device_information)
+
+    def stop(self):
+        if self.cbe_voltage:
+            self.cbe_voltage.set_period(0)
 
     def get_device_identifier(self):
         return BrickStepper.DEVICE_IDENTIFIER

@@ -39,7 +39,7 @@ class Plugin(BrickletBase):
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
-        self.cbe_voltage = None
+        self.cbe_state = None
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
@@ -48,8 +48,8 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_voltage:
-            self.cbe_voltage.set_period(0)
+        if self.cbe_state:
+            self.cbe_state.set_period(0)
 
     def get_device_identifier(self):
         return BrickletSolidStateRelay.DEVICE_IDENTIFIER

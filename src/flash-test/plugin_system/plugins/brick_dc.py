@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_dc import BrickDC
 from ..brick_base import BrickBase, get_brick_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 import time
 

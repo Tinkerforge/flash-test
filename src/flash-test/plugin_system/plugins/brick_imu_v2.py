@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_imu_v2 import BrickIMUV2
 from ..brick_base import BrickBase, get_brick_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickBase):
     TODO_TEXT = u"""\

@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_servo import BrickServo
 from ..brick_base import BrickBase, get_brick_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 import time
 
@@ -44,6 +43,9 @@ class Plugin(BrickBase):
 
     def start(self, device_information):
         BrickBase.start(self, device_information)
+
+    def stop(self):
+        pass
 
     def get_device_identifier(self):
         return BrickServo.DEVICE_IDENTIFIER

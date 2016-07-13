@@ -27,8 +27,6 @@ from ..tinkerforge.bricklet_linear_poti import BrickletLinearPoti
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
-import math
-
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Linear Poti Bricklet mit Port C

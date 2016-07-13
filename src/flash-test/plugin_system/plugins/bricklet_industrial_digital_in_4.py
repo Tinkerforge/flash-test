@@ -53,6 +53,10 @@ class Plugin(BrickletBase):
         if device_information:
             self.new_enum(device_information)
 
+    def stop(self):
+        if self.cbe_value:
+            self.cbe_value.set_period(0)
+
     def get_device_identifier(self):
         return BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER
     

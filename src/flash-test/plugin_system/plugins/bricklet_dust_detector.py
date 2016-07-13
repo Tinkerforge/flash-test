@@ -42,7 +42,6 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
         self.cbe_dust_density = None
-        self.led_is_on = False
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
