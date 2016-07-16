@@ -60,7 +60,7 @@ class Plugin(BrickletBase):
     def new_enum(self, device_information):
         self.rgb_led = BrickletRGBLED(device_information.uid, self.get_ipcon())
         self.cbe_rgb_value = CallbackEmulator(self.rgb_led.get_rgb_value, self.cb_rgb_value)
-        self.cbe_rgb_value.set_period(250)
+        self.cbe_rgb_value.set_period(500)
 
         self.show_device_information(device_information)
 
