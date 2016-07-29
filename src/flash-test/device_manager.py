@@ -25,6 +25,7 @@ from PyQt4 import QtCore
 
 from plugin_system.tinkerforge.ip_connection import IPConnection
 from plugin_system.tinkerforge.brick_master import BrickMaster
+from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
 from collections import namedtuple
 
 DeviceInformation = namedtuple('DeviceInformation', 'uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type')
@@ -51,6 +52,16 @@ class DeviceManager(QtCore.QObject):
     def cb_enumerate(self, uid, connected_uid, position, hardware_version, 
                      firmware_version, device_identifier, enumeration_type):
         if enumeration_type in (self.ipcon.ENUMERATION_TYPE_CONNECTED, self.ipcon.ENUMERATION_TYPE_AVAILABLE):
+            if device_identifier == BrickletIO4.DEVICE_IDENTIFIER and uid == '555555':
+                if self.mw.foot_pedal != None:
+                    self.mw.foot_pedal.register_callback(BrickletIO4.CALLBACK_INTERRUPT, None)
+                else:
+                    self.mw.foot_pedal = BrickletIO4(uid, self.ipcon)
+                    self.mw.foot_pedal.register_callback(BrickletIO4.CALLBACK_INTERRUPT, self.mw.qtcb_foot_pedal.emit)
+                    self.mw.foot_pedal.set_interrupt(1)
+
+                return
+
             device_information = DeviceInformation(uid, connected_uid, position, hardware_version,
                                                    firmware_version, device_identifier, enumeration_type)
 

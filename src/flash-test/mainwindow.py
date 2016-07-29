@@ -36,6 +36,8 @@ class PluginNotImplemented(PluginBase):
     pass
 
 class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
+    qtcb_foot_pedal = QtCore.pyqtSignal(int, int)
+
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
 
@@ -65,6 +67,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         for l in temp_layouts:
             self.hide_layout(l)
 
+        self.foot_pedal = None
         self.current_plugin = None
         self.device_manager = DeviceManager(self)
         self.plugin_not_implemented = PluginNotImplemented(self)
@@ -103,6 +106,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.button_continue.hide()
 
         self.device_index_changed(0)
+
+        self.qtcb_foot_pedal.connect(self.cb_foot_pedal)
+
+    def cb_foot_pedal(self, interrupt_mask, value_mask):
+        if (interrupt_mask & 1) != 0 and (value_mask & 1) == 0:
+            self.flash_clicked()
 
     def hide_layout(self, l):
         for i in range(l.count()):
