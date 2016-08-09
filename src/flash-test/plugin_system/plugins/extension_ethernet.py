@@ -52,6 +52,7 @@ class Plugin(ExtensionBase):
 
     def stop(self):
         self.mw.hide_layout(self.mw.ethernet_extension_layout)
+        ExtensionBase.stop(self)
 
     def get_device_identifier(self):
         return BrickMaster.EXTENSION_TYPE_ETHERNET*10000 + BrickMaster.DEVICE_IDENTIFIER

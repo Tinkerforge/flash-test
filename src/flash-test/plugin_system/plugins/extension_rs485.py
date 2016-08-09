@@ -40,6 +40,9 @@ class Plugin(ExtensionBase):
     def start(self, device_information):
         ExtensionBase.start(self, device_information)
 
+    def stop(self):
+        ExtensionBase.stop(self)
+
     def get_device_identifier(self):
         return BrickMaster.EXTENSION_TYPE_RS485*10000 + BrickMaster.DEVICE_IDENTIFIER
     

@@ -67,7 +67,7 @@ class Plugin(ExtensionBase):
         ExtensionBase.start(self, device_information)
 
     def stop(self):
-        pass
+        ExtensionBase.stop(self)
 
     def get_device_identifier(self):
         return BrickMaster.EXTENSION_TYPE_WIFI2*10000 + BrickMaster.DEVICE_IDENTIFIER
