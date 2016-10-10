@@ -133,6 +133,13 @@ class Plugin(BrickletBase):
         gain0 = int((factor0-1)*2**23)
         gain1 = int((factor1-1)*2**23)
 
+        def is_int32(value):
+            return value >= -2147483648 and value <= 2147483647
+
+        if not is_int32(gain0) or not is_int32(gain1):
+            self.mw.set_tool_status_error('Kalibrierung außerhalb des möglichen Bereiches: ' + str((gain0, gain1)))
+            return
+
         self.industrial_dual_analog_in.set_calibration((old_cal.offset[0], old_cal.offset[1]), (gain0, gain1))
 
         self.mw.set_tool_status_okay('Kalibrierung OK: ' + str((gain0, gain1)))
