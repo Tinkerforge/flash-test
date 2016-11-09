@@ -85,7 +85,8 @@ class Plugin(ExtensionBase):
         try:
             present = self.master.is_wifi2_present()
         except:
-            self.mw.set_tool_status_normal('Fehler beim Abfragen der Extension aufgetreten')
+            traceback.print_exc()
+            self.mw.set_tool_status_error('Fehler beim Abfragen der Extension aufgetreten')
             os.system('beep -r 5 -l 50')
             return
 
@@ -96,7 +97,8 @@ class Plugin(ExtensionBase):
             try:
                 self.mw.set_flash_status_okay('Aktuelle Firmware Version lautet ' + '.'.join([str(fw) for fw in self.master.get_wifi2_firmware_version()]))
             except:
-                self.mw.set_flash_status_error('Fehler beim Abfragen der Firmware Version aufgetreten')
+                traceback.print_exc()
+                self.mw.set_tool_status_error('Fehler beim Abfragen der Firmware Version aufgetreten')
                 os.system('beep -r 5 -l 50')
 
             self.mw.set_value_normal('-')
