@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-06-30.      #
+# This file was automatically generated on 2016-09-08.      #
 #                                                           #
-# Python Bindings Version 2.1.9                             #
+# Python Bindings Version 2.1.10                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -23,6 +23,7 @@ except ValueError:
     from ip_connection import Device, IPConnection, Error
 
 GetRGBValues = namedtuple('RGBValues', ['r', 'g', 'b'])
+GetRGBWValues = namedtuple('RGBWValues', ['r', 'g', 'b', 'w'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
 class BrickletLEDStrip(Device):
@@ -44,11 +45,50 @@ class BrickletLEDStrip(Device):
     FUNCTION_GET_CLOCK_FREQUENCY = 8
     FUNCTION_SET_CHIP_TYPE = 9
     FUNCTION_GET_CHIP_TYPE = 10
+    FUNCTION_SET_RGBW_VALUES = 11
+    FUNCTION_GET_RGBW_VALUES = 12
+    FUNCTION_SET_CHANNEL_MAPPING = 13
+    FUNCTION_GET_CHANNEL_MAPPING = 14
+    FUNCTION_ENABLE_FRAME_RENDERED_CALLBACK = 15
+    FUNCTION_DISABLE_FRAME_RENDERED_CALLBACK = 16
+    FUNCTION_IS_FRAME_RENDERED_CALLBACK_ENABLED = 17
     FUNCTION_GET_IDENTITY = 255
 
     CHIP_TYPE_WS2801 = 2801
     CHIP_TYPE_WS2811 = 2811
     CHIP_TYPE_WS2812 = 2812
+    CHIP_TYPE_LPD8806 = 8806
+    CHIP_TYPE_APA102 = 102
+    CHANNEL_MAPPING_RGB = 6
+    CHANNEL_MAPPING_RBG = 9
+    CHANNEL_MAPPING_BRG = 33
+    CHANNEL_MAPPING_BGR = 36
+    CHANNEL_MAPPING_GRB = 18
+    CHANNEL_MAPPING_GBR = 24
+    CHANNEL_MAPPING_RGBW = 27
+    CHANNEL_MAPPING_RGWB = 30
+    CHANNEL_MAPPING_RBGW = 39
+    CHANNEL_MAPPING_RBWG = 45
+    CHANNEL_MAPPING_RWGB = 54
+    CHANNEL_MAPPING_RWBG = 57
+    CHANNEL_MAPPING_GRWB = 78
+    CHANNEL_MAPPING_GRBW = 75
+    CHANNEL_MAPPING_GBWR = 108
+    CHANNEL_MAPPING_GBRW = 99
+    CHANNEL_MAPPING_GWBR = 120
+    CHANNEL_MAPPING_GWRB = 114
+    CHANNEL_MAPPING_BRGW = 135
+    CHANNEL_MAPPING_BRWG = 141
+    CHANNEL_MAPPING_BGRW = 147
+    CHANNEL_MAPPING_BGWR = 156
+    CHANNEL_MAPPING_BWRG = 177
+    CHANNEL_MAPPING_BWGR = 180
+    CHANNEL_MAPPING_WRBG = 201
+    CHANNEL_MAPPING_WRGB = 198
+    CHANNEL_MAPPING_WGBR = 216
+    CHANNEL_MAPPING_WGRB = 210
+    CHANNEL_MAPPING_WBGR = 228
+    CHANNEL_MAPPING_WBRG = 225
 
     def __init__(self, uid, ipcon):
         """
@@ -57,7 +97,7 @@ class BrickletLEDStrip(Device):
         """
         Device.__init__(self, uid, ipcon)
 
-        self.api_version = (2, 0, 2)
+        self.api_version = (2, 0, 3)
 
         self.response_expected[BrickletLEDStrip.FUNCTION_SET_RGB_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletLEDStrip.FUNCTION_GET_RGB_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -69,14 +109,25 @@ class BrickletLEDStrip(Device):
         self.response_expected[BrickletLEDStrip.FUNCTION_GET_CLOCK_FREQUENCY] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletLEDStrip.FUNCTION_SET_CHIP_TYPE] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletLEDStrip.FUNCTION_GET_CHIP_TYPE] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLEDStrip.FUNCTION_SET_RGBW_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLEDStrip.FUNCTION_GET_RGBW_VALUES] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLEDStrip.FUNCTION_SET_CHANNEL_MAPPING] = BrickletLEDStrip.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLEDStrip.FUNCTION_GET_CHANNEL_MAPPING] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLEDStrip.FUNCTION_ENABLE_FRAME_RENDERED_CALLBACK] = BrickletLEDStrip.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletLEDStrip.FUNCTION_DISABLE_FRAME_RENDERED_CALLBACK] = BrickletLEDStrip.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletLEDStrip.FUNCTION_IS_FRAME_RENDERED_CALLBACK_ENABLED] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletLEDStrip.FUNCTION_GET_IDENTITY] = BrickletLEDStrip.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickletLEDStrip.CALLBACK_FRAME_RENDERED] = 'H'
 
     def set_rgb_values(self, index, length, r, g, b):
         """
-        Sets the *rgb* values for the LEDs with the given *length* starting 
+        Sets the RGB values for the LEDs with the given *length* starting
         from *index*.
+        
+        To make the colors show correctly you need to configure the chip type
+        (:func:`SetChipType`) and a 3-channel channel mapping (:func:`SetChannelMapping`)
+        according to the connected LEDs.
         
         The maximum length is 16, the index goes from 0 to 319 and the rgb values
         have 8 bits each.
@@ -96,10 +147,10 @@ class BrickletLEDStrip(Device):
         The colors will be transfered to actual LEDs when the next
         frame duration ends, see :func:`SetFrameDuration`.
         
-        Generic approach: 
+        Generic approach:
         
         * Set the frame duration to a value that represents
-          the number of frames per second you want to achieve. 
+          the number of frames per second you want to achieve.
         * Set all of the LED colors for one frame.
         * Wait for the :func:`FrameRendered` callback.
         * Set all of the LED colors for next frame.
@@ -118,7 +169,7 @@ class BrickletLEDStrip(Device):
 
     def get_rgb_values(self, index, length):
         """
-        Returns *rgb* values with the given *length* starting from the
+        Returns RGB value with the given *length* starting from the
         given *index*.
         
         The values are the last values that were set by :func:`SetRGBValues`.
@@ -130,7 +181,7 @@ class BrickletLEDStrip(Device):
         Sets the frame duration in ms.
         
         Example: If you want to achieve 20 frames per second, you should
-        set the frame duration to 50ms (50ms * 20 = 1 second). 
+        set the frame duration to 50ms (50ms * 20 = 1 second).
         
         For an explanation of the general approach see :func:`SetRGBValues`.
         
@@ -185,17 +236,16 @@ class BrickletLEDStrip(Device):
 
     def set_chip_type(self, chip):
         """
-        Sets the type of the led driver chip. We currently support
-        the chips
+        Sets the type of the LED driver chip. We currently support the chips
         
-        * WS2801 (``chip`` = 2801),
-        * WS2811 (``chip`` = 2811) and
-        * WS2812 (``chip`` = 2812).
+        * WS2801,
+        * WS2811,
+        * WS2812 / SK6812 / NeoPixel RGB,
+        * SK6812RGBW / NeoPixel RGBW (Chip Type = WS2812),
+        * LPD8806 and
+        * APA102 / DotStar.
         
-        The WS2812 is sometimes also called "NeoPixel", a name coined by
-        Adafruit.
-        
-        The default value is WS2801 (``chip`` = 2801).
+        The default value is WS2801 (2801).
         
         .. versionadded:: 2.0.2$nbsp;(Plugin)
         """
@@ -208,6 +258,141 @@ class BrickletLEDStrip(Device):
         .. versionadded:: 2.0.2$nbsp;(Plugin)
         """
         return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_CHIP_TYPE, (), '', 'H')
+
+    def set_rgbw_values(self, index, length, r, g, b, w):
+        """
+        Sets the RGBW values for the LEDs with the given *length* starting
+        from *index*.
+        
+        To make the colors show correctly you need to configure the chip type
+        (:func:`SetChipType`) and a 4-channel channel mapping (:func:`SetChannelMapping`)
+        according to the connected LEDs.
+        
+        The maximum length is 12, the index goes from 0 to 239 and the rgbw values
+        have 8 bits each.
+        
+        Example: If you set
+        
+        * index to 5,
+        * length to 4,
+        * r to [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        * g to [0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        * b to [0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0] and
+        * w to [0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        
+        the LED with index 5 will be red, 6 will be green, 7 will be blue and 8 will be white.
+        
+        .. note:: Depending on the LED circuitry colors can be permuted.
+        
+        The colors will be transfered to actual LEDs when the next
+        frame duration ends, see :func:`SetFrameDuration`.
+        
+        Generic approach:
+        
+        * Set the frame duration to a value that represents
+          the number of frames per second you want to achieve.
+        * Set all of the LED colors for one frame.
+        * Wait for the :func:`FrameRendered` callback.
+        * Set all of the LED colors for next frame.
+        * Wait for the :func:`FrameRendered` callback.
+        * and so on.
+        
+        This approach ensures that you can change the LED colors with
+        a fixed frame rate.
+        
+        The actual number of controllable LEDs depends on the number of free
+        Bricklet ports. See :ref:`here <led_strip_bricklet_ram_constraints>` for more
+        information. A call of :func:`SetRGBWValues` with index + length above the
+        bounds is ignored completely.
+        
+        The LPD8806 LED driver chips have 7-bit channels for RGB. Internally the LED
+        Strip Bricklets divides the 8-bit values set using this function by 2 to make
+        them 7-bit. Therefore, you can just use the normal value range (0-255) for
+        LPD8806 LEDs.
+        
+        The brightness channel of the APA102 LED driver chips has 5-bit. Internally the
+        LED Strip Bricklets divides the 8-bit values set using this function by 8 to make
+        them 5-bit. Therefore, you can just use the normal value range (0-255) for
+        the brightness channel of APA102 LEDs.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_RGBW_VALUES, (index, length, r, g, b, w), 'H B 12B 12B 12B 12B', '')
+
+    def get_rgbw_values(self, index, length):
+        """
+        Returns RGBW values with the given *length* starting from the
+        given *index*.
+        
+        The values are the last values that were set by :func:`SetRGBWValues`.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        return GetRGBWValues(*self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_RGBW_VALUES, (index, length), 'H B', '12B 12B 12B 12B'))
+
+    def set_channel_mapping(self, mapping):
+        """
+        Sets the channel mapping for the connected LEDs.
+        
+        :func:`SetRGBValues` and :func:`SetRGBWValues` take the data in RGB(W) order.
+        But the connected LED driver chips might have their 3 or 4 channels in a
+        different order. For example, the WS2801 chips typically use BGR order, the
+        WS2812 chips typically use GRB order and the APA102 chips typically use WBGR
+        order.
+        
+        The APA102 chips are special. They have three 8-bit channels for RGB
+        and an additional 5-bit channel for the overall brightness of the RGB LED
+        making them 4-channel chips. Internally the brightness channel is the first
+        channel, therefore one of the Wxyz channel mappings should be used. Then
+        the W channel controls the brightness.
+        
+        If a 3-channel mapping is selected then :func:`SetRGBValues` has to be used.
+        Calling :func:`SetRGBWValues` with a 3-channel mapping will produce incorrect
+        results. Vice-versa if a 4-channel mapping is selected then
+        :func:`SetRGBWValues` has to be used. Calling :func:`SetRGBValues` with a
+        4-channel mapping will produce incorrect results.
+        
+        The default value is BGR (36).
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_SET_CHANNEL_MAPPING, (mapping,), 'B', '')
+
+    def get_channel_mapping(self):
+        """
+        Returns the currently used channel mapping as set by :func:`SetChannelMapping`.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_GET_CHANNEL_MAPPING, (), '', 'B')
+
+    def enable_frame_rendered_callback(self):
+        """
+        Enables the :func:`FrameRendered` callback.
+        
+        By default the callback is enabled.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_ENABLE_FRAME_RENDERED_CALLBACK, (), '', '')
+
+    def disable_frame_rendered_callback(self):
+        """
+        Disables the :func:`FrameRendered` callback.
+        
+        By default the callback is enabled.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_DISABLE_FRAME_RENDERED_CALLBACK, (), '', '')
+
+    def is_frame_rendered_callback_enabled(self):
+        """
+        Returns *true* if the :func:`FrameRendered` callback is enabled, *false* otherwise.
+        
+        .. versionadded:: 2.0.6$nbsp;(Plugin)
+        """
+        return self.ipcon.send_request(self, BrickletLEDStrip.FUNCTION_IS_FRAME_RENDERED_CALLBACK_ENABLED, (), '', '?')
 
     def get_identity(self):
         """
