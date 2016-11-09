@@ -29,12 +29,12 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
-2. Verbinde Dual Relay Bricklet mit Port C
-3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
-5. Beide Relais müssen hörbar klicken und die LEDs blinken
-6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-7. Gehe zu 1
+1. Verbinde Dual Relay Bricklet mit Port C
+2. Drücke "Flashen"
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Beide Relais müssen hörbar klicken und die LEDs blinken
+5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+6. Gehe zu 1
 """
 
     def __init__(self, *args):
