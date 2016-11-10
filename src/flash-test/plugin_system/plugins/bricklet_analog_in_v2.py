@@ -32,10 +32,12 @@ class Plugin(BrickletBase):
 1. Verbinde Analog In 2.0 Bricklet mit Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
-4. Überprüfe Wert:
+4. 24V an VIN und GND einspeisen
+5. Überprüfe Wert:
      * Spannung sollte mit eingespeister Spannung übereinstimmen
-5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+     * Abweichungen bis 0,1V sind okay
+6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):
