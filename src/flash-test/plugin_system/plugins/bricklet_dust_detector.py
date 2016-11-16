@@ -50,7 +50,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_dust_density:
+        if self.cbe_dust_density != None:
             self.cbe_dust_density.set_period(0)
 
     def get_device_identifier(self):
@@ -60,6 +60,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('dust_detector'))
         
     def new_enum(self, device_information):
+        if self.cbe_dust_density != None:
+            self.cbe_dust_density.set_period(0)
+
         self.dust_detector = BrickletDustDetector(device_information.uid, self.get_ipcon())
         self.cbe_dust_density = CallbackEmulator(self.dust_detector.get_dust_density,
                                            self.cb_dust_density)

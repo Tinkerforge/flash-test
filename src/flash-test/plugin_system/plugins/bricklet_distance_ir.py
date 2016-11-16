@@ -159,7 +159,7 @@ class Plugin(BrickletBase):
             l.itemAt(i).widget().setVisible(True)
 
     def stop(self):
-        if self.cbe_distance:
+        if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 
         l = self.mw.distance_ir_layout
@@ -171,10 +171,13 @@ class Plugin(BrickletBase):
     
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename('distance_ir'))
-        if self.cbe_distance:
+        if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
         
     def new_enum(self, device_information):
+        if self.cbe_distance != None:
+            self.cbe_distance.set_period(0)
+
         self.show_device_information(device_information)
         
         self.distance_ir = BrickletDistanceIR(device_information.uid, self.get_ipcon())

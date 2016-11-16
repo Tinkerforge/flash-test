@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_value:
+        if self.cbe_value != None:
             self.cbe_value.set_period(0)
 
     def get_device_identifier(self):
@@ -59,6 +59,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('industrial_digital_out_4'))
 
     def new_enum(self, device_information):
+        if self.cbe_value != None:
+            self.cbe_value.set_period(0)
+
         self.ido4 = BrickletIndustrialDigitalOut4(device_information.uid, self.get_ipcon())
         self.ido4.set_value(0b1111)
         self.cbe_value = CallbackEmulator(self.ido4.get_value, self.cb_value)

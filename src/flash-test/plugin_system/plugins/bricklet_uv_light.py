@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_uv_light:
+        if self.cbe_uv_light != None:
             self.cbe_uv_light.set_period(0)
 
     def get_device_identifier(self):
@@ -59,6 +59,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('uv_light'))
         
     def new_enum(self, device_information):
+        if self.cbe_uv_light != None:
+            self.cbe_uv_light.set_period(0)
+
         self.uv = BrickletUVLight(device_information.uid, self.get_ipcon())
         self.cbe_uv_light = CallbackEmulator(self.uv.get_uv_light,
                                              self.cb_uv_light)

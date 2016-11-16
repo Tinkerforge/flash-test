@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_temperature:
+        if self.cbe_temperature != None:
             self.cbe_temperature.set_period(0)
 
     def get_device_identifier(self):
@@ -59,6 +59,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('ptc'))
 
     def new_enum(self, device_information):
+        if self.cbe_temperature != None:
+            self.cbe_temperature.set_period(0)
+
         self.ptc = BrickletPTC(device_information.uid, self.get_ipcon())
         self.ptc.set_wire_mode(BrickletPTC.WIRE_MODE_3)
         self.cbe_temperature = CallbackEmulator(self.ptc.get_temperature,

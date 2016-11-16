@@ -52,7 +52,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_distance_value:
+        if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
 
     def get_device_identifier(self):
@@ -60,10 +60,13 @@ class Plugin(BrickletBase):
     
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename('distance_us'))
-        if self.cbe_distance_value:
+        if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
         
     def new_enum(self, device_information):
+        if self.cbe_distance_value != None:
+            self.cbe_distance_value.set_period(0)
+
         self.show_device_information(device_information)
         
         self.distance_us = BrickletDistanceUS(device_information.uid, self.get_ipcon())

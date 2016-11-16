@@ -48,7 +48,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_state:
+        if self.cbe_state != None:
             self.cbe_state.set_period(0)
 
     def get_device_identifier(self):
@@ -58,6 +58,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('dual_relay'))
 
     def new_enum(self, device_information):
+        if self.cbe_state != None:
+            self.cbe_state.set_period(0)
+
         self.dr = BrickletDualRelay(device_information.uid, self.get_ipcon())
         self.dr.set_state(True, False)
         self.cbe_state = CallbackEmulator(self.dr.get_state, self.cb_state)

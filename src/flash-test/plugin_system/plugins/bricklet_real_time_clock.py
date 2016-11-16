@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_date_time:
+        if self.cbe_date_time != None:
             self.cbe_date_time.set_period(0)
 
     def get_device_identifier(self):
@@ -59,6 +59,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('real_time_clock'))
 
     def new_enum(self, device_information):
+        if self.cbe_date_time != None:
+            self.cbe_date_time.set_period(0)
+
         self.rtc = BrickletRealTimeClock(device_information.uid, self.get_ipcon())
         self.cbe_date_time = CallbackEmulator(self.rtc.get_date_time,
                                               self.cb_date_time)

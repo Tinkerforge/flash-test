@@ -63,12 +63,12 @@ class Plugin(BrickletBase):
     def stop(self):
         self.mw.button_offset_idai.clicked.disconnect(self.offset_clicked)
         self.mw.button_gain_idai.clicked.disconnect(self.gain_clicked)
-        
-        if self.cbe_voltage0:
+
+        if self.cbe_voltage0 != None:
             self.cbe_voltage0.set_period(0)
-        if self.cbe_voltage1:
+        if self.cbe_voltage1 != None:
             self.cbe_voltage1.set_period(0)
-            
+
         l = self.mw.industrial_dual_analog_in_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(False)
@@ -80,6 +80,11 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('industrial_dual_analog_in'))
         
     def new_enum(self, device_information):
+        if self.cbe_voltage0 != None:
+            self.cbe_voltage0.set_period(0)
+        if self.cbe_voltage1 != None:
+            self.cbe_voltage1.set_period(0)
+
         l = self.mw.industrial_dual_analog_in_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)

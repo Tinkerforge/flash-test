@@ -48,7 +48,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_temperature:
+        if self.cbe_temperature != None:
             self.cbe_temperature.set_period(0)
 
     def get_device_identifier(self):
@@ -58,6 +58,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('temperature_ir'))
         
     def new_enum(self, device_information):
+        if self.cbe_temperature != None:
+            self.cbe_temperature.set_period(0)
+
         self.temp_ir = BrickletTemperatureIR(device_information.uid, self.get_ipcon())
         self.cbe_temperature = CallbackEmulator(self.temp_ir.get_object_temperature,
                                                 self.cb_temperature)

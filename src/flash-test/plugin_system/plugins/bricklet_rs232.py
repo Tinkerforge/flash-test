@@ -25,7 +25,6 @@ from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_rs232 import BrickletRS232
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
-from ..callback_emulator import CallbackEmulator
 
 def string_to_char_list(message):
     chars = [bytes([x]) for x in list(message)]

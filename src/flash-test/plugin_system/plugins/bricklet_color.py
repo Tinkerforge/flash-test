@@ -51,7 +51,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_color:
+        if self.cbe_color != None:
             self.cbe_color.set_period(0)
 
         l = self.mw.color_layout
@@ -65,6 +65,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('color'))
         
     def new_enum(self, device_information):
+        if self.cbe_color != None:
+            self.cbe_color.set_period(0)
+
         l = self.mw.color_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)

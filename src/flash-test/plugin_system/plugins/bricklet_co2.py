@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_co2:
+        if self.cbe_co2 != None:
             self.cbe_co2.set_period(0)
 
     def get_device_identifier(self):
@@ -59,8 +59,11 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('co2'))
         
     def new_enum(self, device_information):
-        self.uv = BrickletCO2(device_information.uid, self.get_ipcon())
-        self.cbe_co2 = CallbackEmulator(self.uv.get_co2_concentration,
+        if self.cbe_co2 != None:
+            self.cbe_co2.set_period(0)
+
+        self.co2 = BrickletCO2(device_information.uid, self.get_ipcon())
+        self.cbe_co2 = CallbackEmulator(self.co2.get_co2_concentration,
                                         self.cb_co2)
         self.cbe_co2.set_period(100)
 

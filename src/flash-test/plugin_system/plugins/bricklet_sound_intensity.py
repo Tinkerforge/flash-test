@@ -52,7 +52,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_intensity:
+        if self.cbe_intensity != None:
             self.cbe_intensity.set_period(0)
 
     def get_device_identifier(self):
@@ -62,6 +62,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('sound_intensity'))
         
     def new_enum(self, device_information):
+        if self.cbe_intensity != None:
+            self.cbe_intensity.set_period(0)
+
         self.sound_intensity = BrickletSoundIntensity(device_information.uid, self.get_ipcon())
         self.cbe_intensity = CallbackEmulator(self.sound_intensity.get_intensity,
                                               self.cb_intensity)

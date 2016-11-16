@@ -51,7 +51,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_motion:
+        if self.cbe_motion != None:
             self.cbe_motion.set_period(0)
 
     def get_device_identifier(self):
@@ -61,6 +61,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('motion_detector'))
 
     def new_enum(self, device_information):
+        if self.cbe_motion != None:
+            self.cbe_motion.set_period(0)
+
         self.b = BrickletMotionDetector(device_information.uid, self.get_ipcon())
         self.cbe_motion = CallbackEmulator(self.b.get_motion_detected,
                                            self.cb_motion)

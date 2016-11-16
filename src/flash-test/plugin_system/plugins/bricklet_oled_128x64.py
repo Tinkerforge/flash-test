@@ -60,6 +60,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('oled_128x64'))
 
     def new_enum(self, device_information):
+        if self.cbe_state != None:
+            self.cbe_state.set_period(0)
+
         self.oled = BrickletOLED128x64(device_information.uid, self.get_ipcon())
         self.cbe_state = CallbackEmulator(self.oled.get_api_version, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(25)

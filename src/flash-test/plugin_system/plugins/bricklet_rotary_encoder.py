@@ -58,7 +58,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_count:
+        if self.cbe_count != None:
             self.cbe_count.set_period(0)
 
     def get_device_identifier(self):
@@ -68,6 +68,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('rotary_encoder'))
         
     def new_enum(self, device_information):
+        if self.cbe_count != None:
+            self.cbe_count.set_period(0)
+
         self.reached_negative = False
         self.reached_positive = False
         self.pressed_count = 0

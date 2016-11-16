@@ -53,7 +53,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_value:
+        if self.cbe_value != None:
             self.cbe_value.set_period(0)
 
     def get_device_identifier(self):
@@ -63,6 +63,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('hall_effect'))
 
     def new_enum(self, device_information):
+        if self.cbe_value != None:
+            self.cbe_value.set_period(0)
+
         self.hall_effect = BrickletHallEffect(device_information.uid, self.get_ipcon())
         self.cbe_value = CallbackEmulator(self.hall_effect.get_value, self.cb_value)
         self.cbe_value.set_period(100)

@@ -60,9 +60,9 @@ class Plugin(BrickletBase):
     def stop(self):
         self.mw.button_save_vc.clicked.disconnect(self.save_clicked)
         
-        if self.cbe_voltage:
+        if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
-        if self.cbe_current:
+        if self.cbe_current != None:
             self.cbe_current.set_period(0)
             
         l = self.mw.voltage_current_layout
@@ -76,6 +76,11 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('voltage_current'))
         
     def new_enum(self, device_information):
+        if self.cbe_voltage != None:
+            self.cbe_voltage.set_period(0)
+        if self.cbe_current != None:
+            self.cbe_current.set_period(0)
+
         l = self.mw.voltage_current_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)

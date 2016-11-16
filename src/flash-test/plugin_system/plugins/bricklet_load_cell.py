@@ -53,7 +53,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_weight:
+        if self.cbe_weight != None:
             self.cbe_weight.set_period(0)
 
     def get_device_identifier(self):
@@ -63,6 +63,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('load_cell'))
         
     def new_enum(self, device_information):
+        if self.cbe_weight != None:
+            self.cbe_weight.set_period(0)
+
         self.load_cell = BrickletLoadCell(device_information.uid, self.get_ipcon())
         self.cbe_weight = CallbackEmulator(self.load_cell.get_weight,
                                            self.cb_weight)

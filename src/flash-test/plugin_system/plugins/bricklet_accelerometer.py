@@ -53,7 +53,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_acceleration:
+        if self.cbe_acceleration != None:
             self.cbe_acceleration.set_period(0)
 
     def get_device_identifier(self):
@@ -63,6 +63,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('accelerometer'))
         
     def new_enum(self, device_information):
+        if self.cbe_acceleration != None:
+            self.cbe_acceleration.set_period(0)
+
         self.accelerometer = BrickletAccelerometer(device_information.uid, self.get_ipcon())
         self.cbe_acceleration = CallbackEmulator(self.accelerometer.get_acceleration,
                                                  self.cb_acceleration)

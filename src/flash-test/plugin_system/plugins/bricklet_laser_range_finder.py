@@ -52,7 +52,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_distance:
+        if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 
     def get_device_identifier(self):
@@ -62,6 +62,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('laser_range_finder'))
         
     def new_enum(self, device_information):
+        if self.cbe_distance != None:
+            self.cbe_distance.set_period(0)
+
         self.laser_range_finder = BrickletLaserRangeFinder(device_information.uid, self.get_ipcon())
         self.cbe_distance = CallbackEmulator(self.laser_range_finder.get_distance,
                                              self.cb_distance)

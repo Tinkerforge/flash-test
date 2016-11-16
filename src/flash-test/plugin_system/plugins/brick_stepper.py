@@ -53,13 +53,16 @@ class Plugin(BrickBase):
         BrickBase.start(self, device_information)
 
     def stop(self):
-        if self.cbe_voltage:
+        if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
 
     def get_device_identifier(self):
         return BrickStepper.DEVICE_IDENTIFIER
 
     def new_enum(self, device_information):
+        if self.cbe_voltage != None:
+            self.cbe_voltage.set_period(0)
+
         self.show_device_information(device_information)
 
         stepper = BrickStepper(device_information.uid, self.get_ipcon())

@@ -50,7 +50,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_humidity:
+        if self.cbe_humidity != None:
             self.cbe_humidity.set_period(0)
 
     def get_device_identifier(self):
@@ -60,6 +60,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('humidity'))
 
     def new_enum(self, device_information):
+        if self.cbe_humidity != None:
+            self.cbe_humidity.set_period(0)
+
         self.h = BrickletHumidity(device_information.uid, self.get_ipcon())
         self.cbe_humidity = CallbackEmulator(self.h.get_humidity,
                                              self.cb_humidity)

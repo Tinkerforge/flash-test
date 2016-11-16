@@ -51,7 +51,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_voltage:
+        if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
 
     def get_device_identifier(self):
@@ -61,6 +61,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('analog_in_v2'))
         
     def new_enum(self, device_information):
+        if self.cbe_voltage != None:
+            self.cbe_voltage.set_period(0)
+
         self.al = BrickletAnalogInV2(device_information.uid, self.get_ipcon())
         self.cbe_voltage = CallbackEmulator(self.al.get_voltage,
                                             self.cb_voltage)

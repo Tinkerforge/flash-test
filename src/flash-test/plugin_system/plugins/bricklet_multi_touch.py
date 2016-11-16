@@ -49,7 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_touch_state:
+        if self.cbe_touch_state != None:
             self.cbe_touch_state.set_period(0)
 
         l = self.mw.multi_touch_layout
@@ -63,6 +63,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('multi_touch'))
         
     def new_enum(self, device_information):
+        if self.cbe_touch_state != None:
+            self.cbe_touch_state.set_period(0)
+
         l = self.mw.multi_touch_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)

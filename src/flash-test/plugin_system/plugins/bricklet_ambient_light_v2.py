@@ -50,7 +50,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_illuminance:
+        if self.cbe_illuminance != None:
             self.cbe_illuminance.set_period(0)
 
     def get_device_identifier(self):
@@ -60,6 +60,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('ambient_light_v2'))
         
     def new_enum(self, device_information):
+        if self.cbe_illuminance != None:
+            self.cbe_illuminance.set_period(0)
+
         self.al = BrickletAmbientLightV2(device_information.uid, self.get_ipcon())
         self.al.set_configuration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_8000LUX, BrickletAmbientLightV2.INTEGRATION_TIME_50MS)
         self.cbe_illuminance = CallbackEmulator(self.al.get_illuminance,

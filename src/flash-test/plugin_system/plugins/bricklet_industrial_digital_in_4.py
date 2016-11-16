@@ -54,7 +54,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_value:
+        if self.cbe_value != None:
             self.cbe_value.set_period(0)
 
     def get_device_identifier(self):
@@ -64,6 +64,9 @@ class Plugin(BrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('industrial_digital_in_4'))
         
     def new_enum(self, device_information):
+        if self.cbe_value != None:
+            self.cbe_value.set_period(0)
+
         self.changes = [0, 0, 0, 0]
         self.last_values = None
         self.industrial_digital_in_4 = BrickletIndustrialDigitalIn4(device_information.uid, self.get_ipcon())
