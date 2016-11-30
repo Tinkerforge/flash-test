@@ -28,6 +28,8 @@ from ..extension_base import ExtensionBase
 
 class Plugin(ExtensionBase):
     TODO_TEXT = u"""\
+Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbits 1 konfigurieren und über USB Netzteil versorgen
+
 1. Verbinde RS485 Stapel miteinander
 2. Stecker RS485 Extension auf Master Brick
 3. Starte RS485 Master neu
@@ -35,7 +37,7 @@ class Plugin(ExtensionBase):
 5. Starter RS485 Slave neu
 6. Warte bis RS485 Slave gefunden wird
 7. Die Extension ist fertig, mit grauem 3-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-8. Gehe zu 1 
+8. Gehe zu 1
 """
     def start(self, device_information):
         ExtensionBase.start(self, device_information)
@@ -45,8 +47,20 @@ class Plugin(ExtensionBase):
 
     def get_device_identifier(self):
         return BrickMaster.EXTENSION_TYPE_RS485*10000 + BrickMaster.DEVICE_IDENTIFIER
-    
-    def reconfigure(self, master):
+
+    def new_enum(self, device_information):
+        master = BrickMaster(device_information.uid, self.get_ipcon())
+
+        if master.is_ethernet_present(): # slave
+            self.mw.set_value_okay('RS485 Slave gefunden. Alles OK!')
+            return
+
+        if not master.is_rs485_present():
+            self.mw.set_value_action('RS485 Extension Typ gesetzt')
+            master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_RS485)
+            master.reset()
+            return
+
         master.set_rs485_configuration(1000000, 'n', 1)
         master.set_rs485_address(0)
         master.set_rs485_slave_address(0, 42)
@@ -56,26 +70,8 @@ class Plugin(ExtensionBase):
         adr = master.get_rs485_address()
         slave_adr = (master.get_rs485_slave_address(0), master.get_rs485_slave_address(1))
         if conf == (1000000, 'n', 1) and adr == 0 and typ == 2 and slave_adr == (42, 0):
-            self.mw.set_value_action('RS485 Extension konfiguriert')
+            self.mw.set_value_action('RS485 Extension konfiguriert, drücke Reset-Knopf an RS485 Slave')
             master.reset()
         else:
-            self.mw.set_value_error('Konnte Extension nicht konfigurieren')
-
-    def new_enum(self, device_information):
-        master = BrickMaster(device_information.uid, self.get_ipcon())
-        if master.is_rs485_present():
-            typ = master.get_extension_type(0)
-            conf = master.get_rs485_configuration()
-            adr = master.get_rs485_address()
-            slave_adr = (master.get_rs485_slave_address(0), master.get_rs485_slave_address(1))
-            if conf == (1000000, 'n', 1) and adr == 0 and typ == 2 and slave_adr == (42, 0):
-                self.mw.set_value_action('RS485 Master gefunden. Drücke Reset-Knopf an RS485 Slave.')
-            elif conf == (1000000, 'n', 1) and adr == 42 and typ == 2 and slave_adr == (0, 0):
-                self.mw.set_value_okay('RS485 Slave gefunden. Alles OK!')
-            else:
-                self.reconfigure(master)
-                
-        else:
-            master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_RS485)
-            master.reset()
+            self.mw.set_value_error('Konnte RS485 Extension nicht konfigurieren')
 
