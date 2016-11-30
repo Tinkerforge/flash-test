@@ -61,17 +61,25 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
             master.reset()
             return
 
-        master.set_rs485_configuration(1000000, 'n', 1)
-        master.set_rs485_address(0)
-        master.set_rs485_slave_address(0, 42)
-        master.set_rs485_slave_address(1, 0)
         typ = master.get_extension_type(0)
         conf = master.get_rs485_configuration()
         adr = master.get_rs485_address()
         slave_adr = (master.get_rs485_slave_address(0), master.get_rs485_slave_address(1))
-        if conf == (1000000, 'n', 1) and adr == 0 and typ == 2 and slave_adr == (42, 0):
-            self.mw.set_value_action('RS485 Extension konfiguriert, drücke Reset-Knopf an RS485 Slave')
-            master.reset()
+
+        if conf != (1000000, 'n', 1) or adr != 0 or typ != 2 or slave_adr != (42, 0):
+            master.set_rs485_configuration(1000000, 'n', 1)
+            master.set_rs485_address(0)
+            master.set_rs485_slave_address(0, 42)
+            master.set_rs485_slave_address(1, 0)
+            typ = master.get_extension_type(0)
+            conf = master.get_rs485_configuration()
+            adr = master.get_rs485_address()
+            slave_adr = (master.get_rs485_slave_address(0), master.get_rs485_slave_address(1))
+            if conf == (1000000, 'n', 1) and adr == 0 and typ == 2 and slave_adr == (42, 0):
+                self.mw.set_value_action('RS485 Extension konfiguriert, drücke Reset-Knopf an RS485 Slave')
+                master.reset()
+            else:
+                self.mw.set_value_error('Konnte RS485 Extension nicht konfigurieren')
         else:
-            self.mw.set_value_error('Konnte RS485 Extension nicht konfigurieren')
+            self.mw.set_value_action('RS485 Extension konfiguriert, drücke Reset-Knopf an RS485 Slave')
 
