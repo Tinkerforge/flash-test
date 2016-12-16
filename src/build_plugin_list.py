@@ -36,7 +36,7 @@ if len(sys.argv) > 1:
 
 imports = []
 device_classes = []
-root = os.path.abspath(__file__).replace(__file__, '')
+root = os.path.split(os.path.abspath(__file__))[0]
 plugin_system_dir = os.path.join(root, 'flash-test', 'plugin_system')
 plugins_dir = os.path.join(plugin_system_dir, 'plugins')
 
