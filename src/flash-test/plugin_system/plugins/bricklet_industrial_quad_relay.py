@@ -62,7 +62,7 @@ class Plugin(BrickletBase):
         if self.cbe_value != None:
             self.cbe_value.set_period(0)
 
-        self.iqr = BrickletIndustrialDigitalOut4(device_information.uid, self.get_ipcon())
+        self.iqr = BrickletIndustrialQuadRelay(device_information.uid, self.get_ipcon())
         self.iqr.set_value(0b1111)
         self.cbe_value = CallbackEmulator(self.iqr.get_value, self.cb_value)
         self.cbe_value.set_period(500)
