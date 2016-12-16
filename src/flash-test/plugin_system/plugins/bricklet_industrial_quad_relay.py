@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2016 Matthias Bolte <matthias@tinkerforge.com>
 
-bricklet_industrial_digital_in_4.py: Industrial Digital Out 4 plugin
+bricklet_industrial_quad_relay.py: Industrial Quad Relay plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,14 +23,14 @@ Boston, MA 02111-1307, USA.
 
 from PyQt4 import Qt, QtGui, QtCore
 
-from ..tinkerforge.bricklet_industrial_digital_out_4 import BrickletIndustrialDigitalOut4
+from ..tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Digital Out 4 Bricklet mit Port C
-2. Verbinde LED Testadapter mit Industrial Digital Out 4 Bricklet
+1. Verbinde Industrial Quad Relay Bricklet mit Port C
+2. Verbinde LED Testadapter mit Industrial Quad Relay Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
 5. Alle LEDs müssen blinken
@@ -53,21 +53,21 @@ class Plugin(BrickletBase):
             self.cbe_value.set_period(0)
 
     def get_device_identifier(self):
-        return BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER
+        return BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('industrial_digital_out_4'))
+        self.flash_bricklet(get_bricklet_firmware_filename('industrial_quad_relay'))
 
     def new_enum(self, device_information):
         if self.cbe_value != None:
             self.cbe_value.set_period(0)
 
-        self.ido4 = BrickletIndustrialDigitalOut4(device_information.uid, self.get_ipcon())
-        self.ido4.set_value(0b1111)
-        self.cbe_value = CallbackEmulator(self.ido4.get_value, self.cb_value)
+        self.iqr = BrickletIndustrialDigitalOut4(device_information.uid, self.get_ipcon())
+        self.iqr.set_value(0b1111)
+        self.cbe_value = CallbackEmulator(self.iqr.get_value, self.cb_value)
         self.cbe_value.set_period(500)
 
         self.show_device_information(device_information)
 
     def cb_value(self, value):
-        self.ido4.set_value(0 if value != 0 else 0b1111)
+        self.iqr.set_value(0 if value != 0 else 0b1111)
