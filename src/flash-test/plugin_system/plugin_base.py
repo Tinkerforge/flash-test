@@ -29,6 +29,7 @@ import urllib.request
 import urllib.parse
 import traceback
 import os
+import ssl
 
 BASE58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
 def base58encode(value):
@@ -50,7 +51,20 @@ class PluginBase(QtGui.QWidget, object):
         self.device_information = None
         
     def get_new_uid(self):
-        return int(urllib.request.urlopen('http://stagingwww.tinkerforge.com/uid').read())
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+#        context.verify_mode = ssl.CERT_REQUIRED
+#        context.load_verify_locations(certifi.where())
+        httpsHandler = urllib.request.HTTPSHandler(context = context)
+
+        manager = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+        manager.add_password(None, 'https://stagingwww.tinkerforge.com', 'staging', 'Parryender4g')
+        authHandler = urllib.request.HTTPBasicAuthHandler(manager)
+
+        opener = urllib.request.build_opener(httpsHandler, authHandler)
+        urllib.request.install_opener(opener)
+
+        response = urllib.request.urlopen('https://stagingwww.tinkerforge.com/uid')
+        return int(response.read())
         
     def get_ipcon(self):
         return self.mw.device_manager.ipcon
