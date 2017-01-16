@@ -31,6 +31,7 @@ from plugin_system.tinkerforge.brick_master import BrickMaster
 import urllib.request
 import sys
 import os
+import ssl
 
 class PluginNotImplemented(PluginBase):
     pass
@@ -49,12 +50,18 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             QtGui.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
             sys.exit(0)
 
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+        #context.verify_mode = ssl.CERT_REQUIRED
+        #context.load_verify_locations(certifi.where())
+        https_handler = urllib.request.HTTPSHandler(context=context)
+
         auth_handler = urllib.request.HTTPBasicAuthHandler()
-        auth_handler.add_password(realm='Staging area',
-                                  uri='http://stagingwww.tinkerforge.com/uid',
+        auth_handler.add_password(realm='Staging',
+                                  uri='https://stagingwww.tinkerforge.com',
                                   user='staging',
                                   passwd=staging_password)
-        opener = urllib.request.build_opener(auth_handler)
+
+        opener = urllib.request.build_opener(https_handler, auth_handler)
         urllib.request.install_opener(opener)
 
         self.setupUi(self)
@@ -119,7 +126,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             widget = item.widget()
             if widget:
                 widget.setVisible(False)
-                
+
     def show_layout(self, l):
         for i in range(l.count()):
             item = l.itemAt(i)
