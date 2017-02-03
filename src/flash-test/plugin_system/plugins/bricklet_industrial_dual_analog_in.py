@@ -101,8 +101,8 @@ class Plugin(BrickletBase):
         self.show_device_information(device_information)
             
     def cb_voltage(self, channel, voltage):
-        self.last_voltage[channel] =  voltage/1000.0
-        self.mw.set_value_normal('Voltage ch0: ' + str(self.last_voltage[0]) +  ', ch1: ' + str(self.last_voltage[1]))
+        self.last_voltage[channel] = voltage/1000.0
+        self.mw.set_value_normal('Spannung Kanal 0: ' + str(self.last_voltage[0]) + ' V, Kanal 1: ' + str(self.last_voltage[1]) + ' V')
 
     def offset_clicked(self):
         self.mw.set_tool_status_action('Kalibriere Offset... ')
