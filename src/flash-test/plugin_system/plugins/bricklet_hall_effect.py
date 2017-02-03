@@ -33,7 +33,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Hall Effect Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Sensor mit Magnet:
      * Magnet wird erkannt
 5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

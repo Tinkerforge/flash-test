@@ -35,7 +35,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Distance US Bricklet (inklusive Sensor) mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Entfernungswert wird angezeigt, überprüfe Entfernungswert.
 5. Das Bricklet ist fertig, mit Sensor in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1

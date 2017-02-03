@@ -33,7 +33,7 @@ class Plugin(BrickletBase):
 1. Stecke LCD auf LCD 20x4 Bricklet
 2. Verbinde LCD 20x4 Bricklet mit Port C
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Stelle Kontrast ein, so dass der Text gut lessbar ist
 6. Überprüfe die vier Taster:
      * Tasterdruck wird angezeigt

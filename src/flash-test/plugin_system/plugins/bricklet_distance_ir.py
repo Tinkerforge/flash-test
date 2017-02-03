@@ -136,7 +136,7 @@ class Plugin(BrickletBase):
 0. Wähle korrekten Sensor aus
 1. Verbinde Distance IR Bricklet (inklusive Sensor) mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Kalibrierung wird geflasht, danach startet Master Brick nochmal neu
 5. Entfernung wird angezeigt, überprüfe Entfernung.
 6. Das Bricklet ist fertig, mit Sensor in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

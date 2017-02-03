@@ -32,7 +32,7 @@ class Plugin(BrickletBase):
 0. Stecke Bewegungsmelder auf Motion Detector Bricklet
 1. Verbinde Motion Detector Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Bewegung sollte nach Aufwärmphase erkannt werden
      * Blaue LED sollte aktiviert werden wenn Bewegung erkannt wird

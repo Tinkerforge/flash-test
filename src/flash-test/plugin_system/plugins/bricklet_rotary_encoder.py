@@ -33,7 +33,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Rotary Encoder Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Poti:
      * Drehe bis < -5
      * Drehe bis >  5

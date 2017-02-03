@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde PTC Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Temperatur sollte sinnvoll sein 
 5. Das Bricklet ist fertig. Zusammen mit Jumper in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

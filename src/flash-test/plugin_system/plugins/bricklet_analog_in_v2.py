@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Analog In 2.0 Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. 24V an VIN und GND einspeisen
 5. Überprüfe Wert:
      * Spannung sollte mit eingespeister Spannung übereinstimmen

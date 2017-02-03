@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 2. Verbinde OLED 128x64 Bricklet mit Port C
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Streifen wandert auf Display Vertikal und Horizontal
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1

@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Moisture Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Wert sollte sinken wenn man das Bricklet anfasst
 5. Überprüfe ob Bricklet durch Gehäuseschlitz passt, eventuell nachpfeilen

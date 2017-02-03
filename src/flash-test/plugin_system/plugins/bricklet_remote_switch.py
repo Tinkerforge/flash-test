@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
 1. Verbinde Remove Switch Bricklet mit Port C
 2. Verbinde Test-Antenne mit Remove Switch Bricklet
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Warte bis Wert sich auf "Alle Schaltbefehle wurden gesendet" ändert:
      * Die Funksteckdose muss währenddessen mehrfach klicken
 6. Test-Antenne vom Bricklet abziehen

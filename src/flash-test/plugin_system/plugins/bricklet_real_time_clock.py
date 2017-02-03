@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Real-Time Clock Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Zeit muss vom Jahr 2000 hochlaufen
 5. Das Bricklet ist fertig, zusammen mit Batterie in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

@@ -34,7 +34,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Industrial Dual Analog In Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Kalibriere Spannung:
    * Schließe Testadapter 1 an (zwei Brücken) -> Drücke 'Offset'
    * Überprüfe Anzeige = 0V

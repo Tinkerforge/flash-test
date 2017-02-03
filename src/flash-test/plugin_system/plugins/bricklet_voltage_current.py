@@ -34,7 +34,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Voltage/Current Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Kalibriere Strom:
    * Schließe Testaufbau (24V/1A) an
    * Überprüfe Anzeige = ~24V/1A

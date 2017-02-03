@@ -32,7 +32,7 @@ class Plugin(BrickletBase):
 2. Schalte Terminierung am CAN Bricklet ein
 3. Verbinde CAN Bricklet mit Testadapter
 4. Drücke "Flashen"
-5. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+5. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 6. Warte bis Wert sich auf "Test OK!" ändert
 7. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1

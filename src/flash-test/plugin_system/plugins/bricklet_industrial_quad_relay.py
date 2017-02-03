@@ -32,7 +32,7 @@ class Plugin(BrickletBase):
 1. Verbinde Industrial Quad Relay Bricklet mit Port C
 2. Verbinde LED Testadapter mit Industrial Quad Relay Bricklet
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Alle LEDs müssen blinken
 5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1

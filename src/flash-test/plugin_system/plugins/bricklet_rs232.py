@@ -47,7 +47,7 @@ class Plugin(BrickletBase):
 1. Verbinde RS232 Bricklet mit Port C
 2. Setze Jumper zwischen TX und RX1
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Warte bis Wert sich auf "Test OK!" ändert
 6. Setze Jumper um zwischen RX1 und RX2
 7. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

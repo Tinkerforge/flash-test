@@ -34,7 +34,7 @@ class Plugin(BrickletBase):
 1. Verbinde IO16 Bricklet mit Port C
 2. Verbinde Testadapter mit IO16 Bricklet
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Überprüfe LEDs:
      * Die LEDs blinken abwechselnd 5x zwischen Port A und B
 6. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

@@ -32,7 +32,7 @@ class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Industrial Analog Out Bricklet mit Port C
 2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert mit Multimeter:
      * Spannung sollte mit angelegter Spannung übereinstimmen
 5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben

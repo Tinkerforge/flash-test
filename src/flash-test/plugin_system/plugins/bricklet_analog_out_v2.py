@@ -31,7 +31,7 @@ class Plugin(BrickletBase):
 1. Verbinde 5V und VIN Klemme mit Drahtbrücke
 2. Verbinde Analog Out 2.0 Bricklet mit Port C
 3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich wieder auf "Plugin gefunden")
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Überprüfe Wert mit Multimeter:
      * Spannung sollte mit angelegter Spannung übereinstimmen
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
