@@ -70,6 +70,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                         self.distance_ir_layout,
                         self.ethernet_extension_layout,
                         self.color_layout,
+                        self.piezo_speaker_layout,
                         self.multi_touch_layout]
         for l in temp_layouts:
             self.hide_layout(l)

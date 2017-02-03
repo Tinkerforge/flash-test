@@ -35,6 +35,7 @@ from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector
 from .plugins.bricklet_multi_touch import Plugin as bricklet_multi_touch_class
 from .plugins.bricklet_oled_128x64 import Plugin as bricklet_oled_128x64_class
 from .plugins.bricklet_oled_64x48 import Plugin as bricklet_oled_64x48_class
+from .plugins.bricklet_piezo_speaker import Plugin as bricklet_piezo_speaker_class
 from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
 from .plugins.bricklet_real_time_clock import Plugin as bricklet_real_time_clock_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
@@ -92,6 +93,7 @@ device_classes = [
     bricklet_multi_touch_class,
     bricklet_oled_128x64_class,
     bricklet_oled_64x48_class,
+    bricklet_piezo_speaker_class,
     bricklet_ptc_class,
     bricklet_real_time_clock_class,
     bricklet_remote_switch_class,

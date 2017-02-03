@@ -348,6 +348,17 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="piezo_speaker_layout">
+        <item>
+         <widget class="QPushButton" name="button_calibrate_ps">
+          <property name="text">
+           <string>Kalibrieren</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="multi_touch_layout">
         <item>
          <widget class="QLabel" name="label_17">
