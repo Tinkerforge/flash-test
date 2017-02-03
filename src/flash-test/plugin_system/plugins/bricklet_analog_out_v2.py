@@ -32,7 +32,7 @@ class Plugin(BrickletBase):
 2. Verbinde Analog Out 2.0 Bricklet mit Port C
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Überprüfe Wert mit Multimeter:
+5. Überprüfe Spannung an VOUT und GND mit Multimeter:
      * Spannung sollte mit angelegter Spannung übereinstimmen
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1

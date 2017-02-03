@@ -33,11 +33,12 @@ import math
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Industrial Digital In 4 Bricklet mit Port C
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Drücke Knöpfe und überpüfe Werte.
-5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+2. Verbinde Schalter-Testadapter mit Industrial Digital In 4 Bricklet
+3. Drücke "Flashen"
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+5. Schalte Schalter und überpüfe Werte.
+6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):

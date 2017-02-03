@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Industrial Digital Out 4 Bricklet mit Port C
-2. Verbinde LED Testadapter mit Industrial Digital Out 4 Bricklet
+2. Verbinde LED-Testadapter mit Industrial Digital Out 4 Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Alle LEDs müssen blinken
