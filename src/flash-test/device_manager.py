@@ -26,6 +26,7 @@ from PyQt4 import QtCore
 from plugin_system.tinkerforge.ip_connection import IPConnection
 from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
+from plugin_system.tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 from collections import namedtuple
 
 DeviceInformation = namedtuple('DeviceInformation', 'uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type')
@@ -35,6 +36,7 @@ class DeviceManager(QtCore.QObject):
     PORT = 4223
 
     devices = {}
+    flash_adapter_xmc_uid = None
     qtcb_enumerate = QtCore.pyqtSignal(str, str, str, type((0,)), type((0,)), int, int)
 
     def __init__(self, mw):
@@ -61,6 +63,19 @@ class DeviceManager(QtCore.QObject):
                     self.mw.foot_pedal.set_interrupt(1)
 
                 return
+            
+            # Flash Adapter XMC quad relay and control master
+            if (device_identifier == BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER and uid == '555') or \
+               (device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qZ5ow', '6R62QC', '5VjDHm')):
+                return
+            
+            # Flash Adapter XMC program masster
+            if device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qzRzc', '6kP6n3', '6Jprbj'):
+                # Override old UID if new Flash adapter is connected
+                # We don't support two flash adapter simultaneously
+                self.flash_adapter_xmc_uid = uid
+                return
+                
 
             device_information = DeviceInformation(uid, connected_uid, position, hardware_version,
                                                    firmware_version, device_identifier, enumeration_type)

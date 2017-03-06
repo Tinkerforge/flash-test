@@ -16,6 +16,7 @@ from .plugins.bricklet_distance_us import Plugin as bricklet_distance_us_class
 from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
 from .plugins.bricklet_dual_relay import Plugin as bricklet_dual_relay_class
 from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_class
+from .plugins.bricklet_gps_v2 import Plugin as bricklet_gps_v2_class
 from .plugins.bricklet_hall_effect import Plugin as bricklet_hall_effect_class
 from .plugins.bricklet_humidity import Plugin as bricklet_humidity_class
 from .plugins.bricklet_industrial_analog_out import Plugin as bricklet_industrial_analog_out_class
@@ -44,6 +45,7 @@ from .plugins.bricklet_rgb_led import Plugin as bricklet_rgb_led_class
 from .plugins.bricklet_rotary_encoder import Plugin as bricklet_rotary_encoder_class
 from .plugins.bricklet_rotary_poti import Plugin as bricklet_rotary_poti_class
 from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
+from .plugins.bricklet_rs485 import Plugin as bricklet_rs485_class
 from .plugins.bricklet_segment_display_4x7 import Plugin as bricklet_segment_display_4x7_class
 from .plugins.bricklet_solid_state_relay import Plugin as bricklet_solid_state_relay_class
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
@@ -75,6 +77,7 @@ device_classes = [
     bricklet_dual_button_class,
     bricklet_dual_relay_class,
     bricklet_dust_detector_class,
+    bricklet_gps_v2_class,
     bricklet_hall_effect_class,
     bricklet_humidity_class,
     bricklet_industrial_analog_out_class,
@@ -103,6 +106,7 @@ device_classes = [
     bricklet_rotary_encoder_class,
     bricklet_rotary_poti_class,
     bricklet_rs232_class,
+    bricklet_rs485_class,
     bricklet_segment_display_4x7_class,
     bricklet_solid_state_relay_class,
     bricklet_sound_intensity_class,

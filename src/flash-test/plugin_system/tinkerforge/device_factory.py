@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-09-08.      #
+# This file was automatically generated on 2017-02-24.      #
 #                                                           #
-# Python Bindings Version 2.1.10                            #
+# Python Bindings Version 2.1.11                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -38,6 +38,11 @@ try:
     from .brick_servo import BrickServo
 except ValueError:
     from brick_servo import BrickServo
+
+try:
+    from .brick_silent_stepper import BrickSilentStepper
+except ValueError:
+    from brick_silent_stepper import BrickSilentStepper
 
 try:
     from .brick_stepper import BrickStepper
@@ -138,6 +143,11 @@ try:
     from .bricklet_gps import BrickletGPS
 except ValueError:
     from bricklet_gps import BrickletGPS
+
+try:
+    from .bricklet_gps_v2 import BrickletGPSV2
+except ValueError:
+    from bricklet_gps_v2 import BrickletGPSV2
 
 try:
     from .bricklet_hall_effect import BrickletHallEffect
@@ -290,6 +300,11 @@ except ValueError:
     from bricklet_rgb_led import BrickletRGBLED
 
 try:
+    from .bricklet_rs485 import BrickletRS485
+except ValueError:
+    from bricklet_rs485 import BrickletRS485
+
+try:
     from .bricklet_rotary_encoder import BrickletRotaryEncoder
 except ValueError:
     from bricklet_rotary_encoder import BrickletRotaryEncoder
@@ -362,6 +377,7 @@ BrickIMUV2.DEVICE_IDENTIFIER: BrickIMUV2,
 BrickMaster.DEVICE_IDENTIFIER: BrickMaster,
 BrickRED.DEVICE_IDENTIFIER: BrickRED,
 BrickServo.DEVICE_IDENTIFIER: BrickServo,
+BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
 BrickStepper.DEVICE_IDENTIFIER: BrickStepper,
 BrickletAccelerometer.DEVICE_IDENTIFIER: BrickletAccelerometer,
 BrickletAmbientLight.DEVICE_IDENTIFIER: BrickletAmbientLight,
@@ -382,6 +398,7 @@ BrickletDualButton.DEVICE_IDENTIFIER: BrickletDualButton,
 BrickletDualRelay.DEVICE_IDENTIFIER: BrickletDualRelay,
 BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
 BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
+BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
 BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
 BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
 BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOut,
@@ -412,6 +429,7 @@ BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
 BrickletRealTimeClock.DEVICE_IDENTIFIER: BrickletRealTimeClock,
 BrickletRemoteSwitch.DEVICE_IDENTIFIER: BrickletRemoteSwitch,
 BrickletRGBLED.DEVICE_IDENTIFIER: BrickletRGBLED,
+BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
 BrickletRotaryEncoder.DEVICE_IDENTIFIER: BrickletRotaryEncoder,
 BrickletRotaryPoti.DEVICE_IDENTIFIER: BrickletRotaryPoti,
 BrickletRS232.DEVICE_IDENTIFIER: BrickletRS232,
