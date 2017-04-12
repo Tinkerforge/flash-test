@@ -24,7 +24,8 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import  QtGui
 
 from plugin_system.plugin_base import PluginBase, base58encode
-from plugin_system.xmc_flash import xmc_flash
+#from plugin_system.xmc_flash import xmc_flash
+from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 from .tinkerforge.bricklet_gps_v2 import BrickletGPSV2
@@ -248,8 +249,15 @@ class CoMCUBrickletBase(PluginBase):
 
         self.mw.set_flash_status_action("Schreibe Bootstrapper und -loader")
         i = 2
-        start = time.time()
         
+        try:
+            xmc_write_firmwares_to_ram(plugin_filename, master, non_standard_print=self.mw.set_flash_status_action)
+        except Exception as e:
+            self.mw.set_flash_status_error(str(e))
+            ipcon.disconnect()
+            return False
+
+        start = time.time()
         ret = True
         while True:
             if time.time() - start > 3:
@@ -258,16 +266,15 @@ class CoMCUBrickletBase(PluginBase):
                 break
             
             if i == 2:
-                master.get_chibi_error_log()
-                iqr.set_value(MASK_NONE)
+                iqr.set_value(MASK_NONE | MASK_DATA)
                 time.sleep(0.1)
-                iqr.set_value(MASK_POWER | MASK_DATA)
+                iqr.set_value(MASK_POWER)
                 i = 0
 
             i += 1
             try:
                 time.sleep(0.01)
-                xmc_flash(CONFIG_BAUDRATE, CONFIG_TTY, plugin_filename, non_standard_print=self.mw.set_flash_status_action)
+                xmc_flash(master)
                 break
             except Exception as e:
                 self.mw.set_flash_status_error(str(e))
