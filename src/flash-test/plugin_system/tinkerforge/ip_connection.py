@@ -8,17 +8,15 @@
 
 from threading import Thread, Lock, Semaphore
 
-# current_thread for python 2.6, currentThread for python 2.5
 try:
-    from threading import current_thread
+    from threading import current_thread # Python 2.6
 except ImportError:
-    from threading import currentThread as current_thread
+    from threading import currentThread as current_thread # Python 2.5
 
-# Queue for python 2, queue for python 3
 try:
-    from Queue import Queue, Empty
+    from queue import Queue, Empty # Python 3
 except ImportError:
-    from queue import Queue, Empty
+    from Queue import Queue, Empty # Python 2
 
 import struct
 import socket
@@ -30,15 +28,14 @@ import hmac
 import hashlib
 import errno
 
-# use normal tuples instead of namedtuples in python version below 2.6
-if sys.hexversion < 0x02060000:
+try:
+    from collections import namedtuple
+except ImportError:
     def namedtuple(typename, field_names, verbose=False, rename=False):
         def ntuple(*args):
             return args
 
         return ntuple
-else:
-    from collections import namedtuple
 
 def get_uid_from_data(data):
     return struct.unpack('<I', data[0:4])[0]
@@ -94,6 +91,8 @@ class Error(Exception):
     INVALID_PARAMETER = -9
     NOT_SUPPORTED = -10
     UNKNOWN_ERROR_CODE = -11
+    STREAM_NO_DATA = -12
+    STREAM_OUT_OF_SYNC = -13
 
     def __init__(self, value, description):
         self.value = value
@@ -108,6 +107,9 @@ class Device:
     RESPONSE_EXPECTED_ALWAYS_FALSE = 2 # callback
     RESPONSE_EXPECTED_TRUE = 3 # setter
     RESPONSE_EXPECTED_FALSE = 4 # setter, default
+
+    STREAM_STATUS_COMPLETE = 0
+    STREAM_STATUS_OUT_OF_SYNC = 1
 
     def __init__(self, uid, ipcon):
         """
@@ -125,10 +127,12 @@ class Device:
         self.api_version = (0, 0, 0)
         self.registered_callbacks = {}
         self.callback_formats = {}
+        self.low_level_callbacks = {}
         self.expected_response_function_id = None # protected by request_lock
         self.expected_response_sequence_number = None # protected by request_lock
         self.response_queue = Queue()
         self.request_lock = Lock()
+        self.stream_lock = Lock()
 
         self.response_expected = [Device.RESPONSE_EXPECTED_INVALID_FUNCTION_ID] * 256
         self.response_expected[IPConnection.FUNCTION_ENUMERATE] = Device.RESPONSE_EXPECTED_ALWAYS_FALSE
@@ -512,12 +516,14 @@ class IPConnection:
         """
         self.waiter.release()
 
-    def register_callback(self, id, callback):
+    def register_callback(self, id_, callback):
         """
         Registers a callback with ID *id* to the function *callback*.
         """
-
-        self.registered_callbacks[id] = callback
+        if callback is None:
+            self.registered_callbacks.pop(id_, None)
+        else:
+            self.registered_callbacks[id_] = callback
 
     def connect_unlocked(self, is_auto_reconnect):
         # NOTE: assumes that socket is None and socket_lock is locked
@@ -544,9 +550,19 @@ class IPConnection:
             tmp.settimeout(5)
             tmp.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             tmp.connect((self.host, self.port))
-            tmp.settimeout(None)
+
+            if sys.platform == 'win32':
+                # for some unknown reason the socket recv() call does not
+                # immediate return on Windows if the socket gets shut down on
+                # disconnect. the socket recv() call will still block for
+                # several seconds before it returns. this in turn blocks the
+                # disconnect. to workaround this use a 100ms timeout for
+                # blocking socket operations.
+                tmp.settimeout(0.1)
+            else:
+                tmp.settimeout(None)
         except:
-            def cleanup():
+            def cleanup1():
                 # end callback thread
                 if not is_auto_reconnect:
                     self.callback.queue.put((IPConnection.QUEUE_EXIT, None))
@@ -556,7 +572,7 @@ class IPConnection:
 
                     self.callback = None
 
-            cleanup()
+            cleanup1()
             raise
 
         self.socket = tmp
@@ -572,7 +588,7 @@ class IPConnection:
             self.disconnect_probe_thread.daemon = True
             self.disconnect_probe_thread.start()
         except:
-            def cleanup():
+            def cleanup2():
                 self.disconnect_probe_thread = None
 
                 # close socket
@@ -588,7 +604,7 @@ class IPConnection:
 
                     self.callback = None
 
-            cleanup()
+            cleanup2()
             raise
 
         # create receive thread
@@ -602,7 +618,7 @@ class IPConnection:
             self.receive_thread.daemon = True
             self.receive_thread.start()
         except:
-            def cleanup():
+            def cleanup3():
                 # close socket
                 self.disconnect_unlocked()
 
@@ -615,7 +631,7 @@ class IPConnection:
 
                     self.callback = None
 
-            cleanup()
+            cleanup3()
             raise
 
         self.auto_reconnect_allowed = False
@@ -675,6 +691,8 @@ class IPConnection:
         while self.receive_flag:
             try:
                 data = self.socket.recv(8192)
+            except socket.timeout:
+                continue
             except socket.error:
                 if self.receive_flag:
                     e = sys.exc_info()[1]
@@ -709,8 +727,7 @@ class IPConnection:
 
     def dispatch_meta(self, function_id, parameter, socket_id):
         if function_id == IPConnection.CALLBACK_CONNECTED:
-            if IPConnection.CALLBACK_CONNECTED in self.registered_callbacks and \
-               self.registered_callbacks[IPConnection.CALLBACK_CONNECTED] is not None:
+            if IPConnection.CALLBACK_CONNECTED in self.registered_callbacks:
                 self.registered_callbacks[IPConnection.CALLBACK_CONNECTED](parameter)
         elif function_id == IPConnection.CALLBACK_DISCONNECTED:
             if parameter != IPConnection.DISCONNECT_REASON_REQUEST:
@@ -735,8 +752,7 @@ class IPConnection:
             # socket. the first receive will then fail directly
             time.sleep(0.1)
 
-            if IPConnection.CALLBACK_DISCONNECTED in self.registered_callbacks and \
-               self.registered_callbacks[IPConnection.CALLBACK_DISCONNECTED] is not None:
+            if IPConnection.CALLBACK_DISCONNECTED in self.registered_callbacks:
                 self.registered_callbacks[IPConnection.CALLBACK_DISCONNECTED](parameter)
 
             if parameter != IPConnection.DISCONNECT_REASON_REQUEST and \
@@ -783,8 +799,7 @@ class IPConnection:
 
         device = self.devices[uid]
 
-        if function_id in device.registered_callbacks and \
-           device.registered_callbacks[function_id] is not None:
+        if function_id in device.registered_callbacks:
             cb = device.registered_callbacks[function_id]
             form = device.callback_formats[function_id]
 
@@ -794,6 +809,52 @@ class IPConnection:
                 cb(self.deserialize_data(payload, form))
             else:
                 cb(*self.deserialize_data(payload, form))
+
+        if function_id in device.low_level_callbacks:
+            llcb = device.low_level_callbacks[function_id] # [hlfid, options, state]
+            llform = device.callback_formats[function_id] # FIXME: currently assuming that llform is longer than 1
+            values = self.deserialize_data(payload, llform)
+            stream = llcb[1].get('stream', None)
+
+            if stream != None:
+                result = None
+                fixed_total_length = stream.get('fixed_total_length', None)
+
+                if fixed_total_length == None:
+                    extra = tuple(values[:-3])
+                    total_length = values[-3]
+                else:
+                    extra = tuple(values[:-2])
+                    total_length = fixed_total_length
+
+                # FIXME: validate that extra parameters are identical for all low-level callback of a stream
+                # FIXME: validate that total length is identical for all low-level callback of a stream
+
+                chunk_offset = values[-2] # FIXME: validate chunk offset < total length
+                chunk_data = values[-1]
+
+                if llcb[2] == None: # no stream in-progress
+                    if chunk_offset == 0: # stream starts
+                        llcb[2] = chunk_data
+
+                        if len(llcb[2]) >= total_length: # stream complete
+                            result = extra + (Device.STREAM_STATUS_COMPLETE,) + (llcb[2][:total_length],)
+                            llcb[2] = None
+                    else: # ignore tail of current stream, wait for next stream start
+                        pass
+                else: # stream in-progress
+                    if chunk_offset != len(llcb[2]): # stream out-of-sync
+                        result = extra + (Device.STREAM_STATUS_OUT_OF_SYNC,) + (None,)
+                        llcb[2] = None
+                    else: # stream in-sync
+                        llcb[2] += chunk_data
+
+                        if len(llcb[2]) >= total_length: # stream complete
+                            result = extra + (Device.STREAM_STATUS_COMPLETE,) + (llcb[2][:total_length],)
+                            llcb[2] = None
+
+                if result != None and llcb[0] in device.registered_callbacks:
+                    device.registered_callbacks[llcb[0]](*result)
 
     def callback_loop(self, callback):
         while True:
@@ -827,7 +888,12 @@ class IPConnection:
             if self.disconnect_probe_flag:
                 try:
                     with self.socket_send_lock:
-                        self.socket.send(request)
+                        while True:
+                            try:
+                                self.socket.send(request)
+                                break
+                            except socket.timeout:
+                                continue
                 except socket.error:
                     self.handle_disconnect_by_peer(IPConnection.DISCONNECT_REASON_ERROR,
                                                    self.socket_id, False)
@@ -837,14 +903,35 @@ class IPConnection:
 
     def deserialize_data(self, data, form):
         ret = []
+
         for f in form.split(' '):
+            o = f
+
+            if '!' in f:
+                if len(f) > 1:
+                    f = '{0}B'.format(int(math.ceil(int(f.replace('!', '')) / 8.0)))
+                else:
+                    f = 'B'
+
             f = '<' + f
             length = struct.calcsize(f)
-
             x = struct.unpack(f, data[:length])
+
+            if '!' in o:
+                y = []
+
+                if len(o) > 1:
+                    for i in range(int(o.replace('!', ''))):
+                        y.append(x[i // 8] & (1 << (i % 8)) != 0)
+                else:
+                    y.append(x[0] != 0)
+
+                x = y
+
             if len(x) > 1:
                 if 'c' in f:
                     x = tuple([self.handle_deserialized_char(c) for c in x])
+
                 ret.append(x)
             elif 'c' in f:
                 ret.append(self.handle_deserialized_char(x[0]))
@@ -898,7 +985,12 @@ class IPConnection:
 
             try:
                 with self.socket_send_lock:
-                    self.socket.send(packet)
+                    while True:
+                        try:
+                            self.socket.send(packet)
+                            break
+                        except socket.timeout:
+                            continue
             except socket.error:
                 self.handle_disconnect_by_peer(IPConnection.DISCONNECT_REASON_ERROR, None, True)
                 raise Error(Error.NOT_CONNECTED, 'Not connected')
@@ -906,7 +998,19 @@ class IPConnection:
             self.disconnect_probe_flag = False
 
     def send_request(self, device, function_id, data, form, form_ret):
-        length = 8 + struct.calcsize('<' + form)
+        patched_from = []
+
+        for f in form.split(' '):
+            if '!' in f:
+                if len(f) > 1:
+                    patched_from.append('{0}B'.format(int(math.ceil(int(f.replace('!', '')) / 8.0))))
+                else:
+                    patched_from.append('?')
+            else:
+                patched_from.append(f)
+
+        patched_from = '<' + ' '.join(patched_from)
+        length = 8 + struct.calcsize(patched_from)
         request, response_expected, sequence_number = \
             self.create_packet_header(device, length, function_id)
 
@@ -916,9 +1020,12 @@ class IPConnection:
                     f = f.replace('s', 'B').replace('c', 'B')
                     l = map(ord, d)
                     p = f.replace('B', '')
+
                     if len(p) == 0:
                         p = '1'
+
                     l += [0] * (int(p) - len(l))
+
                     return struct.pack('<' + f, *l)
                 else:
                     return struct.pack('<' + f, d)
@@ -929,7 +1036,21 @@ class IPConnection:
                     return struct.pack('<' + f, d)
 
         for f, d in zip(form.split(' '), data):
-            if len(f) > 1 and not 's' in f and not 'c' in f:
+            if '!' in f:
+                if len(f) > 1:
+                    if int(f.replace('!', '')) != len(d):
+                        raise ValueError('Incorrect bool list length')
+
+                    p = [0]*int(math.ceil(len(d) / 8.0))
+
+                    for i, b in enumerate(d):
+                        if b:
+                            p[i // 8] |= 1 << (i % 8)
+
+                    request += struct.pack('<{0}B'.format(len(p)), *p)
+                else:
+                    request += struct.pack('<?', d)
+            elif len(f) > 1 and not 's' in f and not 'c' in f:
                 request += struct.pack('<' + f, *d)
             elif 's' in f:
                 request += pack_string(f, d)
@@ -937,6 +1058,7 @@ class IPConnection:
                 if len(f) > 1:
                     if int(f.replace('c', '')) != len(d):
                         raise ValueError('Incorrect char list length')
+
                     for k in d:
                         request += pack_string('c', k)
                 else:
@@ -1013,7 +1135,8 @@ class IPConnection:
         device = self.devices[uid]
 
         if sequence_number == 0:
-            if function_id in device.registered_callbacks:
+            if function_id in device.registered_callbacks or \
+               function_id in device.low_level_callbacks: # FIXME: better lookup
                 self.callback.queue.put((IPConnection.QUEUE_PACKET, packet))
             return
 
