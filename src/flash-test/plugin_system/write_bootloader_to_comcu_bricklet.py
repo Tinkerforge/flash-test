@@ -79,7 +79,7 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
 
         i += 1
         try:
-#            time.sleep(0.01)
+            time.sleep(0.001)
             xmc_flash(master)
             break
         except Exception as e:
