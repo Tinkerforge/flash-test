@@ -64,23 +64,28 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
         print(str(e))
         return
 
-    i = 2
+    errors = set()
+    time.sleep(0.2)
+    i = 10
     while True:
-        if i == 2:
-            iqr.set_value(MASK_NONE | MASK_DATA)
-            time.sleep(0.1)
+        if i == 10:
+            if len(errors) > 0:
+                print(errors)
+                errors.clear()
+            iqr.set_value(MASK_NONE)
+            time.sleep(0.05)
             iqr.set_value(MASK_POWER)
             i = 0
 
         i += 1
         try:
-            time.sleep(0.01)
+#            time.sleep(0.01)
             xmc_flash(master)
             break
         except Exception as e:
-            print(str(e))
+            errors.add(str(e))
 
-    print('Done')
+    print('Done (try ' + str(i) + ')')
         
     iqr.set_value(MASK_POWER)
 
