@@ -27,6 +27,7 @@ from plugin_system.plugin_base import PluginBase, base58encode
 #from plugin_system.xmc_flash import xmc_flash
 from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
 from .tinkerforge.brick_master import BrickMaster
+from .tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from .tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 from .tinkerforge.bricklet_gps_v2 import BrickletGPSV2
 from .tinkerforge.ip_connection import IPConnection
@@ -228,7 +229,7 @@ class CoMCUBrickletBase(PluginBase):
             
             self.comcu_uid_to_flash = None
             
-            BrickMaster(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
+            BrickMasterFlashAdapterXMC(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
             return True
             
         except:
@@ -243,7 +244,7 @@ class CoMCUBrickletBase(PluginBase):
 
         ipcon = IPConnection()
         iqr = BrickletIndustrialQuadRelay(CONFIG_UID_IQR, ipcon)
-        master = BrickMaster(uid_master, ipcon)
+        master = BrickMasterFlashAdapterXMC(uid_master, ipcon)
 
         ipcon.connect('localhost', 4223)
 
