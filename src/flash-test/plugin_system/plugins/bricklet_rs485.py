@@ -76,12 +76,12 @@ class Plugin(CoMCUBrickletBase):
             data_out = []
             start = time.time()
             current = time.time()
-            while current - start > 1 or len(data_out) < BYTES_TO_SEND:
+            while current - start < 1 and len(data_out) < BYTES_TO_SEND:
                 data_out.extend(self.rs485.read(BYTES_TO_SEND))
                 current = time.time()
                 self.mw.set_value_action("Warte auf Antwort: {0} Bytes fehlen noch".format(BYTES_TO_SEND - len(data_out)))
 
-            if current - start > 1 or len(data_out) < BYTES_TO_SEND:
+            if current - start >= 1 or len(data_out) < BYTES_TO_SEND:
                 self.mw.set_value_error("Timeout!")
             elif data_in != data_out:
                 self.mw.set_value_error("Fehler während Übertragung!")
