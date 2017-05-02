@@ -27,6 +27,9 @@ from ..tinkerforge.bricklet_rs485 import BrickletRS485
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
+import time
+import traceback 
+
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde RS485 Bricklet mit Flash Adapter XMC
@@ -58,6 +61,31 @@ class Plugin(CoMCUBrickletBase):
         
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        print(device_information)
         
-        # TODO: Implement test (full duplex loopback?)
+        self.rs485 = BrickletRS485(device_information.uid, self.get_ipcon())
+        self.rs485.set_rs485_configuration(115200, BrickletRS485.PARITY_NONE, BrickletRS485.STOPBITS_1, BrickletRS485.WORDLENGTH_8, BrickletRS485.DUPLEX_FULL)
+
+        BYTES_TO_SEND = 1280
+
+        # Bring data in same format as output will be
+        data_in = [(bytes([x % 256]) if (x % 256) > 127 else chr(x % 256)) for x in range(BYTES_TO_SEND)]
+        
+        try:
+            self.rs485.write(data_in)
+            data_out = []
+            start = time.time()
+            current = time.time()
+            while current - start > 1 or len(data_out) < BYTES_TO_SEND:
+                data_out.extend(self.rs485.read(BYTES_TO_SEND))
+                current = time.time()
+                self.mw.set_value_action("Warte auf Antwort: {0} Bytes fehlen noch".format(BYTES_TO_SEND - len(data_out)))
+                
+            if current - start > 1 or len(data_out) < BYTES_TO_SEND:
+                self.mw.set_value_error("Timeout!")
+            elif data_in != data_out:
+                self.mw.set_value_error("Fehler während Übertragung!")
+            else:
+                self.mw.set_value_okay("Test OK!")
+        except:
+            self.mw.set_value_error("Fehler: " + traceback.format_exc())
+        
