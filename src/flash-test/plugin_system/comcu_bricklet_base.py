@@ -106,7 +106,7 @@ class CoMCUBrickletBase(PluginBase):
             try:
                 zf = ZipFile(plugin_filename, 'r')
             except:
-                self.mw.set_flash_status_error('Could not open Bricklet plugin:\n\n' + traceback.format_exc())
+                self.mw.set_flash_status_error('Konnte Bricklet Plugin nicht öffnen:\n\n' + traceback.format_exc())
                 return False
 
             plugin_data = None
@@ -116,7 +116,7 @@ class CoMCUBrickletBase(PluginBase):
                     break
 
             if plugin_data == None:
-                self.mw.set_flash_status_error('Could not find firmware in zbin')
+                self.mw.set_flash_status_error('Konnte Firmware in zbin nicht finden')
                 return False
 
             # Now convert plugin to list of bytes
@@ -128,7 +128,7 @@ class CoMCUBrickletBase(PluginBase):
                     break
 
             if regular_plugin_upto == -1:
-                self.mw.set_flash_status_error('Could not find magic number in firmware')
+                self.mw.set_flash_status_error('Konnte "magic number" in Firmware nicht finden')
 
             ipcon = IPConnection()
             device = BrickletGPSV2(self.comcu_uid_to_flash, ipcon)
@@ -144,7 +144,7 @@ class CoMCUBrickletBase(PluginBase):
                     pass
 
                 if counter == 10:
-                    self.mw.set_flash_status_error('Device did not enter bootloader mode in 2.5s')
+                    self.mw.set_flash_status_error('Gerät nicht im Bootloader-Modus nach 2,5s.')
                     return False
 
                 time.sleep(0.25)
@@ -168,7 +168,7 @@ class CoMCUBrickletBase(PluginBase):
                 device.set_write_firmware_pointer(start)
                 device.write_firmware(plugin[start:end])
 
-            self.mw.set_flash_status_action('Changing from bootloader mode to firmware mode')
+            self.mw.set_flash_status_action('Wechsle vom Bootloader-Modus in den Firmware-Modus')
 
             mode_ret = device.set_bootloader_mode(device.BOOTLOADER_MODE_FIRMWARE)
             if mode_ret != 0 and mode_ret != 2: # 0 = ok, 2 = no change
@@ -184,7 +184,7 @@ class CoMCUBrickletBase(PluginBase):
                 else: # unkown error case
                     error_str = 'Error ' + str(mode_ret)
                 
-                self.mw.set_flash_status_error('Coud not change from bootloader mode to firmware mode: ' + error_str)
+                self.mw.set_flash_status_error('Konnte vom vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
                 return False
                 
             counter = 0
@@ -199,7 +199,7 @@ class CoMCUBrickletBase(PluginBase):
                     pass
 
                 if counter == 10:
-                    self.mw.set_flash_status_error('Device did not enter firmware mode in 2.5s')
+                    self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 2,5s.')
                     return False
 
                 time.sleep(0.25)
@@ -233,7 +233,7 @@ class CoMCUBrickletBase(PluginBase):
             return True
             
         except:
-            self.mw.set_flash_status_error('Unexpected error:\n\n' + traceback.format_exc())
+            self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
             return False
             
     def write_bootloader_to_bricklet(self, plugin_filename):
