@@ -32,11 +32,11 @@ import traceback
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
+0. Verbinde TX+/- mit RX+/-
 1. Verbinde RS485 Bricklet mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe Wert:
-    * TODO
+4. Überprüfe Wert: "Test OK!"
 5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
