@@ -24,7 +24,6 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import  QtGui
 
 from plugin_system.plugin_base import PluginBase, base58encode
-#from plugin_system.xmc_flash import xmc_flash
 from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
