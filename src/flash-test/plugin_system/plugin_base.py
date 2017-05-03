@@ -96,9 +96,12 @@ class PluginBase(QtGui.QWidget, object):
         self.mw.button_continue.hide()
         self.device_information = device_information
         self.mw.text_edit_todo.setPlainText(self.TODO_TEXT)
-            
+
     def new_enum(self, device_information):
         pass
+
+    def is_comcu(self):
+        return False
 
     def destroy(self):
         pass

@@ -82,6 +82,9 @@ class CoMCUBrickletBase(PluginBase):
             
     def new_enum(self, device_information):
         self.comcu_uid_to_flash = device_information.uid
+
+    def is_comcu(self):
+        return True
             
     def flash_bricklet(self, plugin_filename):
         self.comcu_uid_to_flash = None
