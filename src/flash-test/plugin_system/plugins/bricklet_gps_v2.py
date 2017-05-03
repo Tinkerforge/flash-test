@@ -62,10 +62,13 @@ class Plugin(CoMCUBrickletBase):
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
 
+        self.gps = BrickletGPSV2(device_information.uid, self.get_ipcon())
+        if self.gps.get_bootloader_mode() != BrickletGPSV2.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         if self.cbe_datetime != None:
             self.cbe_datetime.set_period(0)
 
-        self.gps = BrickletGPSV2(device_information.uid, self.get_ipcon())
         self.cbe_datetime = CallbackEmulator(self.gps.get_date_time, self.cb_datetime)
         self.cbe_datetime.set_period(100)
 

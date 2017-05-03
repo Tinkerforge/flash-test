@@ -63,6 +63,9 @@ class Plugin(CoMCUBrickletBase):
         CoMCUBrickletBase.new_enum(self, device_information)
 
         self.rs485 = BrickletRS485(device_information.uid, self.get_ipcon())
+        if self.rs485.get_bootloader_mode() != BrickletRS485.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         self.rs485.set_rs485_configuration(115200, BrickletRS485.PARITY_NONE, BrickletRS485.STOPBITS_1, BrickletRS485.WORDLENGTH_8, BrickletRS485.DUPLEX_FULL)
         self.rs485.set_mode(BrickletRS485.MODE_RS485)
 
