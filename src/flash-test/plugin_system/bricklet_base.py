@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 import os
+import traceback
 
 from plugin_system.plugin_base import PluginBase, base58encode
 from .tinkerforge.brick_master import BrickMaster
