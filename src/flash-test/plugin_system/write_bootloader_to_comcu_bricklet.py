@@ -58,6 +58,10 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
     iqr = BrickletIndustrialQuadRelay(uid_iqr, ipcon)
     master = BrickMasterFlashAdapterXMC(uid_master, ipcon)
 
+    use_half_duplex = 0
+    if firmware.endswith('industrial-encoder-bricklet-firmware.zbin'):
+        use_half_duplex = 1
+
     try:
         xmc_write_firmwares_to_ram(firmware, master)
     except Exception as e:
@@ -80,7 +84,7 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
         i += 1
         try:
             time.sleep(0.001)
-            xmc_flash(master)
+            xmc_flash(master, use_half_duplex)
             break
         except Exception as e:
             errors.add(str(e))

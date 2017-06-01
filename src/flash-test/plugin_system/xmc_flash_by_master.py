@@ -60,8 +60,8 @@ def xmc_write_firmwares_to_ram(zbin, master, non_standard_print = None):
             raise Exception('Bricklet', 'Bootloader schreiben Chunk Fehler: ' + str(ret))
 
 
-def xmc_flash(master):
-    ret = master.set_flash_adapter_xmc_config(2, 0, 0, [0]*52)
+def xmc_flash(master, use_half_duplex=0):
+    ret = master.set_flash_adapter_xmc_config(2, 0, use_half_duplex, [0]*52)
     if ret.return_value != 0:
         raise Exception('Bricklet', 'Flash Fehler: ' + str(ret.return_value))
 
