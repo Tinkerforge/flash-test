@@ -253,6 +253,10 @@ class CoMCUBrickletBase(PluginBase):
         self.mw.set_flash_status_action("Schreibe Bootstrapper und -loader")
         i = 2
         
+        use_half_duplex = 0
+        if plugin_filename.endswith('industrial-encoder-bricklet-firmware.zbin'):
+            use_half_duplex = 1
+
         try:
             xmc_write_firmwares_to_ram(plugin_filename, master, non_standard_print=self.mw.set_flash_status_action)
         except Exception as e:
@@ -260,28 +264,36 @@ class CoMCUBrickletBase(PluginBase):
             ipcon.disconnect()
             return False
 
+            
+        errors = set()
+        time.sleep(0.2)
+        i = 10
         start = time.time()
+
         ret = True
         while True:
             if time.time() - start > 3:
                 self.mw.set_flash_status_error('Timeout beim Bootloader schreiben')
                 ret = False
                 break
-            
-            if i == 2:
-                iqr.set_value(MASK_NONE | MASK_DATA)
-                time.sleep(0.1)
+
+            if i == 10:
+                if len(errors) > 0:
+                    self.mw.set_flash_status_error(str(errors))
+                    errors.clear()
+                iqr.set_value(MASK_NONE)
+                time.sleep(0.05)
                 iqr.set_value(MASK_POWER)
                 i = 0
 
             i += 1
             try:
-                time.sleep(0.01)
-                xmc_flash(master)
+                time.sleep(0.001)
+                xmc_flash(master, use_half_duplex)
                 break
             except Exception as e:
-                self.mw.set_flash_status_error(str(e))
-            
+                errors.add(str(e))
+
         iqr.set_value(MASK_POWER)
         master.reset()
         ipcon.disconnect()
