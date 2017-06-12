@@ -85,5 +85,11 @@ class Plugin(BrickletBase):
         self.show_device_information(device_information)
 
     def cb_current(self, channel, current):
-        self.last_current[channel] =  current / 1000000.0
-        self.mw.set_value_normal('Strom Kanal 0: ' + str(self.last_current[0]) + ' mA, Kanal 1: ' + str(self.last_current[1]) + ' mA')
+        self.last_current[channel] = current / 1000000.0
+        value = 'Strom Kanal 0: ' + str(self.last_current[0]) + ' mA, Kanal 1: ' + str(self.last_current[1]) + ' mA'
+
+        if self.last_current[0] >= 10 and self.last_current[0] <= 12 and \
+           self.last_current[1] >= 10 and self.last_current[1] <= 12:
+            self.mw.set_value_okay(value)
+        else:
+            self.mw.set_value_error(value)
