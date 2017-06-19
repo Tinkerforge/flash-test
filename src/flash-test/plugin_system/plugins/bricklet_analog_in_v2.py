@@ -64,8 +64,8 @@ class Plugin(BrickletBase):
         if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
 
-        self.al = BrickletAnalogInV2(device_information.uid, self.get_ipcon())
-        self.cbe_voltage = CallbackEmulator(self.al.get_voltage,
+        self.ai = BrickletAnalogInV2(device_information.uid, self.get_ipcon())
+        self.cbe_voltage = CallbackEmulator(self.ai.get_voltage,
                                             self.cb_voltage)
         self.cbe_voltage.set_period(100)
 
