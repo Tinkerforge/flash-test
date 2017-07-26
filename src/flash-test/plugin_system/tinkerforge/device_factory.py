@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-02-24.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.11                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -28,6 +28,11 @@ try:
     from .brick_master import BrickMaster
 except ValueError:
     from brick_master import BrickMaster
+
+try:
+    from .brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
+except ValueError:
+    from brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 
 try:
     from .brick_red import BrickRED
@@ -185,6 +190,11 @@ except ValueError:
     from bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
 
 try:
+    from .bricklet_industrial_encoder import BrickletIndustrialEncoder
+except ValueError:
+    from bricklet_industrial_encoder import BrickletIndustrialEncoder
+
+try:
     from .bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 except ValueError:
     from bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
@@ -300,11 +310,6 @@ except ValueError:
     from bricklet_rgb_led import BrickletRGBLED
 
 try:
-    from .bricklet_rs485 import BrickletRS485
-except ValueError:
-    from bricklet_rs485 import BrickletRS485
-
-try:
     from .bricklet_rotary_encoder import BrickletRotaryEncoder
 except ValueError:
     from bricklet_rotary_encoder import BrickletRotaryEncoder
@@ -318,6 +323,11 @@ try:
     from .bricklet_rs232 import BrickletRS232
 except ValueError:
     from bricklet_rs232 import BrickletRS232
+
+try:
+    from .bricklet_rs485 import BrickletRS485
+except ValueError:
+    from bricklet_rs485 import BrickletRS485
 
 try:
     from .bricklet_segment_display_4x7 import BrickletSegmentDisplay4x7
@@ -369,12 +379,18 @@ try:
 except ValueError:
     from bricklet_voltage_current import BrickletVoltageCurrent
 
+try:
+    from .bricklet_xmc_emv_test import BrickletXMCEMVTest
+except ValueError:
+    from bricklet_xmc_emv_test import BrickletXMCEMVTest
+
 
 DEVICE_CLASSES = {
 BrickDC.DEVICE_IDENTIFIER: BrickDC,
 BrickIMU.DEVICE_IDENTIFIER: BrickIMU,
 BrickIMUV2.DEVICE_IDENTIFIER: BrickIMUV2,
 BrickMaster.DEVICE_IDENTIFIER: BrickMaster,
+BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER: BrickMasterFlashAdapterXMC,
 BrickRED.DEVICE_IDENTIFIER: BrickRED,
 BrickServo.DEVICE_IDENTIFIER: BrickServo,
 BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
@@ -406,6 +422,7 @@ BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4,
 BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4,
 BrickletIndustrialDual020mA.DEVICE_IDENTIFIER: BrickletIndustrialDual020mA,
 BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogIn,
+BrickletIndustrialEncoder.DEVICE_IDENTIFIER: BrickletIndustrialEncoder,
 BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER: BrickletIndustrialQuadRelay,
 BrickletIO16.DEVICE_IDENTIFIER: BrickletIO16,
 BrickletIO4.DEVICE_IDENTIFIER: BrickletIO4,
@@ -429,10 +446,10 @@ BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
 BrickletRealTimeClock.DEVICE_IDENTIFIER: BrickletRealTimeClock,
 BrickletRemoteSwitch.DEVICE_IDENTIFIER: BrickletRemoteSwitch,
 BrickletRGBLED.DEVICE_IDENTIFIER: BrickletRGBLED,
-BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
 BrickletRotaryEncoder.DEVICE_IDENTIFIER: BrickletRotaryEncoder,
 BrickletRotaryPoti.DEVICE_IDENTIFIER: BrickletRotaryPoti,
 BrickletRS232.DEVICE_IDENTIFIER: BrickletRS232,
+BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
 BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
 BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
 BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,
@@ -443,6 +460,7 @@ BrickletTilt.DEVICE_IDENTIFIER: BrickletTilt,
 BrickletUVLight.DEVICE_IDENTIFIER: BrickletUVLight,
 BrickletVoltage.DEVICE_IDENTIFIER: BrickletVoltage,
 BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
+BrickletXMCEMVTest.DEVICE_IDENTIFIER: BrickletXMCEMVTest,
 }
 
 def get_device_class(device_identifier):

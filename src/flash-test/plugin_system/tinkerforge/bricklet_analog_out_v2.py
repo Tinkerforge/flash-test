@@ -1,26 +1,20 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-09-08.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.10                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-try:
-    from collections import namedtuple
-except ImportError:
-    try:
-        from .ip_connection import namedtuple
-    except ValueError:
-        from ip_connection import namedtuple
+from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error
+    from .ip_connection import Device, IPConnection, Error, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error
+    from ip_connection import Device, IPConnection, Error, create_chunk_data
 
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
@@ -31,6 +25,7 @@ class BrickletAnalogOutV2(Device):
 
     DEVICE_IDENTIFIER = 256
     DEVICE_DISPLAY_NAME = 'Analog Out Bricklet 2.0'
+
 
 
     FUNCTION_SET_OUTPUT_VOLTAGE = 1
@@ -54,6 +49,7 @@ class BrickletAnalogOutV2(Device):
         self.response_expected[BrickletAnalogOutV2.FUNCTION_GET_IDENTITY] = BrickletAnalogOutV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
+
     def set_output_voltage(self, voltage):
         """
         Sets the voltage in mV. The possible range is 0V to 12V (0-12000).
@@ -62,7 +58,7 @@ class BrickletAnalogOutV2(Device):
 
     def get_output_voltage(self):
         """
-        Returns the voltage as set by :func:`SetOutputVoltage`.
+        Returns the voltage as set by :func:`Set Output Voltage`.
         """
         return self.ipcon.send_request(self, BrickletAnalogOutV2.FUNCTION_GET_OUTPUT_VOLTAGE, (), '', 'H')
 
@@ -74,12 +70,12 @@ class BrickletAnalogOutV2(Device):
 
     def get_identity(self):
         """
-        Returns the UID, the UID where the Bricklet is connected to, 
+        Returns the UID, the UID where the Bricklet is connected to,
         the position, the hardware and firmware version as well as the
         device identifier.
-        
+
         The position can be 'a', 'b', 'c' or 'd'.
-        
+
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """

@@ -1,30 +1,22 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-05-02.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.12                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-#### __DEVICE_IS_NOT_RELEASED__ ####
+from collections import namedtuple
 
 try:
-    from collections import namedtuple
-except ImportError:
-    try:
-        from .ip_connection import namedtuple
-    except ValueError:
-        from ip_connection import namedtuple
-
-try:
-    from .ip_connection import Device, IPConnection, Error
+    from .ip_connection import Device, IPConnection, Error, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error
+    from ip_connection import Device, IPConnection, Error, create_chunk_data
 
-ReadLowLevel = namedtuple('ReadLowLevel', ['stream_total_length', 'stream_chunk_offset', 'stream_chunk_data'])
+ReadLowLevel = namedtuple('ReadLowLevel', ['message_length', 'message_chunk_offset', 'message_chunk_data'])
 GetRS485Configuration = namedtuple('RS485Configuration', ['baudrate', 'parity', 'stopbits', 'wordlength', 'duplex'])
 GetModbusConfiguration = namedtuple('ModbusConfiguration', ['slave_address', 'master_request_timeout'])
 GetBufferConfig = namedtuple('BufferConfig', ['send_buffer_size', 'receive_buffer_size'])
@@ -36,7 +28,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletRS485(Device):
     """
-    Communicates with RS485 devices with full- or half-duplex
+    Communicates with RS485/Modbus devices with full- or half-duplex
     """
 
     DEVICE_IDENTIFIER = 277
@@ -134,8 +126,8 @@ class BrickletRS485(Device):
     DUPLEX_HALF = 0
     DUPLEX_FULL = 1
     MODE_RS485 = 0
-    MODE_MODBUS_SLAVE_RTU = 1
-    MODE_MODBUS_MASTER_RTU = 2
+    MODE_MODBUS_MASTER_RTU = 1
+    MODE_MODBUS_SLAVE_RTU = 2
     COMMUNICATION_LED_CONFIG_OFF = 0
     COMMUNICATION_LED_CONFIG_ON = 1
     COMMUNICATION_LED_CONFIG_SHOW_HEARTBEAT = 2
@@ -150,6 +142,11 @@ class BrickletRS485(Device):
     EXCEPTION_CODE_ILLEGAL_DATA_ADDRESS = 2
     EXCEPTION_CODE_ILLEGAL_DATA_VALUE = 3
     EXCEPTION_CODE_SLAVE_DEVICE_FAILURE = 4
+    EXCEPTION_CODE_ACKNOWLEDGE = 5
+    EXCEPTION_CODE_SLAVE_DEVICE_BUSY = 6
+    EXCEPTION_CODE_MEMORY_PARITY_ERROR = 8
+    EXCEPTION_CODE_GATEWAY_PATH_UNAVAILABLE = 10
+    EXCEPTION_CODE_GATEWAY_TARGET_DEVICE_FAILED_TO_RESPOND = 11
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -215,24 +212,6 @@ class BrickletRS485(Device):
         self.response_expected[BrickletRS485.FUNCTION_MODBUS_MASTER_READ_DISCRETE_INPUTS] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_INPUT_REGISTERS_REQUEST_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_TRUE
         self.response_expected[BrickletRS485.FUNCTION_MODBUS_MASTER_READ_INPUT_REGISTERS] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRS485.CALLBACK_READ_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_ERROR_COUNT] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_COILS_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_COILS_RESPONSE_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_HOLDING_REGISTERS_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_HOLDING_REGISTERS_RESPONSE_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_COIL_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_SINGLE_COIL_RESPONSE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_REGISTER_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_SINGLE_REGISTER_RESPONSE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_MULTIPLE_COILS_RESPONSE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_MULTIPLE_REGISTERS_RESPONSE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_DISCRETE_INPUTS_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_DISCRETE_INPUTS_RESPONSE_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_INPUT_REGISTERS_REQUEST] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_INPUT_REGISTERS_RESPONSE_LOW_LEVEL] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_FALSE
         self.response_expected[BrickletRS485.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS485.FUNCTION_SET_BOOTLOADER_MODE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS485.FUNCTION_GET_BOOTLOADER_MODE] = BrickletRS485.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -248,32 +227,32 @@ class BrickletRS485(Device):
 
         self.callback_formats[BrickletRS485.CALLBACK_READ_LOW_LEVEL] = 'H H 60c'
         self.callback_formats[BrickletRS485.CALLBACK_ERROR_COUNT] = 'I I'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_COILS_REQUEST] = 'B H H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_COILS_REQUEST] = 'B I H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_COILS_RESPONSE_LOW_LEVEL] = 'B b H H 464!'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_HOLDING_REGISTERS_REQUEST] = 'B H H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_HOLDING_REGISTERS_REQUEST] = 'B I H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_HOLDING_REGISTERS_RESPONSE_LOW_LEVEL] = 'B b H H 29H'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_COIL_REQUEST] = 'B H !'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_COIL_REQUEST] = 'B I !'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_SINGLE_COIL_RESPONSE] = 'B b'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_REGISTER_REQUEST] = 'B H H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_SINGLE_REGISTER_REQUEST] = 'B I H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_SINGLE_REGISTER_RESPONSE] = 'B b'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST_LOW_LEVEL] = 'B H H H H 440!'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST_LOW_LEVEL] = 'B I H H 440!'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_MULTIPLE_COILS_RESPONSE] = 'B b'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST_LOW_LEVEL] = 'B H H H H 27H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST_LOW_LEVEL] = 'B I H H 27H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_WRITE_MULTIPLE_REGISTERS_RESPONSE] = 'B b'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_DISCRETE_INPUTS_REQUEST] = 'B H H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_DISCRETE_INPUTS_REQUEST] = 'B I H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_DISCRETE_INPUTS_RESPONSE_LOW_LEVEL] = 'B b H H 464!'
-        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_INPUT_REGISTERS_REQUEST] = 'B H H'
+        self.callback_formats[BrickletRS485.CALLBACK_MODBUS_SLAVE_READ_INPUT_REGISTERS_REQUEST] = 'B I H'
         self.callback_formats[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_INPUT_REGISTERS_RESPONSE_LOW_LEVEL] = 'B b H H 29H'
 
-        self.low_level_callbacks[BrickletRS485.CALLBACK_READ_LOW_LEVEL] = [BrickletRS485.CALLBACK_READ, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_COILS_RESPONSE_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_MASTER_READ_COILS_RESPONSE, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_HOLDING_REGISTERS_RESPONSE_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_MASTER_READ_HOLDING_REGISTERS_RESPONSE, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_DISCRETE_INPUTS_RESPONSE_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_MASTER_READ_DISCRETE_INPUTS_RESPONSE, {'stream': {'fixed_total_length': None}}, None]
-        self.low_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_INPUT_REGISTERS_RESPONSE_LOW_LEVEL] = [BrickletRS485.CALLBACK_MODBUS_MASTER_READ_INPUT_REGISTERS_RESPONSE, {'stream': {'fixed_total_length': None}}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_READ] = [('stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_COILS_RESPONSE] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_HOLDING_REGISTERS_RESPONSE] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_COILS_REQUEST] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_SLAVE_WRITE_MULTIPLE_REGISTERS_REQUEST] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_DISCRETE_INPUTS_RESPONSE] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
+        self.high_level_callbacks[BrickletRS485.CALLBACK_MODBUS_MASTER_READ_INPUT_REGISTERS_RESPONSE] = [(None, None, 'stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
 
-    def write_low_level(self, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def write_low_level(self, message_length, message_chunk_offset, message_chunk_data):
         """
         Writes characters to the RS485 interface. The characters can be binary data,
         ASCII or similar is not necessary.
@@ -283,7 +262,7 @@ class BrickletRS485(Device):
         See :func:`Set RS485 Configuration` for configuration possibilities
         regarding baudrate, parity and so on.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_WRITE_LOW_LEVEL, (stream_total_length, stream_chunk_offset, stream_chunk_data), 'H H 59c', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_WRITE_LOW_LEVEL, (message_length, message_chunk_offset, message_chunk_data), 'H H 60c', 'B')
 
     def read_low_level(self, length):
         """
@@ -343,7 +322,7 @@ class BrickletRS485(Device):
         """
         Sets the configuration for the RS485 Modbus communication. Available options:
 
-        * Slave Address: Address to be used as the Modbus slave address in Modbus slave mode. Valid Modbus slave address range is 0 to 247.
+        * Slave Address: Address to be used as the Modbus slave address in Modbus slave mode. Valid Modbus slave address range is 1 to 247.
         * Master Request Timeout: Specifies how long the master should wait for a response from a slave in milliseconds when in Modbus master mode.
 
         The default is: Slave Address = 1 and Master Request Timeout = 1000 milliseconds (1 second).
@@ -361,8 +340,8 @@ class BrickletRS485(Device):
         Sets the mode of the Bricklet in which it operates. Available options are
 
         * RS485,
-        * Modbus Slave RTU and
-        * Modbus Master RTU.
+        * Modbus Master RTU and
+        * Modbus Slave RTU.
 
         The default is: RS485 mode.
         """
@@ -495,18 +474,18 @@ class BrickletRS485(Device):
         """
         self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_REPORT_EXCEPTION, (request_id, exception_code), 'B b', '')
 
-    def modbus_slave_answer_read_coils_request_low_level(self, request_id, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_slave_answer_read_coils_request_low_level(self, request_id, coils_length, coils_chunk_offset, coils_chunk_data):
         """
         In Modbus slave mode this function can be used to answer a master request to
         read coils.
 
         * Request ID: Request ID of the corresponding request that is being answered.
-        * Data: Data that is to be sent to the Modbus master for the corresponding request.
+        * Coils: Data that is to be sent to the Modbus master for the corresponding request.
 
         This function must be called from the :cb:`Modbus Slave Read Coils Request` callback
         with the Request ID as provided by the argument of the callback.
         """
-        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_COILS_REQUEST_LOW_LEVEL, (request_id, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H 472!', '')
+        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_COILS_REQUEST_LOW_LEVEL, (request_id, coils_length, coils_chunk_offset, coils_chunk_data), 'B H H 472!', '')
 
     def modbus_master_read_coils(self, slave_address, starting_address, count):
         """
@@ -526,20 +505,20 @@ class BrickletRS485(Device):
         matched with the Request ID returned from this function to verify that the callback
         is indeed for a particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_COILS, (slave_address, starting_address, count), 'B H H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_COILS, (slave_address, starting_address, count), 'B I H', 'B')
 
-    def modbus_slave_answer_read_holding_registers_request_low_level(self, request_id, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_slave_answer_read_holding_registers_request_low_level(self, request_id, holding_registers_length, holding_registers_chunk_offset, holding_registers_chunk_data):
         """
         In Modbus slave mode this function can be used to answer a master request to
         read holding registers.
 
         * Request ID: Request ID of the corresponding request that is being answered.
-        * Data: Data that is to be sent to the Modbus master for the corresponding request.
+        * Holding Registers: Data that is to be sent to the Modbus master for the corresponding request.
 
         This function must be called from the :cb:`Modbus Slave Read Holding Registers Request`
         callback with the Request ID as provided by the argument of the callback.
         """
-        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_HOLDING_REGISTERS_REQUEST_LOW_LEVEL, (request_id, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H 29H', '')
+        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_HOLDING_REGISTERS_REQUEST_LOW_LEVEL, (request_id, holding_registers_length, holding_registers_chunk_offset, holding_registers_chunk_data), 'B H H 29H', '')
 
     def modbus_master_read_holding_registers(self, slave_address, starting_address, count):
         """
@@ -559,7 +538,7 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_HOLDING_REGISTERS, (slave_address, starting_address, count), 'B H H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_HOLDING_REGISTERS, (slave_address, starting_address, count), 'B I H', 'B')
 
     def modbus_slave_answer_write_single_coil_request(self, request_id):
         """
@@ -569,8 +548,7 @@ class BrickletRS485(Device):
         * Request ID: Request ID of the corresponding request that is being answered.
 
         This function must be called from the :cb:`Modbus Slave Write Single Coil Request`
-        callback with the Request ID, Coil Address and Coil Value as provided by the
-        arguments of the callback.
+        callback with the Request ID as provided by the arguments of the callback.
         """
         self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_WRITE_SINGLE_COIL_REQUEST, (request_id,), 'B', '')
 
@@ -592,7 +570,7 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_SINGLE_COIL, (slave_address, coil_address, coil_value), 'B H !', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_SINGLE_COIL, (slave_address, coil_address, coil_value), 'B I !', 'B')
 
     def modbus_slave_answer_write_single_register_request(self, request_id):
         """
@@ -625,7 +603,7 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_SINGLE_REGISTER, (slave_address, register_address, register_value), 'B H H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_SINGLE_REGISTER, (slave_address, register_address, register_value), 'B I H', 'B')
 
     def modbus_slave_answer_write_multiple_coils_request(self, request_id):
         """
@@ -635,12 +613,11 @@ class BrickletRS485(Device):
         * Request ID: Request ID of the corresponding request that is being answered.
 
         This function must be called from the :cb:`Modbus Slave Write Multiple Coils Request`
-        callback with the Request ID, Starting Address and Count as provided by the
-        arguments of the callback.
+        callback with the Request ID of the callback.
         """
         self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_WRITE_MULTIPLE_COILS_REQUEST, (request_id,), 'B', '')
 
-    def modbus_master_write_multiple_coils_low_level(self, slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_master_write_multiple_coils_low_level(self, slave_address, starting_address, coils_length, coils_chunk_offset, coils_chunk_data):
         """
         In Modbus master mode this function can be used to write multiple coils of a slave.
         This function creates a Modbus function code 15 request.
@@ -657,7 +634,7 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_MULTIPLE_COILS_LOW_LEVEL, (slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H H 432!', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_MULTIPLE_COILS_LOW_LEVEL, (slave_address, starting_address, coils_length, coils_chunk_offset, coils_chunk_data), 'B I H H 440!', 'B')
 
     def modbus_slave_answer_write_multiple_registers_request(self, request_id):
         """
@@ -667,12 +644,11 @@ class BrickletRS485(Device):
         * Request ID: Request ID of the corresponding request that is being answered.
 
         This function must be called from the :cb:`Modbus Slave Write Multiple Registers Request`
-        callback with the Request ID, Starting Address and Count as provided by the
-        arguments of the callback.
+        callback with the Request ID of the callback.
         """
         self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_WRITE_MULTIPLE_REGISTERS_REQUEST, (request_id,), 'B', '')
 
-    def modbus_master_write_multiple_registers_low_level(self, slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_master_write_multiple_registers_low_level(self, slave_address, starting_address, registers_length, registers_chunk_offset, registers_chunk_data):
         """
         In Modbus master mode this function can be used to write multiple registers of a slave.
         This function creates a Modbus function code 16 request.
@@ -689,20 +665,20 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_MULTIPLE_REGISTERS_LOW_LEVEL, (slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H H 27H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_WRITE_MULTIPLE_REGISTERS_LOW_LEVEL, (slave_address, starting_address, registers_length, registers_chunk_offset, registers_chunk_data), 'B I H H 27H', 'B')
 
-    def modbus_slave_answer_read_discrete_inputs_request_low_level(self, request_id, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_slave_answer_read_discrete_inputs_request_low_level(self, request_id, discrete_inputs_length, discrete_inputs_chunk_offset, discrete_inputs_chunk_data):
         """
         In Modbus slave mode this function can be used to answer a master request to
         read discrete inputs.
 
         * Request ID: Request ID of the corresponding request that is being answered.
-        * Data: Data that is to be sent to the Modbus master for the corresponding request.
+        * Discrete Inputs: Data that is to be sent to the Modbus master for the corresponding request.
 
         This function must be called from the :cb:`Modbus Slave Read Discrete Inputs Request`
         callback with the Request ID as provided by the argument of the callback.
         """
-        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_DISCRETE_INPUTS_REQUEST_LOW_LEVEL, (request_id, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H 472!', '')
+        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_DISCRETE_INPUTS_REQUEST_LOW_LEVEL, (request_id, discrete_inputs_length, discrete_inputs_chunk_offset, discrete_inputs_chunk_data), 'B H H 472!', '')
 
     def modbus_master_read_discrete_inputs(self, slave_address, starting_address, count):
         """
@@ -722,20 +698,20 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_DISCRETE_INPUTS, (slave_address, starting_address, count), 'B H H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_DISCRETE_INPUTS, (slave_address, starting_address, count), 'B I H', 'B')
 
-    def modbus_slave_answer_read_input_registers_request_low_level(self, request_id, stream_total_length, stream_chunk_offset, stream_chunk_data):
+    def modbus_slave_answer_read_input_registers_request_low_level(self, request_id, input_registers_length, input_registers_chunk_offset, input_registers_chunk_data):
         """
         In Modbus slave mode this function can be used to answer a master request to
         read input registers.
 
         * Request ID: Request ID of the corresponding request that is being answered.
-        * Data: Data that is to be sent to the Modbus master for the corresponding request.
+        * Input Registers: Data that is to be sent to the Modbus master for the corresponding request.
 
         This function must be called from the :cb:`Modbus Slave Read Input Registers Request` callback
         with the Request ID as provided by the argument of the callback.
         """
-        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_INPUT_REGISTERS_REQUEST_LOW_LEVEL, (request_id, stream_total_length, stream_chunk_offset, stream_chunk_data), 'B H H 29H', '')
+        self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_SLAVE_ANSWER_READ_INPUT_REGISTERS_REQUEST_LOW_LEVEL, (request_id, input_registers_length, input_registers_chunk_offset, input_registers_chunk_data), 'B H H 29H', '')
 
     def modbus_master_read_input_registers(self, slave_address, starting_address, count):
         """
@@ -755,7 +731,7 @@ class BrickletRS485(Device):
         with the Request ID returned from this function to verify that the callback is indeed for a
         particular request.
         """
-        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_INPUT_REGISTERS, (slave_address, starting_address, count), 'B H H', 'B')
+        return self.ipcon.send_request(self, BrickletRS485.FUNCTION_MODBUS_MASTER_READ_INPUT_REGISTERS, (slave_address, starting_address, count), 'B I H', 'B')
 
     def get_spitfp_error_count(self):
         """
@@ -888,214 +864,271 @@ class BrickletRS485(Device):
         return GetIdentity(*self.ipcon.send_request(self, BrickletRS485.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def write(self, message):
-        stream_extra = ()
-        stream_total_written = 0
-        stream_total_length = len(message)
-        stream_chunk_offset = 0
+        """
+        Writes characters to the RS485 interface. The characters can be binary data,
+        ASCII or similar is not necessary.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = message[stream_chunk_offset:stream_chunk_offset + 59]
+        The return value is the number of characters that were written.
 
-                if len(stream_chunk_data) < 59:
-                    stream_chunk_data.extend(['\x00']*(59 - len(stream_chunk_data)))
+        See :func:`Set RS485 Configuration` for configuration possibilities
+        regarding baudrate, parity and so on.
+        """
+        if len(message) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Message can be at most 65535 items long')
 
-                stream_result = self.write_low_level(stream_total_length, stream_chunk_offset, stream_chunk_data)
+        message = list(message) # convert potential tuple to list
+        message_length = len(message)
+        message_chunk_offset = 0
 
-                if isinstance(stream_result, tuple):
-                    stream_extra = stream_result[:-1] # FIXME: validate that the extra of all the low-level calls is identical
-                    stream_chunk_written = stream_result[-1]
-                else:
-                    stream_extra = ()
-                    stream_chunk_written = stream_result
-
-                stream_total_written += stream_chunk_written
-
-                # either last chunk or short write
-                if stream_chunk_written < 59:
-                    break
-
-                stream_chunk_offset += 59
-
-        if len(stream_extra) > 0:
-            return stream_extra + (stream_total_written,) # FIXME: need to return this as a namedtuple
+        if message_length == 0:
+            message_chunk_data = ['\0'] * 60
+            ret = self.write_low_level(message_length, message_chunk_offset, message_chunk_data)
+            message_written = ret
         else:
-            return stream_total_written
+            message_written = 0
+
+            with self.stream_lock:
+                while message_chunk_offset < message_length:
+                    message_chunk_data = create_chunk_data(message, message_chunk_offset, 60, '\0')
+                    ret = self.write_low_level(message_length, message_chunk_offset, message_chunk_data)
+                    message_written += ret
+
+                    if ret < 60:
+                        break # either last chunk or short write
+
+                    message_chunk_offset += 60
+
+        return message_written
 
     def read(self, length):
-        stream_extra = ()
-        stream_total_length = None
-        stream_chunk_offset = 0
-        stream_result = None
-        stream_data = ()
-        stream_out_of_sync = False
+        """
+        Returns up to *length* characters from receive buffer.
 
-        STREAM_CHUNK_OFFSET_NO_DATA = (1 << 16) - 1 # FIXME: make this depend on the stream_chunk_offset type
-
+        Instead of polling with this function, you can also use
+        callbacks. But note that this function will return available
+        data only when the read callback is disabled.
+        See :func:`Enable Read Callback` and :cb:`Read` callback.
+        """
         with self.stream_lock:
-            if stream_total_length == None: # no fixed-stream-length
-                stream_result = self.read_low_level(length)
-                stream_extra = stream_result[:-3] # FIXME: validate that extra parameters are identical for all low-level getters of a stream
-                stream_total_length = stream_result.stream_total_length
-                stream_chunk_offset = stream_result.stream_chunk_offset
-                stream_data = stream_result.stream_chunk_data
+            ret = self.read_low_level(length)
+            message_length = ret.message_length
+            message_out_of_sync = ret.message_chunk_offset != 0
+            message_data = ret.message_chunk_data
 
-            if stream_chunk_offset == STREAM_CHUNK_OFFSET_NO_DATA:
-                # FIXME: return and empty list or None instead of this exception
-                raise Error(Error.STREAM_NO_DATA, 'Stream has no data')
-            elif stream_chunk_offset != 0: # stream out-of-sync
-                # discard remaining stream to bring it back in-sync
-                while stream_chunk_offset + 60 < stream_total_length:
-                    # FIXME: validate that total length is identical for all low-level getters of a stream
-                    stream_chunk_offset = self.read_low_level(length).stream_chunk_offset
+            while not message_out_of_sync and len(message_data) < message_length:
+                ret = self.read_low_level(length)
+                message_length = ret.message_length
+                message_out_of_sync = ret.message_chunk_offset != len(message_data)
+                message_data += ret.message_chunk_data
 
-                raise Error(Error.STREAM_OUT_OF_SYNC, 'Stream is out-of-sync')
+            if message_out_of_sync: # discard remaining stream to bring it back in-sync
+                while ret.message_chunk_offset + 60 < message_length:
+                    ret = self.read_low_level(length)
+                    message_length = ret.message_length
 
-            # FIXME: validate chunk offset < total length
+                raise Error(Error.STREAM_OUT_OF_SYNC, 'Message stream is out-of-sync')
 
-            while len(stream_data) < stream_total_length:
-                stream_result = self.read_low_level(length)
-                stream_extra = stream_result[:-3] # FIXME: validate that extra parameters are identical for all low-level getters of a stream
-                stream_chunk_offset = stream_result.stream_chunk_offset
-
-                # FIXME: validate that total length is identical for all low-level getters of a stream
-
-                if stream_chunk_offset != len(stream_data): # stream out-of-sync
-                    # discard remaining stream to bring it back in-sync
-                    while stream_chunk_offset + 60 < stream_total_length:
-                        # FIXME: validate that total length is identical for all low-level getters of a stream
-                        stream_chunk_offset = self.read_low_level(length).stream_chunk_offset
-
-                    raise Error(Error.STREAM_OUT_OF_SYNC, 'Stream is out-of-sync')
-
-                stream_data += stream_result.stream_chunk_data
-
-        if len(stream_extra) > 0:
-            return stream_extra + (stream_data[:stream_total_length],) # FIXME: need to return this as a namedtuple
-        else:
-            return stream_data[:stream_total_length]
+        return message_data[:message_length]
 
     def modbus_slave_answer_read_coils_request(self, request_id, coils):
-        stream_total_length = len(coils)
-        stream_chunk_offset = 0
-        stream_result = None
+        """
+        In Modbus slave mode this function can be used to answer a master request to
+        read coils.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = coils[stream_chunk_offset:stream_chunk_offset + 472]
+        * Request ID: Request ID of the corresponding request that is being answered.
+        * Coils: Data that is to be sent to the Modbus master for the corresponding request.
 
-                if len(stream_chunk_data) < 472:
-                    stream_chunk_data.extend([False]*(472 - len(stream_chunk_data)))
+        This function must be called from the :cb:`Modbus Slave Read Coils Request` callback
+        with the Request ID as provided by the argument of the callback.
+        """
+        if len(coils) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Coils can be at most 65535 items long')
 
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_slave_answer_read_coils_request_low_level(request_id, stream_total_length, stream_chunk_offset, stream_chunk_data)
+        coils = list(coils) # convert potential tuple to list
+        coils_length = len(coils)
+        coils_chunk_offset = 0
 
-                stream_chunk_offset += 472
+        if coils_length == 0:
+            coils_chunk_data = [False] * 472
+            ret = self.modbus_slave_answer_read_coils_request_low_level(request_id, coils_length, coils_chunk_offset, coils_chunk_data)
+        else:
+            with self.stream_lock:
+                while coils_chunk_offset < coils_length:
+                    coils_chunk_data = create_chunk_data(coils, coils_chunk_offset, 472, False)
+                    ret = self.modbus_slave_answer_read_coils_request_low_level(request_id, coils_length, coils_chunk_offset, coils_chunk_data)
+                    coils_chunk_offset += 472
 
-        return stream_result
+        return ret
 
     def modbus_slave_answer_read_holding_registers_request(self, request_id, holding_registers):
-        stream_total_length = len(holding_registers)
-        stream_chunk_offset = 0
-        stream_result = None
+        """
+        In Modbus slave mode this function can be used to answer a master request to
+        read holding registers.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = holding_registers[stream_chunk_offset:stream_chunk_offset + 29]
+        * Request ID: Request ID of the corresponding request that is being answered.
+        * Holding Registers: Data that is to be sent to the Modbus master for the corresponding request.
 
-                if len(stream_chunk_data) < 29:
-                    stream_chunk_data.extend([0]*(29 - len(stream_chunk_data)))
+        This function must be called from the :cb:`Modbus Slave Read Holding Registers Request`
+        callback with the Request ID as provided by the argument of the callback.
+        """
+        if len(holding_registers) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Holding Registers can be at most 65535 items long')
 
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_slave_answer_read_holding_registers_request_low_level(request_id, stream_total_length, stream_chunk_offset, stream_chunk_data)
+        holding_registers = list(holding_registers) # convert potential tuple to list
+        holding_registers_length = len(holding_registers)
+        holding_registers_chunk_offset = 0
 
-                stream_chunk_offset += 29
+        if holding_registers_length == 0:
+            holding_registers_chunk_data = [0] * 29
+            ret = self.modbus_slave_answer_read_holding_registers_request_low_level(request_id, holding_registers_length, holding_registers_chunk_offset, holding_registers_chunk_data)
+        else:
+            with self.stream_lock:
+                while holding_registers_chunk_offset < holding_registers_length:
+                    holding_registers_chunk_data = create_chunk_data(holding_registers, holding_registers_chunk_offset, 29, 0)
+                    ret = self.modbus_slave_answer_read_holding_registers_request_low_level(request_id, holding_registers_length, holding_registers_chunk_offset, holding_registers_chunk_data)
+                    holding_registers_chunk_offset += 29
 
-        return stream_result
+        return ret
 
     def modbus_master_write_multiple_coils(self, slave_address, starting_address, coils):
-        stream_total_length = len(coils)
-        stream_chunk_offset = 0
-        stream_result = None
+        """
+        In Modbus master mode this function can be used to write multiple coils of a slave.
+        This function creates a Modbus function code 15 request.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = coils[stream_chunk_offset:stream_chunk_offset + 432]
+        * Slave Address: Address of the target Modbus slave.
+        * Starting Address: Starting address of the write.
 
-                if len(stream_chunk_data) < 432:
-                    stream_chunk_data.extend([False]*(432 - len(stream_chunk_data)))
+        Upon success the function will return a non-zero request ID which will represent
+        the current request initiated by the Modbus master. In case of failure the returned
+        request ID will be 0.
 
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_master_write_multiple_coils_low_level(slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data)
+        When successful this function will also invoke the :cb:`Modbus Master Write Multiple Coils Response`
+        callback. In this callback the Request ID provided by the callback argument must be matched
+        with the Request ID returned from this function to verify that the callback is indeed for a
+        particular request.
+        """
+        if len(coils) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Coils can be at most 65535 items long')
 
-                stream_chunk_offset += 432
+        coils = list(coils) # convert potential tuple to list
+        coils_length = len(coils)
+        coils_chunk_offset = 0
 
-        return stream_result
+        if coils_length == 0:
+            coils_chunk_data = [False] * 440
+            ret = self.modbus_master_write_multiple_coils_low_level(slave_address, starting_address, coils_length, coils_chunk_offset, coils_chunk_data)
+        else:
+            with self.stream_lock:
+                while coils_chunk_offset < coils_length:
+                    coils_chunk_data = create_chunk_data(coils, coils_chunk_offset, 440, False)
+                    ret = self.modbus_master_write_multiple_coils_low_level(slave_address, starting_address, coils_length, coils_chunk_offset, coils_chunk_data)
+                    coils_chunk_offset += 440
+
+        return ret
 
     def modbus_master_write_multiple_registers(self, slave_address, starting_address, registers):
-        stream_total_length = len(registers)
-        stream_chunk_offset = 0
-        stream_result = None
+        """
+        In Modbus master mode this function can be used to write multiple registers of a slave.
+        This function creates a Modbus function code 16 request.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = registers[stream_chunk_offset:stream_chunk_offset + 27]
+        * Slave Address: Address of the target Modbus slave.
+        * Starting Address: Starting Address of the write.
 
-                if len(stream_chunk_data) < 27:
-                    stream_chunk_data.extend([0]*(27 - len(stream_chunk_data)))
+        Upon success the function will return a non-zero request ID which will represent
+        the current request initiated by the Modbus master. In case of failure the returned
+        request ID will be 0.
 
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_master_write_multiple_registers_low_level(slave_address, starting_address, stream_total_length, stream_chunk_offset, stream_chunk_data)
+        When successful this function will also invoke the :cb:`Modbus Master Write Multiple Registers Response`
+        callback. In this callback the Request ID provided by the callback argument must be matched
+        with the Request ID returned from this function to verify that the callback is indeed for a
+        particular request.
+        """
+        if len(registers) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Registers can be at most 65535 items long')
 
-                stream_chunk_offset += 27
+        registers = list(registers) # convert potential tuple to list
+        registers_length = len(registers)
+        registers_chunk_offset = 0
 
-        return stream_result
+        if registers_length == 0:
+            registers_chunk_data = [0] * 27
+            ret = self.modbus_master_write_multiple_registers_low_level(slave_address, starting_address, registers_length, registers_chunk_offset, registers_chunk_data)
+        else:
+            with self.stream_lock:
+                while registers_chunk_offset < registers_length:
+                    registers_chunk_data = create_chunk_data(registers, registers_chunk_offset, 27, 0)
+                    ret = self.modbus_master_write_multiple_registers_low_level(slave_address, starting_address, registers_length, registers_chunk_offset, registers_chunk_data)
+                    registers_chunk_offset += 27
+
+        return ret
 
     def modbus_slave_answer_read_discrete_inputs_request(self, request_id, discrete_inputs):
-        stream_total_length = len(discrete_inputs)
-        stream_chunk_offset = 0
-        stream_result = None
+        """
+        In Modbus slave mode this function can be used to answer a master request to
+        read discrete inputs.
 
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = discrete_inputs[stream_chunk_offset:stream_chunk_offset + 472]
+        * Request ID: Request ID of the corresponding request that is being answered.
+        * Discrete Inputs: Data that is to be sent to the Modbus master for the corresponding request.
 
-                if len(stream_chunk_data) < 472:
-                    stream_chunk_data.extend([False]*(472 - len(stream_chunk_data)))
+        This function must be called from the :cb:`Modbus Slave Read Discrete Inputs Request`
+        callback with the Request ID as provided by the argument of the callback.
+        """
+        if len(discrete_inputs) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Discrete Inputs can be at most 65535 items long')
 
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_slave_answer_read_discrete_inputs_request_low_level(request_id, stream_total_length, stream_chunk_offset, stream_chunk_data)
+        discrete_inputs = list(discrete_inputs) # convert potential tuple to list
+        discrete_inputs_length = len(discrete_inputs)
+        discrete_inputs_chunk_offset = 0
 
-                stream_chunk_offset += 472
+        if discrete_inputs_length == 0:
+            discrete_inputs_chunk_data = [False] * 472
+            ret = self.modbus_slave_answer_read_discrete_inputs_request_low_level(request_id, discrete_inputs_length, discrete_inputs_chunk_offset, discrete_inputs_chunk_data)
+        else:
+            with self.stream_lock:
+                while discrete_inputs_chunk_offset < discrete_inputs_length:
+                    discrete_inputs_chunk_data = create_chunk_data(discrete_inputs, discrete_inputs_chunk_offset, 472, False)
+                    ret = self.modbus_slave_answer_read_discrete_inputs_request_low_level(request_id, discrete_inputs_length, discrete_inputs_chunk_offset, discrete_inputs_chunk_data)
+                    discrete_inputs_chunk_offset += 472
 
-        return stream_result
+        return ret
 
     def modbus_slave_answer_read_input_registers_request(self, request_id, input_registers):
-        stream_total_length = len(input_registers)
-        stream_chunk_offset = 0
-        stream_result = None
-
-        with self.stream_lock:
-            while stream_chunk_offset < stream_total_length:
-                stream_chunk_data = input_registers[stream_chunk_offset:stream_chunk_offset + 29]
-
-                if len(stream_chunk_data) < 29:
-                    stream_chunk_data.extend([0]*(29 - len(stream_chunk_data)))
-
-                # FIXME: validate that the result of all the low-level calls is identical
-                stream_result = self.modbus_slave_answer_read_input_registers_request_low_level(request_id, stream_total_length, stream_chunk_offset, stream_chunk_data)
-
-                stream_chunk_offset += 29
-
-        return stream_result
-
-    def register_callback(self, id_, callback):
         """
-        Registers a callback with ID *id* to the function *callback*.
+        In Modbus slave mode this function can be used to answer a master request to
+        read input registers.
+
+        * Request ID: Request ID of the corresponding request that is being answered.
+        * Input Registers: Data that is to be sent to the Modbus master for the corresponding request.
+
+        This function must be called from the :cb:`Modbus Slave Read Input Registers Request` callback
+        with the Request ID as provided by the argument of the callback.
         """
-        if callback is None:
-            self.registered_callbacks.pop(id_, None)
+        if len(input_registers) > 65535:
+            raise Error(Error.INVALID_PARAMETER, 'Input Registers can be at most 65535 items long')
+
+        input_registers = list(input_registers) # convert potential tuple to list
+        input_registers_length = len(input_registers)
+        input_registers_chunk_offset = 0
+
+        if input_registers_length == 0:
+            input_registers_chunk_data = [0] * 29
+            ret = self.modbus_slave_answer_read_input_registers_request_low_level(request_id, input_registers_length, input_registers_chunk_offset, input_registers_chunk_data)
         else:
-            self.registered_callbacks[id_] = callback
+            with self.stream_lock:
+                while input_registers_chunk_offset < input_registers_length:
+                    input_registers_chunk_data = create_chunk_data(input_registers, input_registers_chunk_offset, 29, 0)
+                    ret = self.modbus_slave_answer_read_input_registers_request_low_level(request_id, input_registers_length, input_registers_chunk_offset, input_registers_chunk_data)
+                    input_registers_chunk_offset += 29
+
+        return ret
+
+    def register_callback(self, callback_id, function):
+        """
+        Registers the given *function* with the given *callback_id*.
+        """
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
 
 RS485 = BrickletRS485 # for backward compatibility

@@ -1,26 +1,20 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-09-08.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.10                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-try:
-    from collections import namedtuple
-except ImportError:
-    try:
-        from .ip_connection import namedtuple
-    except ValueError:
-        from ip_connection import namedtuple
+from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error
+    from .ip_connection import Device, IPConnection, Error, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error
+    from ip_connection import Device, IPConnection, Error, create_chunk_data
 
 GetVoltageCallbackThreshold = namedtuple('VoltageCallbackThreshold', ['option', 'min', 'max'])
 GetCalibration = namedtuple('Calibration', ['offset', 'gain'])
@@ -36,6 +30,7 @@ class BrickletIndustrialDualAnalogIn(Device):
 
     CALLBACK_VOLTAGE = 13
     CALLBACK_VOLTAGE_REACHED = 14
+
 
     FUNCTION_GET_VOLTAGE = 1
     FUNCTION_SET_VOLTAGE_CALLBACK_PERIOD = 2
@@ -86,87 +81,86 @@ class BrickletIndustrialDualAnalogIn(Device):
         self.response_expected[BrickletIndustrialDualAnalogIn.FUNCTION_SET_CALIBRATION] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletIndustrialDualAnalogIn.FUNCTION_GET_CALIBRATION] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletIndustrialDualAnalogIn.FUNCTION_GET_ADC_VALUES] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletIndustrialDualAnalogIn.CALLBACK_VOLTAGE] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletIndustrialDualAnalogIn.CALLBACK_VOLTAGE_REACHED] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_ALWAYS_FALSE
         self.response_expected[BrickletIndustrialDualAnalogIn.FUNCTION_GET_IDENTITY] = BrickletIndustrialDualAnalogIn.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickletIndustrialDualAnalogIn.CALLBACK_VOLTAGE] = 'B i'
         self.callback_formats[BrickletIndustrialDualAnalogIn.CALLBACK_VOLTAGE_REACHED] = 'B i'
 
+
     def get_voltage(self, channel):
         """
         Returns the voltage for the given channel in mV.
-        
+
         If you want to get the voltage periodically, it is recommended to use the
-        callback :func:`Voltage` and set the period with 
-        :func:`SetVoltageCallbackPeriod`.
+        :cb:`Voltage` callback and set the period with
+        :func:`Set Voltage Callback Period`.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_VOLTAGE, (channel,), 'B', 'i')
 
     def set_voltage_callback_period(self, channel, period):
         """
-        Sets the period in ms with which the :func:`Voltage` callback is triggered
+        Sets the period in ms with which the :cb:`Voltage` callback is triggered
         periodically for the given channel. A value of 0 turns the callback off.
-        
-        :func:`Voltage` is only triggered if the voltage has changed since the
+
+        The :cb:`Voltage` callback is only triggered if the voltage has changed since the
         last triggering.
-        
+
         The default value is 0.
         """
         self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_SET_VOLTAGE_CALLBACK_PERIOD, (channel, period), 'B I', '')
 
     def get_voltage_callback_period(self, channel):
         """
-        Returns the period as set by :func:`SetVoltageCallbackPeriod`.
+        Returns the period as set by :func:`Set Voltage Callback Period`.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_VOLTAGE_CALLBACK_PERIOD, (channel,), 'B', 'I')
 
     def set_voltage_callback_threshold(self, channel, option, min, max):
         """
-        Sets the thresholds for the :func:`VoltageReached` callback for the given
+        Sets the thresholds for the :cb:`Voltage Reached` callback for the given
         channel.
-        
+
         The following options are possible:
-        
+
         .. csv-table::
          :header: "Option", "Description"
          :widths: 10, 100
-        
+
          "'x'",    "Callback is turned off"
          "'o'",    "Callback is triggered when the voltage is *outside* the min and max values"
          "'i'",    "Callback is triggered when the voltage is *inside* the min and max values"
          "'<'",    "Callback is triggered when the voltage is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the voltage is greater than the min value (max is ignored)"
-        
+
         The default value is ('x', 0, 0).
         """
         self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_SET_VOLTAGE_CALLBACK_THRESHOLD, (channel, option, min, max), 'B c i i', '')
 
     def get_voltage_callback_threshold(self, channel):
         """
-        Returns the threshold as set by :func:`SetVoltageCallbackThreshold`.
+        Returns the threshold as set by :func:`Set Voltage Callback Threshold`.
         """
         return GetVoltageCallbackThreshold(*self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_VOLTAGE_CALLBACK_THRESHOLD, (channel,), 'B', 'c i i'))
 
     def set_debounce_period(self, debounce):
         """
         Sets the period in ms with which the threshold callback
-        
-        * :func:`VoltageReached`
-        
+
+        * :cb:`Voltage Reached`
+
         is triggered, if the threshold
-        
-        * :func:`SetVoltageCallbackThreshold`
-        
+
+        * :func:`Set Voltage Callback Threshold`
+
         keeps being reached.
-        
+
         The default value is 100.
         """
         self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
 
     def get_debounce_period(self):
         """
-        Returns the debounce period as set by :func:`SetDebouncePeriod`.
+        Returns the debounce period as set by :func:`Set Debounce Period`.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_DEBOUNCE_PERIOD, (), '', 'I')
 
@@ -175,21 +169,21 @@ class BrickletIndustrialDualAnalogIn(Device):
         Sets the sample rate. The sample rate can be between 1 sample per second
         and 976 samples per second. Decreasing the sample rate will also decrease the
         noise on the data.
-        
+
         The default value is 6 (2 samples per second).
         """
         self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_SET_SAMPLE_RATE, (rate,), 'B', '')
 
     def get_sample_rate(self):
         """
-        Returns the sample rate as set by :func:`SetSampleRate`.
+        Returns the sample rate as set by :func:`Set Sample Rate`.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_SAMPLE_RATE, (), '', 'B')
 
     def set_calibration(self, offset, gain):
         """
         Sets offset and gain of MCP3911 internal calibration registers.
-        
+
         See MCP3911 datasheet 7.7 and 7.8. The Industrial Dual Analog In Bricklet
         is already factory calibrated by Tinkerforge. It should not be necessary
         for you to use this function
@@ -198,34 +192,37 @@ class BrickletIndustrialDualAnalogIn(Device):
 
     def get_calibration(self):
         """
-        Returns the calibration as set by :func:`SetCalibration`.
+        Returns the calibration as set by :func:`Set Calibration`.
         """
         return GetCalibration(*self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_CALIBRATION, (), '', '2i 2i'))
 
     def get_adc_values(self):
         """
         Returns the ADC values as given by the MCP3911 IC. This function
-        is needed for proper calibration, see :func:`SetCalibration`.
+        is needed for proper calibration, see :func:`Set Calibration`.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_ADC_VALUES, (), '', '2i')
 
     def get_identity(self):
         """
-        Returns the UID, the UID where the Bricklet is connected to, 
+        Returns the UID, the UID where the Bricklet is connected to,
         the position, the hardware and firmware version as well as the
         device identifier.
-        
+
         The position can be 'a', 'b', 'c' or 'd'.
-        
+
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
         return GetIdentity(*self.ipcon.send_request(self, BrickletIndustrialDualAnalogIn.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-    def register_callback(self, id, callback):
+    def register_callback(self, callback_id, function):
         """
-        Registers a callback with ID *id* to the function *callback*.
+        Registers the given *function* with the given *callback_id*.
         """
-        self.registered_callbacks[id] = callback
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
 
 IndustrialDualAnalogIn = BrickletIndustrialDualAnalogIn # for backward compatibility

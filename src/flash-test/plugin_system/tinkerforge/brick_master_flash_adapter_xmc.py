@@ -1,26 +1,20 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-04-10.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.11                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-try:
-    from collections import namedtuple
-except ImportError:
-    try:
-        from .ip_connection import namedtuple
-    except ValueError:
-        from ip_connection import namedtuple
+from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error
+    from .ip_connection import Device, IPConnection, Error, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error
+    from ip_connection import Device, IPConnection, Error, create_chunk_data
 
 GetChibiErrorLog = namedtuple('ChibiErrorLog', ['underrun', 'crc_error', 'no_ack', 'overflow'])
 GetRS485Configuration = namedtuple('RS485Configuration', ['speed', 'parity', 'stopbits'])
@@ -45,6 +39,8 @@ GetWifi2MeshCommonStatus = namedtuple('Wifi2MeshCommonStatus', ['status', 'root_
 GetWifi2MeshClientStatus = namedtuple('Wifi2MeshClientStatus', ['hostname', 'ip', 'subnet_mask', 'gateway', 'mac_address'])
 GetWifi2MeshAPStatus = namedtuple('Wifi2MeshAPStatus', ['ssid', 'ip', 'subnet_mask', 'gateway', 'mac_address'])
 SetFlashAdapterXMCConfig = namedtuple('SetFlashAdapterXMCConfig', ['return_value', 'return_data'])
+GetSPITFPBaudrateConfig = namedtuple('SPITFPBaudrateConfig', ['enable_dynamic_baudrate', 'minimum_dynamic_baudrate'])
+GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetProtocol1BrickletName = namedtuple('Protocol1BrickletName', ['protocol_version', 'firmware_version', 'name'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
@@ -170,7 +166,12 @@ class BrickMasterFlashAdapterXMC(Device):
     FUNCTION_GET_WIFI2_MESH_AP_STATUS = 110
     FUNCTION_SET_FLASH_ADAPTER_XMC_CONFIG = 111
     FUNCTION_SET_FLASH_ADAPTER_XMC_DATA = 112
+    FUNCTION_SET_SPITFP_BAUDRATE_CONFIG = 231
+    FUNCTION_GET_SPITFP_BAUDRATE_CONFIG = 232
     FUNCTION_GET_SEND_TIMEOUT_COUNT = 233
+    FUNCTION_SET_SPITFP_BAUDRATE = 234
+    FUNCTION_GET_SPITFP_BAUDRATE = 235
+    FUNCTION_GET_SPITFP_ERROR_COUNT = 237
     FUNCTION_ENABLE_STATUS_LED = 238
     FUNCTION_DISABLE_STATUS_LED = 239
     FUNCTION_IS_STATUS_LED_ENABLED = 240
@@ -334,12 +335,6 @@ class BrickMasterFlashAdapterXMC(Device):
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_USB_VOLTAGE_CALLBACK_THRESHOLD] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_DEBOUNCE_PERIOD] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_DEBOUNCE_PERIOD] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_STACK_CURRENT] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_STACK_VOLTAGE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_USB_VOLTAGE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_STACK_CURRENT_REACHED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_STACK_VOLTAGE_REACHED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickMasterFlashAdapterXMC.CALLBACK_USB_VOLTAGE_REACHED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_FALSE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_IS_ETHERNET_PRESENT] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_ETHERNET_CONFIGURATION] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_ETHERNET_CONFIGURATION] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -388,7 +383,12 @@ class BrickMasterFlashAdapterXMC(Device):
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_AP_STATUS] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_FLASH_ADAPTER_XMC_CONFIG] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_FLASH_ADAPTER_XMC_DATA] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_SPITFP_BAUDRATE_CONFIG] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE_CONFIG] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_SEND_TIMEOUT_COUNT] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_SET_SPITFP_BAUDRATE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_ENABLE_STATUS_LED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_DISABLE_STATUS_LED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_IS_STATUS_LED_ENABLED] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -454,7 +454,7 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns *true* if a Chibi Extension is available to be used by the Master Brick.
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_CHIBI_PRESENT, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_CHIBI_PRESENT, (), '', '!')
 
     def set_chibi_address(self, address):
         """
@@ -587,7 +587,7 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns *true* if a RS485 Extension is available to be used by the Master Brick.
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_RS485_PRESENT, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_RS485_PRESENT, (), '', '!')
 
     def set_rs485_address(self, address):
         """
@@ -671,7 +671,7 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns *true* if a WIFI Extension is available to be used by the Master Brick.
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI_PRESENT, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI_PRESENT, (), '', '!')
 
     def set_wifi_configuration(self, ssid, connection, ip, subnet_mask, gateway, port):
         """
@@ -1129,7 +1129,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_ETHERNET_PRESENT, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_ETHERNET_PRESENT, (), '', '!')
 
     def set_ethernet_configuration(self, connection, ip, subnet_mask, gateway, port):
         """
@@ -1310,7 +1310,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_PRESENT, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_PRESENT, (), '', '!')
 
     def start_wifi2_bootloader(self):
         """
@@ -1439,7 +1439,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return GetWifi2Status(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_STATUS, (), '', '? B 4B 4B 4B 6B I I b ? 4B 4B 4B 6B I I B'))
+        return GetWifi2Status(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_STATUS, (), '', '! B 4B 4B 4B 6B I I b ! 4B 4B 4B 6B I I B'))
 
     def set_wifi2_client_configuration(self, enable, ssid, ip, subnet_mask, gateway, mac_address, bssid):
         """
@@ -1473,7 +1473,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_CLIENT_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, mac_address, bssid), '? 32s 4B 4B 4B 6B 6B', '')
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_CLIENT_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, mac_address, bssid), '! 32s 4B 4B 4B 6B 6B', '')
 
     def get_wifi2_client_configuration(self):
         """
@@ -1481,7 +1481,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return GetWifi2ClientConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CLIENT_CONFIGURATION, (), '', '? 32s 4B 4B 4B 6B 6B'))
+        return GetWifi2ClientConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CLIENT_CONFIGURATION, (), '', '! 32s 4B 4B 4B 6B 6B'))
 
     def set_wifi2_client_hostname(self, hostname):
         """
@@ -1566,7 +1566,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_AP_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, encryption, hidden, channel, mac_address), '? 32s 4B 4B 4B B ? B 6B', '')
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_AP_CONFIGURATION, (enable, ssid, ip, subnet_mask, gateway, encryption, hidden, channel, mac_address), '! 32s 4B 4B 4B B ! B 6B', '')
 
     def get_wifi2_ap_configuration(self):
         """
@@ -1574,7 +1574,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return GetWifi2APConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_AP_CONFIGURATION, (), '', '? 32s 4B 4B 4B B ? B 6B'))
+        return GetWifi2APConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_AP_CONFIGURATION, (), '', '! 32s 4B 4B 4B B ! B 6B'))
 
     def set_wifi2_ap_password(self, password):
         """
@@ -1642,7 +1642,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_STATUS_LED_ENABLED, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_STATUS_LED_ENABLED, (), '', '!')
 
     def set_wifi2_mesh_configuration(self, enable, root_ip, root_subnet_mask, root_gateway, router_bssid, group_id, group_ssid_prefix, gateway_ip, gateway_port):
         """
@@ -1680,7 +1680,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
-        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_MESH_CONFIGURATION, (enable, root_ip, root_subnet_mask, root_gateway, router_bssid, group_id, group_ssid_prefix, gateway_ip, gateway_port), '? 4B 4B 4B 6B 6B 16s 4B H', '')
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_MESH_CONFIGURATION, (enable, root_ip, root_subnet_mask, root_gateway, router_bssid, group_id, group_ssid_prefix, gateway_ip, gateway_port), '! 4B 4B 4B 6B 6B 16s 4B H', '')
 
     def get_wifi2_mesh_configuration(self):
         """
@@ -1690,7 +1690,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
-        return GetWifi2MeshConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_CONFIGURATION, (), '', '? 4B 4B 4B 6B 6B 16s 4B H'))
+        return GetWifi2MeshConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_CONFIGURATION, (), '', '! 4B 4B 4B 6B 6B 16s 4B H'))
 
     def set_wifi2_mesh_router_ssid(self, ssid):
         """
@@ -1758,7 +1758,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
-        return GetWifi2MeshCommonStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_COMMON_STATUS, (), '', 'B ? ? H I I'))
+        return GetWifi2MeshCommonStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_COMMON_STATUS, (), '', 'B ! ! H I I'))
 
     def get_wifi2_mesh_client_status(self):
         """
@@ -1792,6 +1792,39 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_FLASH_ADAPTER_XMC_DATA, (data,), '64B', 'I')
 
+    def set_spitfp_baudrate_config(self, enable_dynamic_baudrate, minimum_dynamic_baudrate):
+        """
+        The SPITF protocol can be used with a dynamic baudrate. If the dynamic baudrate is
+        enabled, the Brick will try to adapt the baudrate for the communication
+        between Bricks and Bricklets according to the amount of data that is transferred.
+
+        The baudrate will be increased exponetially if lots of data is send/receieved and
+        decreased linearly if little data is send/received.
+
+        This lowers the baudrate in applications where little data is transferred (e.g.
+        a weather station) and increases the robustness. If there is lots of data to transfer
+        (e.g. Thermal Imaging Bricklet) it automatically increases the baudrate as needed.
+
+        In cases where some data has to transferred as fast as possible every few seconds
+        (e.g. RS485 Bricklet with a high baudrate but small payload) you may want to turn
+        the dynamic baudrate off to get the highest possible performance.
+
+        The maximum value of the baudrate can be set per port with the function
+        :func:`Set SPITFP Baudrate`. If the dynamic baudrate is disabled, the baudrate
+        as set by :func:`Set SPITFP Baudrate` will be used statically.
+
+        The minimum dynamic baudrate has a value range of 400000 to 2000000 baud.
+
+        By default dynamic baudrate is enabled and the minimum dynamic baudrate is 400000.
+        """
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_SPITFP_BAUDRATE_CONFIG, (enable_dynamic_baudrate, minimum_dynamic_baudrate), '! I', '')
+
+    def get_spitfp_baudrate_config(self):
+        """
+        Returns the baudrate config, see :func:`Set SPITFP Baudrate Config`.
+        """
+        return GetSPITFPBaudrateConfig(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE_CONFIG, (), '', '! I'))
+
     def get_send_timeout_count(self, communication_method):
         """
         Returns the timeout count for the different communication methods.
@@ -1802,6 +1835,49 @@ class BrickMasterFlashAdapterXMC(Device):
         the counters should nearly always stay at 0.
         """
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SEND_TIMEOUT_COUNT, (communication_method,), 'B', 'I')
+
+    def set_spitfp_baudrate(self, bricklet_port, baudrate):
+        """
+        Sets the baudrate for a specific Bricklet port ('a' - 'd'). The
+        baudrate can be in the range 400000 to 2000000.
+
+        If you want to increase the throughput of Bricklets you can increase
+        the baudrate. If you get a high error count because of high
+        interference (see :func:`Get SPITFP Error Count`) you can decrease the
+        baudrate.
+
+        If the dynamic baudrate feature is enabled, the baudrate set by this
+        function corresponds to the maximum baudrate (see :func:`Set SPITFP Baudrate Config`).
+
+        Regulatory testing is done with the default baudrate. If CE compatability
+        or similar is necessary in you applications we recommend to not change
+        the baudrate.
+
+        The default baudrate for all ports is 1400000.
+        """
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_SPITFP_BAUDRATE, (bricklet_port, baudrate), 'c I', '')
+
+    def get_spitfp_baudrate(self, bricklet_port):
+        """
+        Returns the baudrate for a given Bricklet port, see :func:`Set SPITFP Baudrate`.
+        """
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE, (bricklet_port,), 'c', 'I')
+
+    def get_spitfp_error_count(self, bricklet_port):
+        """
+        Returns the error count for the communication between Brick and Bricklet.
+
+        The errors are divided into
+
+        * ACK checksum errors,
+        * message checksum errors,
+        * frameing errors and
+        * overflow errors.
+
+        The errors counts are for errors that occur on the Brick side. All
+        Bricklets have a similar function that returns the errors on the Bricklet side.
+        """
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_ERROR_COUNT, (bricklet_port,), 'c', 'I I I I'))
 
     def enable_status_led(self):
         """
@@ -1829,7 +1905,7 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns *true* if the status LED is enabled, *false* otherwise.
         """
-        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_STATUS_LED_ENABLED, (), '', '?')
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_STATUS_LED_ENABLED, (), '', '!')
 
     def get_protocol1_bricklet_name(self, port):
         """
@@ -1876,13 +1952,13 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         return GetIdentity(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-    def register_callback(self, id_, callback):
+    def register_callback(self, callback_id, function):
         """
-        Registers a callback with ID *id* to the function *callback*.
+        Registers the given *function* with the given *callback_id*.
         """
-        if callback is None:
-            self.registered_callbacks.pop(id_, None)
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
         else:
-            self.registered_callbacks[id_] = callback
+            self.registered_callbacks[callback_id] = function
 
 MasterFlashAdapterXMC = BrickMasterFlashAdapterXMC # for backward compatibility

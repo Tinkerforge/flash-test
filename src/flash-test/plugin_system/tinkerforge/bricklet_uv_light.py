@@ -1,26 +1,20 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2016-09-08.      #
+# This file was automatically generated on 2017-07-26.      #
 #                                                           #
-# Python Bindings Version 2.1.10                            #
+# Python Bindings Version 2.1.13                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-try:
-    from collections import namedtuple
-except ImportError:
-    try:
-        from .ip_connection import namedtuple
-    except ValueError:
-        from ip_connection import namedtuple
+from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error
+    from .ip_connection import Device, IPConnection, Error, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error
+    from ip_connection import Device, IPConnection, Error, create_chunk_data
 
 GetUVLightCallbackThreshold = namedtuple('UVLightCallbackThreshold', ['option', 'min', 'max'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
@@ -35,6 +29,7 @@ class BrickletUVLight(Device):
 
     CALLBACK_UV_LIGHT = 8
     CALLBACK_UV_LIGHT_REACHED = 9
+
 
     FUNCTION_GET_UV_LIGHT = 1
     FUNCTION_SET_UV_LIGHT_CALLBACK_PERIOD = 2
@@ -67,110 +62,112 @@ class BrickletUVLight(Device):
         self.response_expected[BrickletUVLight.FUNCTION_GET_UV_LIGHT_CALLBACK_THRESHOLD] = BrickletUVLight.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletUVLight.FUNCTION_SET_DEBOUNCE_PERIOD] = BrickletUVLight.RESPONSE_EXPECTED_TRUE
         self.response_expected[BrickletUVLight.FUNCTION_GET_DEBOUNCE_PERIOD] = BrickletUVLight.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUVLight.CALLBACK_UV_LIGHT] = BrickletUVLight.RESPONSE_EXPECTED_ALWAYS_FALSE
-        self.response_expected[BrickletUVLight.CALLBACK_UV_LIGHT_REACHED] = BrickletUVLight.RESPONSE_EXPECTED_ALWAYS_FALSE
         self.response_expected[BrickletUVLight.FUNCTION_GET_IDENTITY] = BrickletUVLight.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickletUVLight.CALLBACK_UV_LIGHT] = 'I'
         self.callback_formats[BrickletUVLight.CALLBACK_UV_LIGHT_REACHED] = 'I'
 
+
     def get_uv_light(self):
         """
         Returns the UV light intensity of the sensor, the intensity is given
         in µW/cm².
-        
+
         To get UV Index you have to divide the value by 250. For example, a UV Light
         intensity of 500µW/cm² is equivalent to an UV Index of 2.
-        
+
         If you want to get the intensity periodically, it is recommended to use the
-        callback :func:`UVLight` and set the period with 
-        :func:`SetUVLightCallbackPeriod`.
+        :cb:`UV Light` callback and set the period with
+        :func:`Set UV Light Callback Period`.
         """
         return self.ipcon.send_request(self, BrickletUVLight.FUNCTION_GET_UV_LIGHT, (), '', 'I')
 
     def set_uv_light_callback_period(self, period):
         """
-        Sets the period in ms with which the :func:`UVLight` callback is triggered
+        Sets the period in ms with which the :cb:`UV Light` callback is triggered
         periodically. A value of 0 turns the callback off.
-        
-        :func:`UVLight` is only triggered if the intensity has changed since the
-        last triggering.
-        
+
+        The :cb:`UV Light` callback is only triggered if the intensity has changed since
+        the last triggering.
+
         The default value is 0.
         """
         self.ipcon.send_request(self, BrickletUVLight.FUNCTION_SET_UV_LIGHT_CALLBACK_PERIOD, (period,), 'I', '')
 
     def get_uv_light_callback_period(self):
         """
-        Returns the period as set by :func:`SetUVLightCallbackPeriod`.
+        Returns the period as set by :func:`Set UV Light Callback Period`.
         """
         return self.ipcon.send_request(self, BrickletUVLight.FUNCTION_GET_UV_LIGHT_CALLBACK_PERIOD, (), '', 'I')
 
     def set_uv_light_callback_threshold(self, option, min, max):
         """
-        Sets the thresholds for the :func:`UVLightReached` callback. 
-        
+        Sets the thresholds for the :cb:`UV Light Reached` callback.
+
         The following options are possible:
-        
+
         .. csv-table::
          :header: "Option", "Description"
          :widths: 10, 100
-        
+
          "'x'",    "Callback is turned off"
          "'o'",    "Callback is triggered when the intensity is *outside* the min and max values"
          "'i'",    "Callback is triggered when the intensity is *inside* the min and max values"
          "'<'",    "Callback is triggered when the intensity is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the intensity is greater than the min value (max is ignored)"
-        
+
         The default value is ('x', 0, 0).
         """
         self.ipcon.send_request(self, BrickletUVLight.FUNCTION_SET_UV_LIGHT_CALLBACK_THRESHOLD, (option, min, max), 'c I I', '')
 
     def get_uv_light_callback_threshold(self):
         """
-        Returns the threshold as set by :func:`SetUVLightCallbackThreshold`.
+        Returns the threshold as set by :func:`Set UV Light Callback Threshold`.
         """
         return GetUVLightCallbackThreshold(*self.ipcon.send_request(self, BrickletUVLight.FUNCTION_GET_UV_LIGHT_CALLBACK_THRESHOLD, (), '', 'c I I'))
 
     def set_debounce_period(self, debounce):
         """
         Sets the period in ms with which the threshold callbacks
-        
-        * :func:`UVLightReached`,
-        
+
+        * :cb:`UV Light Reached`,
+
         are triggered, if the thresholds
-        
-        * :func:`SetUVLightCallbackThreshold`,
-        
+
+        * :func:`Set UV Light Callback Threshold`,
+
         keep being reached.
-        
+
         The default value is 100.
         """
         self.ipcon.send_request(self, BrickletUVLight.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
 
     def get_debounce_period(self):
         """
-        Returns the debounce period as set by :func:`SetDebouncePeriod`.
+        Returns the debounce period as set by :func:`Set Debounce Period`.
         """
         return self.ipcon.send_request(self, BrickletUVLight.FUNCTION_GET_DEBOUNCE_PERIOD, (), '', 'I')
 
     def get_identity(self):
         """
-        Returns the UID, the UID where the Bricklet is connected to, 
+        Returns the UID, the UID where the Bricklet is connected to,
         the position, the hardware and firmware version as well as the
         device identifier.
-        
+
         The position can be 'a', 'b', 'c' or 'd'.
-        
+
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
         return GetIdentity(*self.ipcon.send_request(self, BrickletUVLight.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-    def register_callback(self, id, callback):
+    def register_callback(self, callback_id, function):
         """
-        Registers a callback with ID *id* to the function *callback*.
+        Registers the given *function* with the given *callback_id*.
         """
-        self.registered_callbacks[id] = callback
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
 
 UVLight = BrickletUVLight # for backward compatibility
