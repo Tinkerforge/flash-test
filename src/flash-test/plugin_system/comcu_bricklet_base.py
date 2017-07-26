@@ -162,6 +162,11 @@ class CoMCUBrickletBase(PluginBase):
                 packet_up_to = ((regular_plugin_upto // 256)+1)*4
                 index_list = list(range(0, packet_up_to)) + [num_packets-4, num_packets-3, num_packets-2, num_packets-1]
 
+            # We add a hack for RS485 here. We can't use the partial write for RS485 for the initial flashing.
+            # Why it doesn't work is unclear, we are still investigating...
+            if plugin_filename.endswith('bricklet_rs485_firmware_latest.zbin'):
+                index_list = list(range(num_packets))
+
             self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
             for position in index_list:
                 start = position*64
