@@ -196,9 +196,7 @@ class CoMCUBrickletBase(PluginBase):
                     if bootloader_mode == device.BOOTLOADER_MODE_FIRMWARE:
                         break
                 except:
-                    import traceback
                     traceback.print_exc()
-                    pass
 
                 if counter == 10:
                     self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 2,5s.')
