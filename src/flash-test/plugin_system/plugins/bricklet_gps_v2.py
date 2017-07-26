@@ -29,12 +29,12 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. TODO: Antenne aufkleben?
+0. Antenne aufkleben
 1. Verbinde GPS 2.0 Bricklet mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
-    * TODO
+    * Wert entspricht einer Zeit und sollte sich 1x pro Sekunde erhöhen
 5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """

@@ -186,7 +186,7 @@ class CoMCUBrickletBase(PluginBase):
                 else: # unkown error case
                     error_str = 'Error ' + str(mode_ret)
                 
-                self.mw.set_flash_status_error('Konnte vom vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
+                self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
                 return False
                 
             counter = 0
