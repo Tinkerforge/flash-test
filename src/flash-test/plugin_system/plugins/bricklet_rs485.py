@@ -32,13 +32,14 @@ import traceback
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. Verbinde TX+/- mit RX+/-
-1. Verbinde RS485 Bricklet mit Flash Adapter XMC
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe Wert: "Test OK!"
-5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+1. DIP Schalter auf 1=ON, 2=OFF, 3=OFF, 4=ON stellen
+2. Verbinde TX+/- mit RX+/-
+3. Verbinde RS485 Bricklet mit Flash Adapter XMC
+4. Drücke "Flashen"
+5. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+6. Überprüfe Wert: "Test OK!"
+7. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
 
     def __init__(self, *args):
