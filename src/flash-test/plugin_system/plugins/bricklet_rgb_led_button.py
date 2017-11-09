@@ -34,7 +34,7 @@ class Plugin(CoMCUBrickletBase):
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Knopf drücken uns loslassen
 5. Überprüfe: 
-     * Wert wechselt von "Released" auf "Pressed" auf "Rleleased" und wird grün
+     * Wert wechselt von "Released" auf "Pressed" auf "Released" und wird grün
      * Farbe der LED wechselt zwischen rot, grün, blau, weiß, aus
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
