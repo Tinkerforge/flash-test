@@ -20,6 +20,7 @@ from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_cla
 from .plugins.bricklet_gps_v2 import Plugin as bricklet_gps_v2_class
 from .plugins.bricklet_hall_effect import Plugin as bricklet_hall_effect_class
 from .plugins.bricklet_humidity import Plugin as bricklet_humidity_class
+from .plugins.bricklet_humidity_v2 import Plugin as bricklet_humidity_v2_class
 from .plugins.bricklet_industrial_analog_out import Plugin as bricklet_industrial_analog_out_class
 from .plugins.bricklet_industrial_digital_in_4 import Plugin as bricklet_industrial_digital_in_4_class
 from .plugins.bricklet_industrial_digital_out_4 import Plugin as bricklet_industrial_digital_out_4_class
@@ -82,6 +83,7 @@ device_classes = [
     bricklet_gps_v2_class,
     bricklet_hall_effect_class,
     bricklet_humidity_class,
+    bricklet_humidity_v2_class,
     bricklet_industrial_analog_out_class,
     bricklet_industrial_digital_in_4_class,
     bricklet_industrial_digital_out_4_class,
