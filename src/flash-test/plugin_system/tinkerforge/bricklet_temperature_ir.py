@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -12,9 +12,9 @@
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetAmbientTemperatureCallbackThreshold = namedtuple('AmbientTemperatureCallbackThreshold', ['option', 'min', 'max'])
 GetObjectTemperatureCallbackThreshold = namedtuple('ObjectTemperatureCallbackThreshold', ['option', 'min', 'max'])
@@ -139,6 +139,8 @@ class BrickletTemperatureIR(Device):
         The default emissivity is 1.0 (value of 65535) and the minimum emissivity the
         sensor can handle is 0.1 (value of 6553).
         """
+        emissivity = int(emissivity)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_EMISSIVITY, (emissivity,), 'H', '')
 
     def get_emissivity(self):
@@ -157,6 +159,8 @@ class BrickletTemperatureIR(Device):
 
         The default value is 0.
         """
+        period = int(period)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_AMBIENT_TEMPERATURE_CALLBACK_PERIOD, (period,), 'I', '')
 
     def get_ambient_temperature_callback_period(self):
@@ -175,6 +179,8 @@ class BrickletTemperatureIR(Device):
 
         The default value is 0.
         """
+        period = int(period)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_OBJECT_TEMPERATURE_CALLBACK_PERIOD, (period,), 'I', '')
 
     def get_object_temperature_callback_period(self):
@@ -201,6 +207,10 @@ class BrickletTemperatureIR(Device):
 
         The default value is ('x', 0, 0).
         """
+        option = create_char(option)
+        min = int(min)
+        max = int(max)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_AMBIENT_TEMPERATURE_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
 
     def get_ambient_temperature_callback_threshold(self):
@@ -227,6 +237,10 @@ class BrickletTemperatureIR(Device):
 
         The default value is ('x', 0, 0).
         """
+        option = create_char(option)
+        min = int(min)
+        max = int(max)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_OBJECT_TEMPERATURE_CALLBACK_THRESHOLD, (option, min, max), 'c h h', '')
 
     def get_object_temperature_callback_threshold(self):
@@ -251,6 +265,8 @@ class BrickletTemperatureIR(Device):
 
         The default value is 100.
         """
+        debounce = int(debounce)
+
         self.ipcon.send_request(self, BrickletTemperatureIR.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
 
     def get_debounce_period(self):

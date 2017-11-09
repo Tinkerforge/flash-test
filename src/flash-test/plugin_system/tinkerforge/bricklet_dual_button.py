@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -12,9 +12,9 @@
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetLEDState = namedtuple('LEDState', ['led_l', 'led_r'])
 GetButtonState = namedtuple('ButtonState', ['button_l', 'button_r'])
@@ -81,6 +81,9 @@ class BrickletDualButton(Device):
 
         The default value is (1, 1).
         """
+        led_l = int(led_l)
+        led_r = int(led_r)
+
         self.ipcon.send_request(self, BrickletDualButton.FUNCTION_SET_LED_STATE, (led_l, led_r), 'B B', '')
 
     def get_led_state(self):
@@ -104,6 +107,9 @@ class BrickletDualButton(Device):
 
         The other LED remains untouched.
         """
+        led = int(led)
+        state = int(state)
+
         self.ipcon.send_request(self, BrickletDualButton.FUNCTION_SET_SELECTED_LED_STATE, (led, state), 'B B', '')
 
     def get_identity(self):

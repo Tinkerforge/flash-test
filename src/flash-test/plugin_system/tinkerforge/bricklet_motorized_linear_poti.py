@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-#### __DEVICE_IS_NOT_RELEASED__ ####
-
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetPositionCallbackConfiguration = namedtuple('PositionCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
 GetMotorPosition = namedtuple('MotorPosition', ['position', 'drive_mode', 'hold_position', 'position_reached'])
@@ -25,7 +23,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletMotorizedLinearPoti(Device):
     """
-    TODO
+    Motorized Linear Potentiometer
     """
 
     DEVICE_IDENTIFIER = 267
@@ -117,48 +115,120 @@ class BrickletMotorizedLinearPoti(Device):
         """
         Returns the position of the linear potentiometer. The value is
         between 0 (slider down) and 100 (slider up).
+
+
+        If you want to get the value periodically, it is recommended to use the
+        :cb:`Position` callback. You can set the callback configuration
+        with :func:`Set Position Callback Configuration`.
         """
         return self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_GET_POSITION, (), '', 'H')
 
     def set_position_callback_configuration(self, period, value_has_to_change, option, min, max):
         """
-        TODO
+        The period in ms is the period with which the :cb:`Position` callback is triggered
+        periodically. A value of 0 turns the callback off.
+
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change
+        within the period, the callback is triggered immediately on change.
+
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
+
+        It is furthermore possible to constrain the callback with thresholds.
+
+        The `option`-parameter together with min/max sets a threshold for the :cb:`Position` callback.
+
+        The following options are possible:
+
+        .. csv-table::
+         :header: "Option", "Description"
+         :widths: 10, 100
+
+         "'x'",    "Threshold is turned off"
+         "'o'",    "Threshold is triggered when the value is *outside* the min and max values"
+         "'i'",    "Threshold is triggered when the value is *inside* the min and max values"
+         "'<'",    "Threshold is triggered when the value is smaller than the min value (max is ignored)"
+         "'>'",    "Threshold is triggered when the value is greater than the min value (max is ignored)"
+
+
+        If the option is set to 'x' (threshold turned off) the callback is triggered with the fixed period.
+
+        The default value is (0, false, 'x', 0, 0).
         """
+        period = int(period)
+        value_has_to_change = bool(value_has_to_change)
+        option = create_char(option)
+        min = int(min)
+        max = int(max)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_POSITION_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
 
     def get_position_callback_configuration(self):
         """
-        TODO
+        Returns the callback configuration as set by :func:`Set Position Callback Configuration`.
         """
         return GetPositionCallbackConfiguration(*self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_GET_POSITION_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
     def set_motor_position(self, position, drive_mode, hold_position):
         """
-        TODO
+        Sets the position of the potentiometer. The motorized potentiometer will
+        immediately start to approach the position. Depending on the choosen drive mode,
+        the position will either be reached as fast as possible or in a slow but smooth
+        motion.
+
+        The position has to be between 0 (slider down) and 100 (slider up).
+
+        If you set the hold position parameter to true, the position will automatically
+        be retained. If a user changes the position of the potentiometer, it will
+        automatically drive back to the original set point.
+
+        If the hold position parameter is set to false, the potentiometer can be changed
+        again by the user as soon as the set point was reached once.
         """
+        position = int(position)
+        drive_mode = int(drive_mode)
+        hold_position = bool(hold_position)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_MOTOR_POSITION, (position, drive_mode, hold_position), 'H B !', '')
 
     def get_motor_position(self):
         """
-        TODO
+        Returns the last motor position as set by :func:`Set Motor Position`. This is not
+        the current position (use :func:`Get Position` to get the current position). This
+        is the last used set point and configuration.
+
+        The position reached parameter is true if the position has been reached at one point.
+        The position may have been changed again in the meantime by the user.
         """
         return GetMotorPosition(*self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_GET_MOTOR_POSITION, (), '', 'H B ! !'))
 
     def calibrate(self):
         """
-        TODO
+        Starts a calibration procedure. The potentiometer will be driven to the extreme
+        points to calibrate the potentiometer.
+
+        The calibration is saved in flash, it does not have to be called on every start up.
+
+        The Motorized Linear Poti Bricklet is already factory-calibrated during
+        testing at Tinkerforge.
         """
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_CALIBRATE, (), '', '')
 
     def set_position_reached_callback_configuration(self, enabled):
         """
+        Enables/Disables :cb:`Position Reached` callback.
 
+        By default the callback is enabled.
         """
+        enabled = bool(enabled)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_POSITION_REACHED_CALLBACK_CONFIGURATION, (enabled,), '!', '')
 
     def get_position_reached_callback_configuration(self):
         """
-
+        Returns the position reached callback configuration
+        as set by :func:`Set Position Reached Callback Configuration`.
         """
         return self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_GET_POSITION_REACHED_CALLBACK_CONFIGURATION, (), '', '!')
 
@@ -190,6 +260,8 @@ class BrickletMotorizedLinearPoti(Device):
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        mode = int(mode)
+
         return self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
@@ -200,13 +272,15 @@ class BrickletMotorizedLinearPoti(Device):
 
     def set_write_firmware_pointer(self, pointer):
         """
-        Sets the firmware pointer for func:`WriteFirmware`. The pointer has
+        Sets the firmware pointer for :func:`Write Firmware`. The pointer has
         to be increased by chunks of size 64. The data is written to flash
         every 4 chunks (which equals to one page of size 256).
 
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        pointer = int(pointer)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
@@ -220,6 +294,8 @@ class BrickletMotorizedLinearPoti(Device):
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        data = list(map(int, data))
+
         return self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
@@ -232,6 +308,8 @@ class BrickletMotorizedLinearPoti(Device):
 
         If the Bricklet is in bootloader mode, the LED is will show heartbeat by default.
         """
+        config = int(config)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
@@ -270,6 +348,8 @@ class BrickletMotorizedLinearPoti(Device):
 
         We recommend that you use Brick Viewer to change the UID.
         """
+        uid = int(uid)
+
         self.ipcon.send_request(self, BrickletMotorizedLinearPoti.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):

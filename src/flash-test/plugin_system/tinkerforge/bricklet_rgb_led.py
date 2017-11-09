@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -12,9 +12,9 @@
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetRGBValue = namedtuple('RGBValue', ['r', 'g', 'b'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
@@ -51,8 +51,12 @@ class BrickletRGBLED(Device):
 
     def set_rgb_value(self, r, g, b):
         """
-        Sets the *rgb* value for the LED.
+        Sets the *rgb* value for the LED. The value can be between 0 and 255.
         """
+        r = int(r)
+        g = int(g)
+        b = int(b)
+
         self.ipcon.send_request(self, BrickletRGBLED.FUNCTION_SET_RGB_VALUE, (r, g, b), 'B B B', '')
 
     def get_rgb_value(self):

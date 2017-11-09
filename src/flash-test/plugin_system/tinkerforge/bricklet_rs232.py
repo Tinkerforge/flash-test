@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -12,9 +12,9 @@
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 Read = namedtuple('Read', ['message', 'length'])
 GetConfiguration = namedtuple('Configuration', ['baudrate', 'parity', 'stopbits', 'wordlength', 'hardware_flowcontrol', 'software_flowcontrol'])
@@ -111,6 +111,9 @@ class BrickletRS232(Device):
         See :func:`Set Configuration` for configuration possibilities
         regarding baudrate, parity and so on.
         """
+        message = create_char_list(message)
+        length = int(length)
+
         return self.ipcon.send_request(self, BrickletRS232.FUNCTION_WRITE, (message, length), '60c B', 'B')
 
     def read(self):
@@ -159,6 +162,13 @@ class BrickletRS232(Device):
 
         The default is: 115200 baud, parity none, 1 stop bit, word length 8, hard-/software flow control off.
         """
+        baudrate = int(baudrate)
+        parity = int(parity)
+        stopbits = int(stopbits)
+        wordlength = int(wordlength)
+        hardware_flowcontrol = int(hardware_flowcontrol)
+        software_flowcontrol = int(software_flowcontrol)
+
         self.ipcon.send_request(self, BrickletRS232.FUNCTION_SET_CONFIGURATION, (baudrate, parity, stopbits, wordlength, hardware_flowcontrol, software_flowcontrol), 'B B B B B B', '')
 
     def get_configuration(self):
@@ -174,6 +184,8 @@ class BrickletRS232(Device):
 
         .. versionadded:: 2.0.2$nbsp;(Plugin)
         """
+        break_time = int(break_time)
+
         self.ipcon.send_request(self, BrickletRS232.FUNCTION_SET_BREAK_CONDITION, (break_time,), 'H', '')
 
     def get_identity(self):

@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-#### __DEVICE_IS_NOT_RELEASED__ ####
-
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetHighContrastImageLowLevel = namedtuple('HighContrastImageLowLevel', ['image_chunk_offset', 'image_chunk_data'])
 GetTemperatureImageLowLevel = namedtuple('TemperatureImageLowLevel', ['image_chunk_offset', 'image_chunk_data'])
-GetStatistics = namedtuple('Statistics', ['spotmeter_statistics', 'temperatures', 'resolution', 'status'])
+GetStatistics = namedtuple('Statistics', ['spotmeter_statistics', 'temperatures', 'resolution', 'ffc_status', 'temperature_warning'])
 GetHighContrastConfig = namedtuple('HighContrastConfig', ['region_of_interest', 'dampening_factor', 'clip_limit', 'empty_counts'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
@@ -65,6 +63,10 @@ class BrickletThermalImaging(Device):
 
     RESOLUTION_0_TO_6553_KELVIN = 0
     RESOLUTION_0_TO_655_KELVIN = 1
+    FFC_STATUS_NEVER_COMMANDED = 0
+    FFC_STATUS_IMMINENT = 1
+    FFC_STATUS_IN_PROGRESS = 2
+    FFC_STATUS_COMPLETE = 3
     IMAGE_TRANSFER_MANUAL_HIGH_CONTRAST_IMAGE = 0
     IMAGE_TRANSFER_MANUAL_TEMPERATURE_IMAGE = 1
     IMAGE_TRANSFER_CALLBACK_HIGH_CONTRAST_IMAGE = 2
@@ -126,72 +128,198 @@ class BrickletThermalImaging(Device):
 
     def get_high_contrast_image_low_level(self):
         """
+        Returns the current high contrast image. See TODO ADD Link
+        for the difference between
+        High Contrast and Temperature Image. If you don't know what to use
+        the High Contrast Image is probably right for you.
 
+        The data is organized as a 8-bit value 80x60 pixel matrix linearized in
+        a one-dimensional array. The data is arranged line by line from top left to
+        bottom right.
+
+        Each 8-bit value represents one grey-scale image bit that can directly be
+        shown to a user on a display.
+
+        Before you can use this function you have to enable it with
+        :func:`Set Image Transfer Config`.
         """
         return GetHighContrastImageLowLevel(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_HIGH_CONTRAST_IMAGE_LOW_LEVEL, (), '', 'H 62B'))
 
     def get_temperature_image_low_level(self):
         """
+        Returns the current temperature image. See TODO ADD Link
+        for the difference between High Contrast and Temperature Image.
+        If you don't know what to use the High Contrast Image is probably right for you.
 
+        The data is organized as a 16-bit value 80x60 pixel matrix linearized in
+        a one-dimensional array. The data is arranged line by line from top left to
+        bottom right.
+
+        Each 16-bit value represents one temperature measurement in either
+        Kelvin/10 or Kelvin/100 (depending on the resolution set with:func:`Set Resolution`).
+
+        Before you can use this function you have to enable it with
+        :func:`Set Image Transfer Config`.
         """
         return GetTemperatureImageLowLevel(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_TEMPERATURE_IMAGE_LOW_LEVEL, (), '', 'H 31H'))
 
     def get_statistics(self):
         """
-        Status:
-        * bit 0: FFC desired
-        * bit 1-2: FFC never commanded, FFC imminent, FFC in progress, FFC complete
-        * bit 3: AGC State
-        * bit 4: Shutter lockout
-        * bit 5: Overtemp shut down imminent
+        Returns the spotmeter statistics, various temperatures, current resolution and status bits.
+
+        The spotmeter statistics are:
+
+        * Index 0: Mean Temperature.
+        * Index 1: Maximum Temperature.
+        * Index 2: Minimum Temperature.
+        * Index 3: Pixel Count of spotmeter region of interest.
+
+        The temperatures are:
+
+        * Index 0: Focal Plain Array temperature.
+        * Index 1: Focal Plain Array temperature at last FFC (Flat Field Correction).
+        * Index 2: Housing temperature.
+        * Index 3: Housing temperature at last FFC.
+
+        The resolution is either `0 to 6553 Kelvin` or `0 to 655 Kelvin`. If the resolution is the former,
+        the temperatures are in Kelvin/10, if it is the latter the temperatures are in Kelvin/100.
+
+        FFC (Flat Field Correction) Status:
+
+        * FFC Never Commanded: Only seen on startup before first FFC.
+        * FFC Imminent: This state is entered 2 seconds prior to initiating FFC.
+        * FFC In Progress: Flat field correction is started (shutter moves in front of lens and back). Takes about 1 second.
+        * FFC Complete: Shutter is in waiting position again, FFC done.
+
+        Temperature warning bits:
+
+        * Index 0: Shutter lockout (if true shutter is locked out, temperature outside -10°C-65°C)
+        * Index 1: Overtemp shut down imminent (goes true 10 seconds before shutdown)
         """
-        return GetStatistics(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_STATISTICS, (), '', '4H 4H B H'))
+        return GetStatistics(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_STATISTICS, (), '', '4H 4H B B 2!'))
 
     def set_resolution(self, resolution):
         """
+        Sets the resolution. The Thermal Imaging Bricklet can either measure
 
+        * from 0 to 6553 Kelvin (-273.15° to 6279.85°C) with 0.1°C resolution or
+        * from 0 to 655 Kelvin (-273.15° to 381.85°C) with 0.01°C resolution.
+
+        The default value is 0 to 655 Kelvin.
         """
+        resolution = int(resolution)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_RESOLUTION, (resolution,), 'B', '')
 
     def get_resolution(self):
         """
-
+        Returns the resolution as set by :func:`Set Resolution`.
         """
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_RESOLUTION, (), '', 'B')
 
     def set_spotmeter_config(self, region_of_interest):
         """
+        Sets the spotmeter region of interest. The 4 values are
 
+        * Index 0: Column start (has to be smaller then Colummn end).
+        * Index 1: Row start (has to be smaller then Row end).
+        * Index 2: Colum end (has to be smaller then 80).
+        * Index 3: Row end (has to be smaller then 60).
+
+        The spotmeter statistics can be read out with :func:`Get Statistics`.
+
+        The default region of interest is (39, 29, 40, 30).
         """
+        region_of_interest = list(map(int, region_of_interest))
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_SPOTMETER_CONFIG, (region_of_interest,), '4B', '')
 
     def get_spotmeter_config(self):
         """
-
+        Returns the spotmeter config as set by :func:`Set Spotmeter Config`.
         """
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_SPOTMETER_CONFIG, (), '', '4B')
 
     def set_high_contrast_config(self, region_of_interest, dampening_factor, clip_limit, empty_counts):
         """
+        Sets the high contrast region of interest, dampening factor, clip limit and empty counts.
+        This config is only used in high contrast mode (see :func:`Set Image Transfer Config`).
 
+        The high contrast region of interest consists of four values:
+
+        * Index 0: Column start (has to be smaller or equal then Colummn end).
+        * Index 1: Row start (has to be smaller then Row end).
+        * Index 2: Colum end (has to be smaller then 80).
+        * Index 3: Row end (has to be smaller then 60).
+
+        The algorithm to generate the high contrast image is applied to this region.
+
+        Dampening Factor: This parameter is the amount of temporal dampening applied to the HEQ
+        (history equalization) transformation function. An IIR filter of the form
+        (N/256) * previous + ((256-N)/256) * current is applied, and the HEQ dampening factor
+        represents the value N in the equation, i.e., a value that applies to the amount of
+        influence the previous HEQ transformation function has on the current function. The
+        lower the value of N the higher the influence of the current video frame whereas
+        the higher the value of N the more influence the previous damped transfer function has.
+
+        Clip Limit Index 0 (AGC HEQ Clip Limit Low): This parameter defines an artificial population that is added to
+        every non-empty histogram bin. In other words, if the Clip Limit Low is set to L, a bin
+        with an actual population of X will have an effective population of L + X. Any empty bin
+        that is nearby a populated bin will be given an artificial population of L. The effect of
+        higher values is to provide a more linear transfer function; lower values provide a more
+        non-linear (equalized) transfer function.
+
+        Clip Limit Index 1 (AGC HEQ Clip Limit High): This parameter defines the maximum number of pixels allowed
+        to accumulate in any given histogram bin. Any additional pixels in a given bin are clipped.
+        The effect of this parameter is to limit the influence of highly-populated bins on the
+        resulting HEQ transformation function.
+
+        Empty Counts: This parameter specifies the maximum number of pixels in a bin that will be
+        interpreted as an empty bin. Histogram bins with this number of pixels or less will be
+        processed as an empty bin.
+
+        The default values are
+
+        * Region Of Interest = (0, 0, 79, 59),
+        * Dampening Factor = 64,
+        * Clip Limit = (4800, 512) and
+        * Empty Counts = 2.
         """
+        region_of_interest = list(map(int, region_of_interest))
+        dampening_factor = int(dampening_factor)
+        clip_limit = list(map(int, clip_limit))
+        empty_counts = int(empty_counts)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_HIGH_CONTRAST_CONFIG, (region_of_interest, dampening_factor, clip_limit, empty_counts), '4B H 2H H', '')
 
     def get_high_contrast_config(self):
         """
-
+        Returns the high contrast config as set by :func:`Set High Contrast Config`.
         """
         return GetHighContrastConfig(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_HIGH_CONTRAST_CONFIG, (), '', '4B H 2H H'))
 
     def set_image_transfer_config(self, config):
         """
+        The necessary bandwith of this Bricklet is too high to use getter/callback or
+        high contrast/temperature image at the same time. You have to configure the one
+        you want to use, the Bricklet will optimize the internal configuration accordingly.
 
+        Corresponding functions:
+
+        * Manual High Contrast Image: :func:`Get High Contrast Image`.
+        * Manual Temperature Image: :func:`Get Temperature Image`.
+        * Callback High Contrast Image: :cb:`High Contrast Image`.
+        * Callback Temperature Image: :cb:`Temperature Image`.
+
+        The default is Manual High Contrast Image (0).
         """
+        config = int(config)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_IMAGE_TRANSFER_CONFIG, (config,), 'B', '')
 
     def get_image_transfer_config(self):
         """
-
+        Returns the image trasfer config, as set by :func:`Set Image Transfer Config`.
         """
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_IMAGE_TRANSFER_CONFIG, (), '', 'B')
 
@@ -223,6 +351,8 @@ class BrickletThermalImaging(Device):
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        mode = int(mode)
+
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
@@ -233,13 +363,15 @@ class BrickletThermalImaging(Device):
 
     def set_write_firmware_pointer(self, pointer):
         """
-        Sets the firmware pointer for func:`WriteFirmware`. The pointer has
+        Sets the firmware pointer for :func:`Write Firmware`. The pointer has
         to be increased by chunks of size 64. The data is written to flash
         every 4 chunks (which equals to one page of size 256).
 
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        pointer = int(pointer)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
@@ -253,6 +385,8 @@ class BrickletThermalImaging(Device):
         This function is used by Brick Viewer during flashing. It should not be
         necessary to call it in a normal user program.
         """
+        data = list(map(int, data))
+
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
@@ -265,6 +399,8 @@ class BrickletThermalImaging(Device):
 
         If the Bricklet is in bootloader mode, the LED is will show heartbeat by default.
         """
+        config = int(config)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
@@ -303,6 +439,8 @@ class BrickletThermalImaging(Device):
 
         We recommend that you use Brick Viewer to change the UID.
         """
+        uid = int(uid)
+
         self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
@@ -327,7 +465,20 @@ class BrickletThermalImaging(Device):
 
     def get_high_contrast_image(self):
         """
+        Returns the current high contrast image. See TODO ADD Link
+        for the difference between
+        High Contrast and Temperature Image. If you don't know what to use
+        the High Contrast Image is probably right for you.
 
+        The data is organized as a 8-bit value 80x60 pixel matrix linearized in
+        a one-dimensional array. The data is arranged line by line from top left to
+        bottom right.
+
+        Each 8-bit value represents one grey-scale image bit that can directly be
+        shown to a user on a display.
+
+        Before you can use this function you have to enable it with
+        :func:`Set Image Transfer Config`.
         """
         image_length = 4800
 
@@ -357,7 +508,19 @@ class BrickletThermalImaging(Device):
 
     def get_temperature_image(self):
         """
+        Returns the current temperature image. See TODO ADD Link
+        for the difference between High Contrast and Temperature Image.
+        If you don't know what to use the High Contrast Image is probably right for you.
 
+        The data is organized as a 16-bit value 80x60 pixel matrix linearized in
+        a one-dimensional array. The data is arranged line by line from top left to
+        bottom right.
+
+        Each 16-bit value represents one temperature measurement in either
+        Kelvin/10 or Kelvin/100 (depending on the resolution set with:func:`Set Resolution`).
+
+        Before you can use this function you have to enable it with
+        :func:`Set Image Transfer Config`.
         """
         image_length = 4800
 

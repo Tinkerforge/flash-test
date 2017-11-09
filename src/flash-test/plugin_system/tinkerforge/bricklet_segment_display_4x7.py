@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-07-26.      #
+# This file was automatically generated on 2017-11-09.      #
 #                                                           #
-# Python Bindings Version 2.1.13                            #
+# Python Bindings Version 2.1.14                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -12,9 +12,9 @@
 from collections import namedtuple
 
 try:
-    from .ip_connection import Device, IPConnection, Error, create_chunk_data
+    from .ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 except ValueError:
-    from ip_connection import Device, IPConnection, Error, create_chunk_data
+    from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetSegments = namedtuple('Segments', ['segments', 'brightness', 'colon'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
@@ -71,6 +71,10 @@ class BrickletSegmentDisplay4x7(Device):
         The brightness can be set between 0 (dark) and 7 (bright). The colon
         parameter turns the colon of the display on or off.
         """
+        segments = list(map(int, segments))
+        brightness = int(brightness)
+        colon = bool(colon)
+
         self.ipcon.send_request(self, BrickletSegmentDisplay4x7.FUNCTION_SET_SEGMENTS, (segments, brightness, colon), '4B B !', '')
 
     def get_segments(self):
@@ -97,6 +101,11 @@ class BrickletSegmentDisplay4x7(Device):
 
         You can stop the counter at every time by calling :func:`Set Segments`.
         """
+        value_from = int(value_from)
+        value_to = int(value_to)
+        increment = int(increment)
+        length = int(length)
+
         self.ipcon.send_request(self, BrickletSegmentDisplay4x7.FUNCTION_START_COUNTER, (value_from, value_to, increment, length), 'h h h I', '')
 
     def get_counter_value(self):
