@@ -28,6 +28,7 @@ from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
 from plugin_system.tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
+from plugin_system.tinkerforge.bricklet_dmx import BrickletDMX
 from collections import namedtuple
 
 DeviceInformation = namedtuple('DeviceInformation', 'uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type')
@@ -77,6 +78,9 @@ class DeviceManager(QtCore.QObject):
                 self.flash_adapter_xmc_uid = uid
                 return
                 
+            # DMX Master
+            if device_identifier == BrickletDMX.DEVICE_IDENTIFIER and uid == 'dmxT1':
+                return
 
             device_information = DeviceInformation(uid, connected_uid, position, hardware_version,
                                                    firmware_version, device_identifier, enumeration_type)
