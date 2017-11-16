@@ -63,6 +63,8 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('motorized_linear_poti'))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
+
         if self.cbe_position != None:
             self.cbe_position.set_period(0)
 

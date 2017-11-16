@@ -56,5 +56,7 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('thermal_imaging'))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
+
         self.button = BrickletThermalImaging(device_information.uid, self.get_ipcon())
         self.show_device_information(device_information)

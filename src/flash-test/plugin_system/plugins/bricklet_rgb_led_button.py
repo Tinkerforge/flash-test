@@ -64,6 +64,8 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename('rgb_led_button'))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
+
         if self.cbe_button_state != None:
             self.cbe_button_state.set_period(0)
 
