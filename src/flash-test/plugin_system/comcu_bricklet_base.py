@@ -167,32 +167,40 @@ class CoMCUBrickletBase(PluginBase):
             if plugin_filename.endswith('bricklet_rs485_firmware_latest.zbin'):
                 index_list = list(range(num_packets))
 
-            self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
-            for position in index_list:
-                start = position*64
-                end   = (position+1)*64
-                self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + str(num_packets-1))
-                device.set_write_firmware_pointer(start)
-                device.write_firmware(plugin[start:end])
-
-            self.mw.set_flash_status_action('Wechsle vom Bootloader-Modus in den Firmware-Modus')
-
-            mode_ret = device.set_bootloader_mode(device.BOOTLOADER_MODE_FIRMWARE)
-            if mode_ret != 0 and mode_ret != 2: # 0 = ok, 2 = no change
-                error_str = ''
-                if mode_ret == 1:
-                    error_str = 'Invalid mode (Error 1)'
-                elif mode_ret == 3:
-                    error_str = 'Entry function not present (Error 3)'
-                elif mode_ret == 4:
-                    error_str = 'Device identifier incorrect (Error 4)'
-                elif mode_ret == 5:
-                    error_str = 'CRC Mismatch (Error 5)'
-                else: # unkown error case
-                    error_str = 'Error ' + str(mode_ret)
+            for _ in range(2):
+                self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
+                for position in index_list:
+                    start = position*64
+                    end   = (position+1)*64
+                    self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + str(num_packets-1))
+                    device.set_write_firmware_pointer(start)
+                    device.write_firmware(plugin[start:end])
+    
+                self.mw.set_flash_status_action('Wechsle vom Bootloader-Modus in den Firmware-Modus')
+    
+                mode_ret = device.set_bootloader_mode(device.BOOTLOADER_MODE_FIRMWARE)
+                if mode_ret != 0 and mode_ret != 2: # 0 = ok, 2 = no change
+                    error_str = ''
+                    if mode_ret == 1:
+                        error_str = 'Invalid mode (Error 1)'
+                    elif mode_ret == 3:
+                        error_str = 'Entry function not present (Error 3)'
+                    elif mode_ret == 4:
+                        error_str = 'Device identifier incorrect (Error 4)'
+                    elif mode_ret == 5:
+                        error_str = 'CRC Mismatch (Error 5)'
+                    else: # unkown error case
+                        error_str = 'Error ' + str(mode_ret)
+                    
+                    # In case of CRC Mismatch we try a second time
+                    if mode_ret == 5:
+                        continue
+                        
+                    self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
+                    return False
                 
-                self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
-                return False
+                # Everything OK, we dont have to try a second time
+                break
                 
             counter = 0
             while True:
