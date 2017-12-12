@@ -65,6 +65,9 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_humidity.set_period(0)
 
         self.h = BrickletHumidityV2(device_information.uid, self.get_ipcon())
+        if self.h.get_bootloader_mode() != BrickletHumidityV2.BOOTLOADER_MODE_FIRMWARE:
+            return
+        
         self.cbe_humidity = CallbackEmulator(self.h.get_humidity,
                                              self.cb_humidity)
         self.cbe_humidity.set_period(100)

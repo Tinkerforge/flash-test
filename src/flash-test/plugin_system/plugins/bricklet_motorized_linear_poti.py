@@ -72,6 +72,9 @@ class Plugin(CoMCUBrickletBase):
         self.seen100 = False
 
         self.mlp = BrickletMotorizedLinearPoti(device_information.uid, self.get_ipcon())
+        if self.mlp.get_bootloader_mode() != BrickletMotorizedLinearPoti.BOOTLOADER_MODE_FIRMWARE:
+            return
+        
         self.mlp.calibrate()
         self.cbe_position = CallbackEmulator(self.mlp.get_position,
                                              self.cb_position,

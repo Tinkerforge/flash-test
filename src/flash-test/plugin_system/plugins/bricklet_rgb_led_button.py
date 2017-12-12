@@ -73,6 +73,9 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_button_state.set_period(0)
 
         self.button = BrickletRGBLEDButton(device_information.uid, self.get_ipcon())
+        if self.button.get_bootloader_mode() != BrickletRGBLEDButton.BOOTLOADER_MODE_FIRMWARE:
+            return
+        
         self.cbe_button_state = CallbackEmulator(self.button.get_button_state,
                                                  self.cb_button_state, 
                                                  ignore_last_data=True)

@@ -68,6 +68,9 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_voltage.set_period(0)
 
         self.matrix = BrickletRGBLEDMatrix(device_information.uid, self.get_ipcon())
+        if self.matrix.get_bootloader_mode() != BrickletRGBLEDMatrix.BOOTLOADER_MODE_FIRMWARE:
+            return
+        
         self.cbe_voltage = CallbackEmulator(self.matrix.get_supply_voltage,
                                             self.cb_voltage)
         self.cbe_voltage.set_period(500)
