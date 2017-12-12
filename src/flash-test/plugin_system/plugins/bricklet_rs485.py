@@ -73,7 +73,7 @@ class Plugin(CoMCUBrickletBase):
         BYTES_TO_SEND = 1280
 
         # Bring data in same format as output will be
-        data_in = [(bytes([x % 256]) if (x % 256) > 127 else chr(x % 256)) for x in range(BYTES_TO_SEND)]
+        data_in = [(chr(x % 256)) for x in range(BYTES_TO_SEND)]
 
         try:
             self.rs485.write(data_in)
@@ -93,3 +93,4 @@ class Plugin(CoMCUBrickletBase):
                 self.mw.set_value_okay("Test OK!")
         except:
             self.mw.set_value_error("Fehler: " + traceback.format_exc())
+            
