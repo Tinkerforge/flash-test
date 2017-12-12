@@ -42,17 +42,12 @@ class Plugin(CoMCUBrickletBase):
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
-        self.cbe_dmx_state = None
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
 
         if device_information:
             self.new_enum(device_information)
-
-    def stop(self):
-        if self.cbe_dmx_state != None:
-            self.cbe_dmx_state.set_period(0)
 
     def get_device_identifier(self):
         return BrickletDMX.DEVICE_IDENTIFIER
@@ -62,9 +57,6 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-
-        if self.cbe_dmx_state != None:
-            self.cbe_dmx_state.set_period(0)
 
         self.dmx_master = BrickletDMX('dmxT1', self.get_ipcon())
         self.dmx_master.set_dmx_mode(0)
