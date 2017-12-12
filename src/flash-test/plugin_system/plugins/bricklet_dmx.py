@@ -63,6 +63,9 @@ class Plugin(CoMCUBrickletBase):
         self.dmx_master.write_frame(list(range(256))*2)
 
         self.dmx_slave = BrickletDMX(device_information.uid, self.get_ipcon())
+        if self.dmx_slave.get_bootloader_mode() != BrickletDMX.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         self.dmx_slave.set_dmx_mode(1)
         self.cbe_read_frame = CallbackEmulator(self.dmx_slave.read_frame,
                                                self.cb_read_frame)
