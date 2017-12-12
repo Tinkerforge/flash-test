@@ -34,7 +34,7 @@ class Plugin(CoMCUBrickletBase):
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Knopf drücken uns loslassen
 5. Überprüfe: 
-     * Wert wechselt von "Released" auf "Pressed" auf "Released" und wird grün
+     * Wert wechselt von "Losgelassen" auf "Gedrückt" auf "Losgelassen" und wird grün
      * Farbe der LED wechselt zwischen rot, grün, blau, weiß, aus
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
@@ -65,6 +65,9 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
+        
+        self.mw.set_value_normal('Warte auf Knopfdrück')
+        self.state_seen_counter = 0
 
         if self.cbe_button_state != None:
             self.cbe_button_state.set_period(0)
@@ -87,9 +90,9 @@ class Plugin(CoMCUBrickletBase):
             set_value = self.mw.set_value_okay
             
         if button_state:
-            set_value('Released')
+            set_value('Losgelassen')
         else:
-            set_value('Pressed')
+            set_value('Gedrückt')
 
         if self.color < 10:
             self.button.set_color(255, 0 , 0)
