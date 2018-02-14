@@ -51,6 +51,7 @@ class Plugin(ExtensionBase):
         ExtensionBase.start(self, device_information)
 
     def stop(self):
+        self.mw.button_ethernet_extension.clicked.disconnect(self.button_clicked)
         self.mw.hide_layout(self.mw.ethernet_extension_layout)
         ExtensionBase.stop(self)
 
