@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-11-09.      #
+# This file was automatically generated on 2018-02-19.      #
 #                                                           #
-# Python Bindings Version 2.1.14                            #
+# Python Bindings Version 2.1.15                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -25,7 +25,7 @@ ReadFrame = namedtuple('ReadFrame', ['frame', 'frame_number'])
 
 class BrickletDMX(Device):
     """
-    DMX Master and Slave
+    DMX master and slave
     """
 
     DEVICE_IDENTIFIER = 285
@@ -134,7 +134,7 @@ class BrickletDMX(Device):
 
     def set_dmx_mode(self, dmx_mode):
         """
-        Sets the DMX mode to either Slave or Master.
+        Sets the DMX mode to either master or slave.
 
         Calling this function sets frame number to 0.
         """
@@ -144,7 +144,7 @@ class BrickletDMX(Device):
 
     def get_dmx_mode(self):
         """
-        Returns the DMX mode, as set by func:`Get DMX Mode`.
+        Returns the DMX mode, as set by func:`Set DMX Mode`.
         """
         return self.ipcon.send_request(self, BrickletDMX.FUNCTION_GET_DMX_MODE, (), '', 'B')
 
@@ -161,7 +161,7 @@ class BrickletDMX(Device):
         Generic approach:
 
         * Set the frame duration to a value that represents the number of frames per second you want to achieve.
-        * Set channels for one frame.
+        * Set channels for first frame.
         * Wait for the :cb:`Frame Started` callback.
         * Set channels for next frame.
         * Wait for the :cb:`Frame Started` callback.
@@ -169,7 +169,7 @@ class BrickletDMX(Device):
 
         This approach ensures that you can set new DMX data with a fixed frame rate.
 
-        This function can only be called in Master Mode.
+        This function can only be called in master mode.
         """
         frame_length = int(frame_length)
         frame_chunk_offset = int(frame_chunk_offset)
@@ -179,7 +179,7 @@ class BrickletDMX(Device):
 
     def read_frame_low_level(self):
         """
-        Returns the last frame that was written by the DMX Master. The size of the array
+        Returns the last frame that was written by the DMX master. The size of the array
         is equivalent to the number of channels in the frame. Each byte represents one channel.
 
         The next frame is available after the :cb:`Frame Available` callback was called.
@@ -197,7 +197,7 @@ class BrickletDMX(Device):
 
         The frame number starts at 0 and it is increased by one with each received frame.
 
-        This function can only be called in Slave Mode.
+        This function can only be called in slave mode.
         """
         return ReadFrameLowLevel(*self.ipcon.send_request(self, BrickletDMX.FUNCTION_READ_FRAME_LOW_LEVEL, (), '', 'H H 56B I'))
 
@@ -211,7 +211,7 @@ class BrickletDMX(Device):
         If you always want to send a frame as fast as possible you can set
         this value to 0.
 
-        This setting is only used in Master Mode.
+        This setting is only used in master mode.
 
         Default value: 100ms (10 frames per second).
         """
@@ -275,11 +275,11 @@ class BrickletDMX(Device):
     def set_frame_callback_config(self, frame_started_callback_enabled, frame_available_callback_enabled, frame_callback_enabled, frame_error_count_callback_enabled):
         """
         Enables/Disables the different callbacks. By default the
-        :cb:`Frame Started` and :cb:`Frame Available` callbacks are enabled while
-        the :cb:`Frame` and :cb:`Frame Error Count` callbacks are disabled.
+        :cb:`Frame Started` callback and :cb:`Frame Available` callback are enabled while
+        the :cb:`Frame` callback and :cb:`Frame Error Count` callback are disabled.
 
         If you want to use the :cb:`Frame` callback you can enable it and disable
-        the cb:`Frame Available` callback at the same time. It becomes redundent in
+        the cb:`Frame Available` callback at the same time. It becomes redundant in
         this case.
         """
         frame_started_callback_enabled = bool(frame_started_callback_enabled)
@@ -448,7 +448,7 @@ class BrickletDMX(Device):
         Generic approach:
 
         * Set the frame duration to a value that represents the number of frames per second you want to achieve.
-        * Set channels for one frame.
+        * Set channels for first frame.
         * Wait for the :cb:`Frame Started` callback.
         * Set channels for next frame.
         * Wait for the :cb:`Frame Started` callback.
@@ -456,7 +456,7 @@ class BrickletDMX(Device):
 
         This approach ensures that you can set new DMX data with a fixed frame rate.
 
-        This function can only be called in Master Mode.
+        This function can only be called in master mode.
         """
         frame = list(map(int, frame))
 
@@ -480,7 +480,7 @@ class BrickletDMX(Device):
 
     def read_frame(self):
         """
-        Returns the last frame that was written by the DMX Master. The size of the array
+        Returns the last frame that was written by the DMX master. The size of the array
         is equivalent to the number of channels in the frame. Each byte represents one channel.
 
         The next frame is available after the :cb:`Frame Available` callback was called.
@@ -498,7 +498,7 @@ class BrickletDMX(Device):
 
         The frame number starts at 0 and it is increased by one with each received frame.
 
-        This function can only be called in Slave Mode.
+        This function can only be called in slave mode.
         """
         with self.stream_lock:
             ret = self.read_frame_low_level()

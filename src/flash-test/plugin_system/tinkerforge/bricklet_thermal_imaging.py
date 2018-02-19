@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2017-11-09.      #
+# This file was automatically generated on 2018-02-19.      #
 #                                                           #
-# Python Bindings Version 2.1.14                            #
+# Python Bindings Version 2.1.15                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -25,7 +25,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletThermalImaging(Device):
     """
-    60x80 pixel thermal imaging camera
+    80x60 pixel thermal imaging camera
     """
 
     DEVICE_IDENTIFIER = 278
@@ -128,7 +128,7 @@ class BrickletThermalImaging(Device):
 
     def get_high_contrast_image_low_level(self):
         """
-        Returns the current high contrast image. See TODO ADD Link
+        Returns the current high contrast image. See `here <https://www.tinkerforge.com/en/doc/Hardware/Bricklets/Thermal_Imaging.html#high-contrast-image-vs-temperature-image>`__
         for the difference between
         High Contrast and Temperature Image. If you don't know what to use
         the High Contrast Image is probably right for you.
@@ -137,7 +137,7 @@ class BrickletThermalImaging(Device):
         a one-dimensional array. The data is arranged line by line from top left to
         bottom right.
 
-        Each 8-bit value represents one grey-scale image bit that can directly be
+        Each 8-bit value represents one gray-scale image pixel that can directly be
         shown to a user on a display.
 
         Before you can use this function you have to enable it with
@@ -147,7 +147,7 @@ class BrickletThermalImaging(Device):
 
     def get_temperature_image_low_level(self):
         """
-        Returns the current temperature image. See TODO ADD Link
+        Returns the current temperature image. See `here <https://www.tinkerforge.com/en/doc/Hardware/Bricklets/Thermal_Imaging.html#high-contrast-image-vs-temperature-image>`__
         for the difference between High Contrast and Temperature Image.
         If you don't know what to use the High Contrast Image is probably right for you.
 
@@ -193,8 +193,8 @@ class BrickletThermalImaging(Device):
 
         Temperature warning bits:
 
-        * Index 0: Shutter lockout (if true shutter is locked out, temperature outside -10°C-65°C)
-        * Index 1: Overtemp shut down imminent (goes true 10 seconds before shutdown)
+        * Index 0: Shutter lockout (if true shutter is locked out because temperature is outside -10°C to +65°C)
+        * Index 1: Overtemperature shut down imminent (goes true 10 seconds before shutdown)
         """
         return GetStatistics(*self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_STATISTICS, (), '', '4H 4H B B 2!'))
 
@@ -202,8 +202,11 @@ class BrickletThermalImaging(Device):
         """
         Sets the resolution. The Thermal Imaging Bricklet can either measure
 
-        * from 0 to 6553 Kelvin (-273.15° to 6279.85°C) with 0.1°C resolution or
-        * from 0 to 655 Kelvin (-273.15° to 381.85°C) with 0.01°C resolution.
+        * from 0 to 6553 Kelvin (-273.15°C to +6279.85°C) with 0.1°C resolution or
+        * from 0 to 655 Kelvin (-273.15°C to +381.85°C) with 0.01°C resolution.
+
+        The accuracy is specified for -10°C to 450°C in the
+        first range and -10°C and 140°C in the second range.
 
         The default value is 0 to 655 Kelvin.
         """
@@ -221,9 +224,9 @@ class BrickletThermalImaging(Device):
         """
         Sets the spotmeter region of interest. The 4 values are
 
-        * Index 0: Column start (has to be smaller then Colummn end).
+        * Index 0: Column start (has to be smaller then Column end).
         * Index 1: Row start (has to be smaller then Row end).
-        * Index 2: Colum end (has to be smaller then 80).
+        * Index 2: Column end (has to be smaller then 80).
         * Index 3: Row end (has to be smaller then 60).
 
         The spotmeter statistics can be read out with :func:`Get Statistics`.
@@ -247,16 +250,19 @@ class BrickletThermalImaging(Device):
 
         The high contrast region of interest consists of four values:
 
-        * Index 0: Column start (has to be smaller or equal then Colummn end).
+        * Index 0: Column start (has to be smaller or equal then Column end).
         * Index 1: Row start (has to be smaller then Row end).
-        * Index 2: Colum end (has to be smaller then 80).
+        * Index 2: Column end (has to be smaller then 80).
         * Index 3: Row end (has to be smaller then 60).
 
         The algorithm to generate the high contrast image is applied to this region.
 
         Dampening Factor: This parameter is the amount of temporal dampening applied to the HEQ
-        (history equalization) transformation function. An IIR filter of the form
-        (N/256) * previous + ((256-N)/256) * current is applied, and the HEQ dampening factor
+        (history equalization) transformation function. An IIR filter of the form::
+
+         (N / 256) * previous + ((256 - N) / 256) * current
+
+        is applied, and the HEQ dampening factor
         represents the value N in the equation, i.e., a value that applies to the amount of
         influence the previous HEQ transformation function has on the current function. The
         lower the value of N the higher the influence of the current video frame whereas
@@ -300,7 +306,7 @@ class BrickletThermalImaging(Device):
 
     def set_image_transfer_config(self, config):
         """
-        The necessary bandwith of this Bricklet is too high to use getter/callback or
+        The necessary bandwidth of this Bricklet is too high to use getter/callback or
         high contrast/temperature image at the same time. You have to configure the one
         you want to use, the Bricklet will optimize the internal configuration accordingly.
 
@@ -308,8 +314,8 @@ class BrickletThermalImaging(Device):
 
         * Manual High Contrast Image: :func:`Get High Contrast Image`.
         * Manual Temperature Image: :func:`Get Temperature Image`.
-        * Callback High Contrast Image: :cb:`High Contrast Image`.
-        * Callback Temperature Image: :cb:`Temperature Image`.
+        * Callback High Contrast Image: :cb:`High Contrast Image` callback.
+        * Callback Temperature Image: :cb:`Temperature Image` callback.
 
         The default is Manual High Contrast Image (0).
         """
@@ -319,7 +325,7 @@ class BrickletThermalImaging(Device):
 
     def get_image_transfer_config(self):
         """
-        Returns the image trasfer config, as set by :func:`Set Image Transfer Config`.
+        Returns the image transfer config, as set by :func:`Set Image Transfer Config`.
         """
         return self.ipcon.send_request(self, BrickletThermalImaging.FUNCTION_GET_IMAGE_TRANSFER_CONFIG, (), '', 'B')
 
@@ -465,7 +471,7 @@ class BrickletThermalImaging(Device):
 
     def get_high_contrast_image(self):
         """
-        Returns the current high contrast image. See TODO ADD Link
+        Returns the current high contrast image. See `here <https://www.tinkerforge.com/en/doc/Hardware/Bricklets/Thermal_Imaging.html#high-contrast-image-vs-temperature-image>`__
         for the difference between
         High Contrast and Temperature Image. If you don't know what to use
         the High Contrast Image is probably right for you.
@@ -474,7 +480,7 @@ class BrickletThermalImaging(Device):
         a one-dimensional array. The data is arranged line by line from top left to
         bottom right.
 
-        Each 8-bit value represents one grey-scale image bit that can directly be
+        Each 8-bit value represents one gray-scale image pixel that can directly be
         shown to a user on a display.
 
         Before you can use this function you have to enable it with
@@ -508,7 +514,7 @@ class BrickletThermalImaging(Device):
 
     def get_temperature_image(self):
         """
-        Returns the current temperature image. See TODO ADD Link
+        Returns the current temperature image. See `here <https://www.tinkerforge.com/en/doc/Hardware/Bricklets/Thermal_Imaging.html#high-contrast-image-vs-temperature-image>`__
         for the difference between High Contrast and Temperature Image.
         If you don't know what to use the High Contrast Image is probably right for you.
 
