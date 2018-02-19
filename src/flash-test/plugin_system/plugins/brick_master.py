@@ -27,12 +27,14 @@ from ..tinkerforge.brick_master import BrickMaster
 from ..brick_base import BrickBase, get_brick_firmware_filename
 
 class Plugin(BrickBase):
-    TODO_TEXT = u"""\
+    TODO_TEXT = u"""
 1. Verbinde Master Brick mit PC per Mini-USB
-2. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
-3. Gehe zu 1 
+2. Falls Brick nicht automatisch geflasht wird, drücke "Erase"- und "Reset"-Taster
+3. Blaue LED neben Mini-USB buchse muss leuchten, 4 blaue LEDs an der Seite
+   müssen einmal Lauflicht anzeigen
+4. Gehe zu 1
 
-* Testen findet im Brick Viewer statt
+* Weitere Tests (Stapel und Extension) findet im Brick Viewer statt
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename('master')
 
