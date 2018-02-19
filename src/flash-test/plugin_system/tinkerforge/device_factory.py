@@ -385,6 +385,11 @@ except ValueError:
     from bricklet_solid_state_relay import BrickletSolidStateRelay
 
 try:
+    from .bricklet_solid_state_relay_v2 import BrickletSolidStateRelayV2
+except ValueError:
+    from bricklet_solid_state_relay_v2 import BrickletSolidStateRelayV2
+
+try:
     from .bricklet_sound_intensity import BrickletSoundIntensity
 except ValueError:
     from bricklet_sound_intensity import BrickletSoundIntensity
@@ -526,6 +531,7 @@ BrickletRS232.DEVICE_IDENTIFIER: BrickletRS232,
 BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
 BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
 BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
+BrickletSolidStateRelayV2.DEVICE_IDENTIFIER: BrickletSolidStateRelayV2,
 BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,
 BrickletSoundPressureLevel.DEVICE_IDENTIFIER: BrickletSoundPressureLevel,
 BrickletTemperature.DEVICE_IDENTIFIER: BrickletTemperature,

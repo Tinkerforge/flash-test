@@ -58,6 +58,7 @@ from .plugins.bricklet_rs232 import Plugin as bricklet_rs232_class
 from .plugins.bricklet_rs485 import Plugin as bricklet_rs485_class
 from .plugins.bricklet_segment_display_4x7 import Plugin as bricklet_segment_display_4x7_class
 from .plugins.bricklet_solid_state_relay import Plugin as bricklet_solid_state_relay_class
+from .plugins.bricklet_solid_state_relay_v2 import Plugin as bricklet_solid_state_relay_v2_class
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
 from .plugins.bricklet_temperature import Plugin as bricklet_temperature_class
 from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_class
@@ -131,6 +132,7 @@ device_classes = [
     bricklet_rs485_class,
     bricklet_segment_display_4x7_class,
     bricklet_solid_state_relay_class,
+    bricklet_solid_state_relay_v2_class,
     bricklet_sound_intensity_class,
     bricklet_temperature_class,
     bricklet_temperature_ir_class,
