@@ -305,6 +305,11 @@ except ValueError:
     from bricklet_oled_64x48 import BrickletOLED64x48
 
 try:
+    from .bricklet_outdoor_weather import BrickletOutdoorWeather
+except ValueError:
+    from bricklet_outdoor_weather import BrickletOutdoorWeather
+
+try:
     from .bricklet_piezo_buzzer import BrickletPiezoBuzzer
 except ValueError:
     from bricklet_piezo_buzzer import BrickletPiezoBuzzer
@@ -515,6 +520,7 @@ BrickletMultiTouch.DEVICE_IDENTIFIER: BrickletMultiTouch,
 BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,
 BrickletOLED128x64.DEVICE_IDENTIFIER: BrickletOLED128x64,
 BrickletOLED64x48.DEVICE_IDENTIFIER: BrickletOLED64x48,
+BrickletOutdoorWeather.DEVICE_IDENTIFIER: BrickletOutdoorWeather,
 BrickletPiezoBuzzer.DEVICE_IDENTIFIER: BrickletPiezoBuzzer,
 BrickletPiezoSpeaker.DEVICE_IDENTIFIER: BrickletPiezoSpeaker,
 BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
