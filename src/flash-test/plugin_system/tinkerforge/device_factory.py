@@ -275,6 +275,11 @@ except ValueError:
     from bricklet_motion_detector import BrickletMotionDetector
 
 try:
+    from .bricklet_motion_detector_v2 import BrickletMotionDetectorV2
+except ValueError:
+    from bricklet_motion_detector_v2 import BrickletMotionDetectorV2
+
+try:
     from .bricklet_motorized_linear_poti import BrickletMotorizedLinearPoti
 except ValueError:
     from bricklet_motorized_linear_poti import BrickletMotorizedLinearPoti
@@ -494,6 +499,7 @@ BrickletLinearPoti.DEVICE_IDENTIFIER: BrickletLinearPoti,
 BrickletLoadCell.DEVICE_IDENTIFIER: BrickletLoadCell,
 BrickletMoisture.DEVICE_IDENTIFIER: BrickletMoisture,
 BrickletMotionDetector.DEVICE_IDENTIFIER: BrickletMotionDetector,
+BrickletMotionDetectorV2.DEVICE_IDENTIFIER: BrickletMotionDetectorV2,
 BrickletMotorizedLinearPoti.DEVICE_IDENTIFIER: BrickletMotorizedLinearPoti,
 BrickletMultiTouch.DEVICE_IDENTIFIER: BrickletMultiTouch,
 BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,

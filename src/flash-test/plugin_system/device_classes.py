@@ -38,6 +38,7 @@ from .plugins.bricklet_linear_poti import Plugin as bricklet_linear_poti_class
 from .plugins.bricklet_load_cell import Plugin as bricklet_load_cell_class
 from .plugins.bricklet_moisture import Plugin as bricklet_moisture_class
 from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector_class
+from .plugins.bricklet_motion_detector_v2 import Plugin as bricklet_motion_detector_v2_class
 from .plugins.bricklet_motorized_linear_poti import Plugin as bricklet_motorized_linear_poti_class
 from .plugins.bricklet_multi_touch import Plugin as bricklet_multi_touch_class
 from .plugins.bricklet_oled_128x64 import Plugin as bricklet_oled_128x64_class
@@ -109,6 +110,7 @@ device_classes = [
     bricklet_load_cell_class,
     bricklet_moisture_class,
     bricklet_motion_detector_class,
+    bricklet_motion_detector_v2_class,
     bricklet_motorized_linear_poti_class,
     bricklet_multi_touch_class,
     bricklet_oled_128x64_class,
