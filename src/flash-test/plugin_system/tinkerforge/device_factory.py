@@ -355,6 +355,11 @@ except ValueError:
     from bricklet_rotary_encoder import BrickletRotaryEncoder
 
 try:
+    from .bricklet_rotary_encoder_v2 import BrickletRotaryEncoderV2
+except ValueError:
+    from bricklet_rotary_encoder_v2 import BrickletRotaryEncoderV2
+
+try:
     from .bricklet_rotary_poti import BrickletRotaryPoti
 except ValueError:
     from bricklet_rotary_poti import BrickletRotaryPoti
@@ -515,6 +520,7 @@ BrickletRGBLED.DEVICE_IDENTIFIER: BrickletRGBLED,
 BrickletRGBLEDButton.DEVICE_IDENTIFIER: BrickletRGBLEDButton,
 BrickletRGBLEDMatrix.DEVICE_IDENTIFIER: BrickletRGBLEDMatrix,
 BrickletRotaryEncoder.DEVICE_IDENTIFIER: BrickletRotaryEncoder,
+BrickletRotaryEncoderV2.DEVICE_IDENTIFIER: BrickletRotaryEncoderV2,
 BrickletRotaryPoti.DEVICE_IDENTIFIER: BrickletRotaryPoti,
 BrickletRS232.DEVICE_IDENTIFIER: BrickletRS232,
 BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
