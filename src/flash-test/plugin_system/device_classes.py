@@ -41,6 +41,7 @@ from .plugins.bricklet_motion_detector import Plugin as bricklet_motion_detector
 from .plugins.bricklet_motion_detector_v2 import Plugin as bricklet_motion_detector_v2_class
 from .plugins.bricklet_motorized_linear_poti import Plugin as bricklet_motorized_linear_poti_class
 from .plugins.bricklet_multi_touch import Plugin as bricklet_multi_touch_class
+from .plugins.bricklet_nfc import Plugin as bricklet_nfc_class
 from .plugins.bricklet_oled_128x64 import Plugin as bricklet_oled_128x64_class
 from .plugins.bricklet_oled_64x48 import Plugin as bricklet_oled_64x48_class
 from .plugins.bricklet_outdoor_weather import Plugin as bricklet_outdoor_weather_class
@@ -116,6 +117,7 @@ device_classes = [
     bricklet_motion_detector_v2_class,
     bricklet_motorized_linear_poti_class,
     bricklet_multi_touch_class,
+    bricklet_nfc_class,
     bricklet_oled_128x64_class,
     bricklet_oled_64x48_class,
     bricklet_outdoor_weather_class,

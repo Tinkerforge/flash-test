@@ -290,6 +290,11 @@ except ValueError:
     from bricklet_multi_touch import BrickletMultiTouch
 
 try:
+    from .bricklet_nfc import BrickletNFC
+except ValueError:
+    from bricklet_nfc import BrickletNFC
+
+try:
     from .bricklet_nfc_rfid import BrickletNFCRFID
 except ValueError:
     from bricklet_nfc_rfid import BrickletNFCRFID
@@ -517,6 +522,7 @@ BrickletMotionDetector.DEVICE_IDENTIFIER: BrickletMotionDetector,
 BrickletMotionDetectorV2.DEVICE_IDENTIFIER: BrickletMotionDetectorV2,
 BrickletMotorizedLinearPoti.DEVICE_IDENTIFIER: BrickletMotorizedLinearPoti,
 BrickletMultiTouch.DEVICE_IDENTIFIER: BrickletMultiTouch,
+BrickletNFC.DEVICE_IDENTIFIER: BrickletNFC,
 BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,
 BrickletOLED128x64.DEVICE_IDENTIFIER: BrickletOLED128x64,
 BrickletOLED64x48.DEVICE_IDENTIFIER: BrickletOLED64x48,
