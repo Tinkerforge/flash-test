@@ -7,6 +7,7 @@ from .plugins.brick_stepper import Plugin as brick_stepper_class
 from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_class
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
+from .plugins.bricklet_analog_in_v3 import Plugin as bricklet_analog_in_v3_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
 from .plugins.bricklet_barometer import Plugin as bricklet_barometer_class
 from .plugins.bricklet_can import Plugin as bricklet_can_class
@@ -45,6 +46,7 @@ from .plugins.bricklet_piezo_speaker import Plugin as bricklet_piezo_speaker_cla
 from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
 from .plugins.bricklet_real_time_clock import Plugin as bricklet_real_time_clock_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
+from .plugins.bricklet_remote_switch_v2 import Plugin as bricklet_remote_switch_v2_class
 from .plugins.bricklet_rgb_led import Plugin as bricklet_rgb_led_class
 from .plugins.bricklet_rgb_led_button import Plugin as bricklet_rgb_led_button_class
 from .plugins.bricklet_rgb_led_matrix import Plugin as bricklet_rgb_led_matrix_class
@@ -57,6 +59,7 @@ from .plugins.bricklet_solid_state_relay import Plugin as bricklet_solid_state_r
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
 from .plugins.bricklet_temperature import Plugin as bricklet_temperature_class
 from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_class
+from .plugins.bricklet_temperature_ir_v2 import Plugin as bricklet_temperature_ir_v2_class
 from .plugins.bricklet_thermal_imaging import Plugin as bricklet_thermal_imaging_class
 from .plugins.bricklet_thermocouple import Plugin as bricklet_thermocouple_class
 from .plugins.bricklet_uv_light import Plugin as bricklet_uv_light_class
@@ -75,6 +78,7 @@ device_classes = [
     bricklet_accelerometer_class,
     bricklet_ambient_light_v2_class,
     bricklet_analog_in_v2_class,
+    bricklet_analog_in_v3_class,
     bricklet_analog_out_v2_class,
     bricklet_barometer_class,
     bricklet_can_class,
@@ -113,6 +117,7 @@ device_classes = [
     bricklet_ptc_class,
     bricklet_real_time_clock_class,
     bricklet_remote_switch_class,
+    bricklet_remote_switch_v2_class,
     bricklet_rgb_led_class,
     bricklet_rgb_led_button_class,
     bricklet_rgb_led_matrix_class,
@@ -125,6 +130,7 @@ device_classes = [
     bricklet_sound_intensity_class,
     bricklet_temperature_class,
     bricklet_temperature_ir_class,
+    bricklet_temperature_ir_v2_class,
     bricklet_thermal_imaging_class,
     bricklet_thermocouple_class,
     bricklet_uv_light_class,
