@@ -113,7 +113,7 @@ class BrickBase(PluginBase):
                 return
             except SAMBAException as e:
                 if 'No permission to open serial port' in str(e):
-                    time.sleep(0.5)
+                    time.sleep(1)
                     retry = True
                 else:
                     self.mw.set_tool_status_error('Konnte Brick nicht flashen: {0}'.format(e))
