@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2018-02-23.      #
 #                                                           #
 # Python Bindings Version 2.1.15                            #
 #                                                           #
@@ -30,6 +30,7 @@ class BrickletOutdoorWeather(Device):
 
     DEVICE_IDENTIFIER = 288
     DEVICE_DISPLAY_NAME = 'Outdoor Weather Bricklet'
+    DEVICE_URL_PART = 'outdoor_weather' # internal
 
     CALLBACK_STATION_DATA = 9
     CALLBACK_SENSOR_DATA = 10

@@ -36,7 +36,7 @@ class Plugin(BrickBase):
 
 * Weitere Tests (Stapel und Extension) findet im Brick Viewer statt
 """
-    FIRMWARE_FILENAME = get_brick_firmware_filename('master')
+    FIRMWARE_FILENAME = get_brick_firmware_filename(BrickMaster.DEVICE_URL_PART)
 
     def start(self, device_information):
         BrickBase.start(self, device_information)

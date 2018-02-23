@@ -62,7 +62,7 @@ class Plugin(BrickletBase):
         return BrickletRemoteSwitch.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('remote_switch'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletRemoteSwitch.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         self.rs = BrickletRemoteSwitch(device_information.uid, self.get_ipcon())

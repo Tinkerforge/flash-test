@@ -55,7 +55,7 @@ class Plugin(BrickletBase):
         return BrickletSolidStateRelay.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('solid_state_relay'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletSolidStateRelay.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_state != None:

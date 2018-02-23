@@ -73,7 +73,7 @@ class Plugin(BrickletBase):
         return BrickletVoltageCurrent.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('voltage_current'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletVoltageCurrent.DEVICE_URL_PART))
         
     def new_enum(self, device_information):
         if self.cbe_voltage != None:

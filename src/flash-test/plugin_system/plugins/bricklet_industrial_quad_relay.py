@@ -56,7 +56,7 @@ class Plugin(BrickletBase):
         return BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('industrial_quad_relay'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialQuadRelay.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_value != None:

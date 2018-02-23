@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 from collections import namedtuple
 
 try:
@@ -16,28 +18,27 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetColor = namedtuple('Color', ['red', 'green', 'blue'])
-GetColorCalibration = namedtuple('ColorCalibration', ['red', 'green', 'blue'])
+GetMonoflop = namedtuple('Monoflop', ['value', 'time', 'time_remaining'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletRGBLEDButton(Device):
+class BrickletIndustrialQuadRelayV2(Device):
     """
-    Push button with built-in RGB LED
+    4 galvanically isolated solid state relays
     """
 
-    DEVICE_IDENTIFIER = 282
-    DEVICE_DISPLAY_NAME = 'RGB LED Button Bricklet'
-    DEVICE_URL_PART = 'rgb_led_button' # internal
+    DEVICE_IDENTIFIER = 2102
+    DEVICE_DISPLAY_NAME = 'Industrial Quad Relay Bricklet 2.0'
+    DEVICE_URL_PART = 'industrial_quad_relay_v2' # internal
 
-    CALLBACK_BUTTON_STATE_CHANGED = 4
+    CALLBACK_MONOFLOP_DONE = 5
 
 
-    FUNCTION_SET_COLOR = 1
-    FUNCTION_GET_COLOR = 2
-    FUNCTION_GET_BUTTON_STATE = 3
-    FUNCTION_SET_COLOR_CALIBRATION = 5
-    FUNCTION_GET_COLOR_CALIBRATION = 6
+    FUNCTION_SET_OUTPUT_VALUE = 1
+    FUNCTION_GET_OUTPUT_VALUE = 2
+    FUNCTION_SET_MONOFLOP = 3
+    FUNCTION_GET_MONOFLOP = 4
+    FUNCTION_SET_SELECTED_OUTPUT_VALUE = 6
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -51,8 +52,6 @@ class BrickletRGBLEDButton(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
-    BUTTON_STATE_PRESSED = 0
-    BUTTON_STATE_RELEASED = 1
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -78,74 +77,89 @@ class BrickletRGBLEDButton(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_SET_COLOR] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_COLOR] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_BUTTON_STATE] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_SET_COLOR_CALIBRATION] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_COLOR_CALIBRATION] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_SET_BOOTLOADER_MODE] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_BOOTLOADER_MODE] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_WRITE_FIRMWARE] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_RESET] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_WRITE_UID] = BrickletRGBLEDButton.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_READ_UID] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDButton.FUNCTION_GET_IDENTITY] = BrickletRGBLEDButton.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_OUTPUT_VALUE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_OUTPUT_VALUE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_MONOFLOP] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_MONOFLOP] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_SELECTED_OUTPUT_VALUE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_WRITE_FIRMWARE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_RESET] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_WRITE_UID] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_READ_UID] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialQuadRelayV2.FUNCTION_GET_IDENTITY] = BrickletIndustrialQuadRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletRGBLEDButton.CALLBACK_BUTTON_STATE_CHANGED] = 'B'
+        self.callback_formats[BrickletIndustrialQuadRelayV2.CALLBACK_MONOFLOP_DONE] = 'B !'
 
 
-    def set_color(self, red, green, blue):
+    def set_output_value(self, value):
         """
-        Sets the color of the LED.
+        Sets the output value of all four relays. A value of *true* closes the
+        relay and a value of *false* opens the relay.
 
-        By default the LED is off (0, 0, 0).
+        Use :func:`Set Selected Output Value` to only change one relay.
         """
-        red = int(red)
-        green = int(green)
-        blue = int(blue)
+        value = list(map(bool, value))
 
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_SET_COLOR, (red, green, blue), 'B B B', '')
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_OUTPUT_VALUE, (value,), '4!', '')
 
-    def get_color(self):
+    def get_output_value(self):
         """
-        Returns the LED color as set by :func:`Set Color`.
+        Returns the values as set by :func:`Set Output Value`.
         """
-        return GetColor(*self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_COLOR, (), '', 'B B B'))
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_OUTPUT_VALUE, (), '', '4!')
 
-    def get_button_state(self):
+    def set_monoflop(self, pin, value, time):
         """
-        Returns the current state of the button (either pressed or released).
+        Configures a monoflop of the specified pin.
+
+        The second parameter is the desired value of the specified
+        pin. A *true* means relay closed and a *false* means relay open.
+
+        The third parameter indicates the time (in ms) that the pins should hold
+        the value.
+
+        If this function is called with the parameters (0, 1, 1500) pin 0 will
+        close and in 1.5s pin 0 will open again
+
+        A monoflop can be used as a fail-safe mechanism. For example: Lets assume you
+        have a RS485 bus and a Quad Relay Bricklet connected to one of the slave
+        stacks. You can now call this function every second, with a time parameter
+        of two seconds and pin 0 closed. Pin 0 will be closed all the time. If now
+        the RS485 connection is lost, then pin 0 will be opened in at most two seconds.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_BUTTON_STATE, (), '', 'B')
+        pin = int(pin)
+        value = bool(value)
+        time = int(time)
 
-    def set_color_calibration(self, red, green, blue):
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_MONOFLOP, (pin, value, time), 'B ! I', '')
+
+    def get_monoflop(self, pin):
         """
-        Sets a color calibration. Some colors appear brighter then others,
-        so a calibration may be necessary for nice uniform colors.
+        Returns (for the given pin) the current value and the time as set by
+        :func:`Set Monoflop` as well as the remaining time until the value flips.
 
-        The values range from 0% to 100%.
-
-        The calibration is saved in flash. You don't need to call this
-        function on every startup.
-
-        Default value is (100, 100, 55).
+        If the timer is not running currently, the remaining time will be returned
+        as 0.
         """
-        red = int(red)
-        green = int(green)
-        blue = int(blue)
+        pin = int(pin)
 
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_SET_COLOR_CALIBRATION, (red, green, blue), 'B B B', '')
+        return GetMonoflop(*self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_MONOFLOP, (pin,), 'B', '! I I'))
 
-    def get_color_calibration(self):
+    def set_selected_output_value(self, pin, value):
         """
-        Returns the color calibration as set by :func:`Set Color Calibration`.
+        Sets the output value of the specified pin without affecting the other pins.
         """
-        return GetColorCalibration(*self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_COLOR_CALIBRATION, (), '', 'B B B'))
+        pin = int(pin)
+        value = bool(value)
+
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_SELECTED_OUTPUT_VALUE, (pin, value), 'B !', '')
 
     def get_spitfp_error_count(self):
         """
@@ -161,7 +175,7 @@ class BrickletRGBLEDButton(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -177,13 +191,13 @@ class BrickletRGBLEDButton(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -196,7 +210,7 @@ class BrickletRGBLEDButton(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -211,7 +225,7 @@ class BrickletRGBLEDButton(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -225,13 +239,13 @@ class BrickletRGBLEDButton(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -242,7 +256,7 @@ class BrickletRGBLEDButton(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -253,7 +267,7 @@ class BrickletRGBLEDButton(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -265,14 +279,14 @@ class BrickletRGBLEDButton(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -285,7 +299,7 @@ class BrickletRGBLEDButton(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletRGBLEDButton.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletIndustrialQuadRelayV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, callback_id, function):
         """
@@ -296,4 +310,4 @@ class BrickletRGBLEDButton(Device):
         else:
             self.registered_callbacks[callback_id] = function
 
-RGBLEDButton = BrickletRGBLEDButton # for backward compatibility
+IndustrialQuadRelayV2 = BrickletIndustrialQuadRelayV2 # for backward compatibility

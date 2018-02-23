@@ -66,7 +66,7 @@ class Plugin(BrickletBase):
         return BrickletLCD20x4.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('lcd_20x4_v12'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletLCD20x4.DEVICE_URL_PART + '_v12'))
 
     def new_enum(self, device_information):
         self.lcd = BrickletLCD20x4(device_information.uid, self.get_ipcon())

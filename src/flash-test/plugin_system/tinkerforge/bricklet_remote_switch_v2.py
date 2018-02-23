@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2018-02-23.      #
 #                                                           #
 # Python Bindings Version 2.1.15                            #
 #                                                           #
@@ -30,6 +30,7 @@ class BrickletRemoteSwitchV2(Device):
 
     DEVICE_IDENTIFIER = 289
     DEVICE_DISPLAY_NAME = 'Remote Switch Bricklet 2.0'
+    DEVICE_URL_PART = 'remote_switch_v2' # internal
 
     CALLBACK_SWITCHING_DONE = 2
     CALLBACK_REMOTE_STATUS_A = 14

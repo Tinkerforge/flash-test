@@ -56,7 +56,7 @@ class Plugin(BrickletBase):
         return BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('industrial_digital_out_4'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialDigitalOut4.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_value != None:

@@ -34,7 +34,7 @@ class Plugin(BrickBase):
 
 * Kalibrieren und testen findet im Brick Viewer statt
 """
-    FIRMWARE_FILENAME = get_brick_firmware_filename('imu_v2')
+    FIRMWARE_FILENAME = get_brick_firmware_filename(BrickIMUV2.DEVICE_URL_PART)
 
     def start(self, device_information):
         BrickBase.start(self, device_information)

@@ -60,7 +60,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletMotorizedLinearPoti.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('motorized_linear_poti'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletMotorizedLinearPoti.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)

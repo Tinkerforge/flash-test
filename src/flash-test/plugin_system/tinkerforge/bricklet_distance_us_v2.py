@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 from collections import namedtuple
 
 try:
@@ -16,28 +18,25 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetIndicator = namedtuple('Indicator', ['top_left', 'top_right', 'bottom'])
+GetDistanceCallbackConfiguration = namedtuple('DistanceCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletMotionDetectorV2(Device):
-    """
-    Passive infrared (PIR) motion sensor, 12m range
+class BrickletDistanceUSV2(Device):
     """
 
-    DEVICE_IDENTIFIER = 292
-    DEVICE_DISPLAY_NAME = 'Motion Detector Bricklet 2.0'
-    DEVICE_URL_PART = 'motion_detector_v2' # internal
+    """
 
-    CALLBACK_MOTION_DETECTED = 6
-    CALLBACK_DETECTION_CYCLE_ENDED = 7
+    DEVICE_IDENTIFIER = 299
+    DEVICE_DISPLAY_NAME = 'Distance US Bricklet 2.0'
+    DEVICE_URL_PART = 'distance_us_v2' # internal
+
+    CALLBACK_DISTANCE = 4
 
 
-    FUNCTION_GET_MOTION_DETECTED = 1
-    FUNCTION_SET_SENSITIVITY = 2
-    FUNCTION_GET_SENSITIVITY = 3
-    FUNCTION_SET_INDICATOR = 4
-    FUNCTION_GET_INDICATOR = 5
+    FUNCTION_GET_DISTANCE = 1
+    FUNCTION_SET_DISTANCE_CALLBACK_CONFIGURATION = 2
+    FUNCTION_GET_DISTANCE_CALLBACK_CONFIGURATION = 3
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -51,8 +50,11 @@ class BrickletMotionDetectorV2(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
-    MOTION_NOT_DETECTED = 0
-    MOTION_DETECTED = 1
+    THRESHOLD_OPTION_OFF = 'x'
+    THRESHOLD_OPTION_OUTSIDE = 'o'
+    THRESHOLD_OPTION_INSIDE = 'i'
+    THRESHOLD_OPTION_SMALLER = '<'
+    THRESHOLD_OPTION_GREATER = '>'
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -78,83 +80,82 @@ class BrickletMotionDetectorV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_MOTION_DETECTED] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_SET_SENSITIVITY] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_SENSITIVITY] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_SET_INDICATOR] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_INDICATOR] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_WRITE_FIRMWARE] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_RESET] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_WRITE_UID] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_READ_UID] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMotionDetectorV2.FUNCTION_GET_IDENTITY] = BrickletMotionDetectorV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_DISTANCE] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_SET_DISTANCE_CALLBACK_CONFIGURATION] = BrickletDistanceUSV2.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_DISTANCE_CALLBACK_CONFIGURATION] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletDistanceUSV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_WRITE_FIRMWARE] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletDistanceUSV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_RESET] = BrickletDistanceUSV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_WRITE_UID] = BrickletDistanceUSV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_READ_UID] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletDistanceUSV2.FUNCTION_GET_IDENTITY] = BrickletDistanceUSV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletMotionDetectorV2.CALLBACK_MOTION_DETECTED] = ''
-        self.callback_formats[BrickletMotionDetectorV2.CALLBACK_DETECTION_CYCLE_ENDED] = ''
+        self.callback_formats[BrickletDistanceUSV2.CALLBACK_DISTANCE] = 'H'
 
 
-    def get_motion_detected(self):
+    def get_distance(self):
         """
-        Returns 1 if a motion was detected. How long this returns 1 after a motion
-        was detected can be adjusted with one of the small potentiometers on the
-        Motion Detector Bricklet, see :ref:`here
-        <motion_detector_bricklet_sensitivity_delay_block_time>`.
+        TBD
 
-        There is also a blue LED on the Bricklet that is on as long as the Bricklet is
-        in the "motion detected" state.
+
+        If you want to get the value periodically, it is recommended to use the
+        :cb:`Distance` callback. You can set the callback configuration
+        with :func:`Set Distance Callback Configuration`.
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_MOTION_DETECTED, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_DISTANCE, (), '', 'H')
 
-    def set_sensitivity(self, sensitivity):
+    def set_distance_callback_configuration(self, period, value_has_to_change, option, min, max):
         """
-        Sets the sensitivity of the PIR sensor. The range is 0-100. At full
-        sensitivity (100), the Bricklet can detect motion in a range of approximately 12m.
+        The period in ms is the period with which the :cb:`Distance` callback is triggered
+        periodically. A value of 0 turns the callback off.
 
-        The range depends on many things in the enivronment (e.g. reflections) and the
-        size of the object to be detected. While a big person might be detected in a range
-        of 10m a cat may only be detected at 2m distance with the same setting.
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change
+        within the period, the callback is triggered immediately on change.
 
-        So you will have to find a good sensitivty for your application by trial and error.
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
 
-        The default sensitivity value is 50.
+        It is furthermore possible to constrain the callback with thresholds.
+
+        The `option`-parameter together with min/max sets a threshold for the :cb:`Distance` callback.
+
+        The following options are possible:
+
+        .. csv-table::
+         :header: "Option", "Description"
+         :widths: 10, 100
+
+         "'x'",    "Threshold is turned off"
+         "'o'",    "Threshold is triggered when the value is *outside* the min and max values"
+         "'i'",    "Threshold is triggered when the value is *inside* the min and max values"
+         "'<'",    "Threshold is triggered when the value is smaller than the min value (max is ignored)"
+         "'>'",    "Threshold is triggered when the value is greater than the min value (max is ignored)"
+
+
+        If the option is set to 'x' (threshold turned off) the callback is triggered with the fixed period.
+
+        The default value is (0, false, 'x', 0, 0).
         """
-        sensitivity = int(sensitivity)
+        period = int(period)
+        value_has_to_change = bool(value_has_to_change)
+        option = create_char(option)
+        min = int(min)
+        max = int(max)
 
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_SET_SENSITIVITY, (sensitivity,), 'B', '')
+        self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_SET_DISTANCE_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
 
-    def get_sensitivity(self):
+    def get_distance_callback_configuration(self):
         """
-        Returns the sensitivity as set by :func:`Set Sensitivity`.
+        Returns the callback configuration as set by :func:`Set Distance Callback Configuration`.
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_SENSITIVITY, (), '', 'B')
-
-    def set_indicator(self, top_left, top_right, bottom):
-        """
-        Sets the blue backlight of the fresnel lens. The backlight consists of
-        three LEDs. The brightness of each LED can be controlled with a 8-bit value
-        (0-255). A value of 0 turns the LED off and a value of 255 turns the LED
-        to full brightness.
-
-        The default value is 0, 0, 0.
-        """
-        top_left = int(top_left)
-        top_right = int(top_right)
-        bottom = int(bottom)
-
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_SET_INDICATOR, (top_left, top_right, bottom), 'B B B', '')
-
-    def get_indicator(self):
-        """
-        Returns the indicator configuration as set by :func:`Set Indicator`.
-        """
-        return GetIndicator(*self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_INDICATOR, (), '', 'B B B'))
+        return GetDistanceCallbackConfiguration(*self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_DISTANCE_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
     def get_spitfp_error_count(self):
         """
@@ -170,7 +171,7 @@ class BrickletMotionDetectorV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -186,13 +187,13 @@ class BrickletMotionDetectorV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -205,7 +206,7 @@ class BrickletMotionDetectorV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -220,7 +221,7 @@ class BrickletMotionDetectorV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -234,13 +235,13 @@ class BrickletMotionDetectorV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -251,7 +252,7 @@ class BrickletMotionDetectorV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -262,7 +263,7 @@ class BrickletMotionDetectorV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -274,14 +275,14 @@ class BrickletMotionDetectorV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -294,7 +295,7 @@ class BrickletMotionDetectorV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletMotionDetectorV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletDistanceUSV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, callback_id, function):
         """
@@ -305,4 +306,4 @@ class BrickletMotionDetectorV2(Device):
         else:
             self.registered_callbacks[callback_id] = function
 
-MotionDetectorV2 = BrickletMotionDetectorV2 # for backward compatibility
+DistanceUSV2 = BrickletDistanceUSV2 # for backward compatibility

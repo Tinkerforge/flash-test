@@ -61,7 +61,7 @@ class Plugin(BrickletBase):
         return BrickletRotaryPoti.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('rotary_poti'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletRotaryPoti.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_position != None:

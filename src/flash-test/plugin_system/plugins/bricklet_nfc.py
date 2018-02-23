@@ -56,7 +56,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletNFC.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('nfc'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletNFC.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)

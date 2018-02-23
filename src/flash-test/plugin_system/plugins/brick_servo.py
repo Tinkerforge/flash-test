@@ -39,7 +39,7 @@ class Plugin(BrickBase):
 
 * Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Servo Brick und 2x Extension gemacht werden. 
 """
-    FIRMWARE_FILENAME = get_brick_firmware_filename('servo')
+    FIRMWARE_FILENAME = get_brick_firmware_filename(BrickServo.DEVICE_URL_PART)
 
     def start(self, device_information):
         BrickBase.start(self, device_information)

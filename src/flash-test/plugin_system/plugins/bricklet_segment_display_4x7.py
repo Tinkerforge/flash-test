@@ -52,7 +52,7 @@ class Plugin(BrickletBase):
         return BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('segment_display_4x7'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletSegmentDisplay4x7.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         self.sd4x7 = BrickletSegmentDisplay4x7(device_information.uid, self.get_ipcon())

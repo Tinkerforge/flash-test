@@ -57,7 +57,7 @@ class Plugin(BrickletBase):
         return BrickletDustDetector.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('dust_detector'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDustDetector.DEVICE_URL_PART))
         
     def new_enum(self, device_information):
         if self.cbe_dust_density != None:

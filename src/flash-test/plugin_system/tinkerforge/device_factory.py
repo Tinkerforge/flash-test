@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2018-02-23.      #
 #                                                           #
 # Python Bindings Version 2.1.15                            #
 #                                                           #
@@ -28,11 +28,6 @@ try:
     from .brick_master import BrickMaster
 except ValueError:
     from brick_master import BrickMaster
-
-try:
-    from .brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
-except ValueError:
-    from brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 
 try:
     from .brick_red import BrickRED
@@ -203,11 +198,6 @@ try:
     from .bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
 except ValueError:
     from bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
-
-try:
-    from .bricklet_industrial_encoder import BrickletIndustrialEncoder
-except ValueError:
-    from bricklet_industrial_encoder import BrickletIndustrialEncoder
 
 try:
     from .bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
@@ -405,11 +395,6 @@ except ValueError:
     from bricklet_sound_intensity import BrickletSoundIntensity
 
 try:
-    from .bricklet_sound_pressure_level import BrickletSoundPressureLevel
-except ValueError:
-    from bricklet_sound_pressure_level import BrickletSoundPressureLevel
-
-try:
     from .bricklet_temperature import BrickletTemperature
 except ValueError:
     from bricklet_temperature import BrickletTemperature
@@ -454,23 +439,12 @@ try:
 except ValueError:
     from bricklet_voltage_current import BrickletVoltageCurrent
 
-try:
-    from .bricklet_voltage_current_v2 import BrickletVoltageCurrentV2
-except ValueError:
-    from bricklet_voltage_current_v2 import BrickletVoltageCurrentV2
-
-try:
-    from .bricklet_xmc_emv_test import BrickletXMCEMVTest
-except ValueError:
-    from bricklet_xmc_emv_test import BrickletXMCEMVTest
-
 
 DEVICE_CLASSES = {
 BrickDC.DEVICE_IDENTIFIER: BrickDC,
 BrickIMU.DEVICE_IDENTIFIER: BrickIMU,
 BrickIMUV2.DEVICE_IDENTIFIER: BrickIMUV2,
 BrickMaster.DEVICE_IDENTIFIER: BrickMaster,
-BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER: BrickMasterFlashAdapterXMC,
 BrickRED.DEVICE_IDENTIFIER: BrickRED,
 BrickServo.DEVICE_IDENTIFIER: BrickServo,
 BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
@@ -505,7 +479,6 @@ BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4,
 BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4,
 BrickletIndustrialDual020mA.DEVICE_IDENTIFIER: BrickletIndustrialDual020mA,
 BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogIn,
-BrickletIndustrialEncoder.DEVICE_IDENTIFIER: BrickletIndustrialEncoder,
 BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER: BrickletIndustrialQuadRelay,
 BrickletIO16.DEVICE_IDENTIFIER: BrickletIO16,
 BrickletIO4.DEVICE_IDENTIFIER: BrickletIO4,
@@ -545,7 +518,6 @@ BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
 BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
 BrickletSolidStateRelayV2.DEVICE_IDENTIFIER: BrickletSolidStateRelayV2,
 BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,
-BrickletSoundPressureLevel.DEVICE_IDENTIFIER: BrickletSoundPressureLevel,
 BrickletTemperature.DEVICE_IDENTIFIER: BrickletTemperature,
 BrickletTemperatureIR.DEVICE_IDENTIFIER: BrickletTemperatureIR,
 BrickletTemperatureIRV2.DEVICE_IDENTIFIER: BrickletTemperatureIRV2,
@@ -555,8 +527,6 @@ BrickletTilt.DEVICE_IDENTIFIER: BrickletTilt,
 BrickletUVLight.DEVICE_IDENTIFIER: BrickletUVLight,
 BrickletVoltage.DEVICE_IDENTIFIER: BrickletVoltage,
 BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
-BrickletVoltageCurrentV2.DEVICE_IDENTIFIER: BrickletVoltageCurrentV2,
-BrickletXMCEMVTest.DEVICE_IDENTIFIER: BrickletXMCEMVTest,
 }
 
 def get_device_class(device_identifier):

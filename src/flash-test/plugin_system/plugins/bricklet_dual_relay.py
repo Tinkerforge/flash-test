@@ -55,7 +55,7 @@ class Plugin(BrickletBase):
         return BrickletDualRelay.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('dual_relay'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDualRelay.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_state != None:

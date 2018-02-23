@@ -60,7 +60,7 @@ class Plugin(BrickletBase):
     def flash_clicked(self):
         self.mw.set_value_action("Warte auf Reset")
         QtGui.QApplication.processEvents()
-        self.flash_bricklet(get_bricklet_firmware_filename('can'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletCAN.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         self.can = BrickletCAN(device_information.uid, self.get_ipcon())

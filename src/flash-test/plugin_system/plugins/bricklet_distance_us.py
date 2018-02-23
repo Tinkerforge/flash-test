@@ -59,7 +59,7 @@ class Plugin(BrickletBase):
         return BrickletDistanceUS.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('distance_us'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceUS.DEVICE_URL_PART))
         if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
         

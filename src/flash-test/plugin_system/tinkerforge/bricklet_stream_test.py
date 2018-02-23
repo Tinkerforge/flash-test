@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2018-02-23.      #
 #                                                           #
 # Python Bindings Version 2.1.15                            #
 #                                                           #
@@ -92,6 +92,7 @@ class BrickletStreamTest(Device):
 
     DEVICE_IDENTIFIER = 21111
     DEVICE_DISPLAY_NAME = 'Stream Test Bricklet'
+    DEVICE_URL_PART = 'stream_test' # internal
 
     CALLBACK_NORMAL_READ_LOW_LEVEL = 69
     CALLBACK_NORMAL_READ_EXTRA_PREFIX_1_LOW_LEVEL = 70
@@ -1659,9 +1660,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1678,9 +1678,8 @@ class BrickletStreamTest(Device):
         extra = int(extra)
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1698,9 +1697,8 @@ class BrickletStreamTest(Device):
         extra_2 = int(extra_2)
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 61:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 61 items long')
@@ -1717,9 +1715,8 @@ class BrickletStreamTest(Device):
         message = create_char_list(message)
         extra = int(extra)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1737,9 +1734,8 @@ class BrickletStreamTest(Device):
         extra_1 = int(extra_1)
         extra_2 = int(extra_2)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 61:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 61 items long')
@@ -1758,9 +1754,8 @@ class BrickletStreamTest(Device):
         message = create_char_list(message)
         extra_3 = int(extra_3)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 60:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 60 items long')
@@ -1776,9 +1771,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1794,9 +1788,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1812,9 +1805,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1831,9 +1823,8 @@ class BrickletStreamTest(Device):
         extra = int(extra)
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1851,9 +1842,8 @@ class BrickletStreamTest(Device):
         extra_2 = int(extra_2)
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 61:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 61 items long')
@@ -1870,9 +1860,8 @@ class BrickletStreamTest(Device):
         message = create_char_list(message)
         extra = int(extra)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1890,9 +1879,8 @@ class BrickletStreamTest(Device):
         extra_1 = int(extra_1)
         extra_2 = int(extra_2)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 61:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 61 items long')
@@ -1908,9 +1896,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1926,9 +1913,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 62:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 62 items long')
@@ -1944,9 +1930,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1962,9 +1947,8 @@ class BrickletStreamTest(Device):
         """
         message = create_char_list(message)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 63:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 63 items long')
@@ -1983,9 +1967,8 @@ class BrickletStreamTest(Device):
         message = create_char_list(message)
         extra_3 = int(extra_3)
 
-        message = list(message) # make a copy so we can potentially extend it
         message_length = len(message)
-        message_data = message
+        message_data = list(message) # make a copy so we can potentially extend it
 
         if message_length > 60:
             raise Error(Error.INVALID_PARAMETER, 'Message can be at most 60 items long')

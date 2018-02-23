@@ -57,7 +57,7 @@ class Plugin(BrickletBase):
         return BrickletOLED64x48.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('oled_64x48'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletOLED64x48.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_state != None:

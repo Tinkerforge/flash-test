@@ -42,7 +42,7 @@ Zusätzlich:
  * 1. Stapeltest mit 1x Master Brick, 8x DC Brick und 2x Extension.
  * 2. Kühlkörper aufkleben
 """
-    FIRMWARE_FILENAME = get_brick_firmware_filename('dc')
+    FIRMWARE_FILENAME = get_brick_firmware_filename(BrickDC.DEVICE_URL_PART)
 
     def start(self, device_information):
         BrickBase.start(self, device_information)

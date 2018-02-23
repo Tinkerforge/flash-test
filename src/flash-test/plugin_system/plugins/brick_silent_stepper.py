@@ -43,7 +43,7 @@ class Plugin(BrickBase):
 
 * Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Silent Stepper Brick und 2x Extension gemacht werden.
 """
-    FIRMWARE_FILENAME = get_brick_firmware_filename('silent_stepper')
+    FIRMWARE_FILENAME = get_brick_firmware_filename(BrickSilentStepper.DEVICE_URL_PART)
 
     def __init__(self, *args):
         BrickBase.__init__(self, *args)

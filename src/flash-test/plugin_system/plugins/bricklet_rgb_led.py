@@ -55,7 +55,7 @@ class Plugin(BrickletBase):
         return BrickletRGBLED.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('rgb_led'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletRGBLED.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_rgb_value != None:

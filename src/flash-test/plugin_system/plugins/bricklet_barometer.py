@@ -56,7 +56,7 @@ class Plugin(BrickletBase):
         return BrickletBarometer.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('barometer'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletBarometer.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_air_pressure != None:

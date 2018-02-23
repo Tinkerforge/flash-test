@@ -57,7 +57,7 @@ class Plugin(BrickletBase):
         return BrickletTemperature.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('temperature'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletTemperature.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         if self.cbe_temperature != None:

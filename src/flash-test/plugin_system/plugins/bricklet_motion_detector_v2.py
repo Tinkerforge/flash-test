@@ -58,7 +58,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletMotionDetectorV2.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('motion_detector_v2'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletMotionDetectorV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)

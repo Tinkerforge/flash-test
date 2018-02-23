@@ -58,7 +58,7 @@ class Plugin(BrickletBase):
         return BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('industrial_analog_out'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialAnalogOut.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         self.industrial_analog_out = BrickletIndustrialAnalogOut(device_information.uid, self.get_ipcon())

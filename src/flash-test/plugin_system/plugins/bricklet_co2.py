@@ -56,7 +56,7 @@ class Plugin(BrickletBase):
         return BrickletCO2.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('co2'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletCO2.DEVICE_URL_PART))
         
     def new_enum(self, device_information):
         if self.cbe_co2 != None:

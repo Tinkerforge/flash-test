@@ -170,7 +170,7 @@ class Plugin(BrickletBase):
         return BrickletDistanceIR.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('distance_ir'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceIR.DEVICE_URL_PART))
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
         

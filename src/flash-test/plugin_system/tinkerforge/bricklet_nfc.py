@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2018-02-23.      #
 #                                                           #
 # Python Bindings Version 2.1.15                            #
 #                                                           #
@@ -34,6 +34,7 @@ class BrickletNFC(Device):
 
     DEVICE_IDENTIFIER = 286
     DEVICE_DISPLAY_NAME = 'NFC Bricklet'
+    DEVICE_URL_PART = 'nfc' # internal
 
     CALLBACK_READER_STATE_CHANGED = 13
     CALLBACK_CARDEMU_STATE_CHANGED = 18
@@ -231,7 +232,7 @@ class BrickletNFC(Device):
 
     def reader_request_tag_id(self):
         """
-        To read or write a tag that is in proximity of the NFC/RFID Bricklet you
+        To read or write a tag that is in proximity of the NFC Bricklet you
         first have to call this function with the expected tag type as parameter.
         It is no problem if you don't know the tag type. You can cycle through
         the available tag types until the tag gives an answer to the request.
@@ -244,7 +245,7 @@ class BrickletNFC(Device):
         * NFC Forum Type 3
         * NFC Forum Type 4
 
-        After you call :func:`Reader Request Tag ID` the NFC/RFID Bricklet will try to read
+        After you call :func:`Reader Request Tag ID` the NFC Bricklet will try to read
         the tag ID from the tag. After this process is done the state will change.
         You can either register the :cb:`Reader State Changed` callback or you can poll
         :func:`Reader Get State` to find out about the state change.
@@ -255,7 +256,7 @@ class BrickletNFC(Device):
         and that the tag ID could be read out. You can now get the tag ID by
         calling :func:`Reader Get Tag ID`.
 
-        If two tags are in the proximity of the NFC/RFID Bricklet, this
+        If two tags are in the proximity of the NFC Bricklet, this
         function will cycle through the tags. To select a specific tag you have
         to call :func:`Reader Request Tag ID` until the correct tag id is found.
 
@@ -266,9 +267,9 @@ class BrickletNFC(Device):
 
     def reader_get_tag_id_low_level(self):
         """
-        Returns the tag type, tag ID and the length of the tag ID.
+        Returns the tag type and the tag ID.
         This function can only be called if the
-        NFC Bricklet is currently in one of the *Ready* states. The returned ID
+        NFC Bricklet is currently in one of the *ReaderReady* states. The returned ID
         is the ID that was saved through the last call of :func:`Reader Request Tag ID`.
 
         To get the tag ID of a tag the approach is as follows:
@@ -303,18 +304,18 @@ class BrickletNFC(Device):
 
     def reader_write_ndef_low_level(self, ndef_length, ndef_chunk_offset, ndef_chunk_data):
         """
-        Writes Ndef formated data with a maximum of 255 bytes.
+        Writes NDEF formated data with a maximum of 255 bytes.
 
         This function currently supports NFC Forum Type 2 and 4.
 
-        The general approach for writing a Ndef message is as follows:
+        The general approach for writing a NDEF message is as follows:
 
         1. Call :func:`Reader Request Tag ID`
         2. Wait for state to change to *ReaderRequestTagIDReady* (see :func:`Reader Get State` or
            :cb:`Reader State Changed` callback)
         3. If looking for a specific tag then call :func:`Reader Get Tag ID` and check if the
            expected tag was found, if it was not found got back to step 1
-        4. Call :func:`Reader Write Ndef` with the Ndef message that you want to write
+        4. Call :func:`Reader Write Ndef` with the NDEF message that you want to write
         5. Wait for state to change to *ReaderWriteNdefReady* (see :func:`Reader Get State` or
            :cb:`Reader State Changed` callback)
         """
@@ -326,11 +327,11 @@ class BrickletNFC(Device):
 
     def reader_request_ndef(self):
         """
-        Reads Ndef formated data from a tag.
+        Reads NDEF formated data from a tag.
 
         This function currently supports NFC Forum Type 1, 2, 3 and 4.
 
-        The general approach for reading a Ndef message is as follows:
+        The general approach for reading a NDEF message is as follows:
 
         1. Call :func:`Reader Request Tag ID`
         2. Wait for state to change to *RequestTagIDReady* (see :func:`Reader Get State`
@@ -340,14 +341,14 @@ class BrickletNFC(Device):
         4. Call :func:`Reader Request Ndef`
         5. Wait for state to change to *ReaderRequestNdefReady* (see :func:`Reader Get State`
            or :cb:`Reader State Changed` callback)
-        6. Call :func:`Reader Read Ndef` to retrieve the Ndef message from the buffer
+        6. Call :func:`Reader Read Ndef` to retrieve the NDEF message from the buffer
         """
         self.ipcon.send_request(self, BrickletNFC.FUNCTION_READER_REQUEST_NDEF, (), '', '')
 
     def reader_read_ndef_low_level(self):
         """
-        Returns the Ndef data from an internal buffer. To fill the buffer
-        with a Ndef message you have to call :func:`Reader Request Ndef` beforehand.
+        Returns the NDEF data from an internal buffer. To fill the buffer
+        with a NDEF message you have to call :func:`Reader Request Ndef` beforehand.
 
         The buffer can have a size of up to 8192 bytes.
         """
@@ -391,7 +392,7 @@ class BrickletNFC(Device):
         * NFC Forum Type 1 page size: 8 byte
         * NFC Forum Type 2 page size: 4 byte
         * NFC Forum Type 3 page size: 16 byte
-        * NFC Forum Type 4: No pages, page = file selection (CC or Ndef, see below)
+        * NFC Forum Type 4: No pages, page = file selection (CC or NDEF, see below)
 
         The general approach for writing to a tag is as follows:
 
@@ -408,9 +409,9 @@ class BrickletNFC(Device):
         can write to it. See :func:`Reader Authenticate Mifare Classic Page`.
 
         NFC Forum Type 4 tags are not organized into pages but different files. We currently
-        support two files: Capability Container file (CC) and Ndef file.
+        support two files: Capability Container file (CC) and NDEF file.
 
-        Choose CC by setting page to 3 or Ndef by setting page to 4.
+        Choose CC by setting page to 3 or NDEF by setting page to 4.
         """
         page = int(page)
         data_length = int(data_length)
@@ -430,7 +431,7 @@ class BrickletNFC(Device):
         * NFC Forum Type 1 page size: 8 byte
         * NFC Forum Type 2 page size: 4 byte
         * NFC Forum Type 3 page size: 16 byte
-        * NFC Forum Type 4: No pages, page = file selection (CC or Ndef, see below)
+        * NFC Forum Type 4: No pages, page = file selection (CC or NDEF, see below)
 
         The general approach for reading a tag is as follows:
 
@@ -448,9 +449,9 @@ class BrickletNFC(Device):
         can read it. See :func:`Reader Authenticate Mifare Classic Page`.
 
         NFC Forum Type 4 tags are not organized into pages but different files. We currently
-        support two files: Capability Container file (CC) and Ndef file.
+        support two files: Capability Container file (CC) and NDEF file.
 
-        Choose CC by setting page to 3 or Ndef by setting page to 4.
+        Choose CC by setting page to 3 or NDEF by setting page to 4.
         """
         page = int(page)
         length = int(length)
@@ -498,7 +499,7 @@ class BrickletNFC(Device):
         have to restart the discovery.
 
         If the state changes to *CardemuDiscoveryReady* you can start the transfer
-        of the Ndef message that was written by :func:`Cardemu Write Ndef` by calling
+        of the NDEF message that was written by :func:`Cardemu Write Ndef` by calling
         :func:`Cardemu Start Transfer`.
         """
         self.ipcon.send_request(self, BrickletNFC.FUNCTION_CARDEMU_START_DISCOVERY, (), '', '')
@@ -507,7 +508,7 @@ class BrickletNFC(Device):
         """
         Writes the Ndef messages that is to be transferred to the NFC master.
 
-        The maximum supported Ndef message size in Cardemu mode is 255 byte.
+        The maximum supported NDEF message size in Cardemu mode is 255 byte.
 
         You can call this function at any time in Cardemu mode. The internal buffer
         will not be overwritten until you call this function again or change the
@@ -521,11 +522,11 @@ class BrickletNFC(Device):
 
     def cardemu_start_transfer(self, transfer):
         """
-        You can start the transfer of a Ndef message if the state is *CardemuDiscoveryReady*.
+        You can start the transfer of a NDEF message if the state is *CardemuDiscoveryReady*.
 
         Use parameter 1 to start the transfer. With parameter 0 you can abort the discovery.
 
-        Before you call this function with parameter 1. The Ndef message that is to be
+        Before you call this function with parameter 1. The NDEF message that is to be
         transferred is set via :func:`Cardemu Write Ndef`.
 
         After you call this function the state will change to *CardemuTransferNdef*. It will
@@ -567,16 +568,16 @@ class BrickletNFC(Device):
         the state will change to *P2PDiscoveryError*. In this case you
         have to restart the discovery.
 
-        If the state changes to *P2PDiscoveryReady* you can start the Ndef message
+        If the state changes to *P2PDiscoveryReady* you can start the NDEF message
         transfer or reception with :func:`P2P Start Transfer`.
         """
         self.ipcon.send_request(self, BrickletNFC.FUNCTION_P2P_START_DISCOVERY, (), '', '')
 
     def p2p_write_ndef_low_level(self, ndef_length, ndef_chunk_offset, ndef_chunk_data):
         """
-        Writes the Ndef messages that is to be transferred to the NFC master.
+        Writes the NDEF messages that is to be transferred to the NFC master.
 
-        The maximum supported Ndef message size for P2P transfer is 255 byte.
+        The maximum supported NDEF message size for P2P transfer is 255 byte.
 
         You can call this function at any time in P2P mode. The internal buffer
         will not be overwritten until you call this function again, change the
@@ -590,11 +591,11 @@ class BrickletNFC(Device):
 
     def p2p_start_transfer(self, transfer):
         """
-        You can start the transfer/reception of a Ndef message if the state is *P2PDiscoveryReady*.
+        You can start the transfer/reception of a NDEF message if the state is *P2PDiscoveryReady*.
 
         Use parameter 2 to read, parameter 1 to write or parameter 0 to abort the discovery.
 
-        Before you call this function with parameter 1. The Ndef message that is to be
+        Before you call this function with parameter 1. The NDEF message that is to be
         transferred is set via :func:`P2P Write Ndef`.
 
         After you call this function the state will change to *P2PTransferNdef*. It will
@@ -602,7 +603,7 @@ class BrickletNFC(Device):
         *P2PTransferNdefError* if it wasn't.
 
         If you started a write transfer you are now done. If you started a read transfer
-        you can now use :func:`P2P Read Ndef` to read the Ndef message that was written
+        you can now use :func:`P2P Read Ndef` to read the NDEF message that was written
         by the NFC peer.
         """
         transfer = int(transfer)
@@ -611,10 +612,10 @@ class BrickletNFC(Device):
 
     def p2p_read_ndef_low_level(self):
         """
-        Call this function to read the Ndef message that was written by a NFC peer in
-        NFC P2P mode. The maximum Ndef length is 8192 byte.
+        Call this function to read the NDEF message that was written by a NFC peer in
+        NFC P2P mode. The maximum NDEF length is 8192 byte.
 
-        The Ndef message is ready if you called :func:`P2P Start Transfer` with a
+        The NDEF message is ready if you called :func:`P2P Start Transfer` with a
         read transfer and the state changed to *P2PTransferNdefReady*.
         """
         return P2PReadNdefLowLevel(*self.ipcon.send_request(self, BrickletNFC.FUNCTION_P2P_READ_NDEF_LOW_LEVEL, (), '', 'H H 60B'))
@@ -780,9 +781,9 @@ class BrickletNFC(Device):
 
     def reader_get_tag_id(self):
         """
-        Returns the tag type, tag ID and the length of the tag ID.
+        Returns the tag type and the tag ID.
         This function can only be called if the
-        NFC Bricklet is currently in one of the *Ready* states. The returned ID
+        NFC Bricklet is currently in one of the *ReaderReady* states. The returned ID
         is the ID that was saved through the last call of :func:`Reader Request Tag ID`.
 
         To get the tag ID of a tag the approach is as follows:
@@ -798,18 +799,18 @@ class BrickletNFC(Device):
 
     def reader_write_ndef(self, ndef):
         """
-        Writes Ndef formated data with a maximum of 255 bytes.
+        Writes NDEF formated data with a maximum of 255 bytes.
 
         This function currently supports NFC Forum Type 2 and 4.
 
-        The general approach for writing a Ndef message is as follows:
+        The general approach for writing a NDEF message is as follows:
 
         1. Call :func:`Reader Request Tag ID`
         2. Wait for state to change to *ReaderRequestTagIDReady* (see :func:`Reader Get State` or
            :cb:`Reader State Changed` callback)
         3. If looking for a specific tag then call :func:`Reader Get Tag ID` and check if the
            expected tag was found, if it was not found got back to step 1
-        4. Call :func:`Reader Write Ndef` with the Ndef message that you want to write
+        4. Call :func:`Reader Write Ndef` with the NDEF message that you want to write
         5. Wait for state to change to *ReaderWriteNdefReady* (see :func:`Reader Get State` or
            :cb:`Reader State Changed` callback)
         """
@@ -835,8 +836,8 @@ class BrickletNFC(Device):
 
     def reader_read_ndef(self):
         """
-        Returns the Ndef data from an internal buffer. To fill the buffer
-        with a Ndef message you have to call :func:`Reader Request Ndef` beforehand.
+        Returns the NDEF data from an internal buffer. To fill the buffer
+        with a NDEF message you have to call :func:`Reader Request Ndef` beforehand.
 
         The buffer can have a size of up to 8192 bytes.
         """
@@ -870,7 +871,7 @@ class BrickletNFC(Device):
         * NFC Forum Type 1 page size: 8 byte
         * NFC Forum Type 2 page size: 4 byte
         * NFC Forum Type 3 page size: 16 byte
-        * NFC Forum Type 4: No pages, page = file selection (CC or Ndef, see below)
+        * NFC Forum Type 4: No pages, page = file selection (CC or NDEF, see below)
 
         The general approach for writing to a tag is as follows:
 
@@ -887,9 +888,9 @@ class BrickletNFC(Device):
         can write to it. See :func:`Reader Authenticate Mifare Classic Page`.
 
         NFC Forum Type 4 tags are not organized into pages but different files. We currently
-        support two files: Capability Container file (CC) and Ndef file.
+        support two files: Capability Container file (CC) and NDEF file.
 
-        Choose CC by setting page to 3 or Ndef by setting page to 4.
+        Choose CC by setting page to 3 or NDEF by setting page to 4.
         """
         page = int(page)
         data = list(map(int, data))
@@ -944,7 +945,7 @@ class BrickletNFC(Device):
         """
         Writes the Ndef messages that is to be transferred to the NFC master.
 
-        The maximum supported Ndef message size in Cardemu mode is 255 byte.
+        The maximum supported NDEF message size in Cardemu mode is 255 byte.
 
         You can call this function at any time in Cardemu mode. The internal buffer
         will not be overwritten until you call this function again or change the
@@ -972,9 +973,9 @@ class BrickletNFC(Device):
 
     def p2p_write_ndef(self, ndef):
         """
-        Writes the Ndef messages that is to be transferred to the NFC master.
+        Writes the NDEF messages that is to be transferred to the NFC master.
 
-        The maximum supported Ndef message size for P2P transfer is 255 byte.
+        The maximum supported NDEF message size for P2P transfer is 255 byte.
 
         You can call this function at any time in P2P mode. The internal buffer
         will not be overwritten until you call this function again, change the
@@ -1002,10 +1003,10 @@ class BrickletNFC(Device):
 
     def p2p_read_ndef(self):
         """
-        Call this function to read the Ndef message that was written by a NFC peer in
-        NFC P2P mode. The maximum Ndef length is 8192 byte.
+        Call this function to read the NDEF message that was written by a NFC peer in
+        NFC P2P mode. The maximum NDEF length is 8192 byte.
 
-        The Ndef message is ready if you called :func:`P2P Start Transfer` with a
+        The NDEF message is ready if you called :func:`P2P Start Transfer` with a
         read transfer and the state changed to *P2PTransferNdefReady*.
         """
         with self.stream_lock:

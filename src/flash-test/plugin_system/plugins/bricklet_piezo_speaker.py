@@ -64,7 +64,7 @@ class Plugin(BrickletBase):
         return BrickletPiezoSpeaker.DEVICE_IDENTIFIER
     
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('piezo_speaker'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletPiezoSpeaker.DEVICE_URL_PART))
         
     def new_enum(self, device_information):
         l = self.mw.piezo_speaker_layout

@@ -55,7 +55,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletSolidStateRelayV2.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename('solid_state_relay_v2'))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletSolidStateRelayV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
