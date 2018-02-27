@@ -35,7 +35,7 @@ class Plugin(CoMCUBrickletBase):
 4. Überprüfe Wert:
      * Bewegung sollte nach Aufwärmphase erkannt werden
      * 3 Blaue LEDs sollte müssen im Kreis laufen.
-5. Das Bricklet ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+5. Das Bricklet ist fertig, mit schwarzer und weißer Fresnel-Linse in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
 
