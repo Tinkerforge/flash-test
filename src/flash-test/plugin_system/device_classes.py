@@ -30,6 +30,7 @@ from .plugins.bricklet_industrial_dual_0_20ma import Plugin as bricklet_industri
 from .plugins.bricklet_industrial_dual_analog_in import Plugin as bricklet_industrial_dual_analog_in_class
 from .plugins.bricklet_industrial_quad_relay import Plugin as bricklet_industrial_quad_relay_class
 from .plugins.bricklet_io16 import Plugin as bricklet_io16_class
+from .plugins.bricklet_io4 import Plugin as bricklet_io4_class
 from .plugins.bricklet_joystick import Plugin as bricklet_joystick_class
 from .plugins.bricklet_laser_range_finder import Plugin as bricklet_laser_range_finder_class
 from .plugins.bricklet_lcd_20x4 import Plugin as bricklet_lcd_20x4_class
@@ -106,6 +107,7 @@ device_classes = [
     bricklet_industrial_dual_analog_in_class,
     bricklet_industrial_quad_relay_class,
     bricklet_io16_class,
+    bricklet_io4_class,
     bricklet_joystick_class,
     bricklet_laser_range_finder_class,
     bricklet_lcd_20x4_class,
