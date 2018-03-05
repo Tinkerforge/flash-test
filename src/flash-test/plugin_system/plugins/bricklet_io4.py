@@ -36,7 +36,7 @@ class Plugin(BrickletBase):
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Überprüfe LEDs:
-     * Die LEDs leuchten alle
+     * Die LEDs leuchten 10x der Reihe nach auf
 6. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
@@ -61,4 +61,16 @@ class Plugin(BrickletBase):
 
         self.io4 = BrickletIO4(device_information.uid, self.get_ipcon())
 
-        self.io4.set_configuration(0xFF, 'o', True)
+        for i in range(10):
+            time.sleep(0.2)
+            self.io4.set_configuration(1 << 0, "o", True)
+            self.io4.set_configuration((1 << 1) |(1 << 2) | (1 << 3), "o", False)
+            time.sleep(0.2)
+            self.io4.set_configuration(1 << 1, "o", True)
+            self.io4.set_configuration((1 << 0) |(1 << 2) | (1 << 3), "o", False)
+            time.sleep(0.2)
+            self.io4.set_configuration(1 << 2, "o", True)
+            self.io4.set_configuration((1 << 0) |(1 << 1) | (1 << 3), "o", False)
+            time.sleep(0.2)
+            self.io4.set_configuration(1 << 3, "o", True)
+            self.io4.set_configuration((1 << 0) |(1 << 1) | (1 << 2), "o", False)
