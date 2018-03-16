@@ -80,7 +80,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.device_manager = DeviceManager(self)
         self.plugin_not_implemented = PluginNotImplemented(self)
 
-        from plugin_system.tinkerforge.device_factory import DEVICE_CLASSES
+        from plugin_system.tinkerforge.device_factory_all import DEVICE_CLASSES
         from plugin_system.device_classes import device_classes
 
         device_identifiers = []

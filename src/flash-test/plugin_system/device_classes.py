@@ -11,6 +11,7 @@ from .plugins.bricklet_analog_in_v3 import Plugin as bricklet_analog_in_v3_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
 from .plugins.bricklet_barometer import Plugin as bricklet_barometer_class
 from .plugins.bricklet_can import Plugin as bricklet_can_class
+from .plugins.bricklet_can_v2 import Plugin as bricklet_can_v2_class
 from .plugins.bricklet_co2 import Plugin as bricklet_co2_class
 from .plugins.bricklet_color import Plugin as bricklet_color_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
@@ -49,6 +50,7 @@ from .plugins.bricklet_outdoor_weather import Plugin as bricklet_outdoor_weather
 from .plugins.bricklet_piezo_speaker import Plugin as bricklet_piezo_speaker_class
 from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
 from .plugins.bricklet_real_time_clock import Plugin as bricklet_real_time_clock_class
+from .plugins.bricklet_real_time_clock_v2 import Plugin as bricklet_real_time_clock_v2_class
 from .plugins.bricklet_remote_switch import Plugin as bricklet_remote_switch_class
 from .plugins.bricklet_remote_switch_v2 import Plugin as bricklet_remote_switch_v2_class
 from .plugins.bricklet_rgb_led import Plugin as bricklet_rgb_led_class
@@ -88,6 +90,7 @@ device_classes = [
     bricklet_analog_out_v2_class,
     bricklet_barometer_class,
     bricklet_can_class,
+    bricklet_can_v2_class,
     bricklet_co2_class,
     bricklet_color_class,
     bricklet_distance_ir_class,
@@ -126,6 +129,7 @@ device_classes = [
     bricklet_piezo_speaker_class,
     bricklet_ptc_class,
     bricklet_real_time_clock_class,
+    bricklet_real_time_clock_v2_class,
     bricklet_remote_switch_class,
     bricklet_remote_switch_v2_class,
     bricklet_rgb_led_class,
