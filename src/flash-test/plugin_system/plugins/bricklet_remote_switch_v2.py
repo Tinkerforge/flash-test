@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2018 Olaf Lüke <olaf@tinkerforge.com>
 
-bricklet_remote_switch.py: Remove Switch plugin
+bricklet_remote_switch_v2.py: Remote Switch 2.0 plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,12 +28,12 @@ from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filen
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Remove Switch Bricklet 2.0 mit Port C
-2. Verbinde Test-Antenne mit Remove Switch Bricklet
+1. Verbinde Remote Switch Bricklet 2.0 mit Port C
+2. Verbinde Test-Antenne mit Remote Switch Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Warte bis Wert sich auf "Alle Schaltbefehle wurden gesendet" ändert:
-     * Die Funksteckdose muss währenddessen mehrfach klicken
+     * Die Funksteckdose (Typ: A, House Code: [1,2,4], Receiver Code: [A,B,D]) muss währenddessen mehrfach klicken
 6. Test-Antenne vom Bricklet abziehen
 7. Das Bricklet ist fertig, mit Antenne in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1
