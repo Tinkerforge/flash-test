@@ -68,11 +68,11 @@ class DeviceManager(QtCore.QObject):
             
             # Flash Adapter XMC quad relay and control master
             if (device_identifier == BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER and uid == '555') or \
-               (device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qZ5ow', '6R62QC', '5VjDHm')):
+               (device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qZ5ow', '6R62QC', '5VjDHm', '6DdLE5')):
                 return
             
             # Flash Adapter XMC program masster
-            if device_identifier == BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER and uid in ('6qzRzc', '6kP6n3', '6Jprbj'):
+            if device_identifier == BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER and uid in ('6qzRzc', '6kP6n3', '6Jprbj', '6DdMSG'):
                 # Override old UID if new Flash adapter is connected
                 # We don't support two flash adapter simultaneously
                 self.flash_adapter_xmc_uid = uid
