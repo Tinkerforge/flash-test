@@ -45,6 +45,7 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
 
+        self.running = False
         self.io16 = None
 
     def start(self, device_information):
@@ -85,6 +86,7 @@ class Plugin(BrickletBase):
 
                 time.sleep(0.5)
             except Exception as e:
+                print(e) # FIXME: for unknown reasons blinking doesn't work without this print
                 time.sleep(0.5)
 
     def new_enum(self, device_information):
