@@ -62,9 +62,9 @@ class Plugin(BrickletBase):
         self.io16 = BrickletIO16(device_information.uid, self.get_ipcon())
             
         for i in range(5):
-            time.sleep(0.2)
+            time.sleep(0.5)
             self.io16.set_port_configuration('a', 0xFF, 'o', True)
-            self.io16.set_port_configuration('b', 0xFF, 'o', False)
-            time.sleep(0.2)
-            self.io16.set_port_configuration('a', 0xFF, 'o', False)
             self.io16.set_port_configuration('b', 0xFF, 'o', True)
+            time.sleep(2.0)
+            self.io16.set_port_configuration('a', 0xFF, 'o', False)
+            self.io16.set_port_configuration('b', 0xFF, 'o', False)
