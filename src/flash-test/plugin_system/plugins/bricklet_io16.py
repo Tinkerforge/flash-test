@@ -28,6 +28,7 @@ from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 
 import math
 import time
+import threading
 
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
@@ -36,7 +37,7 @@ class Plugin(BrickletBase):
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Überprüfe LEDs:
-     * Die LEDs blinken abwechselnd 5x zwischen Port A und B
+     * Die LEDs blinken gleichzeitig an Port A und B
 6. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
@@ -44,27 +45,49 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
 
+        self.io16 = None
+
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
+        self.running = True
+        self.blink_thread = threading.Thread(target=self.blick_loop)
+        self.blink_thread.daemon = True
+        self.blink_thread.start()
+
         if device_information:
             self.new_enum(device_information)
 
+    def stop(self):
+        self.running = False
+
     def get_device_identifier(self):
         return BrickletIO16.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletIO16.DEVICE_URL_PART))
-        
+
+    def blick_loop(self):
+        while self.running:
+            io16 = self.io16
+
+            try:
+                io16.set_port_configuration('a', 0xFF, 'o', True)
+                io16.set_port_configuration('b', 0xFF, 'o', True)
+
+                time.sleep(0.5)
+
+                if not self.running:
+                    break
+
+                io16.set_port_configuration('a', 0xFF, 'o', False)
+                io16.set_port_configuration('b', 0xFF, 'o', False)
+
+                time.sleep(0.5)
+            except Exception as e:
+                time.sleep(0.5)
+
     def new_enum(self, device_information):
         self.show_device_information(device_information)
 
         self.io16 = BrickletIO16(device_information.uid, self.get_ipcon())
-            
-        for i in range(5):
-            time.sleep(0.5)
-            self.io16.set_port_configuration('a', 0xFF, 'o', True)
-            self.io16.set_port_configuration('b', 0xFF, 'o', True)
-            time.sleep(2.0)
-            self.io16.set_port_configuration('a', 0xFF, 'o', False)
-            self.io16.set_port_configuration('b', 0xFF, 'o', False)
