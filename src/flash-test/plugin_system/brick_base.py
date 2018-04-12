@@ -132,6 +132,8 @@ class BrickBase(PluginBase):
         self.mw.set_tool_status_okay("Brick geflasht")
         self.is_flashing = False
 
+        self.mw.increase_flashed_count()
+
     def start(self, device_information):
         self.mw.button_flash.hide()
         PluginBase.start(self, device_information)

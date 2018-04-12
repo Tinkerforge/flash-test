@@ -117,6 +117,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         self.qtcb_foot_pedal.connect(self.cb_foot_pedal)
 
+        self.flashed_count = 0
+
     def cb_foot_pedal(self, interrupt_mask, value_mask):
         if (interrupt_mask & 1) != 0 and (value_mask & 1) == 0:
             self.flash_clicked()
@@ -158,6 +160,16 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             device_information = None
 
         self.current_plugin.start(device_information)
+
+        self.reset_flashed_count()
+
+    def reset_flashed_count(self):
+        self.flashed_count = 0
+        self.label_count.setText(str(self.flashed_count))
+
+    def increase_flashed_count(self):
+        self.flashed_count += 1
+        self.label_count.setText(str(self.flashed_count))
 
     def flash_clicked(self):
         self.set_tool_status_normal('-')

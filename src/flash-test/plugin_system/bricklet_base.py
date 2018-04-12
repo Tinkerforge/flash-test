@@ -99,9 +99,9 @@ class BrickletBase(PluginBase):
         except:
             traceback.print_exc()
             return False
-        else:
-            self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
-            
+
+        self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
+        self.mw.increase_flashed_count()
         return True
 
     def write_new_uid_to_bricklet(self):
