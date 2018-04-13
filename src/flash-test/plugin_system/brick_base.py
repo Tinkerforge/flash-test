@@ -135,7 +135,7 @@ class BrickBase(PluginBase):
         self.mw.increase_flashed_count()
 
     def start(self, device_information):
-        self.mw.button_flash.hide()
+        self.mw.button_flash.setEnabled(False)
         PluginBase.start(self, device_information)
         self.show_device_information(device_information, clear_value=True)
         self.is_flashing = False
@@ -158,7 +158,7 @@ class BrickBase(PluginBase):
             self.mw.set_value_normal('-')
 
     def stop(self):
-        self.mw.button_flash.show()
+        self.mw.button_flash.setEnabled(True)
         PluginBase.stop(self)
         self.flash_thread.stop()
 

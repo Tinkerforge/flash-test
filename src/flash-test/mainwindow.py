@@ -106,6 +106,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         self.combo_device.currentIndexChanged.connect(self.device_index_changed)
         self.button_flash.clicked.connect(self.flash_clicked)
+        self.button_restart_test.clicked.connect(self.restart_test_clicked)
         self.button_continue.clicked.connect(self.continue_clicked)
 
         self.flash_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_0), self, self.flash_clicked)
@@ -178,6 +179,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         if self.current_plugin != None:
             self.current_plugin.flash_clicked()
+
+    def restart_test_clicked(self):
+        # trigger test-restart by forcing an enumerate
+        self.device_manager.ipcon.enumerate()
 
     def continue_clicked(self):
         if self.current_plugin != None:

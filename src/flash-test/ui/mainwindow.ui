@@ -51,6 +51,16 @@
           <property name="text">
            <string>Flashen</string>
           </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_restart_test">
+          <property name="text">
+           <string>Test Neustarten</string>
+          </property>
          </widget>
         </item>
         <item>

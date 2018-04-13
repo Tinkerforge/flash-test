@@ -38,7 +38,7 @@ class ExtensionBase(PluginBase):
         PluginBase.__init__(self, *args)
 
     def start(self, device_information):
-        self.mw.button_flash.hide()
+        self.mw.button_flash.setEnabled(False)
         PluginBase.start(self, device_information)
         self.mw.set_tool_status_okay("-")
         self.mw.set_uid_status_okay("-")
@@ -47,5 +47,5 @@ class ExtensionBase(PluginBase):
         self.mw.button_continue.hide()
 
     def stop(self):
-        self.mw.button_flash.show()
+        self.mw.button_flash.setEnabled(True)
         PluginBase.stop(self)
