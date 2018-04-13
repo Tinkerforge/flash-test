@@ -138,7 +138,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                 widget.setVisible(True)
 
     def closeEvent(self, event):
-        if self.current_plugin:
+        if self.current_plugin != None:
             self.current_plugin.stop()
             self.current_plugin.destroy()
 
@@ -148,11 +148,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         return self.device_manager.devices.get(BrickMaster.DEVICE_IDENTIFIER)
 
     def device_index_changed(self, index):
-        if self.current_plugin:
+        if self.current_plugin != None:
             self.current_plugin.stop()
 
         device = self.combo_device.itemData(index)
-        if device:
+
+        if device != None:
             self.current_plugin = device
             device_information = self.device_manager.devices.get(device.get_device_identifier())
         else:
@@ -164,12 +165,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.reset_flashed_count()
 
     def reset_flashed_count(self):
-        self.flashed_count = 0
-        self.label_count.setText(str(self.flashed_count))
+        self.spin_flashed_count.setValue(0)
 
     def increase_flashed_count(self):
-        self.flashed_count += 1
-        self.label_count.setText(str(self.flashed_count))
+        self.spin_flashed_count.setValue(self.spin_flashed_count.value() + 1)
 
     def flash_clicked(self):
         self.set_tool_status_normal('-')
@@ -177,11 +176,11 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.set_flash_status_normal('-')
         self.set_value_normal('-')
 
-        if self.current_plugin:
+        if self.current_plugin != None:
             self.current_plugin.flash_clicked()
 
     def continue_clicked(self):
-        if self.current_plugin:
+        if self.current_plugin != None:
             self.current_plugin.continue_clicked()
 
     def set_label_text(self, label, text, color):
