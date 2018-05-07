@@ -2,7 +2,7 @@
 
 CONFIG_BAUDRATE   = 115200
 CONFIG_TTY        = '/dev/ttyUSB0'
-CONFIG_UID_MASTER = ('6qzRzc', '6kP6n3', '6Jprbj')
+CONFIG_UID_MASTER = ('6qzRzc', '6kP6n3', '6Jprbj', '6DdMSG')
 CONFIG_UID_IQR    = '555'
 
 USBDEVFS_RESET = 21780
