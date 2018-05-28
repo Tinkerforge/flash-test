@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-03-16.      #
+# This file was automatically generated on 2018-05-28.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -60,6 +60,11 @@ except ValueError:
     from bricklet_accelerometer import BrickletAccelerometer
 
 try:
+    from .bricklet_air_quality import BrickletAirQuality
+except ValueError:
+    from bricklet_air_quality import BrickletAirQuality
+
+try:
     from .bricklet_ambient_light import BrickletAmbientLight
 except ValueError:
     from bricklet_ambient_light import BrickletAmbientLight
@@ -95,9 +100,19 @@ except ValueError:
     from bricklet_analog_out_v2 import BrickletAnalogOutV2
 
 try:
+    from .bricklet_analog_out_v3 import BrickletAnalogOutV3
+except ValueError:
+    from bricklet_analog_out_v3 import BrickletAnalogOutV3
+
+try:
     from .bricklet_barometer import BrickletBarometer
 except ValueError:
     from bricklet_barometer import BrickletBarometer
+
+try:
+    from .bricklet_barometer_v2 import BrickletBarometerV2
+except ValueError:
+    from bricklet_barometer_v2 import BrickletBarometerV2
 
 try:
     from .bricklet_can import BrickletCAN
@@ -153,6 +168,11 @@ try:
     from .bricklet_dual_button import BrickletDualButton
 except ValueError:
     from bricklet_dual_button import BrickletDualButton
+
+try:
+    from .bricklet_dual_button_v2 import BrickletDualButtonV2
+except ValueError:
+    from bricklet_dual_button_v2 import BrickletDualButtonV2
 
 try:
     from .bricklet_dual_relay import BrickletDualRelay
@@ -215,9 +235,19 @@ except ValueError:
     from bricklet_industrial_digital_in_4 import BrickletIndustrialDigitalIn4
 
 try:
+    from .bricklet_industrial_digital_in_4_v2 import BrickletIndustrialDigitalIn4V2
+except ValueError:
+    from bricklet_industrial_digital_in_4_v2 import BrickletIndustrialDigitalIn4V2
+
+try:
     from .bricklet_industrial_digital_out_4 import BrickletIndustrialDigitalOut4
 except ValueError:
     from bricklet_industrial_digital_out_4 import BrickletIndustrialDigitalOut4
+
+try:
+    from .bricklet_industrial_digital_out_4_v2 import BrickletIndustrialDigitalOut4V2
+except ValueError:
+    from bricklet_industrial_digital_out_4_v2 import BrickletIndustrialDigitalOut4V2
 
 try:
     from .bricklet_industrial_dual_0_20ma import BrickletIndustrialDual020mA
@@ -225,9 +255,19 @@ except ValueError:
     from bricklet_industrial_dual_0_20ma import BrickletIndustrialDual020mA
 
 try:
+    from .bricklet_industrial_dual_0_20ma_v2 import BrickletIndustrialDual020mAV2
+except ValueError:
+    from bricklet_industrial_dual_0_20ma_v2 import BrickletIndustrialDual020mAV2
+
+try:
     from .bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
 except ValueError:
     from bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
+
+try:
+    from .bricklet_industrial_dual_analog_in_v2 import BrickletIndustrialDualAnalogInV2
+except ValueError:
+    from bricklet_industrial_dual_analog_in_v2 import BrickletIndustrialDualAnalogInV2
 
 try:
     from .bricklet_industrial_dual_relay import BrickletIndustrialDualRelay
@@ -250,9 +290,24 @@ except ValueError:
     from bricklet_io16 import BrickletIO16
 
 try:
+    from .bricklet_io16_v2 import BrickletIO16V2
+except ValueError:
+    from bricklet_io16_v2 import BrickletIO16V2
+
+try:
     from .bricklet_io4 import BrickletIO4
 except ValueError:
     from bricklet_io4 import BrickletIO4
+
+try:
+    from .bricklet_io4_v2 import BrickletIO4V2
+except ValueError:
+    from bricklet_io4_v2 import BrickletIO4V2
+
+try:
+    from .bricklet_isolator import BrickletIsolator
+except ValueError:
+    from bricklet_isolator import BrickletIsolator
 
 try:
     from .bricklet_joystick import BrickletJoystick
@@ -263,6 +318,11 @@ try:
     from .bricklet_laser_range_finder import BrickletLaserRangeFinder
 except ValueError:
     from bricklet_laser_range_finder import BrickletLaserRangeFinder
+
+try:
+    from .bricklet_lcd_128x64 import BrickletLCD128x64
+except ValueError:
+    from bricklet_lcd_128x64 import BrickletLCD128x64
 
 try:
     from .bricklet_lcd_16x2 import BrickletLCD16x2
@@ -350,9 +410,19 @@ except ValueError:
     from bricklet_oled_128x64 import BrickletOLED128x64
 
 try:
+    from .bricklet_oled_128x64_v2 import BrickletOLED128x64V2
+except ValueError:
+    from bricklet_oled_128x64_v2 import BrickletOLED128x64V2
+
+try:
     from .bricklet_oled_64x48 import BrickletOLED64x48
 except ValueError:
     from bricklet_oled_64x48 import BrickletOLED64x48
+
+try:
+    from .bricklet_one_wire import BrickletOneWire
+except ValueError:
+    from bricklet_one_wire import BrickletOneWire
 
 try:
     from .bricklet_outdoor_weather import BrickletOutdoorWeather
@@ -505,6 +575,11 @@ except ValueError:
     from bricklet_temperature_ir_v2 import BrickletTemperatureIRV2
 
 try:
+    from .bricklet_temperature_v2 import BrickletTemperatureV2
+except ValueError:
+    from bricklet_temperature_v2 import BrickletTemperatureV2
+
+try:
     from .bricklet_thermal_imaging import BrickletThermalImaging
 except ValueError:
     from bricklet_thermal_imaging import BrickletThermalImaging
@@ -530,6 +605,11 @@ except ValueError:
     from bricklet_uv_light import BrickletUVLight
 
 try:
+    from .bricklet_uv_light_v2 import BrickletUVLightV2
+except ValueError:
+    from bricklet_uv_light_v2 import BrickletUVLightV2
+
+try:
     from .bricklet_voltage import BrickletVoltage
 except ValueError:
     from bricklet_voltage import BrickletVoltage
@@ -538,6 +618,11 @@ try:
     from .bricklet_voltage_current import BrickletVoltageCurrent
 except ValueError:
     from bricklet_voltage_current import BrickletVoltageCurrent
+
+try:
+    from .bricklet_voltage_current_v2 import BrickletVoltageCurrentV2
+except ValueError:
+    from bricklet_voltage_current_v2 import BrickletVoltageCurrentV2
 
 
 DEVICE_CLASSES = {
@@ -551,6 +636,7 @@ BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
 BrickStepper.DEVICE_IDENTIFIER: BrickStepper,
 BrickletACCurrent.DEVICE_IDENTIFIER: BrickletACCurrent,
 BrickletAccelerometer.DEVICE_IDENTIFIER: BrickletAccelerometer,
+BrickletAirQuality.DEVICE_IDENTIFIER: BrickletAirQuality,
 BrickletAmbientLight.DEVICE_IDENTIFIER: BrickletAmbientLight,
 BrickletAmbientLightV2.DEVICE_IDENTIFIER: BrickletAmbientLightV2,
 BrickletAnalogIn.DEVICE_IDENTIFIER: BrickletAnalogIn,
@@ -558,7 +644,9 @@ BrickletAnalogInV2.DEVICE_IDENTIFIER: BrickletAnalogInV2,
 BrickletAnalogInV3.DEVICE_IDENTIFIER: BrickletAnalogInV3,
 BrickletAnalogOut.DEVICE_IDENTIFIER: BrickletAnalogOut,
 BrickletAnalogOutV2.DEVICE_IDENTIFIER: BrickletAnalogOutV2,
+BrickletAnalogOutV3.DEVICE_IDENTIFIER: BrickletAnalogOutV3,
 BrickletBarometer.DEVICE_IDENTIFIER: BrickletBarometer,
+BrickletBarometerV2.DEVICE_IDENTIFIER: BrickletBarometerV2,
 BrickletCAN.DEVICE_IDENTIFIER: BrickletCAN,
 BrickletCANV2.DEVICE_IDENTIFIER: BrickletCANV2,
 BrickletCO2.DEVICE_IDENTIFIER: BrickletCO2,
@@ -570,6 +658,7 @@ BrickletDistanceUS.DEVICE_IDENTIFIER: BrickletDistanceUS,
 BrickletDistanceUSV2.DEVICE_IDENTIFIER: BrickletDistanceUSV2,
 BrickletDMX.DEVICE_IDENTIFIER: BrickletDMX,
 BrickletDualButton.DEVICE_IDENTIFIER: BrickletDualButton,
+BrickletDualButtonV2.DEVICE_IDENTIFIER: BrickletDualButtonV2,
 BrickletDualRelay.DEVICE_IDENTIFIER: BrickletDualRelay,
 BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
 BrickletGasDetector.DEVICE_IDENTIFIER: BrickletGasDetector,
@@ -582,16 +671,24 @@ BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
 BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOut,
 BrickletIndustrialCounter.DEVICE_IDENTIFIER: BrickletIndustrialCounter,
 BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4,
+BrickletIndustrialDigitalIn4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4V2,
 BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4,
+BrickletIndustrialDigitalOut4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4V2,
 BrickletIndustrialDual020mA.DEVICE_IDENTIFIER: BrickletIndustrialDual020mA,
+BrickletIndustrialDual020mAV2.DEVICE_IDENTIFIER: BrickletIndustrialDual020mAV2,
 BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogIn,
+BrickletIndustrialDualAnalogInV2.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogInV2,
 BrickletIndustrialDualRelay.DEVICE_IDENTIFIER: BrickletIndustrialDualRelay,
 BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER: BrickletIndustrialQuadRelay,
 BrickletIndustrialQuadRelayV2.DEVICE_IDENTIFIER: BrickletIndustrialQuadRelayV2,
 BrickletIO16.DEVICE_IDENTIFIER: BrickletIO16,
+BrickletIO16V2.DEVICE_IDENTIFIER: BrickletIO16V2,
 BrickletIO4.DEVICE_IDENTIFIER: BrickletIO4,
+BrickletIO4V2.DEVICE_IDENTIFIER: BrickletIO4V2,
+BrickletIsolator.DEVICE_IDENTIFIER: BrickletIsolator,
 BrickletJoystick.DEVICE_IDENTIFIER: BrickletJoystick,
 BrickletLaserRangeFinder.DEVICE_IDENTIFIER: BrickletLaserRangeFinder,
+BrickletLCD128x64.DEVICE_IDENTIFIER: BrickletLCD128x64,
 BrickletLCD16x2.DEVICE_IDENTIFIER: BrickletLCD16x2,
 BrickletLCD20x4.DEVICE_IDENTIFIER: BrickletLCD20x4,
 BrickletLEDStrip.DEVICE_IDENTIFIER: BrickletLEDStrip,
@@ -609,7 +706,9 @@ BrickletMultiTouch.DEVICE_IDENTIFIER: BrickletMultiTouch,
 BrickletNFC.DEVICE_IDENTIFIER: BrickletNFC,
 BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,
 BrickletOLED128x64.DEVICE_IDENTIFIER: BrickletOLED128x64,
+BrickletOLED128x64V2.DEVICE_IDENTIFIER: BrickletOLED128x64V2,
 BrickletOLED64x48.DEVICE_IDENTIFIER: BrickletOLED64x48,
+BrickletOneWire.DEVICE_IDENTIFIER: BrickletOneWire,
 BrickletOutdoorWeather.DEVICE_IDENTIFIER: BrickletOutdoorWeather,
 BrickletOzone.DEVICE_IDENTIFIER: BrickletOzone,
 BrickletParticulateMatter.DEVICE_IDENTIFIER: BrickletParticulateMatter,
@@ -640,13 +739,16 @@ BrickletStreamTest.DEVICE_IDENTIFIER: BrickletStreamTest,
 BrickletTemperature.DEVICE_IDENTIFIER: BrickletTemperature,
 BrickletTemperatureIR.DEVICE_IDENTIFIER: BrickletTemperatureIR,
 BrickletTemperatureIRV2.DEVICE_IDENTIFIER: BrickletTemperatureIRV2,
+BrickletTemperatureV2.DEVICE_IDENTIFIER: BrickletTemperatureV2,
 BrickletThermalImaging.DEVICE_IDENTIFIER: BrickletThermalImaging,
 BrickletThermocouple.DEVICE_IDENTIFIER: BrickletThermocouple,
 BrickletThermocoupleV2.DEVICE_IDENTIFIER: BrickletThermocoupleV2,
 BrickletTilt.DEVICE_IDENTIFIER: BrickletTilt,
 BrickletUVLight.DEVICE_IDENTIFIER: BrickletUVLight,
+BrickletUVLightV2.DEVICE_IDENTIFIER: BrickletUVLightV2,
 BrickletVoltage.DEVICE_IDENTIFIER: BrickletVoltage,
 BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
+BrickletVoltageCurrentV2.DEVICE_IDENTIFIER: BrickletVoltageCurrentV2,
 }
 
 def get_device_class(device_identifier):

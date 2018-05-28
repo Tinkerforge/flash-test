@@ -19,30 +19,26 @@ except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetTemperatureCallbackConfiguration = namedtuple('TemperatureCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
-GetConfiguration = namedtuple('Configuration', ['averaging', 'thermocouple_type', 'filter'])
-GetErrorState = namedtuple('ErrorState', ['over_under', 'open_circuit'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletThermocoupleV2(Device):
+class BrickletTemperatureV2(Device):
     """
-    Measures temperature with thermocouples
+    Measures ambient temperature with 0.2°C accuracy
     """
 
-    DEVICE_IDENTIFIER = 2109
-    DEVICE_DISPLAY_NAME = 'Thermocouple Bricklet 2.0'
-    DEVICE_URL_PART = 'thermocouple_v2' # internal
+    DEVICE_IDENTIFIER = 2113
+    DEVICE_DISPLAY_NAME = 'Temperature Bricklet 2.0'
+    DEVICE_URL_PART = 'temperature_v2' # internal
 
     CALLBACK_TEMPERATURE = 4
-    CALLBACK_ERROR_STATE = 8
 
 
     FUNCTION_GET_TEMPERATURE = 1
     FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION = 2
     FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION = 3
-    FUNCTION_SET_CONFIGURATION = 5
-    FUNCTION_GET_CONFIGURATION = 6
-    FUNCTION_GET_ERROR_STATE = 7
+    FUNCTION_SET_HEATER_CONFIGURATION = 5
+    FUNCTION_GET_HEATER_CONFIGURATION = 6
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -61,23 +57,8 @@ class BrickletThermocoupleV2(Device):
     THRESHOLD_OPTION_INSIDE = 'i'
     THRESHOLD_OPTION_SMALLER = '<'
     THRESHOLD_OPTION_GREATER = '>'
-    AVERAGING_1 = 1
-    AVERAGING_2 = 2
-    AVERAGING_4 = 4
-    AVERAGING_8 = 8
-    AVERAGING_16 = 16
-    TYPE_B = 0
-    TYPE_E = 1
-    TYPE_J = 2
-    TYPE_K = 3
-    TYPE_N = 4
-    TYPE_R = 5
-    TYPE_S = 6
-    TYPE_T = 7
-    TYPE_G8 = 8
-    TYPE_G32 = 9
-    FILTER_OPTION_50HZ = 0
-    FILTER_OPTION_60HZ = 1
+    HEATER_CONFIG_DISABLED = 0
+    HEATER_CONFIG_ENABLED = 1
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -103,44 +84,39 @@ class BrickletThermocoupleV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_TEMPERATURE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletThermocoupleV2.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_SET_CONFIGURATION] = BrickletThermocoupleV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_CONFIGURATION] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_ERROR_STATE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletThermocoupleV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_WRITE_FIRMWARE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletThermocoupleV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_RESET] = BrickletThermocoupleV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_WRITE_UID] = BrickletThermocoupleV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_READ_UID] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletThermocoupleV2.FUNCTION_GET_IDENTITY] = BrickletThermocoupleV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_TEMPERATURE] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletTemperatureV2.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_SET_HEATER_CONFIGURATION] = BrickletTemperatureV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_HEATER_CONFIGURATION] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletTemperatureV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_WRITE_FIRMWARE] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletTemperatureV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_RESET] = BrickletTemperatureV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_WRITE_UID] = BrickletTemperatureV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_READ_UID] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletTemperatureV2.FUNCTION_GET_IDENTITY] = BrickletTemperatureV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletThermocoupleV2.CALLBACK_TEMPERATURE] = 'i'
-        self.callback_formats[BrickletThermocoupleV2.CALLBACK_ERROR_STATE] = '! !'
+        self.callback_formats[BrickletTemperatureV2.CALLBACK_TEMPERATURE] = 'h'
 
 
     def get_temperature(self):
         """
-        Returns the temperature of the thermocouple. The value is given in °C/100,
-        e.g. a value of 4223 means that a temperature of 42.23 °C is measured.
-
-        If you want to get the temperature periodically, it is recommended
-        to use the :cb:`Temperature` callback and set the period with
-        :func:`Set Temperature Callback Configuration`.
+        Returns the temperature measured by the sensor. The value
+        has a range of -4500 to 13000 and is given in °C/100,
+        i.e. a value of 3200 means that a temperature of 32.00 °C is measured.
 
 
         If you want to get the value periodically, it is recommended to use the
         :cb:`Temperature` callback. You can set the callback configuration
         with :func:`Set Temperature Callback Configuration`.
         """
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_TEMPERATURE, (), '', 'i')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_TEMPERATURE, (), '', 'h')
 
     def set_temperature_callback_configuration(self, period, value_has_to_change, option, min, max):
         """
@@ -180,69 +156,29 @@ class BrickletThermocoupleV2(Device):
         min = int(min)
         max = int(max)
 
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
 
     def get_temperature_callback_configuration(self):
         """
         Returns the callback configuration as set by :func:`Set Temperature Callback Configuration`.
         """
-        return GetTemperatureCallbackConfiguration(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
+        return GetTemperatureCallbackConfiguration(*self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
-    def set_configuration(self, averaging, thermocouple_type, filter):
+    def set_heater_configuration(self, heater_config):
         """
-        You can configure averaging size, thermocouple type and frequency
-        filtering.
+        Enables/disables the heater. The heater can be used to test the sensor.
 
-        Available averaging sizes are 1, 2, 4, 8 and 16 samples.
-
-        As thermocouple type you can use B, E, J, K, N, R, S and T. If you have a
-        different thermocouple or a custom thermocouple you can also use
-        G8 and G32. With these types the returned value will not be in °C/100,
-        it will be calculated by the following formulas:
-
-        * G8: ``value = 8 * 1.6 * 2^17 * Vin``
-        * G32: ``value = 32 * 1.6 * 2^17 * Vin``
-
-        where Vin is the thermocouple input voltage.
-
-        The frequency filter can be either configured to 50Hz or to 60Hz. You should
-        configure it according to your utility frequency.
-
-        The conversion time depends on the averaging and filter configuration, it can
-        be calculated as follows:
-
-        * 60Hz: ``time = 82 + (samples - 1) * 16.67``
-        * 50Hz: ``time = 98 + (samples - 1) * 20``
-
-        The default configuration is 16 samples, K type and 50Hz.
+        By default the heater is disabled.
         """
-        averaging = int(averaging)
-        thermocouple_type = int(thermocouple_type)
-        filter = int(filter)
+        heater_config = int(heater_config)
 
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_SET_CONFIGURATION, (averaging, thermocouple_type, filter), 'B B B', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_SET_HEATER_CONFIGURATION, (heater_config,), 'B', '')
 
-    def get_configuration(self):
+    def get_heater_configuration(self):
         """
-        Returns the configuration as set by :func:`Set Configuration`.
+        Returns the heater configuration as set by :func:`Set Heater Configuration`.
         """
-        return GetConfiguration(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_CONFIGURATION, (), '', 'B B B'))
-
-    def get_error_state(self):
-        """
-        Returns the current error state. There are two possible errors:
-
-        * Over/Under Voltage and
-        * Open Circuit.
-
-        Over/Under Voltage happens for voltages below 0V or above 3.3V. In this case
-        it is very likely that your thermocouple is defective. An Open Circuit error
-        indicates that there is no thermocouple connected.
-
-        You can use the func:`ErrorState` callback to automatically get triggered
-        when the error state changes.
-        """
-        return GetErrorState(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_ERROR_STATE, (), '', '! !'))
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_HEATER_CONFIGURATION, (), '', 'B')
 
     def get_spitfp_error_count(self):
         """
@@ -258,7 +194,7 @@ class BrickletThermocoupleV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -274,13 +210,13 @@ class BrickletThermocoupleV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -293,7 +229,7 @@ class BrickletThermocoupleV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -308,7 +244,7 @@ class BrickletThermocoupleV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -322,13 +258,13 @@ class BrickletThermocoupleV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -339,7 +275,7 @@ class BrickletThermocoupleV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -350,7 +286,7 @@ class BrickletThermocoupleV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -362,14 +298,14 @@ class BrickletThermocoupleV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -382,7 +318,7 @@ class BrickletThermocoupleV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletTemperatureV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, callback_id, function):
         """
@@ -393,4 +329,4 @@ class BrickletThermocoupleV2(Device):
         else:
             self.registered_callbacks[callback_id] = function
 
-ThermocoupleV2 = BrickletThermocoupleV2 # for backward compatibility
+TemperatureV2 = BrickletTemperatureV2 # for backward compatibility

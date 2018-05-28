@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-03-09.      #
+# This file was automatically generated on 2018-05-28.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -18,8 +18,8 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetSignalData = namedtuple('SignalData', ['duty_cycle', 'period', 'frequency', 'pin_value'])
-GetAllSignalData = namedtuple('AllSignalData', ['duty_cycle', 'period', 'frequency', 'pin_value'])
+GetSignalData = namedtuple('SignalData', ['duty_cycle', 'period', 'frequency', 'channel_value'])
+GetAllSignalData = namedtuple('AllSignalData', ['duty_cycle', 'period', 'frequency', 'channel_value'])
 GetCounterConfiguration = namedtuple('CounterConfiguration', ['count_edge', 'count_direction', 'duty_cycle_prescaler', 'frequency_integration_time'])
 GetAllCounterCallbackConfiguration = namedtuple('AllCounterCallbackConfiguration', ['period', 'value_has_to_change'])
 GetAllSignalDataCallbackConfiguration = namedtuple('AllSignalDataCallbackConfiguration', ['period', 'value_has_to_change'])
@@ -35,8 +35,8 @@ class BrickletIndustrialCounter(Device):
     DEVICE_DISPLAY_NAME = 'Industrial Counter Bricklet'
     DEVICE_URL_PART = 'industrial_counter' # internal
 
-    CALLBACK_ALL_COUNTER = 17
-    CALLBACK_ALL_SIGNAL_DATA = 18
+    CALLBACK_ALL_COUNTER = 19
+    CALLBACK_ALL_SIGNAL_DATA = 20
 
 
     FUNCTION_GET_COUNTER = 1
@@ -55,6 +55,8 @@ class BrickletIndustrialCounter(Device):
     FUNCTION_GET_ALL_COUNTER_CALLBACK_CONFIGURATION = 14
     FUNCTION_SET_ALL_SIGNAL_DATA_CALLBACK_CONFIGURATION = 15
     FUNCTION_GET_ALL_SIGNAL_DATA_CALLBACK_CONFIGURATION = 16
+    FUNCTION_SET_CHANNEL_LED_CONFIG = 17
+    FUNCTION_GET_CHANNEL_LED_CONFIG = 18
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -68,10 +70,10 @@ class BrickletIndustrialCounter(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
-    PIN_0 = 0
-    PIN_1 = 1
-    PIN_2 = 2
-    PIN_3 = 3
+    CHANNEL_0 = 0
+    CHANNEL_1 = 1
+    CHANNEL_2 = 2
+    CHANNEL_3 = 3
     COUNT_EDGE_RISING = 0
     COUNT_EDGE_FALLING = 1
     COUNT_EDGE_BOTH = 2
@@ -106,6 +108,10 @@ class BrickletIndustrialCounter(Device):
     FREQUENCY_INTEGRATION_TIME_16384_MS = 7
     FREQUENCY_INTEGRATION_TIME_32768_MS = 8
     FREQUENCY_INTEGRATION_TIME_AUTO = 255
+    CHANNEL_LED_CONFIG_OFF = 0
+    CHANNEL_LED_CONFIG_ON = 1
+    CHANNEL_LED_CONFIG_SHOW_HEARTBEAT = 2
+    CHANNEL_LED_CONFIG_SHOW_CHANNEL_STATUS = 3
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -147,6 +153,8 @@ class BrickletIndustrialCounter(Device):
         self.response_expected[BrickletIndustrialCounter.FUNCTION_GET_ALL_COUNTER_CALLBACK_CONFIGURATION] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletIndustrialCounter.FUNCTION_SET_ALL_SIGNAL_DATA_CALLBACK_CONFIGURATION] = BrickletIndustrialCounter.RESPONSE_EXPECTED_TRUE
         self.response_expected[BrickletIndustrialCounter.FUNCTION_GET_ALL_SIGNAL_DATA_CALLBACK_CONFIGURATION] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletIndustrialCounter.FUNCTION_SET_CHANNEL_LED_CONFIG] = BrickletIndustrialCounter.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletIndustrialCounter.FUNCTION_GET_CHANNEL_LED_CONFIG] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletIndustrialCounter.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletIndustrialCounter.FUNCTION_SET_BOOTLOADER_MODE] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletIndustrialCounter.FUNCTION_GET_BOOTLOADER_MODE] = BrickletIndustrialCounter.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -164,105 +172,158 @@ class BrickletIndustrialCounter(Device):
         self.callback_formats[BrickletIndustrialCounter.CALLBACK_ALL_SIGNAL_DATA] = '4H 4Q 4I 4!'
 
 
-    def get_counter(self, pin):
+    def get_counter(self, channel):
         """
-
+        Returns the current counter value for the given channel.
         """
-        pin = int(pin)
+        channel = int(channel)
 
-        return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER, (pin,), 'B', 'q')
+        return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER, (channel,), 'B', 'q')
 
     def get_all_counter(self):
         """
-
+        Returns the current counter values for all four channels
         """
         return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_ALL_COUNTER, (), '', '4q')
 
-    def set_counter(self, pin, counter):
+    def set_counter(self, channel, counter):
         """
+        Sets the counter value for the given channel.
 
+        The default value for the counters on startup is 0.
         """
-        pin = int(pin)
+        channel = int(channel)
         counter = int(counter)
 
-        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER, (pin, counter), 'B q', '')
+        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER, (channel, counter), 'B q', '')
 
     def set_all_counter(self, counter):
         """
+        Sets the counter values for all four channels.
 
+        The default value for the counters on startup is 0.
         """
         counter = list(map(int, counter))
 
         self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_ALL_COUNTER, (counter,), '4q', '')
 
-    def get_signal_data(self, pin):
+    def get_signal_data(self, channel):
         """
+        Returns the signal data (duty cycle, period, frequency and value) for the given channel.
 
+        The units are:
+
+        * Duty Cycle: 1/100 %
+        * Period: ns
+        * Frequency: mHz (1/1000 Hz)
+        * Channel Value: true = high, false = low
         """
-        pin = int(pin)
+        channel = int(channel)
 
-        return GetSignalData(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_SIGNAL_DATA, (pin,), 'B', 'H Q I !'))
+        return GetSignalData(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_SIGNAL_DATA, (channel,), 'B', 'H Q I !'))
 
     def get_all_signal_data(self):
         """
+        Returns the signal data (duty cycle, period, frequency and value) for all for chanels.
 
+        The units are:
+
+        * Duty Cycle: 1/100 %
+        * Period: ns
+        * Frequency: mHz (1/1000 Hz)
+        * Channel Value: true = high, false = low
         """
         return GetAllSignalData(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_ALL_SIGNAL_DATA, (), '', '4H 4Q 4I 4!'))
 
-    def set_counter_active(self, pin, active):
+    def set_counter_active(self, channel, active):
         """
+        Activates/deactivates the counter of the given channel.
 
+        true = activate, false = deactivate.
+
+        By default all channels are activated.
         """
-        pin = int(pin)
+        channel = int(channel)
         active = bool(active)
 
-        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER_ACTIVE, (pin, active), 'B !', '')
+        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER_ACTIVE, (channel, active), 'B !', '')
 
     def set_all_counter_active(self, active):
         """
+        Activates/deactivates the counter of all four channels.
 
+        true = activate, false = deactivate.
+
+        By default all channels are activated.
         """
         active = list(map(bool, active))
 
         self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_ALL_COUNTER_ACTIVE, (active,), '4!', '')
 
-    def get_counter_active(self, pin):
+    def get_counter_active(self, channel):
         """
+        Returns the activation state of the given channel.
 
+        true = activate, false = deactivate.
         """
-        pin = int(pin)
+        channel = int(channel)
 
-        return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER_ACTIVE, (pin,), 'B', '!')
+        return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER_ACTIVE, (channel,), 'B', '!')
 
     def get_all_counter_active(self):
         """
+        Returns the activation state of all four channels.
 
+        true = activate, false = deactivate.
         """
         return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_ALL_COUNTER_ACTIVE, (), '', '4!')
 
-    def set_counter_configuration(self, pin, count_edge, count_direction, duty_cycle_prescaler, frequency_integration_time):
+    def set_counter_configuration(self, channel, count_edge, count_direction, duty_cycle_prescaler, frequency_integration_time):
         """
+        Sets the counter configuration for the given channel.
 
+        * Count Edge: Counter can count on rising, falling or both edges.
+        * Count Direction: Counter can count up or down. You can also use
+          another channel as direction input, see
+          `here <http://127.0.0.1:8000/en/doc/Hardware/Bricklets/Industrial_Counter.html#external-count-direction>`__
+          for details.
+        * Duty Cycle Prescaler: Sets a divider for the internal clock. See
+          `here <http://127.0.0.1:8000/en/doc/Hardware/Bricklets/Industrial_Counter.html#duty-cycle-prescaler-and-frequency-integration-time>`__
+          for details.
+        * Frequency Integration Time: Sets the integration time for the
+          frequency measurement. See
+          `here <http://127.0.0.1:8000/en/doc/Hardware/Bricklets/Industrial_Counter.html#duty-cycle-prescaler-and-frequency-integration-time>`__
+          for details.
         """
-        pin = int(pin)
+        channel = int(channel)
         count_edge = int(count_edge)
         count_direction = int(count_direction)
         duty_cycle_prescaler = int(duty_cycle_prescaler)
         frequency_integration_time = int(frequency_integration_time)
 
-        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER_CONFIGURATION, (pin, count_edge, count_direction, duty_cycle_prescaler, frequency_integration_time), 'B B B B B', '')
+        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_COUNTER_CONFIGURATION, (channel, count_edge, count_direction, duty_cycle_prescaler, frequency_integration_time), 'B B B B B', '')
 
-    def get_counter_configuration(self, pin):
+    def get_counter_configuration(self, channel):
         """
-
+        Returns the counter configuration as set by :func:`Set Counter Configuration`.
         """
-        pin = int(pin)
+        channel = int(channel)
 
-        return GetCounterConfiguration(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER_CONFIGURATION, (pin,), 'B', 'B B B B'))
+        return GetCounterConfiguration(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_COUNTER_CONFIGURATION, (channel,), 'B', 'B B B B'))
 
     def set_all_counter_callback_configuration(self, period, value_has_to_change):
         """
-        TODO
+        The period in ms is the period with which the :cb:`All Counter`
+        callback is triggered periodically. A value of 0 turns the callback off.
+
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change within the
+        period, the callback is triggered immediately on change.
+
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
+
+        The default value is (0, false).
         """
         period = int(period)
         value_has_to_change = bool(value_has_to_change)
@@ -271,13 +332,24 @@ class BrickletIndustrialCounter(Device):
 
     def get_all_counter_callback_configuration(self):
         """
-        TODO
+        Returns the callback configuration as set by
+        :func:`Set All Counter Callback Configuration`.
         """
         return GetAllCounterCallbackConfiguration(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_ALL_COUNTER_CALLBACK_CONFIGURATION, (), '', 'I !'))
 
     def set_all_signal_data_callback_configuration(self, period, value_has_to_change):
         """
-        TODO
+        The period in ms is the period with which the :cb:`All Signal Data`
+        callback is triggered periodically. A value of 0 turns the callback off.
+
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change within the
+        period, the callback is triggered immediately on change.
+
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
+
+        The default value is (0, false).
         """
         period = int(period)
         value_has_to_change = bool(value_has_to_change)
@@ -286,9 +358,31 @@ class BrickletIndustrialCounter(Device):
 
     def get_all_signal_data_callback_configuration(self):
         """
-        TODO
+        Returns the callback configuration as set by
+        :func:`Set All Signal Data Callback Configuration`.
         """
         return GetAllSignalDataCallbackConfiguration(*self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_ALL_SIGNAL_DATA_CALLBACK_CONFIGURATION, (), '', 'I !'))
+
+    def set_channel_led_config(self, channel, config):
+        """
+        Each channel has a corresponding LED. You can turn the LED Off, On or show a
+        heartbeat. You can also ste the LED to "Channel Status". In this mode the
+        LED is on if the channel is high and off otherwise.
+
+        By default all channel LEDs are configured as "Channel Status".
+        """
+        channel = int(channel)
+        config = int(config)
+
+        self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_SET_CHANNEL_LED_CONFIG, (channel, config), 'B B', '')
+
+    def get_channel_led_config(self, channel):
+        """
+        Returns the Channel LED configuration as set by :func:`Set Channel LED Config`
+        """
+        channel = int(channel)
+
+        return self.ipcon.send_request(self, BrickletIndustrialCounter.FUNCTION_GET_CHANNEL_LED_CONFIG, (channel,), 'B', 'B')
 
     def get_spitfp_error_count(self):
         """

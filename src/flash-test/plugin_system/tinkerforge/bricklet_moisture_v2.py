@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-28.      #
+# This file was automatically generated on 2018-05-28.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -99,7 +99,6 @@ class BrickletMoistureV2(Device):
          "'i'",    "Threshold is triggered when the value is *inside* the min and max values"
          "'<'",    "Threshold is triggered when the value is smaller than the min value (max is ignored)"
          "'>'",    "Threshold is triggered when the value is greater than the min value (max is ignored)"
-
 
         If the option is set to 'x' (threshold turned off) the callback is triggered with the fixed period.
 

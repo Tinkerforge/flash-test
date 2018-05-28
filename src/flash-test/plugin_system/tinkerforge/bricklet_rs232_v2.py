@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-03-09.      #
+# This file was automatically generated on 2018-05-28.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -19,9 +19,10 @@ except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 ReadLowLevel = namedtuple('ReadLowLevel', ['message_length', 'message_chunk_offset', 'message_chunk_data'])
-GetConfiguration = namedtuple('Configuration', ['baudrate', 'parity', 'stopbits', 'wordlength', 'hardware_flowcontrol', 'software_flowcontrol'])
+GetConfiguration = namedtuple('Configuration', ['baudrate', 'parity', 'stopbits', 'wordlength', 'flowcontrol'])
 GetBufferConfig = namedtuple('BufferConfig', ['send_buffer_size', 'receive_buffer_size'])
 GetBufferStatus = namedtuple('BufferStatus', ['send_buffer_used', 'receive_buffer_used'])
+GetErrorCount = namedtuple('ErrorCount', ['error_count_overrun', 'error_count_parity'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
@@ -35,7 +36,7 @@ class BrickletRS232V2(Device):
     DEVICE_URL_PART = 'rs232_v2' # internal
 
     CALLBACK_READ_LOW_LEVEL = 12
-    CALLBACK_ERROR = 13
+    CALLBACK_ERROR_COUNT = 13
 
     CALLBACK_READ = -12
 
@@ -46,10 +47,10 @@ class BrickletRS232V2(Device):
     FUNCTION_IS_READ_CALLBACK_ENABLED = 5
     FUNCTION_SET_CONFIGURATION = 6
     FUNCTION_GET_CONFIGURATION = 7
-    FUNCTION_SET_BREAK_CONDITION = 8
-    FUNCTION_SET_BUFFER_CONFIG = 9
-    FUNCTION_GET_BUFFER_CONFIG = 10
-    FUNCTION_GET_BUFFER_STATUS = 11
+    FUNCTION_SET_BUFFER_CONFIG = 8
+    FUNCTION_GET_BUFFER_CONFIG = 9
+    FUNCTION_GET_BUFFER_STATUS = 10
+    FUNCTION_GET_ERROR_COUNT = 11
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -63,37 +64,18 @@ class BrickletRS232V2(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
-    BAUDRATE_300 = 0
-    BAUDRATE_600 = 1
-    BAUDRATE_1200 = 2
-    BAUDRATE_2400 = 3
-    BAUDRATE_4800 = 4
-    BAUDRATE_9600 = 5
-    BAUDRATE_14400 = 6
-    BAUDRATE_19200 = 7
-    BAUDRATE_28800 = 8
-    BAUDRATE_38400 = 9
-    BAUDRATE_57600 = 10
-    BAUDRATE_115200 = 11
-    BAUDRATE_230400 = 12
     PARITY_NONE = 0
     PARITY_ODD = 1
     PARITY_EVEN = 2
-    PARITY_FORCED_PARITY_1 = 3
-    PARITY_FORCED_PARITY_0 = 4
     STOPBITS_1 = 1
     STOPBITS_2 = 2
     WORDLENGTH_5 = 5
     WORDLENGTH_6 = 6
     WORDLENGTH_7 = 7
     WORDLENGTH_8 = 8
-    HARDWARE_FLOWCONTROL_OFF = 0
-    HARDWARE_FLOWCONTROL_ON = 1
-    SOFTWARE_FLOWCONTROL_OFF = 0
-    SOFTWARE_FLOWCONTROL_ON = 1
-    ERROR_OVERRUN = 1
-    ERROR_PARITY = 2
-    ERROR_FRAMING = 4
+    FLOWCONTROL_OFF = 0
+    FLOWCONTROL_SOFTWARE = 1
+    FLOWCONTROL_HARDWARE = 2
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -126,10 +108,10 @@ class BrickletRS232V2(Device):
         self.response_expected[BrickletRS232V2.FUNCTION_IS_READ_CALLBACK_ENABLED] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS232V2.FUNCTION_SET_CONFIGURATION] = BrickletRS232V2.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletRS232V2.FUNCTION_GET_CONFIGURATION] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRS232V2.FUNCTION_SET_BREAK_CONDITION] = BrickletRS232V2.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletRS232V2.FUNCTION_SET_BUFFER_CONFIG] = BrickletRS232V2.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletRS232V2.FUNCTION_GET_BUFFER_CONFIG] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS232V2.FUNCTION_GET_BUFFER_STATUS] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletRS232V2.FUNCTION_GET_ERROR_COUNT] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS232V2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS232V2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletRS232V2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -144,7 +126,7 @@ class BrickletRS232V2(Device):
         self.response_expected[BrickletRS232V2.FUNCTION_GET_IDENTITY] = BrickletRS232V2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickletRS232V2.CALLBACK_READ_LOW_LEVEL] = 'H H 60c'
-        self.callback_formats[BrickletRS232V2.CALLBACK_ERROR] = 'B'
+        self.callback_formats[BrickletRS232V2.CALLBACK_ERROR_COUNT] = 'I I'
 
         self.high_level_callbacks[BrickletRS232V2.CALLBACK_READ] = [('stream_length', 'stream_chunk_offset', 'stream_chunk_data'), {'fixed_length': None, 'single_chunk': False}, None]
 
@@ -200,43 +182,31 @@ class BrickletRS232V2(Device):
         """
         return self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_IS_READ_CALLBACK_ENABLED, (), '', '!')
 
-    def set_configuration(self, baudrate, parity, stopbits, wordlength, hardware_flowcontrol, software_flowcontrol):
+    def set_configuration(self, baudrate, parity, stopbits, wordlength, flowcontrol):
         """
         Sets the configuration for the RS232 communication. Available options:
 
-        * Baudrate between 300 and 230400 baud.
-        * Parity of none, odd, even or forced parity.
+        * Baudrate between 100 and 2000000 baud.
+        * Parity of none, odd or even.
         * Stopbits can be 1 or 2.
         * Word length of 5 to 8.
-        * Hard-/Software flow control can each be on or off.
+        * Flow control can be off, software or hardware.
 
-        The default is: 115200 baud, parity none, 1 stop bit, word length 8, hard-/software flow control off.
+        The default is: 115200 baud, parity none, 1 stop bit, word length 8.
         """
         baudrate = int(baudrate)
         parity = int(parity)
         stopbits = int(stopbits)
         wordlength = int(wordlength)
-        hardware_flowcontrol = int(hardware_flowcontrol)
-        software_flowcontrol = int(software_flowcontrol)
+        flowcontrol = int(flowcontrol)
 
-        self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_SET_CONFIGURATION, (baudrate, parity, stopbits, wordlength, hardware_flowcontrol, software_flowcontrol), 'B B B B B B', '')
+        self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_SET_CONFIGURATION, (baudrate, parity, stopbits, wordlength, flowcontrol), 'I B B B B', '')
 
     def get_configuration(self):
         """
         Returns the configuration as set by :func:`Set Configuration`.
         """
-        return GetConfiguration(*self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_GET_CONFIGURATION, (), '', 'B B B B B B'))
-
-    def set_break_condition(self, break_time):
-        """
-        Sets a break condition (the TX output is forced to a logic 0 state).
-        The parameter sets the hold-time of the break condition (in ms).
-
-        .. versionadded:: 2.0.2$nbsp;(Plugin)
-        """
-        break_time = int(break_time)
-
-        self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_SET_BREAK_CONDITION, (break_time,), 'H', '')
+        return GetConfiguration(*self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_GET_CONFIGURATION, (), '', 'I B B B B'))
 
     def set_buffer_config(self, send_buffer_size, receive_buffer_size):
         """
@@ -271,6 +241,12 @@ class BrickletRS232V2(Device):
         See :func:`Set Buffer Config` for buffer size configuration.
         """
         return GetBufferStatus(*self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_GET_BUFFER_STATUS, (), '', 'H H'))
+
+    def get_error_count(self):
+        """
+        Returns the current number of overrun and parity errors.
+        """
+        return GetErrorCount(*self.ipcon.send_request(self, BrickletRS232V2.FUNCTION_GET_ERROR_COUNT, (), '', 'I I'))
 
     def get_spitfp_error_count(self):
         """

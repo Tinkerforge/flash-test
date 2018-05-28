@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-28.      #
+# This file was automatically generated on 2018-05-28.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -169,7 +169,6 @@ class BrickletSoundPressureLevel(Device):
          "'<'",    "Threshold is triggered when the value is smaller than the min value (max is ignored)"
          "'>'",    "Threshold is triggered when the value is greater than the min value (max is ignored)"
 
-
         If the option is set to 'x' (threshold turned off) the callback is triggered with the fixed period.
 
         The default value is (0, false, 'x', 0, 0).
@@ -200,7 +199,8 @@ class BrickletSoundPressureLevel(Device):
         In sum the frequency of the spectrum always has a range from 0 to
         20480Hz (the FFT is applied to samples with a frequency of 40960Hz).
 
-        The Returned data is already equalized and the weighting function is applied
+        The Returned data is already equalized, which means that the microphone
+        frequency response is compensated and the weighting function is applied
         (see :func:`Set Configuration` for the available weighting standards). Use
         dB(Z) if you need the unaltered spectrum.
 
@@ -419,7 +419,8 @@ class BrickletSoundPressureLevel(Device):
         In sum the frequency of the spectrum always has a range from 0 to
         20480Hz (the FFT is applied to samples with a frequency of 40960Hz).
 
-        The Returned data is already equalized and the weighting function is applied
+        The Returned data is already equalized, which means that the microphone
+        frequency response is compensated and the weighting function is applied
         (see :func:`Set Configuration` for the available weighting standards). Use
         dB(Z) if you need the unaltered spectrum.
 

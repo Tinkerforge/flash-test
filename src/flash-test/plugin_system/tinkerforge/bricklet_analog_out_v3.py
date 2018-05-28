@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 from collections import namedtuple
 
 try:
@@ -16,26 +18,23 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetMonoflop = namedtuple('Monoflop', ['state', 'time', 'time_remaining'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletSolidStateRelayV2(Device):
+class BrickletAnalogOutV3(Device):
     """
-    Controls AC and DC Solid State Relays
+    Generates configurable DC voltage between 0V and 12V
     """
 
-    DEVICE_IDENTIFIER = 296
-    DEVICE_DISPLAY_NAME = 'Solid State Relay Bricklet 2.0'
-    DEVICE_URL_PART = 'solid_state_relay_v2' # internal
-
-    CALLBACK_MONOFLOP_DONE = 5
+    DEVICE_IDENTIFIER = 2115
+    DEVICE_DISPLAY_NAME = 'Analog Out Bricklet 3.0'
+    DEVICE_URL_PART = 'analog_out_v3' # internal
 
 
-    FUNCTION_SET_STATE = 1
-    FUNCTION_GET_STATE = 2
-    FUNCTION_SET_MONOFLOP = 3
-    FUNCTION_GET_MONOFLOP = 4
+
+    FUNCTION_SET_OUTPUT_VOLTAGE = 1
+    FUNCTION_GET_OUTPUT_VOLTAGE = 2
+    FUNCTION_GET_INPUT_VOLTAGE = 3
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -74,73 +73,43 @@ class BrickletSolidStateRelayV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_SET_STATE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_STATE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_SET_MONOFLOP] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_MONOFLOP] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_WRITE_FIRMWARE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_RESET] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_WRITE_UID] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_READ_UID] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletSolidStateRelayV2.FUNCTION_GET_IDENTITY] = BrickletSolidStateRelayV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-
-        self.callback_formats[BrickletSolidStateRelayV2.CALLBACK_MONOFLOP_DONE] = '!'
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_SET_OUTPUT_VOLTAGE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_OUTPUT_VOLTAGE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_INPUT_VOLTAGE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_SET_BOOTLOADER_MODE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_BOOTLOADER_MODE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletAnalogOutV3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_WRITE_FIRMWARE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletAnalogOutV3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_RESET] = BrickletAnalogOutV3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_WRITE_UID] = BrickletAnalogOutV3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_READ_UID] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletAnalogOutV3.FUNCTION_GET_IDENTITY] = BrickletAnalogOutV3.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
-    def set_state(self, state):
+
+    def set_output_voltage(self, voltage):
         """
-        Sets the state of the relays *true* means on and *false* means off.
-
-        Running monoflop timers will be overwritten if this function is called.
-
-        The default value is *false*.
+        Sets the voltage in mV. The possible range is 0V to 12V (0-12000).
         """
-        state = bool(state)
+        voltage = int(voltage)
 
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_SET_STATE, (state,), '!', '')
+        self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_SET_OUTPUT_VOLTAGE, (voltage,), 'H', '')
 
-    def get_state(self):
+    def get_output_voltage(self):
         """
-        Returns the state of the relay, *true* means on and *false* means off.
+        Returns the voltage as set by :func:`Set Output Voltage`.
         """
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_STATE, (), '', '!')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_OUTPUT_VOLTAGE, (), '', 'H')
 
-    def set_monoflop(self, state, time):
+    def get_input_voltage(self):
         """
-        The first parameter  is the desired state of the relay (*true* means on
-        and *false* means off). The second parameter indicates the time (in ms) that
-        the relay should hold the state.
-
-        If this function is called with the parameters (true, 1500):
-        The relay will turn on and in 1.5s it will turn off again.
-
-        A monoflop can be used as a failsafe mechanism. For example: Lets assume you
-        have a RS485 bus and a Solid State Relay Bricklet connected to one of the slave
-        stacks. You can now call this function every second, with a time parameter
-        of two seconds. The relay will be on all the time. If now the RS485
-        connection is lost, the relay will turn off in at most two seconds.
+        Returns the input voltage in mV.
         """
-        state = bool(state)
-        time = int(time)
-
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_SET_MONOFLOP, (state, time), '! I', '')
-
-    def get_monoflop(self):
-        """
-        Returns the current state and the time as set by
-        :func:`Set Monoflop` as well as the remaining time until the state flips.
-
-        If the timer is not running currently, the remaining time will be returned
-        as 0.
-        """
-        return GetMonoflop(*self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_MONOFLOP, (), '', '! I I'))
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_INPUT_VOLTAGE, (), '', 'H')
 
     def get_spitfp_error_count(self):
         """
@@ -156,7 +125,7 @@ class BrickletSolidStateRelayV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -172,13 +141,13 @@ class BrickletSolidStateRelayV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -191,7 +160,7 @@ class BrickletSolidStateRelayV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -206,7 +175,7 @@ class BrickletSolidStateRelayV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -220,13 +189,13 @@ class BrickletSolidStateRelayV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -237,7 +206,7 @@ class BrickletSolidStateRelayV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -248,7 +217,7 @@ class BrickletSolidStateRelayV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -260,14 +229,14 @@ class BrickletSolidStateRelayV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -280,15 +249,6 @@ class BrickletSolidStateRelayV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletSolidStateRelayV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletAnalogOutV3.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-    def register_callback(self, callback_id, function):
-        """
-        Registers the given *function* with the given *callback_id*.
-        """
-        if function is None:
-            self.registered_callbacks.pop(callback_id, None)
-        else:
-            self.registered_callbacks[callback_id] = function
-
-SolidStateRelayV2 = BrickletSolidStateRelayV2 # for backward compatibility
+AnalogOutV3 = BrickletAnalogOutV3 # for backward compatibility

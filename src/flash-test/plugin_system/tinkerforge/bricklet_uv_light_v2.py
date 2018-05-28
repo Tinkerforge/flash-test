@@ -9,6 +9,8 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
+#### __DEVICE_IS_NOT_RELEASED__ ####
+
 from collections import namedtuple
 
 try:
@@ -16,35 +18,30 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetHumidityCallbackConfiguration = namedtuple('HumidityCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
-GetTemperatureCallbackConfiguration = namedtuple('TemperatureCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
-GetMovingAverageConfiguration = namedtuple('MovingAverageConfiguration', ['moving_average_length_humidity', 'moving_average_length_temperature'])
+GetUVALightCallbackConfiguration = namedtuple('UVALightCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
+GetUVBLightCallbackConfiguration = namedtuple('UVBLightCallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletHumidityV2(Device):
+class BrickletUVLightV2(Device):
     """
-    Measures relative humidity
+    Measures UV light
     """
 
-    DEVICE_IDENTIFIER = 283
-    DEVICE_DISPLAY_NAME = 'Humidity Bricklet 2.0'
-    DEVICE_URL_PART = 'humidity_v2' # internal
+    DEVICE_IDENTIFIER = 2118
+    DEVICE_DISPLAY_NAME = 'UV Light Bricklet 2.0'
+    DEVICE_URL_PART = 'uv_light_v2' # internal
 
-    CALLBACK_HUMIDITY = 4
-    CALLBACK_TEMPERATURE = 8
+    CALLBACK_UVA_LIGHT = 4
+    CALLBACK_UVB_LIGHT = 8
 
 
-    FUNCTION_GET_HUMIDITY = 1
-    FUNCTION_SET_HUMIDITY_CALLBACK_CONFIGURATION = 2
-    FUNCTION_GET_HUMIDITY_CALLBACK_CONFIGURATION = 3
-    FUNCTION_GET_TEMPERATURE = 5
-    FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION = 6
-    FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION = 7
-    FUNCTION_SET_HEATER_CONFIGURATION = 9
-    FUNCTION_GET_HEATER_CONFIGURATION = 10
-    FUNCTION_SET_MOVING_AVERAGE_CONFIGURATION = 11
-    FUNCTION_GET_MOVING_AVERAGE_CONFIGURATION = 12
+    FUNCTION_GET_UVA_LIGHT = 1
+    FUNCTION_SET_UVA_LIGHT_CALLBACK_CONFIGURATION = 2
+    FUNCTION_GET_UVA_LIGHT_CALLBACK_CONFIGURATION = 3
+    FUNCTION_GET_UVB_LIGHT = 5
+    FUNCTION_SET_UVB_LIGHT_CALLBACK_CONFIGURATION = 6
+    FUNCTION_GET_UVB_LIGHT_CALLBACK_CONFIGURATION = 7
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -63,8 +60,6 @@ class BrickletHumidityV2(Device):
     THRESHOLD_OPTION_INSIDE = 'i'
     THRESHOLD_OPTION_SMALLER = '<'
     THRESHOLD_OPTION_GREATER = '>'
-    HEATER_CONFIG_DISABLED = 0
-    HEATER_CONFIG_ENABLED = 1
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -90,49 +85,51 @@ class BrickletHumidityV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_HUMIDITY] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_HUMIDITY_CALLBACK_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_HUMIDITY_CALLBACK_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_TEMPERATURE] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_HEATER_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_HEATER_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_MOVING_AVERAGE_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_MOVING_AVERAGE_CONFIGURATION] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_WRITE_FIRMWARE] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_RESET] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_WRITE_UID] = BrickletHumidityV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletHumidityV2.FUNCTION_READ_UID] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletHumidityV2.FUNCTION_GET_IDENTITY] = BrickletHumidityV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_UVA_LIGHT] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_SET_UVA_LIGHT_CALLBACK_CONFIGURATION] = BrickletUVLightV2.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_UVA_LIGHT_CALLBACK_CONFIGURATION] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_UVB_LIGHT] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_SET_UVB_LIGHT_CALLBACK_CONFIGURATION] = BrickletUVLightV2.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_UVB_LIGHT_CALLBACK_CONFIGURATION] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletUVLightV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletUVLightV2.FUNCTION_WRITE_FIRMWARE] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletUVLightV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_RESET] = BrickletUVLightV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletUVLightV2.FUNCTION_WRITE_UID] = BrickletUVLightV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletUVLightV2.FUNCTION_READ_UID] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletUVLightV2.FUNCTION_GET_IDENTITY] = BrickletUVLightV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletHumidityV2.CALLBACK_HUMIDITY] = 'H'
-        self.callback_formats[BrickletHumidityV2.CALLBACK_TEMPERATURE] = 'h'
+        self.callback_formats[BrickletUVLightV2.CALLBACK_UVA_LIGHT] = 'I'
+        self.callback_formats[BrickletUVLightV2.CALLBACK_UVB_LIGHT] = 'I'
 
 
-    def get_humidity(self):
+    def get_uva_light(self):
         """
-        Returns the humidity measured by the sensor. The value
-        has a range of 0 to 10000 and is given in %RH/100 (Relative Humidity),
-        i.e. a value of 4223 means that a humidity of 42.23 %RH is measured.
+        Returns the UVA light intensity of the sensor, the intensity is given
+        in µW/cm².
+
+        UVA light index (UVAI) can be calculated as:
+        UVAI = ((UVA * 2) / 9) * 0.01
+
+        If you want to get the intensity periodically, it is recommended to use the
+        :cb:`UVA Light` callback and set the period with
+        :func:`Set UVA Light Callback Configuration`.
 
 
         If you want to get the value periodically, it is recommended to use the
-        :cb:`Humidity` callback. You can set the callback configuration
-        with :func:`Set Humidity Callback Configuration`.
+        :cb:`UVA Light` callback. You can set the callback configuration
+        with :func:`Set UVA Light Callback Configuration`.
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_HUMIDITY, (), '', 'H')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_UVA_LIGHT, (), '', 'I')
 
-    def set_humidity_callback_configuration(self, period, value_has_to_change, option, min, max):
+    def set_uva_light_callback_configuration(self, period, value_has_to_change, option, min, max):
         """
-        The period in ms is the period with which the :cb:`Humidity` callback is triggered
+        The period in ms is the period with which the :cb:`UVA Light` callback is triggered
         periodically. A value of 0 turns the callback off.
 
         If the `value has to change`-parameter is set to true, the callback is only
@@ -144,7 +141,7 @@ class BrickletHumidityV2(Device):
 
         It is furthermore possible to constrain the callback with thresholds.
 
-        The `option`-parameter together with min/max sets a threshold for the :cb:`Humidity` callback.
+        The `option`-parameter together with min/max sets a threshold for the :cb:`UVA Light` callback.
 
         The following options are possible:
 
@@ -168,30 +165,36 @@ class BrickletHumidityV2(Device):
         min = int(min)
         max = int(max)
 
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_HUMIDITY_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_SET_UVA_LIGHT_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
 
-    def get_humidity_callback_configuration(self):
+    def get_uva_light_callback_configuration(self):
         """
-        Returns the callback configuration as set by :func:`Set Humidity Callback Configuration`.
+        Returns the callback configuration as set by :func:`Set UVA Light Callback Configuration`.
         """
-        return GetHumidityCallbackConfiguration(*self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_HUMIDITY_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
+        return GetUVALightCallbackConfiguration(*self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_UVA_LIGHT_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
-    def get_temperature(self):
+    def get_uvb_light(self):
         """
-        Returns the temperature measured by the sensor. The value
-        has a range of -4000 to 16500 and is given in °C/100,
-        i.e. a value of 3200 means that a temperature of 32.00 °C is measured.
+        Returns the UVB light intensity of the sensor, the intensity is given
+        in µW/cm².
+
+        UVB light index (UVBI) can be calculated as:
+        UVBI = ((UVB * 4) / 8) * 0.01
+
+        If you want to get the intensity periodically, it is recommended to use the
+        :cb:`UVB Light` callback and set the period with
+        :func:`Set UVB Light Callback Configuration`.
 
 
         If you want to get the value periodically, it is recommended to use the
-        :cb:`Temperature` callback. You can set the callback configuration
-        with :func:`Set Temperature Callback Configuration`.
+        :cb:`UVB Light` callback. You can set the callback configuration
+        with :func:`Set UVB Light Callback Configuration`.
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_UVB_LIGHT, (), '', 'I')
 
-    def set_temperature_callback_configuration(self, period, value_has_to_change, option, min, max):
+    def set_uvb_light_callback_configuration(self, period, value_has_to_change, option, min, max):
         """
-        The period in ms is the period with which the :cb:`Temperature` callback is triggered
+        The period in ms is the period with which the :cb:`UVB Light` callback is triggered
         periodically. A value of 0 turns the callback off.
 
         If the `value has to change`-parameter is set to true, the callback is only
@@ -203,7 +206,7 @@ class BrickletHumidityV2(Device):
 
         It is furthermore possible to constrain the callback with thresholds.
 
-        The `option`-parameter together with min/max sets a threshold for the :cb:`Temperature` callback.
+        The `option`-parameter together with min/max sets a threshold for the :cb:`UVB Light` callback.
 
         The following options are possible:
 
@@ -227,57 +230,13 @@ class BrickletHumidityV2(Device):
         min = int(min)
         max = int(max)
 
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_TEMPERATURE_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_SET_UVB_LIGHT_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
 
-    def get_temperature_callback_configuration(self):
+    def get_uvb_light_callback_configuration(self):
         """
-        Returns the callback configuration as set by :func:`Set Temperature Callback Configuration`.
+        Returns the callback configuration as set by :func:`Set UVB Light Callback Configuration`.
         """
-        return GetTemperatureCallbackConfiguration(*self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_TEMPERATURE_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
-
-    def set_heater_configuration(self, heater_config):
-        """
-        Enables/disables the heater. The heater can be used to dry the sensor in
-        extremely wet conditions.
-
-        By default the heater is disabled.
-        """
-        heater_config = int(heater_config)
-
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_HEATER_CONFIGURATION, (heater_config,), 'B', '')
-
-    def get_heater_configuration(self):
-        """
-        Returns the heater configuration as set by :func:`Set Heater Configuration`.
-        """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_HEATER_CONFIGURATION, (), '', 'B')
-
-    def set_moving_average_configuration(self, moving_average_length_humidity, moving_average_length_temperature):
-        """
-        Sets the length of a `moving averaging <https://en.wikipedia.org/wiki/Moving_average>`__
-        for the humidity and temperature.
-
-        Setting the length to 1 will turn the averaging off. With less
-        averaging, there is more noise on the data.
-
-        The range for the averaging is 1-1000.
-
-        New data is gathered every 50ms. With a moving average of length 1000 the resulting
-        averaging window has a length of 50s. If you want to do long term measurements the longest
-        moving average will give the cleanest results.
-
-        The default value is 100.
-        """
-        moving_average_length_humidity = int(moving_average_length_humidity)
-        moving_average_length_temperature = int(moving_average_length_temperature)
-
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_MOVING_AVERAGE_CONFIGURATION, (moving_average_length_humidity, moving_average_length_temperature), 'H H', '')
-
-    def get_moving_average_configuration(self):
-        """
-        Returns the moving average configuration as set by :func:`Set Moving Average Configuration`.
-        """
-        return GetMovingAverageConfiguration(*self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_MOVING_AVERAGE_CONFIGURATION, (), '', 'H H'))
+        return GetUVBLightCallbackConfiguration(*self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_UVB_LIGHT_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
     def get_spitfp_error_count(self):
         """
@@ -293,7 +252,7 @@ class BrickletHumidityV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -309,13 +268,13 @@ class BrickletHumidityV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -328,7 +287,7 @@ class BrickletHumidityV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -343,7 +302,7 @@ class BrickletHumidityV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -357,13 +316,13 @@ class BrickletHumidityV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -374,7 +333,7 @@ class BrickletHumidityV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -385,7 +344,7 @@ class BrickletHumidityV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -397,14 +356,14 @@ class BrickletHumidityV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -417,7 +376,7 @@ class BrickletHumidityV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletHumidityV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletUVLightV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
     def register_callback(self, callback_id, function):
         """
@@ -428,4 +387,4 @@ class BrickletHumidityV2(Device):
         else:
             self.registered_callbacks[callback_id] = function
 
-HumidityV2 = BrickletHumidityV2 # for backward compatibility
+UVLightV2 = BrickletUVLightV2 # for backward compatibility
