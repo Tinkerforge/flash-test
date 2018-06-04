@@ -74,6 +74,7 @@ from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_c
 from .plugins.bricklet_temperature_ir_v2 import Plugin as bricklet_temperature_ir_v2_class
 from .plugins.bricklet_thermal_imaging import Plugin as bricklet_thermal_imaging_class
 from .plugins.bricklet_thermocouple import Plugin as bricklet_thermocouple_class
+from .plugins.bricklet_thermocouple_v2 import Plugin as bricklet_thermocouple_v2_class
 from .plugins.bricklet_uv_light import Plugin as bricklet_uv_light_class
 from .plugins.bricklet_voltage_current import Plugin as bricklet_voltage_current_class
 from .plugins.extension_ethernet import Plugin as extension_ethernet_class
@@ -157,6 +158,7 @@ device_classes = [
     bricklet_temperature_ir_v2_class,
     bricklet_thermal_imaging_class,
     bricklet_thermocouple_class,
+    bricklet_thermocouple_v2_class,
     bricklet_uv_light_class,
     bricklet_voltage_current_class,
     extension_ethernet_class,
