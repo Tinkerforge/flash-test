@@ -168,6 +168,9 @@ class CoMCUBrickletBase(PluginBase):
                 index_list = list(range(num_packets))
 
             for _ in range(2):
+                if _ == 1:
+                    index_list = range(num_packets)
+
                 self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
                 for position in index_list:
                     start = position*64
