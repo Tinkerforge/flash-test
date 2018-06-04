@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2018 Olaf Lüke <olaf@tinkerforge.com>
 
-bricklet_particulate_matter_v2.py: Particulate Matter plugin
+bricklet_particulate_matter.py: Particulate Matter plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
