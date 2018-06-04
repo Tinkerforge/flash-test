@@ -59,6 +59,7 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletRealTimeClockV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_date_time != None:
             self.cbe_date_time.set_period(0)
 
