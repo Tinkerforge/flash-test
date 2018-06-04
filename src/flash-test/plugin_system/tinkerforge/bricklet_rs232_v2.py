@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-05-29.      #
+# This file was automatically generated on 2018-06-04.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -138,7 +138,7 @@ class BrickletRS232V2(Device):
         The return value is the number of characters that were written.
 
         See :func:`Set Configuration` for configuration possibilities
-        regarding baudrate, parity and so on.
+        regarding baud rate, parity and so on.
         """
         message_length = int(message_length)
         message_chunk_offset = int(message_chunk_offset)
@@ -186,9 +186,9 @@ class BrickletRS232V2(Device):
         """
         Sets the configuration for the RS232 communication. Available options:
 
-        * Baudrate between 100 and 2000000 baud.
+        * Baud rate between 100 and 2000000 baud.
         * Parity of none, odd or even.
-        * Stopbits can be 1 or 2.
+        * Stop bits can be 1 or 2.
         * Word length of 5 to 8.
         * Flow control can be off, software or hardware.
 
@@ -396,7 +396,7 @@ class BrickletRS232V2(Device):
         The return value is the number of characters that were written.
 
         See :func:`Set Configuration` for configuration possibilities
-        regarding baudrate, parity and so on.
+        regarding baud rate, parity and so on.
         """
         message = create_char_list(message)
 

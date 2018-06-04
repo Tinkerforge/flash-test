@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-05-28.      #
+# This file was automatically generated on 2018-06-04.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -223,6 +223,11 @@ try:
     from .bricklet_industrial_analog_out import BrickletIndustrialAnalogOut
 except ValueError:
     from bricklet_industrial_analog_out import BrickletIndustrialAnalogOut
+
+try:
+    from .bricklet_industrial_analog_out_v2 import BrickletIndustrialAnalogOutV2
+except ValueError:
+    from bricklet_industrial_analog_out_v2 import BrickletIndustrialAnalogOutV2
 
 try:
     from .bricklet_industrial_counter import BrickletIndustrialCounter
@@ -669,6 +674,7 @@ BrickletHeartRate.DEVICE_IDENTIFIER: BrickletHeartRate,
 BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
 BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
 BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOut,
+BrickletIndustrialAnalogOutV2.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOutV2,
 BrickletIndustrialCounter.DEVICE_IDENTIFIER: BrickletIndustrialCounter,
 BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4,
 BrickletIndustrialDigitalIn4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4V2,

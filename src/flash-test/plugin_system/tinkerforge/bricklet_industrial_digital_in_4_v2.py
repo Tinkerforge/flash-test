@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-05-29.      #
+# This file was automatically generated on 2018-06-04.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -125,8 +125,7 @@ class BrickletIndustrialDigitalIn4V2(Device):
 
     def get_value(self):
         """
-        Returns the input value as bools, *true*
-        refers to high and *false* refers to low.
+        Returns the input value as bools, *true* refers to high and *false* refers to low.
         """
         return self.ipcon.send_request(self, BrickletIndustrialDigitalIn4V2.FUNCTION_GET_VALUE, (), '', '4!')
 
@@ -204,8 +203,8 @@ class BrickletIndustrialDigitalIn4V2(Device):
         """
         Configures the edge counter for a specific channel.
 
-        The edge type parameter configures if rising edges, falling edges or
-        both are counted if the channel is configured for input. Possible edge types are:
+        The edge type parameter configures if rising edges, falling edges or both are
+        counted. Possible edge types are:
 
         * 0 = rising (default)
         * 1 = falling
@@ -238,7 +237,7 @@ class BrickletIndustrialDigitalIn4V2(Device):
     def set_channel_led_config(self, channel, config):
         """
         Each channel has a corresponding LED. You can turn the LED Off, On or show a
-        heartbeat. You can also ste the LED to "Channel Status". In this mode the
+        heartbeat. You can also set the LED to "Channel Status". In this mode the
         LED is on if the channel is high and off otherwise.
 
         By default all channel LEDs are configured as "Channel Status".

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-05-29.      #
+# This file was automatically generated on 2018-06-04.      #
 #                                                           #
 # Python Bindings Version 2.1.16                            #
 #                                                           #
@@ -239,7 +239,7 @@ class BrickletThermocoupleV2(Device):
         it is very likely that your thermocouple is defective. An Open Circuit error
         indicates that there is no thermocouple connected.
 
-        You can use the func:`ErrorState` callback to automatically get triggered
+        You can use the :cb:`Error State` callback to automatically get triggered
         when the error state changes.
         """
         return GetErrorState(*self.ipcon.send_request(self, BrickletThermocoupleV2.FUNCTION_GET_ERROR_STATE, (), '', '! !'))
