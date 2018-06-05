@@ -63,7 +63,7 @@ class Plugin(BrickletBase):
             self.cbe_rgb_values.set_period(0)
 
         self.led_strip = BrickletLEDStrip(device_information.uid, self.get_ipcon())
-        self.led_strip.set_chip_type(BrickletLEDStrip.CHIP_TYPE_WS2811)
+        self.led_strip.set_chip_type(BrickletLEDStrip.CHIP_TYPE_WS2801)
         self.cbe_rgb_values = CallbackEmulator(lambda: self.led_strip.get_rgb_values(0, 1), self.cb_rgb_values)
         self.cbe_rgb_values.set_period(250)
 

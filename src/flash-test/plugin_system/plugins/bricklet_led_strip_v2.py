@@ -67,7 +67,7 @@ class Plugin(CoMCUBrickletBase):
         if self.led_strip_v2.get_bootloader_mode() != BrickletLEDStripV2.BOOTLOADER_MODE_FIRMWARE:
             return
 
-        self.led_strip_v2.set_chip_type(BrickletLEDStripV2.CHIP_TYPE_WS2811)
+        self.led_strip_v2.set_chip_type(BrickletLEDStripV2.CHIP_TYPE_WS2801)
         self.led_strip_v2.set_led_values(0, [255, 0, 0])
         self.cbe_led_values = CallbackEmulator(lambda: self.led_strip_v2.get_led_values(0, 3), self.cb_led_values, ignore_last_data=True)
         self.cbe_led_values.set_period(250)
