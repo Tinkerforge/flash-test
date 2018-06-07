@@ -118,6 +118,6 @@ class Plugin(CoMCUBrickletBase):
         current_device = self.voltage_current_v2.get_current()
         current_real   = self.mw.spinbox_current_vc.value()
 
-        self.voltage_current_v2.set_calibration(current_real, current_device, 1, 1)
+        self.voltage_current_v2.set_calibration(1, 1, current_real, current_device)
 
         self.mw.set_tool_status_okay('Kalibrierung OK: ' + str(current_device) + '/' + str(current_real))
