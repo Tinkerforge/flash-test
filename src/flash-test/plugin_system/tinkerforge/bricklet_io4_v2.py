@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-06-04.      #
+# This file was automatically generated on 2018-06-08.      #
 #                                                           #
-# Python Bindings Version 2.1.16                            #
+# Python Bindings Version 2.1.17                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 from collections import namedtuple
 
@@ -347,7 +345,17 @@ class BrickletIO4V2(Device):
 
     def set_pwm_configuration(self, channel, frequency, duty_cycle):
         """
-        .. note: Not implemented yet, will be added in a future firmware version.
+        Activates a PWM for the given channel with the frequency given in 1/10Hz and the duty
+        cycle given in 1/100%.
+
+        You need to set the channel to output before you call this function, otherwise it will
+        be ignored. To turn the PWM off again, you can set the frequency to 0 or any other
+        function that changes a value of the channel (e.g. :func:`Set Selected Value`).
+
+        The maximum frequency value is 320000000 (32MHz). The maximum duty cycle value is
+        10000 (100%).
+
+        The default values are 0, 0.
         """
         channel = int(channel)
         frequency = int(frequency)
@@ -357,8 +365,6 @@ class BrickletIO4V2(Device):
 
     def get_pwm_configuration(self, channel):
         """
-        .. note: Not implemented yet, will be added in a future firmware version.
-
         Returns the PWM configuration as set by :func:`Set PWM Configuration`.
         """
         channel = int(channel)
