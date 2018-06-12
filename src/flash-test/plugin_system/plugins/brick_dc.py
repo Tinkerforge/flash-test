@@ -31,7 +31,7 @@ import time
 class Plugin(BrickBase):
     TODO_TEXT = u"""\
 0. Baue Netzteil auf, verbinde Motor mit Netzteil und stelle Spannung auf 10V.
-1. Stecke Motor (mit grünem und schwarzem Stcker) in DC Brick
+1. Stecke Motor (mit grünem und schwarzem Stecker) in DC Brick
 2. Verbinde DC Brick mit PC per Mini-USB
 3. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
 4. Überprüfe ob Motor sich dreht (3 Sekunden Beschleunigung mit anschließender Debeschleunigung)
