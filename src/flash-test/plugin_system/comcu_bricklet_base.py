@@ -168,6 +168,9 @@ class CoMCUBrickletBase(PluginBase):
                 index_list = list(range(num_packets))
 
             for _ in range(2):
+                if 'sound_pressure_level' in plugin_filename:
+                    _ = 1
+
                 if _ == 1:
                     index_list = range(num_packets)
 
