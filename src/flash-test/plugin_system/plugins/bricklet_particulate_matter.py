@@ -33,7 +33,7 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Particulate Matter Bricklet mit 2.0 Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe Werte: PM Konzentration zwischen 5 und 50.
+4. Überprüfe Werte: PM Konzentration zwischen 1 und 50.
 5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
@@ -74,7 +74,7 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
             
     def cb_pm_concentration(self, pm):
-        if (5 < pm.pm10 < 50) and (5 < pm.pm25 < 50) and (5 < pm.pm100 < 50):
+        if (1 < pm.pm10 < 50) and (1 < pm.pm25 < 50) and (1 < pm.pm100 < 50):
             set_value = self.mw.set_value_okay
         else:
             set_value = self.mw.set_value_error
