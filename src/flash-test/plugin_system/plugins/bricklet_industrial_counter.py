@@ -24,6 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt4 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_industrial_counter import BrickletIndustrialCounter
+from ..tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
@@ -33,10 +34,10 @@ import math
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Industrial Counter Bricklet mit Port C
-2. Verbinde Schalter-Testadapter mit Industrial Counter
+2. Verbinde Testadapter mit Industrial Counter
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Schalte Schalter und überpüfe Werte und Status LEDs.
+5. Testadapter schaltet automatisch durch, überpüfe Werte und Status LEDs (Reihenfolge: alle aus, 0, 1, 2, 3, alle an).
 6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
@@ -45,6 +46,8 @@ class Plugin(CoMCUBrickletBase):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_value = None
         
+        self.relay = None
+        self.relay_value = 0
         self.last_values = None
         self.changes = [0, 0, 0, 0]
 
@@ -76,13 +79,31 @@ class Plugin(CoMCUBrickletBase):
         if self.industrial_counter.get_bootloader_mode() != BrickletIndustrialCounter.BOOTLOADER_MODE_FIRMWARE:
             return
 
-        self.cbe_value = CallbackEmulator(self.industrial_counter.get_all_signal_data, self.cb_value)
-        self.cbe_value.set_period(100)
+        if self.relay == None:
+            self.relay = BrickletIndustrialQuadRelayV2('test', self.get_ipcon())
+
+        self.cbe_value = CallbackEmulator(self.industrial_counter.get_all_signal_data, self.cb_value, ignore_last_data=True)
+        self.cbe_value.set_period(250)
 
         self.show_device_information(device_information)
             
     def cb_value(self, signal_data):
         values = signal_data.value
+
+        if self.relay_value == 0:
+            self.relay.set_value((True, False, False, False))
+        if self.relay_value == 1:
+            self.relay.set_value((False, True, False, False))
+        if self.relay_value == 2:
+            self.relay.set_value((False, False, True, False))
+        if self.relay_value == 3:
+            self.relay.set_value((False, False, False, True))
+        if self.relay_value == 4:
+            self.relay.set_value((True, True, True, True))
+        if self.relay_value == 5:
+            self.relay.set_value((False, False, False, False))
+
+        self.relay_value = (self.relay_value + 1) % 6
 
         if self.last_values == None:
             self.last_values = values
