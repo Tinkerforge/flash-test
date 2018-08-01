@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-06-12.      #
+# This file was automatically generated on 2018-07-31.      #
 #                                                           #
 # Python Bindings Version 2.1.17                            #
 #                                                           #
@@ -60,6 +60,11 @@ except ValueError:
     from bricklet_accelerometer import BrickletAccelerometer
 
 try:
+    from .bricklet_accelerometer_v2 import BrickletAccelerometerV2
+except ValueError:
+    from bricklet_accelerometer_v2 import BrickletAccelerometerV2
+
+try:
     from .bricklet_air_quality import BrickletAirQuality
 except ValueError:
     from bricklet_air_quality import BrickletAirQuality
@@ -73,6 +78,11 @@ try:
     from .bricklet_ambient_light_v2 import BrickletAmbientLightV2
 except ValueError:
     from bricklet_ambient_light_v2 import BrickletAmbientLightV2
+
+try:
+    from .bricklet_ambient_light_v3 import BrickletAmbientLightV3
+except ValueError:
+    from bricklet_ambient_light_v3 import BrickletAmbientLightV3
 
 try:
     from .bricklet_analog_in import BrickletAnalogIn
@@ -135,6 +145,11 @@ except ValueError:
     from bricklet_color import BrickletColor
 
 try:
+    from .bricklet_color_v2 import BrickletColorV2
+except ValueError:
+    from bricklet_color_v2 import BrickletColorV2
+
+try:
     from .bricklet_current12 import BrickletCurrent12
 except ValueError:
     from bricklet_current12 import BrickletCurrent12
@@ -148,6 +163,11 @@ try:
     from .bricklet_distance_ir import BrickletDistanceIR
 except ValueError:
     from bricklet_distance_ir import BrickletDistanceIR
+
+try:
+    from .bricklet_distance_ir_v2 import BrickletDistanceIRV2
+except ValueError:
+    from bricklet_distance_ir_v2 import BrickletDistanceIRV2
 
 try:
     from .bricklet_distance_us import BrickletDistanceUS
@@ -203,6 +223,16 @@ try:
     from .bricklet_hall_effect import BrickletHallEffect
 except ValueError:
     from bricklet_hall_effect import BrickletHallEffect
+
+try:
+    from .bricklet_hall_effect_v2 import BrickletHallEffectV2
+except ValueError:
+    from bricklet_hall_effect_v2 import BrickletHallEffectV2
+
+try:
+    from .bricklet_hat import BrickletHAT
+except ValueError:
+    from bricklet_hat import BrickletHAT
 
 try:
     from .bricklet_heart_rate import BrickletHeartRate
@@ -320,6 +350,11 @@ except ValueError:
     from bricklet_joystick import BrickletJoystick
 
 try:
+    from .bricklet_joystick_v2 import BrickletJoystickV2
+except ValueError:
+    from bricklet_joystick_v2 import BrickletJoystickV2
+
+try:
     from .bricklet_laser_range_finder import BrickletLaserRangeFinder
 except ValueError:
     from bricklet_laser_range_finder import BrickletLaserRangeFinder
@@ -360,6 +395,11 @@ except ValueError:
     from bricklet_linear_poti import BrickletLinearPoti
 
 try:
+    from .bricklet_linear_poti_v2 import BrickletLinearPotiV2
+except ValueError:
+    from bricklet_linear_poti_v2 import BrickletLinearPotiV2
+
+try:
     from .bricklet_load_cell import BrickletLoadCell
 except ValueError:
     from bricklet_load_cell import BrickletLoadCell
@@ -398,6 +438,11 @@ try:
     from .bricklet_multi_touch import BrickletMultiTouch
 except ValueError:
     from bricklet_multi_touch import BrickletMultiTouch
+
+try:
+    from .bricklet_multi_touch_v2 import BrickletMultiTouchV2
+except ValueError:
+    from bricklet_multi_touch_v2 import BrickletMultiTouchV2
 
 try:
     from .bricklet_nfc import BrickletNFC
@@ -505,6 +550,11 @@ except ValueError:
     from bricklet_rgb_led_matrix import BrickletRGBLEDMatrix
 
 try:
+    from .bricklet_rgb_led_v2 import BrickletRGBLEDV2
+except ValueError:
+    from bricklet_rgb_led_v2 import BrickletRGBLEDV2
+
+try:
     from .bricklet_rotary_encoder import BrickletRotaryEncoder
 except ValueError:
     from bricklet_rotary_encoder import BrickletRotaryEncoder
@@ -518,6 +568,11 @@ try:
     from .bricklet_rotary_poti import BrickletRotaryPoti
 except ValueError:
     from bricklet_rotary_poti import BrickletRotaryPoti
+
+try:
+    from .bricklet_rotary_poti_v2 import BrickletRotaryPotiV2
+except ValueError:
+    from bricklet_rotary_poti_v2 import BrickletRotaryPotiV2
 
 try:
     from .bricklet_rs232 import BrickletRS232
@@ -538,6 +593,11 @@ try:
     from .bricklet_segment_display_4x7 import BrickletSegmentDisplay4x7
 except ValueError:
     from bricklet_segment_display_4x7 import BrickletSegmentDisplay4x7
+
+try:
+    from .bricklet_segment_display_4x7_v2 import BrickletSegmentDisplay4x7V2
+except ValueError:
+    from bricklet_segment_display_4x7_v2 import BrickletSegmentDisplay4x7V2
 
 try:
     from .bricklet_solid_state_relay import BrickletSolidStateRelay
@@ -641,9 +701,11 @@ BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
 BrickStepper.DEVICE_IDENTIFIER: BrickStepper,
 BrickletACCurrent.DEVICE_IDENTIFIER: BrickletACCurrent,
 BrickletAccelerometer.DEVICE_IDENTIFIER: BrickletAccelerometer,
+BrickletAccelerometerV2.DEVICE_IDENTIFIER: BrickletAccelerometerV2,
 BrickletAirQuality.DEVICE_IDENTIFIER: BrickletAirQuality,
 BrickletAmbientLight.DEVICE_IDENTIFIER: BrickletAmbientLight,
 BrickletAmbientLightV2.DEVICE_IDENTIFIER: BrickletAmbientLightV2,
+BrickletAmbientLightV3.DEVICE_IDENTIFIER: BrickletAmbientLightV3,
 BrickletAnalogIn.DEVICE_IDENTIFIER: BrickletAnalogIn,
 BrickletAnalogInV2.DEVICE_IDENTIFIER: BrickletAnalogInV2,
 BrickletAnalogInV3.DEVICE_IDENTIFIER: BrickletAnalogInV3,
@@ -656,9 +718,11 @@ BrickletCAN.DEVICE_IDENTIFIER: BrickletCAN,
 BrickletCANV2.DEVICE_IDENTIFIER: BrickletCANV2,
 BrickletCO2.DEVICE_IDENTIFIER: BrickletCO2,
 BrickletColor.DEVICE_IDENTIFIER: BrickletColor,
+BrickletColorV2.DEVICE_IDENTIFIER: BrickletColorV2,
 BrickletCurrent12.DEVICE_IDENTIFIER: BrickletCurrent12,
 BrickletCurrent25.DEVICE_IDENTIFIER: BrickletCurrent25,
 BrickletDistanceIR.DEVICE_IDENTIFIER: BrickletDistanceIR,
+BrickletDistanceIRV2.DEVICE_IDENTIFIER: BrickletDistanceIRV2,
 BrickletDistanceUS.DEVICE_IDENTIFIER: BrickletDistanceUS,
 BrickletDistanceUSV2.DEVICE_IDENTIFIER: BrickletDistanceUSV2,
 BrickletDMX.DEVICE_IDENTIFIER: BrickletDMX,
@@ -670,6 +734,8 @@ BrickletGasDetector.DEVICE_IDENTIFIER: BrickletGasDetector,
 BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
 BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
 BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
+BrickletHallEffectV2.DEVICE_IDENTIFIER: BrickletHallEffectV2,
+BrickletHAT.DEVICE_IDENTIFIER: BrickletHAT,
 BrickletHeartRate.DEVICE_IDENTIFIER: BrickletHeartRate,
 BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
 BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
@@ -693,6 +759,7 @@ BrickletIO4.DEVICE_IDENTIFIER: BrickletIO4,
 BrickletIO4V2.DEVICE_IDENTIFIER: BrickletIO4V2,
 BrickletIsolator.DEVICE_IDENTIFIER: BrickletIsolator,
 BrickletJoystick.DEVICE_IDENTIFIER: BrickletJoystick,
+BrickletJoystickV2.DEVICE_IDENTIFIER: BrickletJoystickV2,
 BrickletLaserRangeFinder.DEVICE_IDENTIFIER: BrickletLaserRangeFinder,
 BrickletLCD128x64.DEVICE_IDENTIFIER: BrickletLCD128x64,
 BrickletLCD16x2.DEVICE_IDENTIFIER: BrickletLCD16x2,
@@ -701,6 +768,7 @@ BrickletLEDStrip.DEVICE_IDENTIFIER: BrickletLEDStrip,
 BrickletLEDStripV2.DEVICE_IDENTIFIER: BrickletLEDStripV2,
 BrickletLine.DEVICE_IDENTIFIER: BrickletLine,
 BrickletLinearPoti.DEVICE_IDENTIFIER: BrickletLinearPoti,
+BrickletLinearPotiV2.DEVICE_IDENTIFIER: BrickletLinearPotiV2,
 BrickletLoadCell.DEVICE_IDENTIFIER: BrickletLoadCell,
 BrickletLoadCellV2.DEVICE_IDENTIFIER: BrickletLoadCellV2,
 BrickletMoisture.DEVICE_IDENTIFIER: BrickletMoisture,
@@ -709,6 +777,7 @@ BrickletMotionDetector.DEVICE_IDENTIFIER: BrickletMotionDetector,
 BrickletMotionDetectorV2.DEVICE_IDENTIFIER: BrickletMotionDetectorV2,
 BrickletMotorizedLinearPoti.DEVICE_IDENTIFIER: BrickletMotorizedLinearPoti,
 BrickletMultiTouch.DEVICE_IDENTIFIER: BrickletMultiTouch,
+BrickletMultiTouchV2.DEVICE_IDENTIFIER: BrickletMultiTouchV2,
 BrickletNFC.DEVICE_IDENTIFIER: BrickletNFC,
 BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,
 BrickletOLED128x64.DEVICE_IDENTIFIER: BrickletOLED128x64,
@@ -730,13 +799,16 @@ BrickletRemoteSwitchV2.DEVICE_IDENTIFIER: BrickletRemoteSwitchV2,
 BrickletRGBLED.DEVICE_IDENTIFIER: BrickletRGBLED,
 BrickletRGBLEDButton.DEVICE_IDENTIFIER: BrickletRGBLEDButton,
 BrickletRGBLEDMatrix.DEVICE_IDENTIFIER: BrickletRGBLEDMatrix,
+BrickletRGBLEDV2.DEVICE_IDENTIFIER: BrickletRGBLEDV2,
 BrickletRotaryEncoder.DEVICE_IDENTIFIER: BrickletRotaryEncoder,
 BrickletRotaryEncoderV2.DEVICE_IDENTIFIER: BrickletRotaryEncoderV2,
 BrickletRotaryPoti.DEVICE_IDENTIFIER: BrickletRotaryPoti,
+BrickletRotaryPotiV2.DEVICE_IDENTIFIER: BrickletRotaryPotiV2,
 BrickletRS232.DEVICE_IDENTIFIER: BrickletRS232,
 BrickletRS232V2.DEVICE_IDENTIFIER: BrickletRS232V2,
 BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
 BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
+BrickletSegmentDisplay4x7V2.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7V2,
 BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
 BrickletSolidStateRelayV2.DEVICE_IDENTIFIER: BrickletSolidStateRelayV2,
 BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,
