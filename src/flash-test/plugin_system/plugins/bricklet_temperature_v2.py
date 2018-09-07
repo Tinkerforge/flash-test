@@ -60,10 +60,14 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletTemperatureV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_temperature != None:
             self.cbe_temperature.set_period(0)
 
         self.t = BrickletTemperatureV2(device_information.uid, self.get_ipcon())
+        if self.t.get_bootloader_mode() != BrickletTemperatureV2.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         self.cbe_temperature = CallbackEmulator(self.t.get_temperature,
                                                 self.cb_temperature)
         self.cbe_temperature.set_period(100)

@@ -69,6 +69,9 @@ class Plugin(CoMCUBrickletBase):
         CoMCUBrickletBase.new_enum(self, device_information)
 
         self.dual_button = BrickletDualButtonV2(device_information.uid, self.get_ipcon())
+        if self.dual_button.get_bootloader_mode() != BrickletDualButtonV2.BOOTLOADER_MODE_FIRMWARE:
+            return
+        
         self.dual_button.register_callback(self.dual_button.CALLBACK_STATE_CHANGED, self.qtcb_state_changed.emit)
         self.dual_button.set_state_changed_callback_configuration(True)
 

@@ -75,15 +75,19 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_distance.set_period(0)
         
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
-
-        self.show_device_information(device_information)
         
         self.distance_ir = BrickletDistanceIRV2(device_information.uid, self.get_ipcon())
+        if self.distance_ir.get_bootloader_mode() != BrickletDistanceIRV2.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         self.distance_ir.set_sensor_type(self.mw.distance_ir_sensor_combo.currentIndex())
         self.cbe_distance = CallbackEmulator(self.distance_ir.get_distance, self.cb_distance)
         self.cbe_distance.set_period(100)
+
+        self.show_device_information(device_information)
             
     def cb_distance(self, distance):
         self.mw.set_value_normal('Entfernung: ' + str(distance/10) +  'cm')

@@ -62,6 +62,8 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletLCD128x64.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
+
         if self.cbe_state != None:
             self.cbe_state.set_period(0)
 

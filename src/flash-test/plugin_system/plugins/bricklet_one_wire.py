@@ -62,10 +62,14 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletOneWire.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe != None:
             self.cbe.set_period(0)
 
         self.ow = BrickletOneWire(device_information.uid, self.get_ipcon())
+        if self.ow.get_bootloader_mode() != BrickletOneWire.BOOTLOADER_MODE_FIRMWARE:
+            return
+
         self.cbe = CallbackEmulator(self.ow.get_communication_led_config, self.cb, ignore_last_data=True)
 
         self.ow.write_command(0, 0x4E)     # WRITE SCRATCHPAD
