@@ -297,22 +297,17 @@
           </property>
           <item>
            <property name="text">
-            <string>2D120</string>
+            <string>2Y0A41 (4-30cm)</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>2Y0A02</string>
+            <string>2Y0A21 (10-80cm)</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>2Y0A21</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>A41SK</string>
+            <string>2Y0A02 (20-150cm)</string>
            </property>
           </item>
          </widget>
