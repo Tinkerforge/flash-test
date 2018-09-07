@@ -79,6 +79,7 @@ from .plugins.bricklet_sound_pressure_level import Plugin as bricklet_sound_pres
 from .plugins.bricklet_temperature import Plugin as bricklet_temperature_class
 from .plugins.bricklet_temperature_ir import Plugin as bricklet_temperature_ir_class
 from .plugins.bricklet_temperature_ir_v2 import Plugin as bricklet_temperature_ir_v2_class
+from .plugins.bricklet_temperature_v2 import Plugin as bricklet_temperature_v2_class
 from .plugins.bricklet_thermal_imaging import Plugin as bricklet_thermal_imaging_class
 from .plugins.bricklet_thermocouple import Plugin as bricklet_thermocouple_class
 from .plugins.bricklet_thermocouple_v2 import Plugin as bricklet_thermocouple_v2_class
@@ -172,6 +173,7 @@ device_classes = [
     bricklet_temperature_class,
     bricklet_temperature_ir_class,
     bricklet_temperature_ir_v2_class,
+    bricklet_temperature_v2_class,
     bricklet_thermal_imaging_class,
     bricklet_thermocouple_class,
     bricklet_thermocouple_v2_class,
