@@ -53,6 +53,7 @@ from .plugins.bricklet_multi_touch import Plugin as bricklet_multi_touch_class
 from .plugins.bricklet_nfc import Plugin as bricklet_nfc_class
 from .plugins.bricklet_oled_128x64 import Plugin as bricklet_oled_128x64_class
 from .plugins.bricklet_oled_64x48 import Plugin as bricklet_oled_64x48_class
+from .plugins.bricklet_one_wire import Plugin as bricklet_one_wire_class
 from .plugins.bricklet_outdoor_weather import Plugin as bricklet_outdoor_weather_class
 from .plugins.bricklet_particulate_matter import Plugin as bricklet_particulate_matter_class
 from .plugins.bricklet_piezo_speaker import Plugin as bricklet_piezo_speaker_class
@@ -147,6 +148,7 @@ device_classes = [
     bricklet_nfc_class,
     bricklet_oled_128x64_class,
     bricklet_oled_64x48_class,
+    bricklet_one_wire_class,
     bricklet_outdoor_weather_class,
     bricklet_particulate_matter_class,
     bricklet_piezo_speaker_class,
