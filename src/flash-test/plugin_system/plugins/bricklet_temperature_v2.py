@@ -71,4 +71,9 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_temperature(self, temperature):
-        self.mw.set_value_normal(str(temperature//100) + ' °C')
+        if (1500 < temperature < 3500):
+            set_value = self.mw.set_value_okay
+        else:
+            set_value = self.mw.set_value_error
+
+        set_value(str(temperature//100) + ' °C')
