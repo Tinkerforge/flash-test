@@ -10,6 +10,7 @@ from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
 from .plugins.bricklet_analog_in_v3 import Plugin as bricklet_analog_in_v3_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
+from .plugins.bricklet_analog_out_v3 import Plugin as bricklet_analog_out_v3_class
 from .plugins.bricklet_barometer import Plugin as bricklet_barometer_class
 from .plugins.bricklet_barometer_v2 import Plugin as bricklet_barometer_v2_class
 from .plugins.bricklet_can import Plugin as bricklet_can_class
@@ -112,6 +113,7 @@ device_classes = [
     bricklet_analog_in_v2_class,
     bricklet_analog_in_v3_class,
     bricklet_analog_out_v2_class,
+    bricklet_analog_out_v3_class,
     bricklet_barometer_class,
     bricklet_barometer_v2_class,
     bricklet_can_class,
