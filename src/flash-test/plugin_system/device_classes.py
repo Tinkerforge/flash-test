@@ -35,6 +35,7 @@ from .plugins.bricklet_industrial_digital_in_4 import Plugin as bricklet_industr
 from .plugins.bricklet_industrial_digital_in_4_v2 import Plugin as bricklet_industrial_digital_in_4_v2_class
 from .plugins.bricklet_industrial_digital_out_4 import Plugin as bricklet_industrial_digital_out_4_class
 from .plugins.bricklet_industrial_dual_0_20ma import Plugin as bricklet_industrial_dual_0_20ma_class
+from .plugins.bricklet_industrial_dual_0_20ma_v2 import Plugin as bricklet_industrial_dual_0_20ma_v2_class
 from .plugins.bricklet_industrial_dual_analog_in import Plugin as bricklet_industrial_dual_analog_in_class
 from .plugins.bricklet_industrial_dual_relay import Plugin as bricklet_industrial_dual_relay_class
 from .plugins.bricklet_industrial_quad_relay import Plugin as bricklet_industrial_quad_relay_class
@@ -138,6 +139,7 @@ device_classes = [
     bricklet_industrial_digital_in_4_v2_class,
     bricklet_industrial_digital_out_4_class,
     bricklet_industrial_dual_0_20ma_class,
+    bricklet_industrial_dual_0_20ma_v2_class,
     bricklet_industrial_dual_analog_in_class,
     bricklet_industrial_dual_relay_class,
     bricklet_industrial_quad_relay_class,
