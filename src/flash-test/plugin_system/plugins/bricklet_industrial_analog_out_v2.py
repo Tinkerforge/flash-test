@@ -36,8 +36,9 @@ class Plugin(CoMCUBrickletBase):
 4. Überprüfe Wert mit zwei Multimeter:
      * Spannung sollte 10V sein
      * Strom sollte 20mA sein
-5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+5. Überprüfe Kanal-LEDs
+6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):

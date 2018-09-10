@@ -34,8 +34,9 @@ class Plugin(CoMCUBrickletBase):
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Alle LEDs müssen blinken
-5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-7. Gehe zu 1
+6. Überprüfe Kanal-LEDs
+7. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
 
     def __init__(self, *args):

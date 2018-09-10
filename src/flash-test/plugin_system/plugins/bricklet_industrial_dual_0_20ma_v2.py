@@ -39,8 +39,9 @@ class Plugin(CoMCUBrickletBase):
 4. 12V am Testadapter einspeisen
 5. Überprüfe Ströme:
    * Wert für beide Kanäle sollte ca. 12mA betragen
-6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-7. Gehe zu 1
+6. Überprüfe Kanal-LEDs
+7. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
 
     def __init__(self, *args):

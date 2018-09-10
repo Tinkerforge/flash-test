@@ -41,8 +41,9 @@ class Plugin(CoMCUBrickletBase):
    * Schließe Testadapter 2 an (Netzteil) -> Drücke 'Gain'
    * Überprüfe Anzeige = ~24V
    * Überprüfe Drittspannung
-5. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+5. Überprüfe Kanal-LEDs
+6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):
