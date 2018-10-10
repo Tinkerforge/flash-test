@@ -67,12 +67,14 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
+        if self.cbe_state != None:
+            self.cbe_state.set_period(0)
 
         self.io16 = BrickletIO16V2(device_information.uid, self.get_ipcon())
         if self.io16.get_bootloader_mode() != BrickletIO16V2.BOOTLOADER_MODE_FIRMWARE:
             return
         
-        self.cbe_state = CallbackEmulator(self.io16.get_api_version, self.cb_state, ignore_last_data=True)
+        self.cbe_state = CallbackEmulator(self.io16.get_value, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(1000)
 
         self.show_device_information(device_information)
