@@ -73,7 +73,8 @@ class Plugin(CoMCUBrickletBase):
 
         self.lcd.set_display_configuration(14, 100, False, False)
         self.lcd.clear_display()
-        self.cbe_state = CallbackEmulator(self.lcd.get_api_version, self.cb_state, ignore_last_data=True)
+        self.touched = [False]*4
+        self.cbe_state = CallbackEmulator(self.lcd.get_display_configuration, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(100)
         self.show_device_information(device_information)
 

@@ -71,7 +71,7 @@ class Plugin(CoMCUBrickletBase):
 
         self.oled.set_display_configuration(143, False, False)
         self.oled.clear_display()
-        self.cbe_state = CallbackEmulator(self.oled.get_api_version, self.cb_state, ignore_last_data=True)
+        self.cbe_state = CallbackEmulator(self.oled.get_display_configuration, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(25)
         self.show_device_information(device_information)
 
