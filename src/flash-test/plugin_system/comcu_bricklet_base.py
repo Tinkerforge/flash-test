@@ -235,10 +235,11 @@ class CoMCUBrickletBase(PluginBase):
             
             try:
                 device.write_uid(uid)
-                uid_read = device.read_uid()
-                if uid != uid_read:
-                    self.mw.set_uid_status_error("Konnte UID nicht verifizieren")
-                    return False
+                if not 'bricklet_isolator_firmware' in plugin_filename:
+                    uid_read = device.read_uid()
+                    if uid != uid_read:
+                        self.mw.set_uid_status_error("Konnte UID nicht verifizieren")
+                        return False
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte UID nicht setzen')
