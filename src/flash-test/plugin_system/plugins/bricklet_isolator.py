@@ -69,7 +69,7 @@ class Plugin(CoMCUBrickletBase):
         if self.isolator.get_bootloader_mode() != BrickletIsolator.BOOTLOADER_MODE_FIRMWARE:
             return
 
-        self.cbe_statistics = CallbackEmulator(self.aout.get_statistics, self.cb_statistics)
+        self.cbe_statistics = CallbackEmulator(self.isolator.get_statistics, self.cb_statistics)
         self.cbe_statistics.set_period(250)
 
         self.show_device_information(device_information)
