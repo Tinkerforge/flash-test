@@ -30,13 +30,14 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Isolator Bricklet mit Port C
-2. Verbinde Thermal Imaging Bricklet mit Isolator Bricklet
-3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+2. Drücke "Flashen"
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+4. Verbinde Thermal Imaging Bricklet mit Isolator Bricklet
 5. Öffne Thermal Imaging Bricklet im Brick Viewer und überprüfe Bild
 6. Überprüfe Statistiken (Werte sollten steigen)
-7. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-8. Gehe zu 1
+7. Pinne von DC-DC Wandler abknipsen 
+8. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+9. Gehe zu 1
 """
 
     def __init__(self, *args):
