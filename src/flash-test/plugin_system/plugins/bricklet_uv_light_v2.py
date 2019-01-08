@@ -33,7 +33,8 @@ class Plugin(CoMCUBrickletBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
-     * Wert sollten größer werden wenn Bricklet direkt an eine Lampe gehalten wird
+     * UVI Wert sollte im Büro 0 sein
+     * UVA/B Werte sollten im Büro zwischen 20 und 200 mW/m² liegen und sinken wenn der Sensor beschattet wird
 5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
@@ -67,6 +68,7 @@ class Plugin(CoMCUBrickletBase):
         if self.uv.get_bootloader_mode() != BrickletUVLightV2.BOOTLOADER_MODE_FIRMWARE:
             return
 
+        self.uv.set_configuration(0) # 50ms
         self.cbe_uv_light = CallbackEmulator(self.uv.get_uva, self.cb_uva)
         self.cbe_uv_light.set_period(250)
         self.show_device_information(device_information)
@@ -74,4 +76,4 @@ class Plugin(CoMCUBrickletBase):
     def cb_uva(self, uva):
         uvb = self.uv.get_uvb()
         uvi = self.uv.get_uvi()
-        self.mw.set_value_normal('UVA: {0} mW/m², UVB: {1} mW/m², UVI: {2} mW/m²'.format(uva, uvb, uvi))
+        self.mw.set_value_normal('UVA: {0} mW/m², UVB: {1} mW/m², UVI: {2}'.format(uva / 10.0, uvb / 10.0, uvi / 10.0))
