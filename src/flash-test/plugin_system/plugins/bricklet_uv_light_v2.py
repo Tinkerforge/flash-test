@@ -41,39 +41,62 @@ class Plugin(CoMCUBrickletBase):
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
-        self.cbe_uv_light = None
+        self.cbe_uva = None
+        self.cbe_uvb = None
+        self.cbe_uvi = None
+        self.last_uva = 0
+        self.last_uvb = 0
+        self.last_uvi = 0
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
     def stop(self):
-        if self.cbe_uv_light != None:
-            self.cbe_uv_light.set_period(0)
+        if self.cbe_uva != None:
+            self.cbe_uva.set_period(0)
 
     def get_device_identifier(self):
         return BrickletUVLightV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletUVLightV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        if self.cbe_uv_light != None:
-            self.cbe_uv_light.set_period(0)
+        if self.cbe_uva != None:
+            self.cbe_uva.set_period(0)
 
         self.uv = BrickletUVLightV2(device_information.uid, self.get_ipcon())
         if self.uv.get_bootloader_mode() != BrickletUVLightV2.BOOTLOADER_MODE_FIRMWARE:
             return
 
+        self.last_uva = 0
+        self.last_uvb = 0
+        self.last_uvi = 0
+
         self.uv.set_configuration(0) # 50ms
-        self.cbe_uv_light = CallbackEmulator(self.uv.get_uva, self.cb_uva)
-        self.cbe_uv_light.set_period(250)
+        self.cbe_uva = CallbackEmulator(self.uv.get_uva, self.cb_uva)
+        self.cbe_uva.set_period(50)
+        self.cbe_uvb = CallbackEmulator(self.uv.get_uvb, self.cb_uvb)
+        self.cbe_uvb.set_period(50)
+        self.cbe_uvi = CallbackEmulator(self.uv.get_uvi, self.cb_uvi)
+        self.cbe_uvi.set_period(50)
         self.show_device_information(device_information)
-            
-    def cb_uva(self, uva):
-        uvb = self.uv.get_uvb()
-        uvi = self.uv.get_uvi()
+
+    def update_values(self, uva, uvb, uvi):
         self.mw.set_value_normal('UVA: {0} mW/m², UVB: {1} mW/m², UVI: {2}'.format(uva / 10.0, uvb / 10.0, uvi / 10.0))
+
+    def cb_uva(self, uva):
+        self.last_uva = uva
+        self.update_values(uva, self.last_uvb, self.last_uvi)
+
+    def cb_uvb(self, uvb):
+        self.last_uvb = uvb
+        self.update_values(self.last_uva, uvb, self.last_uvi)
+
+    def cb_uvi(self, uvi):
+        self.last_uvi = uvi
+        self.update_values(self.last_uva, self.last_uvb, uvi)
