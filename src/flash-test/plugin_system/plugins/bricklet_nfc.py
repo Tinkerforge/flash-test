@@ -30,12 +30,13 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde NFC Bricklet mit Port C
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Warte bis "Warte auf Tag" als Wert angezeigt wird
-5. Tag auf Bricklet legen, ID und Typ muss angezeigt werden
-5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+2. NFC Tag auf Bricklet legen
+3. Drücke "Flashen"
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+5. Warte bis "Warte auf Tag" als Wert angezeigt wird
+6. NFC Tag ID und Typ muss angezeigt werden
+7. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+8. Gehe zu 1
 """
 
     def __init__(self, *args):
