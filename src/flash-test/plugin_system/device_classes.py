@@ -8,6 +8,7 @@ from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_cla
 from .plugins.bricklet_accelerometer_v2 import Plugin as bricklet_accelerometer_v2_class
 from .plugins.bricklet_air_quality import Plugin as bricklet_air_quality_class
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
+from .plugins.bricklet_ambient_light_v3 import Plugin as bricklet_ambient_light_v3_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
 from .plugins.bricklet_analog_in_v3 import Plugin as bricklet_analog_in_v3_class
 from .plugins.bricklet_analog_out_v2 import Plugin as bricklet_analog_out_v2_class
@@ -117,6 +118,7 @@ device_classes = [
     bricklet_accelerometer_v2_class,
     bricklet_air_quality_class,
     bricklet_ambient_light_v2_class,
+    bricklet_ambient_light_v3_class,
     bricklet_analog_in_v2_class,
     bricklet_analog_in_v3_class,
     bricklet_analog_out_v2_class,
