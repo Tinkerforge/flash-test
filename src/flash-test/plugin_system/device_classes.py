@@ -5,6 +5,7 @@ from .plugins.brick_servo import Plugin as brick_servo_class
 from .plugins.brick_silent_stepper import Plugin as brick_silent_stepper_class
 from .plugins.brick_stepper import Plugin as brick_stepper_class
 from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_class
+from .plugins.bricklet_accelerometer_v2 import Plugin as bricklet_accelerometer_v2_class
 from .plugins.bricklet_air_quality import Plugin as bricklet_air_quality_class
 from .plugins.bricklet_ambient_light_v2 import Plugin as bricklet_ambient_light_v2_class
 from .plugins.bricklet_analog_in_v2 import Plugin as bricklet_analog_in_v2_class
@@ -113,6 +114,7 @@ device_classes = [
     brick_silent_stepper_class,
     brick_stepper_class,
     bricklet_accelerometer_class,
+    bricklet_accelerometer_v2_class,
     bricklet_air_quality_class,
     bricklet_ambient_light_v2_class,
     bricklet_analog_in_v2_class,
