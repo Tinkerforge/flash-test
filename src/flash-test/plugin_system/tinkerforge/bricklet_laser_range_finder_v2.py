@@ -21,14 +21,14 @@ except ValueError:
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletMultiTouchV2(Device):
+class BrickletLaserRangeFinderV2(Device):
+    """
+    Measures distance up to 40m with laser light
     """
 
-    """
-
-    DEVICE_IDENTIFIER = 2129
-    DEVICE_DISPLAY_NAME = 'Multi Touch Bricklet 2.0'
-    DEVICE_URL_PART = 'multi_touch_v2' # internal
+    DEVICE_IDENTIFIER = 2144
+    DEVICE_DISPLAY_NAME = 'Laser Range Finder Bricklet 2.0'
+    DEVICE_URL_PART = 'laser_range_finder_v2' # internal
 
 
 
@@ -70,18 +70,18 @@ class BrickletMultiTouchV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_WRITE_FIRMWARE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_RESET] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_WRITE_UID] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_READ_UID] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_IDENTITY] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_WRITE_FIRMWARE] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_RESET] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_WRITE_UID] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_READ_UID] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletLaserRangeFinderV2.FUNCTION_GET_IDENTITY] = BrickletLaserRangeFinderV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
 
@@ -99,7 +99,7 @@ class BrickletMultiTouchV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -115,13 +115,13 @@ class BrickletMultiTouchV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -134,7 +134,7 @@ class BrickletMultiTouchV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -149,7 +149,7 @@ class BrickletMultiTouchV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -163,13 +163,13 @@ class BrickletMultiTouchV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -180,7 +180,7 @@ class BrickletMultiTouchV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -191,7 +191,7 @@ class BrickletMultiTouchV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -203,14 +203,14 @@ class BrickletMultiTouchV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -223,6 +223,6 @@ class BrickletMultiTouchV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-MultiTouchV2 = BrickletMultiTouchV2 # for backward compatibility
+LaserRangeFinderV2 = BrickletLaserRangeFinderV2 # for backward compatibility

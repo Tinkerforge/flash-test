@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-10-05.      #
+# This file was automatically generated on 2019-01-28.      #
 #                                                           #
-# Python Bindings Version 2.1.19                            #
+# Python Bindings Version 2.1.20                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -140,6 +140,11 @@ except ValueError:
     from bricklet_co2 import BrickletCO2
 
 try:
+    from .bricklet_co2_v2 import BrickletCO2V2
+except ValueError:
+    from bricklet_co2_v2 import BrickletCO2V2
+
+try:
     from .bricklet_color import BrickletColor
 except ValueError:
     from bricklet_color import BrickletColor
@@ -205,6 +210,11 @@ except ValueError:
     from bricklet_dust_detector import BrickletDustDetector
 
 try:
+    from .bricklet_e_paper_296x128 import BrickletEPaper296x128
+except ValueError:
+    from bricklet_e_paper_296x128 import BrickletEPaper296x128
+
+try:
     from .bricklet_gas_detector import BrickletGasDetector
 except ValueError:
     from bricklet_gas_detector import BrickletGasDetector
@@ -233,6 +243,11 @@ try:
     from .bricklet_hat import BrickletHAT
 except ValueError:
     from bricklet_hat import BrickletHAT
+
+try:
+    from .bricklet_hat_zero import BrickletHATZero
+except ValueError:
+    from bricklet_hat_zero import BrickletHATZero
 
 try:
     from .bricklet_heart_rate import BrickletHeartRate
@@ -358,6 +373,11 @@ try:
     from .bricklet_laser_range_finder import BrickletLaserRangeFinder
 except ValueError:
     from bricklet_laser_range_finder import BrickletLaserRangeFinder
+
+try:
+    from .bricklet_laser_range_finder_v2 import BrickletLaserRangeFinderV2
+except ValueError:
+    from bricklet_laser_range_finder_v2 import BrickletLaserRangeFinderV2
 
 try:
     from .bricklet_lcd_128x64 import BrickletLCD128x64
@@ -498,6 +518,11 @@ try:
     from .bricklet_piezo_speaker import BrickletPiezoSpeaker
 except ValueError:
     from bricklet_piezo_speaker import BrickletPiezoSpeaker
+
+try:
+    from .bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
+except ValueError:
+    from bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
 
 try:
     from .bricklet_pressure import BrickletPressure
@@ -717,6 +742,7 @@ BrickletBarometerV2.DEVICE_IDENTIFIER: BrickletBarometerV2,
 BrickletCAN.DEVICE_IDENTIFIER: BrickletCAN,
 BrickletCANV2.DEVICE_IDENTIFIER: BrickletCANV2,
 BrickletCO2.DEVICE_IDENTIFIER: BrickletCO2,
+BrickletCO2V2.DEVICE_IDENTIFIER: BrickletCO2V2,
 BrickletColor.DEVICE_IDENTIFIER: BrickletColor,
 BrickletColorV2.DEVICE_IDENTIFIER: BrickletColorV2,
 BrickletCurrent12.DEVICE_IDENTIFIER: BrickletCurrent12,
@@ -730,12 +756,14 @@ BrickletDualButton.DEVICE_IDENTIFIER: BrickletDualButton,
 BrickletDualButtonV2.DEVICE_IDENTIFIER: BrickletDualButtonV2,
 BrickletDualRelay.DEVICE_IDENTIFIER: BrickletDualRelay,
 BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
+BrickletEPaper296x128.DEVICE_IDENTIFIER: BrickletEPaper296x128,
 BrickletGasDetector.DEVICE_IDENTIFIER: BrickletGasDetector,
 BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
 BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
 BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
 BrickletHallEffectV2.DEVICE_IDENTIFIER: BrickletHallEffectV2,
 BrickletHAT.DEVICE_IDENTIFIER: BrickletHAT,
+BrickletHATZero.DEVICE_IDENTIFIER: BrickletHATZero,
 BrickletHeartRate.DEVICE_IDENTIFIER: BrickletHeartRate,
 BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
 BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
@@ -761,6 +789,7 @@ BrickletIsolator.DEVICE_IDENTIFIER: BrickletIsolator,
 BrickletJoystick.DEVICE_IDENTIFIER: BrickletJoystick,
 BrickletJoystickV2.DEVICE_IDENTIFIER: BrickletJoystickV2,
 BrickletLaserRangeFinder.DEVICE_IDENTIFIER: BrickletLaserRangeFinder,
+BrickletLaserRangeFinderV2.DEVICE_IDENTIFIER: BrickletLaserRangeFinderV2,
 BrickletLCD128x64.DEVICE_IDENTIFIER: BrickletLCD128x64,
 BrickletLCD16x2.DEVICE_IDENTIFIER: BrickletLCD16x2,
 BrickletLCD20x4.DEVICE_IDENTIFIER: BrickletLCD20x4,
@@ -789,6 +818,7 @@ BrickletOzone.DEVICE_IDENTIFIER: BrickletOzone,
 BrickletParticulateMatter.DEVICE_IDENTIFIER: BrickletParticulateMatter,
 BrickletPiezoBuzzer.DEVICE_IDENTIFIER: BrickletPiezoBuzzer,
 BrickletPiezoSpeaker.DEVICE_IDENTIFIER: BrickletPiezoSpeaker,
+BrickletPiezoSpeakerV2.DEVICE_IDENTIFIER: BrickletPiezoSpeakerV2,
 BrickletPressure.DEVICE_IDENTIFIER: BrickletPressure,
 BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
 BrickletPTCV2.DEVICE_IDENTIFIER: BrickletPTCV2,

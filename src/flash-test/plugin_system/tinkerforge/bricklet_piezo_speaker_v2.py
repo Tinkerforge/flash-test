@@ -21,17 +21,21 @@ except ValueError:
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletMultiTouchV2(Device):
+class BrickletPiezoSpeakerV2(Device):
     """
 
     """
 
-    DEVICE_IDENTIFIER = 2129
-    DEVICE_DISPLAY_NAME = 'Multi Touch Bricklet 2.0'
-    DEVICE_URL_PART = 'multi_touch_v2' # internal
+    DEVICE_IDENTIFIER = 2145
+    DEVICE_DISPLAY_NAME = 'Piezo Speaker Bricklet 2.0'
+    DEVICE_URL_PART = 'piezo_speaker_v2' # internal
+
+    CALLBACK_BEEP_FINISHED = 3
+    CALLBACK_MORSE_CODE_FINISHED = 4
 
 
-
+    FUNCTION_BEEP = 1
+    FUNCTION_MORSE_CODE = 2
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -45,6 +49,8 @@ class BrickletMultiTouchV2(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
+    BEEP_DURATION_OFF = 0
+    BEEP_DURATION_INFINITE = 4294967295
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -70,20 +76,61 @@ class BrickletMultiTouchV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_WRITE_FIRMWARE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_RESET] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_WRITE_UID] = BrickletMultiTouchV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_READ_UID] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletMultiTouchV2.FUNCTION_GET_IDENTITY] = BrickletMultiTouchV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_BEEP] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_MORSE_CODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_WRITE_FIRMWARE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_RESET] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_WRITE_UID] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_READ_UID] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_IDENTITY] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+
+        self.callback_formats[BrickletPiezoSpeakerV2.CALLBACK_BEEP_FINISHED] = ''
+        self.callback_formats[BrickletPiezoSpeakerV2.CALLBACK_MORSE_CODE_FINISHED] = ''
 
 
+    def beep(self, duration, frequency, volume):
+        """
+        Beeps with the given frequency for the duration in ms. For example:
+        If you set a duration of 1000, with a frequency value of 2000
+        the piezo buzzer will beep for one second with a frequency of
+        approximately 2 kHz.
+
+        A duration of 0 stops the current beep if any, the frequency parameter is
+        ignored. A duration of 4294967295 results in an infinite beep.
+
+        The *frequency* parameter can be set between 585 and 7100.
+        """
+        duration = int(duration)
+        frequency = int(frequency)
+        volume = int(volume)
+
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_BEEP, (duration, frequency, volume), 'I H B', '')
+
+    def morse_code(self, morse, frequency, volume):
+        """
+        Sets morse code that will be played by the piezo buzzer. The morse code
+        is given as a string consisting of "." (dot), "-" (minus) and " " (space)
+        for *dits*, *dahs* and *pauses*. Every other character is ignored.
+        The second parameter is the frequency (see :func:`Beep`).
+
+        For example: If you set the string "...---...", the piezo buzzer will beep
+        nine times with the durations "short short short long long long short
+        short short".
+
+        The maximum string size is 60.
+        """
+        morse = create_string(morse)
+        frequency = int(frequency)
+        volume = int(volume)
+
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_MORSE_CODE, (morse, frequency, volume), '60s H B', '')
 
     def get_spitfp_error_count(self):
         """
@@ -99,7 +146,7 @@ class BrickletMultiTouchV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -115,13 +162,13 @@ class BrickletMultiTouchV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -134,7 +181,7 @@ class BrickletMultiTouchV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -149,7 +196,7 @@ class BrickletMultiTouchV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -163,13 +210,13 @@ class BrickletMultiTouchV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -180,7 +227,7 @@ class BrickletMultiTouchV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -191,7 +238,7 @@ class BrickletMultiTouchV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -203,14 +250,14 @@ class BrickletMultiTouchV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -223,6 +270,15 @@ class BrickletMultiTouchV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletMultiTouchV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-MultiTouchV2 = BrickletMultiTouchV2 # for backward compatibility
+    def register_callback(self, callback_id, function):
+        """
+        Registers the given *function* with the given *callback_id*.
+        """
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
+
+PiezoSpeakerV2 = BrickletPiezoSpeakerV2 # for backward compatibility
