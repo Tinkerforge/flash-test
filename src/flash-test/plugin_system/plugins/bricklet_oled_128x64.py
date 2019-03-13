@@ -27,19 +27,24 @@ from ..tinkerforge.bricklet_oled_128x64 import BrickletOLED128x64
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
+STATE_VERTICAL = 0
+STATE_HORIZONTAL = 1
+STATE_ALL_ON = 2
+
 class Plugin(BrickletBase):
     TODO_TEXT = u"""\
-2. Verbinde OLED 128x64 Bricklet mit Port C
-3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Streifen wandert auf Display Vertikal und Horizontal
+1. Verbinde OLED 128x64 Bricklet mit Port C
+2. Drücke "Flashen"
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+4. Streifen wandert auf Display Vertikal und Horizontal
+5. Bildschirm wird vollflächig weiß, auf Pixelfehler prüfen
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
-        self.vertical = True
+        self.state = STATE_VERTICAL
         self.num = 0
         self.cbe_state = None
 
@@ -71,36 +76,47 @@ class Plugin(BrickletBase):
 
     def cb_state(self, _):
         self.oled.new_window(0, 127, 0, 7)
-        if self.vertical:
+        if self.state == STATE_VERTICAL:
             for i in range(8):
                 line = [0]*64
                 if i == self.num//8:
                     line = [1 << (self.num % 8)]*64
                 self.oled.write(line)
-                
+
                 line = [0]*64
                 if i == self.num//8:
                     line = [1 << (self.num % 8)]*64
                 self.oled.write(line)
-        else:
+        elif self.state == STATE_HORIZONTAL:
             for i in range(8):
                 line = [0]*64
                 if self.num < 64:
-                    line[self.num] = 0xFF 
-                self.oled.write(line)
-                
-                line = [0]*64
-                if self.num >= 64:
-                    line[self.num-64] = 0xFF 
+                    line[self.num] = 0xFF
                 self.oled.write(line)
 
+                line = [0]*64
+                if self.num >= 64:
+                    line[self.num-64] = 0xFF
+                self.oled.write(line)
+        else:
+            if self.num == 0:
+                self.oled.clear_display()
+                self.oled.set_display_configuration(143, True)
+            elif self.num == 3000/25 - 1:
+                self.oled.clear_display()
+                self.oled.set_display_configuration(143, False)
+
         self.num += 1
-        
-        if self.vertical:
+
+        if self.state == STATE_VERTICAL:
             if self.num >= 64:
                 self.num = 0
-                self.vertical = False
-        else:
+                self.state = STATE_HORIZONTAL
+        elif self.state == STATE_HORIZONTAL:
             if self.num >= 128:
                 self.num = 0
-                self.vertical = True
+                self.state = STATE_ALL_ON
+        else:
+            if self.num >= 3000/25:
+                self.num = 0
+                self.state = STATE_VERTICAL

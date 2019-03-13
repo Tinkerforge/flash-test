@@ -27,19 +27,24 @@ from ..tinkerforge.bricklet_oled_128x64_v2 import BrickletOLED128x64V2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
+STATE_VERTICAL = 0
+STATE_HORIZONTAL = 1
+STATE_ALL_ON = 2
+
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-2. Verbinde OLED 128x64 Bricklet 2.0 mit Port C
-3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Streifen wandert auf Display Vertikal und Horizontal
+1. Verbinde OLED 128x64 Bricklet 2.0 mit Port C
+2. Drücke "Flashen"
+3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+4. Streifen wandert auf Display Vertikal und Horizontal
+5. Bildschirm wird vollflächig weiß, auf Pixelfehler prüfen
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
-        self.vertical = True
+        self.state = STATE_VERTICAL
         self.num = 0
         self.cbe_state = None
 
@@ -76,26 +81,39 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_state(self, _):
-        if self.vertical:
+        if self.state == STATE_VERTICAL:
             data = [True]*128
             self.oled.write_pixels(0, self.num, 127, self.num, data)
             self.oled.draw_buffered_frame(False)
             data = [False]*128
             self.oled.write_pixels(0, self.num, 127, self.num, data)
-        else:
+        elif self.state == STATE_HORIZONTAL:
             data = [True]*64
             self.oled.write_pixels(self.num, 0, self.num, 63, data)
             self.oled.draw_buffered_frame(False)
             data = [False]*64
             self.oled.write_pixels(self.num, 0, self.num, 63, data)
+        else:
+            if self.num == 0:
+                data = [True]*64*128
+                self.oled.write_pixels(0, 0, 127, 63, data)
+                self.oled.draw_buffered_frame(False)
+            elif self.num == 3000/25 - 1:
+                data = [False]*64*128
+                self.oled.write_pixels(0, 0, 127, 63, data)
+                self.oled.draw_buffered_frame(False)
 
         self.num += 1
-        
-        if self.vertical:
+
+        if self.state == STATE_VERTICAL:
             if self.num >= 63:
                 self.num = 0
-                self.vertical = False
-        else:
+                self.state = STATE_HORIZONTAL
+        elif self.state == STATE_HORIZONTAL:
             if self.num >= 127:
                 self.num = 0
-                self.vertical = True
+                self.state = STATE_ALL_ON
+        else:
+            if self.num >= 3000/25:
+                self.num = 0
+                self.state = STATE_VERTICAL
