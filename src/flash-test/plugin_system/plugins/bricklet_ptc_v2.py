@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_ptc_v2 import BrickletPTCV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -33,7 +33,7 @@ class Plugin(CoMCUBrickletBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
-     * Temperatur sollte sinnvoll sein 
+     * Temperatur sollte sinnvoll sein
 5. Das Bricklet ist fertig. Zusammen mit Jumper in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_dual_button_v2 import BrickletDualButtonV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -71,7 +71,7 @@ class Plugin(CoMCUBrickletBase):
         self.dual_button = BrickletDualButtonV2(device_information.uid, self.get_ipcon())
         if self.dual_button.get_bootloader_mode() != BrickletDualButtonV2.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.dual_button.register_callback(self.dual_button.CALLBACK_STATE_CHANGED, self.qtcb_state_changed.emit)
         self.dual_button.set_state_changed_callback_configuration(True)
 

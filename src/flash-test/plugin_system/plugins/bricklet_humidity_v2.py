@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_humidity_v2 import BrickletHumidityV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -34,7 +34,7 @@ class Plugin(CoMCUBrickletBase):
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Wert sollte im Bereich von 30-60 %RH liegen
-     * Wert sollte steigen wenn man das Bricklet anhaucht 
+     * Wert sollte steigen wenn man das Bricklet anhaucht
 5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
@@ -67,7 +67,7 @@ class Plugin(CoMCUBrickletBase):
         self.h = BrickletHumidityV2(device_information.uid, self.get_ipcon())
         if self.h.get_bootloader_mode() != BrickletHumidityV2.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_humidity = CallbackEmulator(self.h.get_humidity,
                                              self.cb_humidity)
         self.cbe_humidity.set_period(100)

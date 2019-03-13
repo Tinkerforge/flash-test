@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_industrial_digital_in_4 import BrickletIndustrialDigitalIn4
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -44,13 +44,13 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
         self.cbe_value = None
-        
+
         self.last_values = None
         self.changes = [0, 0, 0, 0]
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -60,10 +60,10 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletIndustrialDigitalIn4.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialDigitalIn4.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         if self.cbe_value != None:
             self.cbe_value.set_period(0)
@@ -75,7 +75,7 @@ class Plugin(BrickletBase):
         self.cbe_value.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_value(self, value):
         values = [value & 1, (value >> 1) & 1, (value >> 2) & 1, (value >> 3) & 1]
         if self.last_values == None:
@@ -92,9 +92,9 @@ class Plugin(BrickletBase):
                 show.append('\u2611')
             else:
                 show.append(values[i])
-        
+
         set_value = self.mw.set_value_action
         if show[0] == '\u2611' and show[1] == '\u2611' and show[2] == '\u2611' and show[3] == '\u2611':
             set_value =  self.mw.set_value_okay
-        
+
         set_value("Werte: {0} {1} {2} {3} (0 = Masse, 1 = 24V, \u2611 = OK)".format(show[0], show[1], show[2], show[3]))

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.ip_connection import IPConnection
 
@@ -35,34 +35,34 @@ def base58encode(value):
     encoded = ''
     while value >= 58:
         div, mod = divmod(value, 58)
-        encoded = BASE58[mod] + encoded 
+        encoded = BASE58[mod] + encoded
         value = div
-    encoded = BASE58[value] + encoded 
+    encoded = BASE58[value] + encoded
     return encoded
 
-class PluginBase(QtGui.QWidget, object):
+class PluginBase(QtWidgets.QWidget, object):
     TODO_TEXT = 'Dieses Plugin ist noch nicht implementiert.'
-    
+
     def __init__(self, mw):
-        QtGui.QWidget.__init__(self)
-        
+        QtWidgets.QWidget.__init__(self)
+
         self.mw = mw
         self.device_information = None
-        
+
     def get_new_uid(self):
         return int(urllib.request.urlopen('https://stagingwww.tinkerforge.com/uid', timeout=5).read())
-        
+
     def get_ipcon(self):
         return self.mw.device_manager.ipcon
-    
+
     def get_master_uid(self):
         return self.mw.get_master_brick_device_information().uid
-    
+
     def get_current_master(self):
         master_uid = self.get_master_uid()
         master = BrickMaster(master_uid, self.get_ipcon())
         return master
-        
+
     def master_reset(self):
         try:
             self.get_current_master().reset()
@@ -78,7 +78,7 @@ class PluginBase(QtGui.QWidget, object):
 
         if uid_success and plugin_success:
             self.master_reset()
-            
+
     # To be overridden by bricklet class
     def write_new_uid_to_bricklet(self):
         print("write_new_uid_to_bricklet not Implemented")
@@ -91,7 +91,7 @@ class PluginBase(QtGui.QWidget, object):
     # To be overridden by inheriting class
     def stop(self):
         pass
-    
+
     def start(self, device_information):
         self.mw.button_continue.hide()
         self.device_information = device_information
@@ -105,10 +105,10 @@ class PluginBase(QtGui.QWidget, object):
 
     def destroy(self):
         pass
-    
+
     def get_device_identifier(self):
         return -1
-    
+
     def flash_clicked(self):
         pass
 

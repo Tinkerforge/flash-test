@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_nfc import BrickletNFC
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -67,7 +67,7 @@ class Plugin(CoMCUBrickletBase):
         self.nfc = BrickletNFC(device_information.uid, self.get_ipcon())
         if self.nfc.get_bootloader_mode() != BrickletNFC.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_state = CallbackEmulator(self.nfc.reader_get_state,
                                           self.cb_state)
         self.cbe_state.set_period(100)
@@ -76,22 +76,22 @@ class Plugin(CoMCUBrickletBase):
 
     def cb_state(self, value):
         state, idle = value
-        
+
         if state == self.nfc.READER_STATE_INITIALIZATION:
             self.nfc.set_mode(self.nfc.MODE_READER)
             self.mw.set_value_normal("Initialisierung")
-        
+
         elif state == self.nfc.READER_STATE_IDLE:
             self.mw.set_value_normal("Warte auf Tag")
             self.nfc.reader_request_tag_id()
-            
+
         elif state == self.nfc.READER_STATE_REQUEST_TAG_ID:
             self.mw.set_value_normal("Warte auf Tag")
-    
+
         elif state == self.nfc.READER_STATE_REQUEST_TAG_ID_READY:
             ret = self.nfc.reader_get_tag_id()
-            
+
             s = 'Tag gefunden mit Typ ' + str(ret.tag_type) + ', ID [' + ' '.join(map(str, map(hex, ret.tag_id))) + "]"
-            
+
             self.nfc.reader_request_tag_id()
             self.mw.set_value_okay(s)

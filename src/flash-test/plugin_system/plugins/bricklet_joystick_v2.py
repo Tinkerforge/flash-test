@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5.QtCore import pyqtSignal
 
 from ..tinkerforge.bricklet_joystick_v2 import BrickletJoystickV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -41,7 +41,7 @@ class Plugin(CoMCUBrickletBase):
 6. Gehe zu 1
 """
 
-    qtcb_pressed = QtCore.pyqtSignal(bool)
+    qtcb_pressed = pyqtSignal(bool)
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)

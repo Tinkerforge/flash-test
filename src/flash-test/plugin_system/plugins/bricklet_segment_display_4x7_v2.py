@@ -21,8 +21,6 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
-
 from ..tinkerforge.bricklet_segment_display_4x7_v2 import BrickletSegmentDisplay4x7V2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -68,14 +66,14 @@ class Plugin(CoMCUBrickletBase):
             return
 
         self.cbe_value = CallbackEmulator(self.sd4x7.get_brightness,
-                                          self.cb_value, 
+                                          self.cb_value,
                                           ignore_last_data=True)
 
         self.cbe_value.set_period(500)
 
         self.show_device_information(device_information)
 
-        
+
     def cb_value(self, _):
         if self.state == 0:
             self.sd4x7.set_segments([False]*8, [False]*8, [False]*8, [False]*8, [False]*2, False)

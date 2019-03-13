@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_motorized_linear_poti import BrickletMotorizedLinearPoti
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -32,8 +32,8 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Motorized Linear Poti mit Port C
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Überprüfe: 
-     * Kalibrierung wird ausgeführt (Poti fährt von in beide Anschläge) 
+5. Überprüfe:
+     * Kalibrierung wird ausgeführt (Poti fährt von in beide Anschläge)
      * Position ändert sich wenn Slider verschoben wird. Fahre 0 oben und 100 unten an. Text wird grün.
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
@@ -74,7 +74,7 @@ class Plugin(CoMCUBrickletBase):
         self.mlp = BrickletMotorizedLinearPoti(device_information.uid, self.get_ipcon())
         if self.mlp.get_bootloader_mode() != BrickletMotorizedLinearPoti.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.mlp.calibrate()
         self.cbe_position = CallbackEmulator(self.mlp.get_position,
                                              self.cb_position,
@@ -89,7 +89,7 @@ class Plugin(CoMCUBrickletBase):
         self.counter += 1
         if self.counter < 10:
             return
- 
+
         if position == 0:
             self.seen0 = True
         elif position == 100:
@@ -98,5 +98,5 @@ class Plugin(CoMCUBrickletBase):
         set_value = self.mw.set_value_normal
         if self.seen0 and self.seen100:
             set_value = self.mw.set_value_okay
-            
+
         set_value('Position: {0}'.format(position))

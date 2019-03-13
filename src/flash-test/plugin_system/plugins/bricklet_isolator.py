@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_isolator import BrickletIsolator
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -35,7 +35,7 @@ class Plugin(CoMCUBrickletBase):
 4. Verbinde Thermal Imaging Bricklet mit Isolator Bricklet
 5. Öffne Thermal Imaging Bricklet im Brick Viewer und überprüfe Bild
 6. Überprüfe Statistiken (Werte sollten steigen)
-7. Pinne von DC-DC Wandler abknipsen 
+7. Pinne von DC-DC Wandler abknipsen
 8. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 9. Gehe zu 1
 """

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_thermocouple_v2 import BrickletThermocoupleV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -44,7 +44,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -54,10 +54,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletThermocoupleV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletThermocoupleV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_temperature != None:
@@ -71,7 +71,7 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_temperature.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_temperature(self, temperature):
         if (1500 < temperature < 3500):
             set_value = self.mw.set_value_okay

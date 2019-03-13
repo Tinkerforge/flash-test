@@ -20,9 +20,6 @@ License along with this program; if not, write to the
 Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
-
-from PyQt4 import Qt, QtGui, QtCore
-
 from ..tinkerforge.bricklet_hall_effect import BrickletHallEffect
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -39,8 +36,6 @@ class Plugin(BrickletBase):
 5. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
-
-    qtcb_state_changed = QtCore.pyqtSignal(int, int, int, int)
 
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)

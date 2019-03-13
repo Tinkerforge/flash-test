@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_led_strip_v2 import BrickletLEDStripV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -33,7 +33,7 @@ class Plugin(CoMCUBrickletBase):
 2. Verbinde LED Strip Bricklet 2.0 mit Port C
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. LED ändert Farbe: R -> G -> B -> W 
+5. LED ändert Farbe: R -> G -> B -> W
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
@@ -78,11 +78,11 @@ class Plugin(CoMCUBrickletBase):
         r = values[0]
         g = values[1]
         b = values[2]
-        
+
         r_new = 0
         g_new = 0
         b_new = 0
-        
+
         if r == 255 and g == 255 and b == 255:
             r_new = 255
             g_new = 0
@@ -99,5 +99,5 @@ class Plugin(CoMCUBrickletBase):
             r_new = 255
             g_new = 255
             b_new = 255
-        
+
         self.led_strip_v2.set_led_values(0, [r_new, g_new, b_new])

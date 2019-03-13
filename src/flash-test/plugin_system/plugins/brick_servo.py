@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_servo import BrickServo
 from ..brick_base import BrickBase, get_brick_firmware_filename
@@ -37,7 +37,7 @@ class Plugin(BrickBase):
 5. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben*
 6. Gehe zu 1
 
-* Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Servo Brick und 2x Extension gemacht werden. 
+* Es muss zusätzlich noch ein Stapeltest mit 1x Master Brick, 8x Servo Brick und 2x Extension gemacht werden.
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename(BrickServo.DEVICE_URL_PART)
 
@@ -52,7 +52,7 @@ class Plugin(BrickBase):
 
     def new_enum(self, device_information):
         self.show_device_information(device_information)
-        
+
         servo = BrickServo(device_information.uid, self.get_ipcon())
         servo.set_velocity(6, 0xFFFF)
         servo.set_position(6, 0)

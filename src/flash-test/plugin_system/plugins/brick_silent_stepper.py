@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.brick_silent_stepper import BrickSilentStepper
 from ..brick_base import BrickBase, get_brick_firmware_filename
@@ -70,7 +70,7 @@ class Plugin(BrickBase):
                                             self.cb_voltage)
         self.cbe_voltage.set_period(100)
         self.cb_voltage(silent_stepper.get_external_input_voltage())
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
         silent_stepper.set_motor_current(800)
         silent_stepper.set_step_configuration(BrickSilentStepper.STEP_RESOLUTION_1, 1)
@@ -79,16 +79,16 @@ class Plugin(BrickBase):
         silent_stepper.enable()
         silent_stepper.drive_forward()
         time.sleep(0.75)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         silent_stepper.stop()
         time.sleep(0.25)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         silent_stepper.drive_backward()
         time.sleep(0.75)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         silent_stepper.stop()
         time.sleep(0.25)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         silent_stepper.disable()
 
     def cb_voltage(self, voltage):

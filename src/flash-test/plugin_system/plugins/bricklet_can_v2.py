@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_can_v2 import BrickletCANV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -62,7 +62,7 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        
+
         self.can = BrickletCANV2(device_information.uid, self.get_ipcon())
         if self.can.get_bootloader_mode() != BrickletCANV2.BOOTLOADER_MODE_FIRMWARE:
             return

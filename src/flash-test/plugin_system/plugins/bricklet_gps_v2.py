@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_gps_v2 import BrickletGPSV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -45,7 +45,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -55,10 +55,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletGPSV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletGPSV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
 
@@ -73,6 +73,6 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_datetime.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_datetime(self, ret):
         self.mw.set_value_normal('Date/Time: ' + str(ret.date) + ' / ' + str(ret.time))

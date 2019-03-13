@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase, get_extension_firmware_filename
@@ -79,7 +79,7 @@ class Plugin(ExtensionBase):
         self.mw.set_tool_status_normal('Master Brick gefunden')
 
         for x in range(10):
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
             time.sleep(0.01)
 
         try:
@@ -132,7 +132,7 @@ class Plugin(ExtensionBase):
         self.mw.set_tool_status_okay('Extension geflasht')
 
         for x in range(50):
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
             time.sleep(0.01)
 
         self.mw.set_tool_status_action('Setze Extension-Typ')
@@ -140,7 +140,7 @@ class Plugin(ExtensionBase):
         self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
 
         for x in range(10):
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
             time.sleep(0.01)
 
         counter = 0
@@ -150,7 +150,7 @@ class Plugin(ExtensionBase):
                 self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_WIFI2)
 
                 for x in range(10):
-                    QtGui.QApplication.processEvents()
+                    QtWidgets.QApplication.processEvents()
                     time.sleep(0.01)
 
                 if counter > 100:
@@ -183,7 +183,7 @@ class Plugin(ExtensionBase):
                 pass
 
             for x in range(10):
-                QtGui.QApplication.processEvents()
+                QtWidgets.QApplication.processEvents()
                 time.sleep(0.01)
 
         if i == range_to-1:

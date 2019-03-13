@@ -21,13 +21,9 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
-
 from ..tinkerforge.bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
-
-import time
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
@@ -46,7 +42,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -56,10 +52,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletPiezoSpeakerV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletPiezoSpeakerV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
 
@@ -81,5 +77,5 @@ class Plugin(CoMCUBrickletBase):
         self.volume += 1
         if self.volume > 10:
             self.volume = 0
-        
+
         self.piezo_speaker.update_volume(self.volume)

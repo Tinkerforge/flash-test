@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_piezo_speaker import BrickletPiezoSpeaker
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -47,9 +47,9 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         self.mw.button_calibrate_ps.clicked.connect(self.calibrate_clicked)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -62,15 +62,15 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletPiezoSpeaker.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletPiezoSpeaker.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         l = self.mw.piezo_speaker_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
-                
+
         self.piezo_speaker = BrickletPiezoSpeaker(device_information.uid, self.get_ipcon())
 
         self.show_device_information(device_information)

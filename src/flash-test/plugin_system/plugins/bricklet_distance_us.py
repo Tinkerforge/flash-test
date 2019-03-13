@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_distance_us import BrickletDistanceUS
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -57,21 +57,21 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletDistanceUS.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceUS.DEVICE_URL_PART))
         if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
-        
+
     def new_enum(self, device_information):
         if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
 
         self.show_device_information(device_information)
-        
+
         self.distance_us = BrickletDistanceUS(device_information.uid, self.get_ipcon())
         self.cbe_distance_value = CallbackEmulator(self.distance_us.get_distance_value, self.cb_distance_value)
         self.cbe_distance_value.set_period(100)
-            
+
     def cb_distance_value(self, distance_value):
         self.mw.set_value_normal('Entfernungswert: ' + str(distance_value))

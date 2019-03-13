@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 from plugin_system.tinkerforge.ip_connection import IPConnection
 from plugin_system.tinkerforge.brick_master import BrickMaster
@@ -53,7 +53,7 @@ class DeviceManager(QtCore.QObject):
         self.ipcon.register_callback(self.ipcon.CALLBACK_ENUMERATE, self.qtcb_enumerate.emit)
         self.ipcon.enumerate()
 
-    def cb_enumerate(self, uid, connected_uid, position, hardware_version, 
+    def cb_enumerate(self, uid, connected_uid, position, hardware_version,
                      firmware_version, device_identifier, enumeration_type):
         if enumeration_type in (self.ipcon.ENUMERATION_TYPE_CONNECTED, self.ipcon.ENUMERATION_TYPE_AVAILABLE):
             if device_identifier == BrickletIO4.DEVICE_IDENTIFIER and uid == '555555':
@@ -65,19 +65,19 @@ class DeviceManager(QtCore.QObject):
                     self.mw.foot_pedal.set_interrupt(1)
 
                 return
-            
+
             # Flash Adapter XMC quad relay and control master
             if (device_identifier == BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER and uid == '555') or \
                (device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qZ5ow', '6R62QC', '5VjDHm', '6DdLE5')):
                 return
-            
+
             # Flash Adapter XMC program masster
             if device_identifier == BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER and uid in ('6qzRzc', '6kP6n3', '6Jprbj', '6DdMSG'):
                 # Override old UID if new Flash adapter is connected
                 # We don't support two flash adapter simultaneously
                 self.flash_adapter_xmc_uid = uid
                 return
-                
+
             # DMX Master
             if device_identifier == BrickletDMX.DEVICE_IDENTIFIER and uid == 'dmxT1':
                 return

@@ -21,8 +21,6 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
-
 from ..tinkerforge.bricklet_co2_v2 import BrickletCO2V2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -43,7 +41,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -53,10 +51,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletCO2V2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletCO2V2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_co2 != None:
@@ -70,6 +68,6 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_co2.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_co2(self, values):
         self.mw.set_value_normal("{0} ppm, {1} °C, {2} %RH".format(values.co2_concentration, values.temperature/100.0, values.humidity/100.0))

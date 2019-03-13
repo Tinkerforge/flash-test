@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_outdoor_weather import BrickletOutdoorWeather
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -66,7 +66,7 @@ class Plugin(CoMCUBrickletBase):
         self.ow = BrickletOutdoorWeather(device_information.uid, self.get_ipcon())
         if self.ow.get_bootloader_mode() != BrickletOutdoorWeather.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_station_identifiers = CallbackEmulator(self.ow.get_station_identifiers,
                                              self.cb_station_identifiers)
         self.cbe_station_identifiers.set_period(500)
@@ -76,13 +76,13 @@ class Plugin(CoMCUBrickletBase):
     def cb_station_identifiers(self, ids):
         if len(ids) == 0:
             return
-        
+
         data = self.ow.get_station_data(ids[0])
-        try: 
+        try:
             wind_direction = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'][data.wind_direction]
         except:
             wind_direction = 'Unbekannt (Error)'
-        
+
         text = ''
         text += "Temperatur: {:.1f}\n".format(data.temperature/10.0)
         text += "Luftfeuchte: {:.1f}\n".format(data.humidity)
@@ -94,5 +94,5 @@ class Plugin(CoMCUBrickletBase):
             text += "Batterie: Leer\n"
         else:
             text += "Batterie: Voll\n"
-        
+
         self.mw.set_value_normal(text)

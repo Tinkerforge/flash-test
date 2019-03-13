@@ -21,8 +21,6 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
-
 from ..tinkerforge.bricklet_hall_effect_v2 import BrickletHallEffectV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -41,12 +39,10 @@ class Plugin(CoMCUBrickletBase):
 6. Gehe zu 1
 """
 
-    qtcb_state_changed = QtCore.pyqtSignal(int, int, int, int)
-
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_value = None
-        self.reached_negative = False 
+        self.reached_negative = False
         self.reached_positive = False
 
     def start(self, device_information):

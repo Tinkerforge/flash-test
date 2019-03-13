@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_accelerometer_v2 import BrickletAccelerometerV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -48,7 +48,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -58,10 +58,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletAccelerometerV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletAccelerometerV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_acceleration != None:
@@ -81,7 +81,7 @@ class Plugin(CoMCUBrickletBase):
             self.accelerometer.set_info_led_config(0)
         else:
             self.accelerometer.set_info_led_config(1)
-        
+
         self.led_is_on = not self.led_is_on
 
         x, y, z = data
@@ -92,7 +92,7 @@ class Plugin(CoMCUBrickletBase):
         except:
             pitch = 0
             roll  = 0
-        
+
         text = 'Neigungswinkel: {0:+03d}°'.format(pitch)
         text += ', Rollwinkel: {0:+03d}°'.format(roll)
         text = text.replace('-0', '- ')

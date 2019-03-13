@@ -25,7 +25,7 @@ from plugin_system.plugin_base import PluginBase
 from plugin_system.samba import SAMBA, SAMBAException
 from serial import SerialException
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 import os
 import time

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_remote_switch_v2 import BrickletRemoteSwitchV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -66,11 +66,11 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        
+
         self.rs = BrickletRemoteSwitchV2(device_information.uid, self.get_ipcon())
         if self.rs.get_bootloader_mode() != BrickletRemoteSwitchV2.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.rs.register_callback(self.rs.CALLBACK_SWITCHING_DONE, self.qtcb_switching_done.emit)
 
         self.show_device_information(device_information)

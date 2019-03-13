@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_motion_detector_v2 import BrickletMotionDetectorV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -68,7 +68,7 @@ class Plugin(CoMCUBrickletBase):
         self.b = BrickletMotionDetectorV2(device_information.uid, self.get_ipcon())
         if self.b.get_bootloader_mode() != BrickletMotionDetectorV2.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_motion = CallbackEmulator(self.b.get_motion_detected,
                                            self.cb_motion,
                                            ignore_last_data = True)

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_dc import BrickDC
 from ..brick_base import BrickBase, get_brick_firmware_filename
@@ -52,12 +52,12 @@ Zusätzlich:
 
     def new_enum(self, device_information):
         self.show_device_information(device_information)
-        
+
         dc = BrickDC(device_information.uid, self.get_ipcon())
         dc.set_pwm_frequency(10000)
         dc.set_drive_mode(0)
         dc.enable()
-        dc.set_acceleration(10000) 
+        dc.set_acceleration(10000)
         dc.set_velocity(32767)
         time.sleep(3)
         dc.set_velocity(0)

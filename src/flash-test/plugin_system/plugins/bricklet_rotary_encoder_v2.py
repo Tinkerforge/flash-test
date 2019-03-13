@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_rotary_encoder_v2 import BrickletRotaryEncoderV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -53,7 +53,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -63,13 +63,13 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletRotaryEncoderV2.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletRotaryEncoderV2.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        
+
         if self.cbe_count != None:
             self.cbe_count.set_period(0)
 
@@ -77,7 +77,7 @@ class Plugin(CoMCUBrickletBase):
         self.reached_positive = False
         self.pressed_count = 0
         self.pressed_current = None
-        
+
         self.rotary_encoder = BrickletRotaryEncoderV2(device_information.uid, self.get_ipcon())
         if self.rotary_encoder.get_bootloader_mode() != BrickletRotaryEncoderV2.BOOTLOADER_MODE_FIRMWARE:
             return
@@ -88,20 +88,20 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_count.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_count(self, count):
         is_pressed = self.rotary_encoder.is_pressed()
         if is_pressed != self.pressed_current:
             self.pressed_current = is_pressed
             self.pressed_count += 1
-            
+
         pressed_done = self.pressed_count > 1
-        
+
         if count < -5:
             self.reached_negative = True
         if count > 5:
             self.reached_positive = True
-            
+
         pos = '\u25C7'
         neg = '\u25C7'
         pre = '\u25C7'
@@ -111,10 +111,10 @@ class Plugin(CoMCUBrickletBase):
             neg = '\u25C6'
         if self.reached_positive:
             pos = '\u25C6'
-            
+
         if pressed_done and self.reached_negative and self.reached_positive:
             call = self.mw.set_value_okay
         else:
             call = self.mw.set_value_action
-                
-        call('Wert: ' + str(count) + ', gedrückt: ' + pre + ' | >5: ' + pos + ' | <5: ' + neg) 
+
+        call('Wert: ' + str(count) + ', gedrückt: ' + pre + ' | >5: ' + pos + ' | <5: ' + neg)

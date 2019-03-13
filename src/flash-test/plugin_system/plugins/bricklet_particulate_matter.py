@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_particulate_matter import BrickletParticulateMatter
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -44,7 +44,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -54,10 +54,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletParticulateMatter.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletParticulateMatter.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.pm_concentration != None:
@@ -66,17 +66,17 @@ class Plugin(CoMCUBrickletBase):
         self.particulate_matter = BrickletParticulateMatter(device_information.uid, self.get_ipcon())
         if self.particulate_matter.get_bootloader_mode() != BrickletParticulateMatter.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.pm_concentration = CallbackEmulator(self.particulate_matter.get_pm_concentration,
                                                  self.cb_pm_concentration)
         self.pm_concentration.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_pm_concentration(self, pm):
         if (1 < pm.pm10 < 50) and (1 < pm.pm25 < 50) and (1 < pm.pm100 < 50):
             set_value = self.mw.set_value_okay
         else:
             set_value = self.mw.set_value_error
-            
+
         set_value('PM (10, 25, 100): {0}, {1}, {2}'.format(*pm))

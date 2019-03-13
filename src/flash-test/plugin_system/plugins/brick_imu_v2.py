@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.brick_imu_v2 import BrickIMUV2
 from ..brick_base import BrickBase, get_brick_firmware_filename
@@ -30,7 +30,7 @@ class Plugin(BrickBase):
     TODO_TEXT = u"""\
 1. Verbinde IMU Brick 2.0 mit PC per Mini-USB
 2. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
-3. Gehe zu 1 
+3. Gehe zu 1
 
 * Kalibrieren und testen findet im Brick Viewer statt
 """

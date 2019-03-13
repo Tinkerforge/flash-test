@@ -22,20 +22,16 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-import sip
-sip.setapi('QString', 2)
-sip.setapi('QVariant', 2)
-
 import sys
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from mainwindow import MainWindow
 
-class FlashTestApplication(QtGui.QApplication):
+class FlashTestApplication(QtWidgets.QApplication):
     def __init__(self, *args, **kwargs):
-        QtGui.QApplication.__init__(self, *args, **kwargs)
-        
+        QtWidgets.QApplication.__init__(self, *args, **kwargs)
+
 def main():
     argv = sys.argv
 

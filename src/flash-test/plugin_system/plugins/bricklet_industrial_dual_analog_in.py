@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_industrial_dual_analog_in import BrickletIndustrialDualAnalogIn
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -53,10 +53,10 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         self.mw.button_offset_idai.clicked.connect(self.offset_clicked)
         self.mw.button_gain_idai.clicked.connect(self.gain_clicked)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -75,10 +75,10 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialDualAnalogIn.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         if self.cbe_voltage0 != None:
             self.cbe_voltage0.set_period(0)
@@ -88,18 +88,18 @@ class Plugin(BrickletBase):
         l = self.mw.industrial_dual_analog_in_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
-                
+
         self.industrial_dual_analog_in = BrickletIndustrialDualAnalogIn(device_information.uid, self.get_ipcon())
         self.cbe_voltage0 = CallbackEmulator(lambda: self.industrial_dual_analog_in.get_voltage(0),
                                              lambda v: self.cb_voltage(0, v))
         self.cbe_voltage0.set_period(100)
-        
+
         self.cbe_voltage1 = CallbackEmulator(lambda: self.industrial_dual_analog_in.get_voltage(1),
                                              lambda v: self.cb_voltage(1, v))
         self.cbe_voltage1.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_voltage(self, channel, voltage):
         self.last_voltage[channel] = voltage/1000.0
         self.mw.set_value_normal('Spannung Kanal 0: ' + str(self.last_voltage[0]) + ' V, Kanal 1: ' + str(self.last_voltage[1]) + ' V')

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_industrial_counter import BrickletIndustrialCounter
 from ..tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
@@ -45,7 +45,7 @@ class Plugin(CoMCUBrickletBase):
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_value = None
-        
+
         self.relay = None
         self.relay_value = 0
         self.last_values = None
@@ -53,7 +53,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -63,10 +63,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletIndustrialCounter.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletIndustrialCounter.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
 
@@ -86,7 +86,7 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_value.set_period(250)
 
         self.show_device_information(device_information)
-            
+
     def cb_value(self, signal_data):
         values = signal_data.value
 
@@ -119,9 +119,9 @@ class Plugin(CoMCUBrickletBase):
                 show.append('\u2611')
             else:
                 show.append(1 if values[i] else 0)
-        
+
         set_value = self.mw.set_value_action
         if show[0] == '\u2611' and show[1] == '\u2611' and show[2] == '\u2611' and show[3] == '\u2611':
             set_value =  self.mw.set_value_okay
-        
+
         set_value("Werte: {0} {1} {2} {3} (0 = Masse, 1 = 24V, \u2611 = OK)".format(show[0], show[1], show[2], show[3]))

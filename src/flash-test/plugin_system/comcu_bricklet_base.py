@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import  QtGui
+from PyQt5 import QtWidgets
 
 from plugin_system.plugin_base import PluginBase, base58encode
 from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
@@ -54,7 +54,7 @@ def get_bricklet_firmware_filename(name):
 class CoMCUBrickletBase(PluginBase):
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
-        
+
         self.comcu_uid_to_flash = None
 
     def start(self, device_information):
@@ -79,13 +79,13 @@ class CoMCUBrickletBase(PluginBase):
 
         if clear_value:
             self.mw.set_value_normal('-')
-            
+
     def new_enum(self, device_information):
         self.comcu_uid_to_flash = device_information.uid
 
     def is_comcu(self):
         return True
-            
+
     def flash_bricklet(self, plugin_filename):
         self.comcu_uid_to_flash = None
         bootloader_success = self.write_bootloader_to_bricklet(plugin_filename)
@@ -93,15 +93,15 @@ class CoMCUBrickletBase(PluginBase):
 
         if bootloader_success and firmware_success:
             pass
-            
+
     def write_firmware_and_uid_to_bricklet(self, plugin_filename):
         start = time.time()
         while self.comcu_uid_to_flash == None:
             if time.time() - start > 3:
                 self.mw.set_flash_status_error('Timeout beim Firmware schreiben')
                 return False
-            QtGui.QApplication.processEvents()
-            
+            QtWidgets.QApplication.processEvents()
+
         try:
             self.mw.set_flash_status_action('Starting bootloader mode')
 
@@ -181,9 +181,9 @@ class CoMCUBrickletBase(PluginBase):
                     self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + str(num_packets-1))
                     device.set_write_firmware_pointer(start)
                     device.write_firmware(plugin[start:end])
-    
+
                 self.mw.set_flash_status_action('Wechsle vom Bootloader-Modus in den Firmware-Modus')
-    
+
                 mode_ret = device.set_bootloader_mode(device.BOOTLOADER_MODE_FIRMWARE)
                 if mode_ret != 0 and mode_ret != 2: # 0 = ok, 2 = no change
                     error_str = ''
@@ -197,17 +197,17 @@ class CoMCUBrickletBase(PluginBase):
                         error_str = 'CRC Mismatch (Error 5)'
                     else: # unkown error case
                         error_str = 'Error ' + str(mode_ret)
-                    
+
                     # In case of CRC Mismatch we try a second time
                     if mode_ret == 5:
                         continue
-                        
+
                     self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
                     return False
-                
+
                 # Everything OK, we dont have to try a second time
                 break
-                
+
             counter = 0
             while True:
                 try:
@@ -225,14 +225,14 @@ class CoMCUBrickletBase(PluginBase):
                 counter += 1
 
             self.mw.set_flash_status_okay('Firmware geschrieben und gestartet')
-            
+
             try:
                 uid = int(self.get_new_uid())
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
                 return False
-            
+
             try:
                 device.write_uid(uid)
                 if not 'bricklet_isolator_firmware' in plugin_filename:
@@ -246,18 +246,18 @@ class CoMCUBrickletBase(PluginBase):
                 return False
 
             self.mw.set_uid_status_okay('Neue UID "' + base58encode(uid) + '" gesetzt')
-            
+
             self.comcu_uid_to_flash = None
-            
+
             BrickMasterFlashAdapterXMC(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
 
             self.mw.increase_flashed_count()
             return True
-            
+
         except:
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
             return False
-            
+
     def write_bootloader_to_bricklet(self, plugin_filename):
         uid_master = self.mw.device_manager.flash_adapter_xmc_uid
         if uid_master == None:
@@ -272,7 +272,7 @@ class CoMCUBrickletBase(PluginBase):
 
         self.mw.set_flash_status_action("Schreibe Bootstrapper und -loader")
         i = 2
-        
+
         use_half_duplex = 0
         if plugin_filename.endswith('industrial-encoder-bricklet-firmware.zbin'):
             use_half_duplex = 1
@@ -284,7 +284,7 @@ class CoMCUBrickletBase(PluginBase):
             ipcon.disconnect()
             return False
 
-            
+
         errors = set()
         time.sleep(0.2)
         i = 10
@@ -317,7 +317,7 @@ class CoMCUBrickletBase(PluginBase):
         iqr.set_value(MASK_POWER)
         master.reset()
         ipcon.disconnect()
-        
+
         return ret
 
     def write_new_uid_to_bricklet(self):
@@ -327,5 +327,5 @@ class CoMCUBrickletBase(PluginBase):
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
             return False
-        
+
         return True

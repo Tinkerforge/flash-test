@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_rgb_led_button import BrickletRGBLEDButton
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -33,7 +33,7 @@ class Plugin(CoMCUBrickletBase):
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Knopf drücken uns loslassen
-5. Überprüfe: 
+5. Überprüfe:
      * Wert wechselt von "Losgelassen" auf "Gedrückt" auf "Losgelassen" und wird grün
      * Farbe der LED wechselt zwischen rot, grün, blau, weiß, aus
 6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
@@ -43,7 +43,7 @@ class Plugin(CoMCUBrickletBase):
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_button_state = None
-        self.state_seen = True 
+        self.state_seen = True
         self.state_seen_counter = 0
         self.color = 0
 
@@ -65,7 +65,7 @@ class Plugin(CoMCUBrickletBase):
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        
+
         self.mw.set_value_normal('Warte auf Knopfdrück')
         self.state_seen_counter = 0
 
@@ -75,9 +75,9 @@ class Plugin(CoMCUBrickletBase):
         self.button = BrickletRGBLEDButton(device_information.uid, self.get_ipcon())
         if self.button.get_bootloader_mode() != BrickletRGBLEDButton.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_button_state = CallbackEmulator(self.button.get_button_state,
-                                                 self.cb_button_state, 
+                                                 self.cb_button_state,
                                                  ignore_last_data=True)
         self.cbe_button_state.set_period(50)
 
@@ -91,7 +91,7 @@ class Plugin(CoMCUBrickletBase):
         set_value = self.mw.set_value_normal
         if self.state_seen_counter > 1:
             set_value = self.mw.set_value_okay
-            
+
         if button_state:
             set_value('Losgelassen')
         else:

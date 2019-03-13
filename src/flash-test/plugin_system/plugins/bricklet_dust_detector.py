@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_dust_detector import BrickletDustDetector
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -45,7 +45,7 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -55,10 +55,10 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletDustDetector.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletDustDetector.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         if self.cbe_dust_density != None:
             self.cbe_dust_density.set_period(0)
@@ -69,6 +69,6 @@ class Plugin(BrickletBase):
         self.cbe_dust_density.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_dust_density(self, dust_density):
         self.mw.set_value_normal('Staubdichte: ' + str(dust_density) + ' µg/m³')

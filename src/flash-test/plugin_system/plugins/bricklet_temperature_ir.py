@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_temperature_ir import BrickletTemperatureIR
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -43,7 +43,7 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -53,10 +53,10 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletTemperatureIR.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletTemperatureIR.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         if self.cbe_temperature != None:
             self.cbe_temperature.set_period(0)
@@ -67,7 +67,7 @@ class Plugin(BrickletBase):
         self.cbe_temperature.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_temperature(self, object_temperature):
         ambient_temperature =  self.temp_ir.get_ambient_temperature()
         self.mw.set_value_normal('Objekt: ' + str(object_temperature//10) + ' °C, Umgebung: ' + str(ambient_temperature//10) + ' °C')

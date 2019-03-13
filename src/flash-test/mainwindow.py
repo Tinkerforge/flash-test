@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore, QtWidgets
 
 from ui_mainwindow import Ui_MainWindow
 from device_manager import DeviceManager
@@ -36,18 +36,18 @@ import ssl
 class PluginNotImplemented(PluginBase):
     pass
 
-class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     qtcb_foot_pedal = QtCore.pyqtSignal(int, int)
 
     def __init__(self, parent=None):
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
 
         try:
             file_directory = os.path.dirname(os.path.realpath(__file__))
             with open(os.path.join(file_directory, '..', '..', 'staging_password.txt'), 'rb') as f:
                 staging_password = f.read().decode('utf-8').split('\n')[0].strip()
         except:
-            QtGui.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
+            QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
             sys.exit(0)
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
@@ -109,7 +109,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.button_restart_test.clicked.connect(self.restart_test_clicked)
         self.button_continue.clicked.connect(self.continue_clicked)
 
-        self.flash_shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_0), self, self.flash_clicked)
+        self.flash_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_0), self, self.flash_clicked)
         self.flash_shortcut.setAutoRepeat(False)
 
         self.button_continue.hide()
@@ -196,7 +196,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         else:
             label.setStyleSheet('')
 
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
     def set_tool_status_normal(self, text):
         self.set_label_text(self.label_tool_status, text, None)

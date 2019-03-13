@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_analog_in_v3 import BrickletAnalogInV3
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -46,7 +46,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -56,26 +56,26 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletAnalogInV3.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletAnalogInV3.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
-        
+
         if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
 
         self.ai = BrickletAnalogInV3(device_information.uid, self.get_ipcon())
         if self.ai.get_bootloader_mode() != BrickletAnalogInV3.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_voltage = CallbackEmulator(self.ai.get_voltage,
                                             self.cb_voltage)
         self.cbe_voltage.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_voltage(self, voltage):
         if (23760 < voltage < 24240):
             set_value = self.mw.set_value_okay

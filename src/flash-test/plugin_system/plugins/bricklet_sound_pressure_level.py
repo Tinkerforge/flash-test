@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_sound_pressure_level import BrickletSoundPressureLevel
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -46,7 +46,7 @@ class Plugin(CoMCUBrickletBase):
 
     def start(self, device_information):
         CoMCUBrickletBase.start(self, device_information)
-        
+
         if device_information:
             self.new_enum(device_information)
 
@@ -56,10 +56,10 @@ class Plugin(CoMCUBrickletBase):
 
     def get_device_identifier(self):
         return BrickletSoundPressureLevel.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletSoundPressureLevel.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_decibel != None:
@@ -68,7 +68,7 @@ class Plugin(CoMCUBrickletBase):
         self.sound_pressure_level = BrickletSoundPressureLevel(device_information.uid, self.get_ipcon())
         if self.sound_pressure_level.get_bootloader_mode() != BrickletSoundPressureLevel.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_decibel_below_60 = False
         self.cbe_decibel_above_60 = False
 
@@ -77,16 +77,16 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_decibel.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_decibel(self, decibel):
         if (100 < decibel < 600):
             self.cbe_decibel_below_60 = True
         if (600 < decibel < 1000):
             self.cbe_decibel_above_60 = True
-        
+
         if self.cbe_decibel_below_60 and self.cbe_decibel_above_60:
             set_value = self.mw.set_value_okay
         else:
             set_value = self.mw.set_value_action
-            
+
         set_value('Decibel: {0}dB(A)'.format(decibel/10.0))

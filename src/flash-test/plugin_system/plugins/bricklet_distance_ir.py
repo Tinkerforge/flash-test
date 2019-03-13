@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.bricklet_distance_ir import BrickletDistanceIR
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -131,7 +131,7 @@ class NaturalSpline(object):
 class Plugin(BrickletBase):
     NUM_VALUES = 128
     DIVIDER = 2**12//NUM_VALUES
-    
+
     TODO_TEXT = u"""\
 0. Wähle korrekten Sensor aus
 1. Verbinde Distance IR Bricklet (inklusive Sensor) mit Port C
@@ -168,20 +168,20 @@ class Plugin(BrickletBase):
 
     def get_device_identifier(self):
         return BrickletDistanceIR.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceIR.DEVICE_URL_PART))
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
-        
+
     def new_enum(self, device_information):
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 
         self.show_device_information(device_information)
-        
+
         self.distance_ir = BrickletDistanceIR(device_information.uid, self.get_ipcon())
-        if not self.calibrated: 
+        if not self.calibrated:
             self.calibrated = True
             self.write_calibration()
             self.master_reset()
@@ -189,7 +189,7 @@ class Plugin(BrickletBase):
             self.calibrated = False
             self.cbe_distance = CallbackEmulator(self.distance_ir.get_distance, self.cb_distance)
             self.cbe_distance.set_period(100)
-            
+
     def cb_distance(self, distance):
         self.mw.set_value_normal('Entfernung: ' + str(distance/10) +  'cm')
 
@@ -230,7 +230,7 @@ class Plugin(BrickletBase):
             import traceback
             traceback.print_exc()
             return
-        
+
     def write_calibration(self):
         x = []
         y = []
@@ -243,7 +243,7 @@ class Plugin(BrickletBase):
             filename = '2Y0A21.txt'
         elif index == 3:
             filename = 'A41SK.txt'
-            
+
         file_directory = os.path.dirname(os.path.realpath(__file__))
         file = os.path.join(file_directory, '..', '..', '..', '..', 'calibrations', filename)
 
@@ -262,26 +262,26 @@ class Plugin(BrickletBase):
                     continue
 
                 if ':' not in line:
-                    QtGui.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
                                                "Sample points file is malformed (error code 1)",
-                                               QtGui.QMessageBox.Ok)
+                                               QtWidgets.QMessageBox.Ok)
                     return
 
                 s = line.split(':')
 
                 if len(s) != 2:
-                    QtGui.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
                                                "Sample points file is malformed (error code 2)",
-                                               QtGui.QMessageBox.Ok)
+                                               QtWidgets.QMessageBox.Ok)
                     return
 
                 try:
                     x.append(int(s[1]))
                     y.append(int(s[0]))
                 except:
-                    QtGui.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
                                                "Sample points file is malformed (error code 3)",
-                                               QtGui.QMessageBox.Ok)
+                                               QtWidgets.QMessageBox.Ok)
                     return
 
         self.sample_interpolate(x, y)

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_segment_display_4x7 import BrickletSegmentDisplay4x7
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -60,4 +60,4 @@ class Plugin(BrickletBase):
 
         self.show_device_information(device_information)
 
-        
+

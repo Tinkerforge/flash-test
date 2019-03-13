@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.bricklet_rs232_v2 import BrickletRS232V2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -61,7 +61,7 @@ class Plugin(CoMCUBrickletBase):
 
     def flash_clicked(self):
         self.mw.set_value_action("Warte auf Reset")
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletRS232V2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.bricklet_voltage_current import BrickletVoltageCurrent
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -51,30 +51,30 @@ class Plugin(BrickletBase):
 
     def start(self, device_information):
         BrickletBase.start(self, device_information)
-        
+
         self.mw.button_save_vc.clicked.connect(self.save_clicked)
-        
+
         if device_information:
             self.new_enum(device_information)
 
     def stop(self):
         self.mw.button_save_vc.clicked.disconnect(self.save_clicked)
-        
+
         if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
         if self.cbe_current != None:
             self.cbe_current.set_period(0)
-            
+
         l = self.mw.voltage_current_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(False)
 
     def get_device_identifier(self):
         return BrickletVoltageCurrent.DEVICE_IDENTIFIER
-    
+
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletVoltageCurrent.DEVICE_URL_PART))
-        
+
     def new_enum(self, device_information):
         if self.cbe_voltage != None:
             self.cbe_voltage.set_period(0)
@@ -84,27 +84,27 @@ class Plugin(BrickletBase):
         l = self.mw.voltage_current_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
-                
+
         self.voltage_current = BrickletVoltageCurrent(device_information.uid, self.get_ipcon())
         self.cbe_voltage = CallbackEmulator(lambda: self.voltage_current.get_voltage(), self.cb_voltage)
         self.cbe_voltage.set_period(100)
-        
+
         self.cbe_current = CallbackEmulator(lambda: self.voltage_current.get_current(), self.cb_current)
         self.cbe_current.set_period(100)
 
         self.show_device_information(device_information)
-            
+
     def cb_voltage(self, voltage):
         self.last_values[0] = voltage/1000.0
         self.mw.set_value_normal('Spannung: ' + str(self.last_values[0]) +  ' V, Strom: ' + str(self.last_values[1]) + ' A')
-            
+
     def cb_current(self, current):
         self.last_values[1] = current/1000.0
         self.mw.set_value_normal('Spannung: ' + str(self.last_values[0]) +  ' V, Strom: ' + str(self.last_values[1]) + ' A')
 
     def save_clicked(self):
         self.mw.set_tool_status_action('Kalibriere... ')
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
         self.voltage_current.set_calibration(1, 1)
 

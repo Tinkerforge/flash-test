@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 from plugin_system.plugin_base import PluginBase
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 import os
 import time

@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtWidgets, QtCore
 
 from ..tinkerforge.brick_stepper import BrickStepper
 from ..brick_base import BrickBase, get_brick_firmware_filename
@@ -70,7 +70,7 @@ class Plugin(BrickBase):
                                             self.cb_voltage)
         self.cbe_voltage.set_period(100)
         self.cb_voltage(stepper.get_external_input_voltage())
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
         stepper.set_motor_current(1200)
         stepper.set_step_mode(8)
@@ -79,16 +79,16 @@ class Plugin(BrickBase):
         stepper.enable()
         stepper.drive_forward()
         time.sleep(0.75)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         stepper.stop()
         time.sleep(0.25)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         stepper.drive_backward()
         time.sleep(0.75)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         stepper.stop()
         time.sleep(0.25)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         stepper.disable()
 
     def cb_voltage(self, voltage):

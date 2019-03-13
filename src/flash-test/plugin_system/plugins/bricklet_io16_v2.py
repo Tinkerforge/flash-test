@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
-from PyQt4 import Qt, QtGui, QtCore
+from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_io16_v2 import BrickletIO16V2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -73,7 +73,7 @@ class Plugin(CoMCUBrickletBase):
         self.io16 = BrickletIO16V2(device_information.uid, self.get_ipcon())
         if self.io16.get_bootloader_mode() != BrickletIO16V2.BOOTLOADER_MODE_FIRMWARE:
             return
-        
+
         self.cbe_state = CallbackEmulator(self.io16.get_value, self.cb_state, ignore_last_data=True)
         self.cbe_state.set_period(1000)
 
