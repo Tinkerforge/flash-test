@@ -78,6 +78,7 @@ from .plugins.bricklet_one_wire import Plugin as bricklet_one_wire_class
 from .plugins.bricklet_outdoor_weather import Plugin as bricklet_outdoor_weather_class
 from .plugins.bricklet_particulate_matter import Plugin as bricklet_particulate_matter_class
 from .plugins.bricklet_piezo_speaker import Plugin as bricklet_piezo_speaker_class
+from .plugins.bricklet_piezo_speaker_v2 import Plugin as bricklet_piezo_speaker_v2_class
 from .plugins.bricklet_ptc import Plugin as bricklet_ptc_class
 from .plugins.bricklet_ptc_v2 import Plugin as bricklet_ptc_v2_class
 from .plugins.bricklet_real_time_clock import Plugin as bricklet_real_time_clock_class
@@ -197,6 +198,7 @@ device_classes = [
     bricklet_outdoor_weather_class,
     bricklet_particulate_matter_class,
     bricklet_piezo_speaker_class,
+    bricklet_piezo_speaker_v2_class,
     bricklet_ptc_class,
     bricklet_ptc_v2_class,
     bricklet_real_time_clock_class,
