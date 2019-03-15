@@ -27,6 +27,7 @@ from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
 from .plugins.bricklet_dual_button_v2 import Plugin as bricklet_dual_button_v2_class
 from .plugins.bricklet_dual_relay import Plugin as bricklet_dual_relay_class
 from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_class
+from .plugins.bricklet_e_paper_296x128 import Plugin as bricklet_e_paper_296x128_class
 from .plugins.bricklet_gps_v2 import Plugin as bricklet_gps_v2_class
 from .plugins.bricklet_hall_effect import Plugin as bricklet_hall_effect_class
 from .plugins.bricklet_hall_effect_v2 import Plugin as bricklet_hall_effect_v2_class
@@ -140,6 +141,7 @@ device_classes = [
     bricklet_dual_button_v2_class,
     bricklet_dual_relay_class,
     bricklet_dust_detector_class,
+    bricklet_e_paper_296x128_class,
     bricklet_gps_v2_class,
     bricklet_hall_effect_class,
     bricklet_hall_effect_v2_class,
