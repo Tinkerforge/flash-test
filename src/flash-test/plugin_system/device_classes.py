@@ -56,6 +56,7 @@ from .plugins.bricklet_isolator import Plugin as bricklet_isolator_class
 from .plugins.bricklet_joystick import Plugin as bricklet_joystick_class
 from .plugins.bricklet_joystick_v2 import Plugin as bricklet_joystick_v2_class
 from .plugins.bricklet_laser_range_finder import Plugin as bricklet_laser_range_finder_class
+from .plugins.bricklet_laser_range_finder_v2 import Plugin as bricklet_laser_range_finder_v2_class
 from .plugins.bricklet_lcd_128x64 import Plugin as bricklet_lcd_128x64_class
 from .plugins.bricklet_lcd_20x4 import Plugin as bricklet_lcd_20x4_class
 from .plugins.bricklet_led_strip import Plugin as bricklet_led_strip_class
@@ -174,6 +175,7 @@ device_classes = [
     bricklet_joystick_class,
     bricklet_joystick_v2_class,
     bricklet_laser_range_finder_class,
+    bricklet_laser_range_finder_v2_class,
     bricklet_lcd_128x64_class,
     bricklet_lcd_20x4_class,
     bricklet_led_strip_class,
