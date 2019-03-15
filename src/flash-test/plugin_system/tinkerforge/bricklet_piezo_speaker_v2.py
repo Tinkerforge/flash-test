@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-11-27.      #
+# This file was automatically generated on 2019-03-15.      #
 #                                                           #
-# Python Bindings Version 2.1.20                            #
+# Python Bindings Version 2.1.21                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -18,6 +18,8 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
+GetBeep = namedtuple('Beep', ['frequency', 'volume', 'duration', 'duration_remaining'])
+GetAlarm = namedtuple('Alarm', ['start_frequency', 'end_frequency', 'step_size', 'step_delay', 'volume', 'duration', 'duration_remaining', 'current_frequency'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
@@ -30,12 +32,16 @@ class BrickletPiezoSpeakerV2(Device):
     DEVICE_DISPLAY_NAME = 'Piezo Speaker Bricklet 2.0'
     DEVICE_URL_PART = 'piezo_speaker_v2' # internal
 
-    CALLBACK_BEEP_FINISHED = 3
-    CALLBACK_MORSE_CODE_FINISHED = 4
+    CALLBACK_BEEP_FINISHED = 7
+    CALLBACK_ALARM_FINISHED = 8
 
 
-    FUNCTION_BEEP = 1
-    FUNCTION_MORSE_CODE = 2
+    FUNCTION_SET_BEEP = 1
+    FUNCTION_GET_BEEP = 2
+    FUNCTION_SET_ALARM = 3
+    FUNCTION_GET_ALARM = 4
+    FUNCTION_UPDATE_VOLUME = 5
+    FUNCTION_UPDATE_FREQUENCY = 6
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -51,6 +57,8 @@ class BrickletPiezoSpeakerV2(Device):
 
     BEEP_DURATION_OFF = 0
     BEEP_DURATION_INFINITE = 4294967295
+    ALARM_DURATION_OFF = 0
+    ALARM_DURATION_INFINITE = 4294967295
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -76,8 +84,12 @@ class BrickletPiezoSpeakerV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_BEEP] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_MORSE_CODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_BEEP] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_BEEP] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_ALARM] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_ALARM] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_UPDATE_VOLUME] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_UPDATE_FREQUENCY] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -92,45 +104,122 @@ class BrickletPiezoSpeakerV2(Device):
         self.response_expected[BrickletPiezoSpeakerV2.FUNCTION_GET_IDENTITY] = BrickletPiezoSpeakerV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickletPiezoSpeakerV2.CALLBACK_BEEP_FINISHED] = ''
-        self.callback_formats[BrickletPiezoSpeakerV2.CALLBACK_MORSE_CODE_FINISHED] = ''
+        self.callback_formats[BrickletPiezoSpeakerV2.CALLBACK_ALARM_FINISHED] = ''
 
 
-    def beep(self, duration, frequency, volume):
+    def set_beep(self, frequency, volume, duration):
         """
-        Beeps with the given frequency for the duration in ms. For example:
-        If you set a duration of 1000, with a frequency value of 2000
-        the piezo buzzer will beep for one second with a frequency of
-        approximately 2 kHz.
+        Beeps with the given frequency and volume for the duration in ms with.
 
-        A duration of 0 stops the current beep if any, the frequency parameter is
-        ignored. A duration of 4294967295 results in an infinite beep.
+        For example: If you set a duration of 1000, with a volume of 10 and a frequency
+        value of 2000 the piezo buzzer will beep with maximum loudness for one
+        second with a frequency of 2 kHz.
 
-        The *frequency* parameter can be set between 585 and 7100.
+        A duration of 0 stops the current beep if any is ongoing.
+        A duration of 4294967295 results in an infinite beep.
+
+        The ranges are:
+
+        * Frequency: 50Hz - 15000Hz
+        * Volume: 0 - 10
+        * Duration: 0ms - 4294967295ms
         """
+        frequency = int(frequency)
+        volume = int(volume)
         duration = int(duration)
-        frequency = int(frequency)
+
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_SET_BEEP, (frequency, volume, duration), 'H B I', '')
+
+    def get_beep(self):
+        """
+        Returns the last beep settings as set by :func:`Set Beep`. If a beep is currently
+        running it also returns the remaining duration of the beep in ms.
+
+        If the frequency or volume is updated during a beep (with :func:`Update Frequency`
+        or :func:`Update Volume`) this function returns the updated value.
+        """
+        return GetBeep(*self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_BEEP, (), '', 'H B I I'))
+
+    def set_alarm(self, start_frequency, end_frequency, step_size, step_delay, volume, duration):
+        """
+        Creates an alarm (a tone that goes back and force between two specified frequencies).
+
+        The following parameters can be set:
+
+        * Start Frequency: Start frequency of the alarm in Hz.
+        * End Frequency: End frequency of the alarm in Hz.
+        * Step Size: Size of one step of the sweep between the start/end frequencies in Hz.
+        * Step Delay: Delay between two steps (duration of time that one tone is used in a sweep) in ms.
+        * Duration: Duration of the alarm in ms.
+
+        A duration of 0 stops the current alarm if any is ongoing.
+        A duration of 4294967295 results in an infinite alarm.
+
+        Below you can find two sets of example settings that you can try out. You can use
+        these as a starting point to find an alarm signal that suits your application.
+
+        *Example 1: 10 seconds of loud annoying fast alarm*
+
+        * Start Frequency = 800
+        * End Frequency = 2000
+        * Step Size = 10
+        * Step Delay = 1
+        * Volume = 10
+        * Duration = 10000
+
+        *Example 2: 10 seconds of soft siren sound with slow build-up*
+
+        * Start Frequency = 250
+        * End Frequency = 750
+        * Step Size = 1
+        * Step Delay = 5
+        * Volume = 0
+        * Duration = 10000
+
+        The ranges are:
+
+        * Start Frequency: 50Hz - 14999Hz (has to be smaller than end frequency)
+        * End Frequency: 51Hz - 15000Hz (has to be bigger than start frequency)
+        * Step Size: 1Hz - 65535Hz (has to be small enough to fit into the frequency range)
+        * Step Delay: 1ms - 65535ms (has to be small enough to fit into the duration)
+        * Volume: 0-10
+        * Duration: 0ms - 4294967295ms
+        """
+        start_frequency = int(start_frequency)
+        end_frequency = int(end_frequency)
+        step_size = int(step_size)
+        step_delay = int(step_delay)
+        volume = int(volume)
+        duration = int(duration)
+
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_SET_ALARM, (start_frequency, end_frequency, step_size, step_delay, volume, duration), 'H H H H B I', '')
+
+    def get_alarm(self):
+        """
+        Returns the last alarm settings as set by :func:`Set Alarm`. If an alarm is currently
+        running it also returns the remaining duration of the alarm in ms as well as the
+        current frequency of the alarm in Hz.
+
+        If the volume is updated during a beep (with :func:`Update Volume`)
+        this function returns the updated value.
+        """
+        return GetAlarm(*self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_GET_ALARM, (), '', 'H H H H B I I H'))
+
+    def update_volume(self, volume):
+        """
+        Updates the volume of an ongoing beep or alarm.
+        """
         volume = int(volume)
 
-        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_BEEP, (duration, frequency, volume), 'I H B', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_UPDATE_VOLUME, (volume,), 'B', '')
 
-    def morse_code(self, morse, frequency, volume):
+    def update_frequency(self, frequency):
         """
-        Sets morse code that will be played by the piezo buzzer. The morse code
-        is given as a string consisting of "." (dot), "-" (minus) and " " (space)
-        for *dits*, *dahs* and *pauses*. Every other character is ignored.
-        The second parameter is the frequency (see :func:`Beep`).
-
-        For example: If you set the string "...---...", the piezo buzzer will beep
-        nine times with the durations "short short short long long long short
-        short short".
-
-        The maximum string size is 60.
+        Updates the frequency of an ongoing beep.
         """
-        morse = create_string(morse)
         frequency = int(frequency)
-        volume = int(volume)
 
-        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_MORSE_CODE, (morse, frequency, volume), '60s H B', '')
+        self.ipcon.send_request(self, BrickletPiezoSpeakerV2.FUNCTION_UPDATE_FREQUENCY, (frequency,), 'H', '')
 
     def get_spitfp_error_count(self):
         """
