@@ -18,6 +18,7 @@ from .plugins.bricklet_barometer_v2 import Plugin as bricklet_barometer_v2_class
 from .plugins.bricklet_can import Plugin as bricklet_can_class
 from .plugins.bricklet_can_v2 import Plugin as bricklet_can_v2_class
 from .plugins.bricklet_co2 import Plugin as bricklet_co2_class
+from .plugins.bricklet_co2_v2 import Plugin as bricklet_co2_v2_class
 from .plugins.bricklet_color import Plugin as bricklet_color_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
 from .plugins.bricklet_distance_ir_v2 import Plugin as bricklet_distance_ir_v2_class
@@ -135,6 +136,7 @@ device_classes = [
     bricklet_can_class,
     bricklet_can_v2_class,
     bricklet_co2_class,
+    bricklet_co2_v2_class,
     bricklet_color_class,
     bricklet_distance_ir_class,
     bricklet_distance_ir_v2_class,
