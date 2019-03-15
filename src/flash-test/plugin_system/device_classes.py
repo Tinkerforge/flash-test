@@ -84,6 +84,7 @@ from .plugins.bricklet_remote_switch_v2 import Plugin as bricklet_remote_switch_
 from .plugins.bricklet_rgb_led import Plugin as bricklet_rgb_led_class
 from .plugins.bricklet_rgb_led_button import Plugin as bricklet_rgb_led_button_class
 from .plugins.bricklet_rgb_led_matrix import Plugin as bricklet_rgb_led_matrix_class
+from .plugins.bricklet_rgb_led_v2 import Plugin as bricklet_rgb_led_v2_class
 from .plugins.bricklet_rotary_encoder import Plugin as bricklet_rotary_encoder_class
 from .plugins.bricklet_rotary_encoder_v2 import Plugin as bricklet_rotary_encoder_v2_class
 from .plugins.bricklet_rotary_poti import Plugin as bricklet_rotary_poti_class
@@ -199,6 +200,7 @@ device_classes = [
     bricklet_rgb_led_class,
     bricklet_rgb_led_button_class,
     bricklet_rgb_led_matrix_class,
+    bricklet_rgb_led_v2_class,
     bricklet_rotary_encoder_class,
     bricklet_rotary_encoder_v2_class,
     bricklet_rotary_poti_class,
