@@ -13,7 +13,7 @@ git pull
 echo ""
 echo "Baue GUI und Plugin-Liste neu..."
 pushd src
-python build_ui.py
+python3 build_ui.py
 popd
 
 echo ""
