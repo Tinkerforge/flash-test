@@ -49,6 +49,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_station_identifiers != None:
             self.cbe_station_identifiers.set_period(0)
 

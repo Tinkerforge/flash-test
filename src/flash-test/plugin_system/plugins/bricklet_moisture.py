@@ -50,6 +50,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_moisture != None:
             self.cbe_moisture.set_period(0)
 

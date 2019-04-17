@@ -55,6 +55,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_uva != None:
             self.cbe_uva.set_period(0)
 

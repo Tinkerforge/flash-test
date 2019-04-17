@@ -54,6 +54,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_button_state != None:
             self.cbe_button_state.set_period(0)
 

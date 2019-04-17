@@ -45,9 +45,6 @@ class Plugin(BrickletBase):
         if device_information:
             self.new_enum(device_information)
 
-    def stop(self):
-        pass
-
     def get_device_identifier(self):
         return BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER
 

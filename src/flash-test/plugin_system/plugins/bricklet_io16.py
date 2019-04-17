@@ -60,6 +60,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         self.running = False
 
     def get_device_identifier(self):

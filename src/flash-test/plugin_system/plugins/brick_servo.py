@@ -44,9 +44,6 @@ class Plugin(BrickBase):
     def start(self, device_information):
         BrickBase.start(self, device_information)
 
-    def stop(self):
-        pass
-
     def get_device_identifier(self):
         return BrickServo.DEVICE_IDENTIFIER
 

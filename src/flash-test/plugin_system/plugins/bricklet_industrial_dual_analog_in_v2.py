@@ -62,6 +62,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         self.mw.button_offset_idai.clicked.disconnect(self.offset_clicked)
         self.mw.button_gain_idai.clicked.disconnect(self.gain_clicked)
 

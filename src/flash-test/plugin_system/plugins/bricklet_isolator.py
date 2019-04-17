@@ -51,6 +51,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_statistics:
             self.cbe_statistics.set_period(0)
 

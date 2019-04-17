@@ -53,6 +53,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_acceleration != None:
             self.cbe_acceleration.set_period(0)
 

@@ -53,6 +53,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_weight != None:
             self.cbe_weight.set_period(0)
 

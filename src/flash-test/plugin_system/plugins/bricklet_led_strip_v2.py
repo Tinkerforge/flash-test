@@ -49,6 +49,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_led_values != None:
             self.cbe_led_values.set_period(0)
 

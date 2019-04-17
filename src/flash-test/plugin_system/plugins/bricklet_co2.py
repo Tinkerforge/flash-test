@@ -49,6 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_co2 != None:
             self.cbe_co2.set_period(0)
 

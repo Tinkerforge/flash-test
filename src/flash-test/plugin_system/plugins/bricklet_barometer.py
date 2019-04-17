@@ -49,6 +49,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_air_pressure != None:
             self.cbe_air_pressure.set_period(0)
 

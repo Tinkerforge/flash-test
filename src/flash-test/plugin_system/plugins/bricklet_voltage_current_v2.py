@@ -58,6 +58,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         self.mw.button_save_vc.clicked.disconnect(self.save_clicked)
 
         if self.cbe_voltage != None:

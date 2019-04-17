@@ -50,6 +50,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_temperature != None:
             self.cbe_temperature.set_period(0)
 

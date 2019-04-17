@@ -159,6 +159,7 @@ class Plugin(BrickletBase):
             l.itemAt(i).widget().setVisible(True)
 
     def stop(self):
+        super().stop()
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 

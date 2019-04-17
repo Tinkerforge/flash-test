@@ -52,6 +52,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_distance_value != None:
             self.cbe_distance_value.set_period(0)
 

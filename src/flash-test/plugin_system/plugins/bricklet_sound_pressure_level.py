@@ -51,6 +51,7 @@ class Plugin(CoMCUBrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         if self.cbe_decibel != None:
             self.cbe_decibel.set_period(0)
 

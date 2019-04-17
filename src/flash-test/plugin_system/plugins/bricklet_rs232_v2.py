@@ -53,9 +53,6 @@ class Plugin(CoMCUBrickletBase):
         if device_information:
             self.new_enum(device_information)
 
-    def stop(self):
-        pass
-
     def get_device_identifier(self):
         return BrickletRS232V2.DEVICE_IDENTIFIER
 

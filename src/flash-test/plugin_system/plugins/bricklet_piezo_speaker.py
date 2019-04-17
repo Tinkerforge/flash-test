@@ -54,6 +54,7 @@ class Plugin(BrickletBase):
             self.new_enum(device_information)
 
     def stop(self):
+        super().stop()
         self.mw.button_calibrate_ps.clicked.disconnect(self.calibrate_clicked)
 
         l = self.mw.piezo_speaker_layout
