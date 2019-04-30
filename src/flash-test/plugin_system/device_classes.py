@@ -1,4 +1,6 @@
 from .plugins.brick_dc import Plugin as brick_dc_class
+from .plugins.brick_hat import Plugin as brick_hat_class
+from .plugins.brick_hat_zero import Plugin as brick_hat_zero_class
 from .plugins.brick_imu_v2 import Plugin as brick_imu_v2_class
 from .plugins.brick_master import Plugin as brick_master_class
 from .plugins.brick_servo import Plugin as brick_servo_class
@@ -119,6 +121,8 @@ from .plugins.extension_wifi_v2 import Plugin as extension_wifi_v2_class
 
 device_classes = [
     brick_dc_class,
+    brick_hat_class,
+    brick_hat_zero_class,
     brick_imu_v2_class,
     brick_master_class,
     brick_servo_class,

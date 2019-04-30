@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-03-15.      #
+# This file was automatically generated on 2019-04-30.      #
 #                                                           #
 # Python Bindings Version 2.1.21                            #
 #                                                           #
@@ -26,7 +26,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletHallEffectV2(Device):
     """
-    Measures magnetic flux density between -7mT and 7mT
+    Measures magnetic flux density between -7mT and +7mT
     """
 
     DEVICE_IDENTIFIER = 2132
@@ -116,7 +116,7 @@ class BrickletHallEffectV2(Device):
     def get_magnetic_flux_density(self):
         """
         Returns the `magnetic flux density (magnetic induction) <https://en.wikipedia.org/wiki/Magnetic_flux>`__
-        in `uT (micro Tesla) <https://en.wikipedia.org/wiki/Tesla_(unit)>`__.
+        in `µT (micro Tesla) <https://en.wikipedia.org/wiki/Tesla_(unit)>`__.
 
 
         If you want to get the value periodically, it is recommended to use the
@@ -175,7 +175,7 @@ class BrickletHallEffectV2(Device):
         """
         Returns the current value of the counter.
 
-        You can configure the low/high thresholds in uT and the debounce time
+        You can configure the low/high thresholds in µT and the debounce time
         in us with :func:`Set Counter Config`.
 
         If you set reset counter to *true*, the count is set back to 0
@@ -191,7 +191,7 @@ class BrickletHallEffectV2(Device):
 
     def set_counter_config(self, high_threshold, low_threshold, debounce):
         """
-        Sets a high and a low threshold in uT as well as a debounce time in us.
+        Sets a high and a low threshold in µT as well as a debounce time in µs.
 
         If the measured magnetic flux density goes above the high threshold or
         below the low threshold, the count of the counter is increased by 1.
@@ -200,9 +200,9 @@ class BrickletHallEffectV2(Device):
 
         The default values are
 
-        * High Threshold: 2000uT
-        * Low Threshold: -2000uT
-        * Debounce: 100000us (100ms)
+        * High Threshold: 2000µT
+        * Low Threshold: -2000µT
+        * Debounce: 100000µs (100ms)
         """
         high_threshold = int(high_threshold)
         low_threshold = int(low_threshold)

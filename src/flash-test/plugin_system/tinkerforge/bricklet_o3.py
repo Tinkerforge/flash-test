@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-04-30.      #
+# This file was automatically generated on 2019-04-03.      #
 #                                                           #
 # Python Bindings Version 2.1.21                            #
 #                                                           #
@@ -18,23 +18,25 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetRGBValue = namedtuple('RGBValue', ['r', 'g', 'b'])
+GetO3CallbackConfiguration = namedtuple('O3CallbackConfiguration', ['period', 'value_has_to_change', 'option', 'min', 'max'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletRGBLEDV2(Device):
+class BrickletO3(Device):
     """
 
     """
 
-    DEVICE_IDENTIFIER = 2127
-    DEVICE_DISPLAY_NAME = 'RGB LED Bricklet 2.0'
-    DEVICE_URL_PART = 'rgb_led_v2' # internal
+    DEVICE_IDENTIFIER = 2149
+    DEVICE_DISPLAY_NAME = 'O3 Bricklet'
+    DEVICE_URL_PART = 'o3' # internal
+
+    CALLBACK_O3 = 4
 
 
-
-    FUNCTION_SET_RGB_VALUE = 1
-    FUNCTION_GET_RGB_VALUE = 2
+    FUNCTION_GET_O3 = 1
+    FUNCTION_SET_O3_CALLBACK_CONFIGURATION = 2
+    FUNCTION_GET_O3_CALLBACK_CONFIGURATION = 3
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -48,6 +50,11 @@ class BrickletRGBLEDV2(Device):
     FUNCTION_READ_UID = 249
     FUNCTION_GET_IDENTITY = 255
 
+    THRESHOLD_OPTION_OFF = 'x'
+    THRESHOLD_OPTION_OUTSIDE = 'o'
+    THRESHOLD_OPTION_INSIDE = 'i'
+    THRESHOLD_OPTION_SMALLER = '<'
+    THRESHOLD_OPTION_GREATER = '>'
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -73,38 +80,78 @@ class BrickletRGBLEDV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_RGB_VALUE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_RGB_VALUE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_WRITE_FIRMWARE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_RESET] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_WRITE_UID] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_READ_UID] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_IDENTITY] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_O3] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_SET_O3_CALLBACK_CONFIGURATION] = BrickletO3.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_O3_CALLBACK_CONFIGURATION] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_SET_BOOTLOADER_MODE] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_BOOTLOADER_MODE] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletO3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletO3.FUNCTION_WRITE_FIRMWARE] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletO3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletO3.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_RESET] = BrickletO3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletO3.FUNCTION_WRITE_UID] = BrickletO3.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletO3.FUNCTION_READ_UID] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletO3.FUNCTION_GET_IDENTITY] = BrickletO3.RESPONSE_EXPECTED_ALWAYS_TRUE
+
+        self.callback_formats[BrickletO3.CALLBACK_O3] = 'H'
 
 
-
-    def set_rgb_value(self, r, g, b):
+    def get_o3(self):
         """
-        Sets the *r*, *g* and *b* values for the LED. Each value can be between 0 and 255.
+        If you want to get the value periodically, it is recommended to use the
+        :cb:`O3` callback. You can set the callback configuration
+        with :func:`Set O3 Callback Configuration`.
         """
-        r = int(r)
-        g = int(g)
-        b = int(b)
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_O3, (), '', 'H')
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_RGB_VALUE, (r, g, b), 'B B B', '')
+    def set_o3_callback_configuration(self, period, value_has_to_change, option, min, max):
+        """
+        The period in ms is the period with which the :cb:`O3` callback is triggered
+        periodically. A value of 0 turns the callback off.
 
-    def get_rgb_value(self):
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change
+        within the period, the callback is triggered immediately on change.
+
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
+
+        It is furthermore possible to constrain the callback with thresholds.
+
+        The `option`-parameter together with min/max sets a threshold for the :cb:`O3` callback.
+
+        The following options are possible:
+
+        .. csv-table::
+         :header: "Option", "Description"
+         :widths: 10, 100
+
+         "'x'",    "Threshold is turned off"
+         "'o'",    "Threshold is triggered when the value is *outside* the min and max values"
+         "'i'",    "Threshold is triggered when the value is *inside* or equal to the min and max values"
+         "'<'",    "Threshold is triggered when the value is smaller than the min value (max is ignored)"
+         "'>'",    "Threshold is triggered when the value is greater than the min value (max is ignored)"
+
+        If the option is set to 'x' (threshold turned off) the callback is triggered with the fixed period.
+
+        The default value is (0, false, 'x', 0, 0).
         """
-        Returns the *r*, *g* and *b* values of the LED as set by :func:`Set RGB Value`.
+        period = int(period)
+        value_has_to_change = bool(value_has_to_change)
+        option = create_char(option)
+        min = int(min)
+        max = int(max)
+
+        self.ipcon.send_request(self, BrickletO3.FUNCTION_SET_O3_CALLBACK_CONFIGURATION, (period, value_has_to_change, option, min, max), 'I ! c H H', '')
+
+    def get_o3_callback_configuration(self):
         """
-        return GetRGBValue(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_RGB_VALUE, (), '', 'B B B'))
+        Returns the callback configuration as set by :func:`Set O3 Callback Configuration`.
+        """
+        return GetO3CallbackConfiguration(*self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_O3_CALLBACK_CONFIGURATION, (), '', 'I ! c H H'))
 
     def get_spitfp_error_count(self):
         """
@@ -120,7 +167,7 @@ class BrickletRGBLEDV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -136,13 +183,13 @@ class BrickletRGBLEDV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -155,7 +202,7 @@ class BrickletRGBLEDV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletO3.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -170,7 +217,7 @@ class BrickletRGBLEDV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -184,13 +231,13 @@ class BrickletRGBLEDV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletO3.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -201,7 +248,7 @@ class BrickletRGBLEDV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -212,7 +259,7 @@ class BrickletRGBLEDV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletO3.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -224,14 +271,14 @@ class BrickletRGBLEDV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletO3.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletO3.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -244,6 +291,15 @@ class BrickletRGBLEDV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletO3.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-RGBLEDV2 = BrickletRGBLEDV2 # for backward compatibility
+    def register_callback(self, callback_id, function):
+        """
+        Registers the given *function* with the given *callback_id*.
+        """
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
+
+O3 = BrickletO3 # for backward compatibility

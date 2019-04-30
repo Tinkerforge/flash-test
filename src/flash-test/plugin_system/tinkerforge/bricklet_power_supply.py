@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-04-30.      #
+# This file was automatically generated on 2019-03-19.      #
 #                                                           #
 # Python Bindings Version 2.1.21                            #
 #                                                           #
@@ -18,23 +18,22 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetRGBValue = namedtuple('RGBValue', ['r', 'g', 'b'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletRGBLEDV2(Device):
+class BrickletPowerSupply(Device):
     """
 
     """
 
-    DEVICE_IDENTIFIER = 2127
-    DEVICE_DISPLAY_NAME = 'RGB LED Bricklet 2.0'
-    DEVICE_URL_PART = 'rgb_led_v2' # internal
+    DEVICE_IDENTIFIER = 2151
+    DEVICE_DISPLAY_NAME = 'Power Supply Bricklet'
+    DEVICE_URL_PART = 'power_supply' # internal
 
 
 
-    FUNCTION_SET_RGB_VALUE = 1
-    FUNCTION_GET_RGB_VALUE = 2
+    FUNCTION_SET_OUTPUT_VOLTAGE = 1
+    FUNCTION_GET_OUTPUT_VOLTAGE = 2
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -73,38 +72,36 @@ class BrickletRGBLEDV2(Device):
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_RGB_VALUE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_RGB_VALUE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_WRITE_FIRMWARE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_RESET] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_WRITE_UID] = BrickletRGBLEDV2.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_READ_UID] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletRGBLEDV2.FUNCTION_GET_IDENTITY] = BrickletRGBLEDV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_SET_OUTPUT_VOLTAGE] = BrickletPowerSupply.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_OUTPUT_VOLTAGE] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_SET_BOOTLOADER_MODE] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_BOOTLOADER_MODE] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletPowerSupply.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPowerSupply.FUNCTION_WRITE_FIRMWARE] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletPowerSupply.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_RESET] = BrickletPowerSupply.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPowerSupply.FUNCTION_WRITE_UID] = BrickletPowerSupply.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPowerSupply.FUNCTION_READ_UID] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPowerSupply.FUNCTION_GET_IDENTITY] = BrickletPowerSupply.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
 
-    def set_rgb_value(self, r, g, b):
+    def set_output_voltage(self, voltage):
         """
-        Sets the *r*, *g* and *b* values for the LED. Each value can be between 0 and 255.
+        Sets the voltage in mV. The possible range is 0V to 12V (0-12000).
         """
-        r = int(r)
-        g = int(g)
-        b = int(b)
+        voltage = int(voltage)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_RGB_VALUE, (r, g, b), 'B B B', '')
+        self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_SET_OUTPUT_VOLTAGE, (voltage,), 'H', '')
 
-    def get_rgb_value(self):
+    def get_output_voltage(self):
         """
-        Returns the *r*, *g* and *b* values of the LED as set by :func:`Set RGB Value`.
+        Returns the voltage as set by :func:`Set Output Voltage`.
         """
-        return GetRGBValue(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_RGB_VALUE, (), '', 'B B B'))
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_OUTPUT_VOLTAGE, (), '', 'H')
 
     def get_spitfp_error_count(self):
         """
@@ -120,7 +117,7 @@ class BrickletRGBLEDV2(Device):
         The errors counts are for errors that occur on the Bricklet side. All
         Bricks have a similar function that returns the errors on the Brick side.
         """
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -136,13 +133,13 @@ class BrickletRGBLEDV2(Device):
         """
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 'B')
 
     def get_bootloader_mode(self):
         """
         Returns the current bootloader mode, see :func:`Set Bootloader Mode`.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_BOOTLOADER_MODE, (), '', 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -155,7 +152,7 @@ class BrickletRGBLEDV2(Device):
         """
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
+        self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', '')
 
     def write_firmware(self, data):
         """
@@ -170,7 +167,7 @@ class BrickletRGBLEDV2(Device):
         """
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 'B')
 
     def set_status_led_config(self, config):
         """
@@ -184,13 +181,13 @@ class BrickletRGBLEDV2(Device):
         """
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
+        self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', '')
 
     def get_status_led_config(self):
         """
         Returns the configuration as set by :func:`Set Status LED Config`
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 'B')
 
     def get_chip_temperature(self):
         """
@@ -201,7 +198,7 @@ class BrickletRGBLEDV2(Device):
         accuracy. Practically it is only useful as an indicator for
         temperature changes.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
         """
@@ -212,7 +209,7 @@ class BrickletRGBLEDV2(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_RESET, (), '', '')
+        self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_RESET, (), '', '')
 
     def write_uid(self, uid):
         """
@@ -224,14 +221,14 @@ class BrickletRGBLEDV2(Device):
         """
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_WRITE_UID, (uid,), 'I', '')
+        self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_WRITE_UID, (uid,), 'I', '')
 
     def read_uid(self):
         """
         Returns the current UID as an integer. Encode as
         Base58 to get the usual string version.
         """
-        return self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_READ_UID, (), '', 'I')
+        return self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_READ_UID, (), '', 'I')
 
     def get_identity(self):
         """
@@ -244,6 +241,6 @@ class BrickletRGBLEDV2(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletRGBLEDV2.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletPowerSupply.FUNCTION_GET_IDENTITY, (), '', '8s 8s c 3B 3B H'))
 
-RGBLEDV2 = BrickletRGBLEDV2 # for backward compatibility
+PowerSupply = BrickletPowerSupply # for backward compatibility
