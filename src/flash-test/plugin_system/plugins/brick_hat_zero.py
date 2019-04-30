@@ -31,6 +31,7 @@ import os
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
+0. Nutze neuen flash adapter!!!
 1. Verbinde HAT Zero Brick mit flash adapter
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
