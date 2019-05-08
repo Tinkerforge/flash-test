@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-04-30.      #
+# This file was automatically generated on 2019-05-07.      #
 #                                                           #
 # Python Bindings Version 2.1.21                            #
 #                                                           #
@@ -233,7 +233,7 @@ class BrickletCO2V2(Device):
 
     def get_co2_concentration(self):
         """
-        Returns co2 concentration in ppm.
+        Returns CO2 concentration in ppm.
 
 
         If you want to get the value periodically, it is recommended to use the
