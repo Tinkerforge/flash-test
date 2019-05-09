@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-05-08.      #
+# This file was automatically generated on 2019-05-09.      #
 #                                                           #
 # Python Bindings Version 2.1.21                            #
 #                                                           #
@@ -139,17 +139,12 @@ class BrickletLaserRangeFinderV2(Device):
         Returns the measured distance. The value has a range of 0 to 4000
         and is given in cm.
 
-        The laser has to be enabled, see :func:`Enable Laser`.
+        The laser has to be enabled, see :func:`Set Enable`.
 
 
         If you want to get the value periodically, it is recommended to use the
         :cb:`Distance` callback. You can set the callback configuration
         with :func:`Set Distance Callback Configuration`.
-
-
-        If you want to get the value periodically, it is recommended to use the
-        :cb:`Velocity` callback. You can set the callback configuration
-        with :func:`Set Velocity Callback Configuration`.
         """
         return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_DISTANCE, (), '', 'H')
 
@@ -201,15 +196,12 @@ class BrickletLaserRangeFinderV2(Device):
 
     def get_velocity(self):
         """
-        Returns the measured distance. The value has a range of 0 to 4000
-        and is given in cm.
+        Returns the measured velocity. The value has a range of -12800 to 12700
+        and is given in 1/100 m/s.
 
-        The laser has to be enabled, see :func:`Enable Laser`.
-
-
-        If you want to get the value periodically, it is recommended to use the
-        :cb:`Distance` callback. You can set the callback configuration
-        with :func:`Set Distance Callback Configuration`.
+        The velocity measurement only produces stables results if a fixed
+        measurement rate (see :func:`Set Configuration`) is configured. Also the laser
+        has to be enabled, see :func:`Set Enable`.
 
 
         If you want to get the value periodically, it is recommended to use the
@@ -266,7 +258,7 @@ class BrickletLaserRangeFinderV2(Device):
 
     def set_enable(self, enable):
         """
-        Activates the laser of the LIDAR if set to *true*.
+        Enables the laser of the LIDAR if set to *true*.
 
         We recommend that you wait 250ms after enabling the laser before
         the first call of :func:`Get Distance` to ensure stable measurements.
@@ -277,13 +269,13 @@ class BrickletLaserRangeFinderV2(Device):
 
     def get_enable(self):
         """
-        Returns the value as set by :func:`Set Enbale`.
+        Returns the value as set by :func:`Set Enable`.
         """
         return self.ipcon.send_request(self, BrickletLaserRangeFinderV2.FUNCTION_GET_ENABLE, (), '', '!')
 
     def set_configuration(self, acquisition_count, enable_quick_termination, threshold_value, measurement_frequency):
         """
-        The **Aquisition Count** defines the number of times the Laser Range Finder Bricklet
+        The **Acquisition Count** defines the number of times the Laser Range Finder Bricklet
         will integrate acquisitions to find a correlation record peak. With a higher count,
         the Bricklet can measure longer distances. With a lower count, the rate increases. The
         allowed values are 1-255.
