@@ -36,7 +36,7 @@ class Plugin(BrickBase):
 3. Falls Brick nicht geflasht wird, drücke "Erase"- und "Reset"-Taster
 4. Überprüfe ob Schrittmotor sich abwechselnd in beide Richtungen dreht
 5. Überprüfe Wert:
-    * Externe Versorungsspannung sollte um die 24V liegen
+    * Externe Versorgungsspannung sollte um die 24V liegen
 6. Kühlkörper auf Stepper Brick aufkleben
 7. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker und grünem 4-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben*
 8. Gehe zu 1
@@ -93,4 +93,4 @@ class Plugin(BrickBase):
         stepper.disable()
 
     def cb_voltage(self, voltage):
-        self.mw.set_value_normal("Externe Versorungsspannung: " + str(round(voltage/1000.0, 2)) + ' V')
+        self.mw.set_value_normal("Externe Versorgungsspannung: " + str(round(voltage/1000.0, 2)) + ' V')
