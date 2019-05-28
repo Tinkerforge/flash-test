@@ -89,7 +89,7 @@ class DeviceManager(QtCore.QObject):
             self.devices[device_identifier] = device_information
             if self.mw.current_plugin:
                 if (self.mw.current_plugin.get_device_identifier() % 10000) == device_identifier:
-                    is_first_brick_in_stack_or_bricklet = not str(device_identifier).startswith('1') or position == 0
+                    is_first_brick_in_stack_or_bricklet = not str(device_identifier).startswith('1') or position == '0'
                     if is_first_brick_in_stack_or_bricklet:
                         self.mw.current_plugin.new_enum(device_information)
                         return
