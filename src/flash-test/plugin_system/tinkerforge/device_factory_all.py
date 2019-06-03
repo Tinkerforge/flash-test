@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-04-30.      #
+# This file was automatically generated on 2019-05-21.      #
 #                                                           #
-# Python Bindings Version 2.1.21                            #
+# Python Bindings Version 2.1.22                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -490,11 +490,6 @@ except ValueError:
     from bricklet_nfc_rfid import BrickletNFCRFID
 
 try:
-    from .bricklet_o3 import BrickletO3
-except ValueError:
-    from bricklet_o3 import BrickletO3
-
-try:
     from .bricklet_oled_128x64 import BrickletOLED128x64
 except ValueError:
     from bricklet_oled_128x64 import BrickletOLED128x64
@@ -543,11 +538,6 @@ try:
     from .bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
 except ValueError:
     from bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
-
-try:
-    from .bricklet_power_supply import BrickletPowerSupply
-except ValueError:
-    from bricklet_power_supply import BrickletPowerSupply
 
 try:
     from .bricklet_pressure import BrickletPressure
@@ -842,7 +832,6 @@ DEVICE_CLASSES = {
     BrickletMultiTouchV2.DEVICE_IDENTIFIER: BrickletMultiTouchV2,
     BrickletNFC.DEVICE_IDENTIFIER: BrickletNFC,
     BrickletNFCRFID.DEVICE_IDENTIFIER: BrickletNFCRFID,
-    BrickletO3.DEVICE_IDENTIFIER: BrickletO3,
     BrickletOLED128x64.DEVICE_IDENTIFIER: BrickletOLED128x64,
     BrickletOLED128x64V2.DEVICE_IDENTIFIER: BrickletOLED128x64V2,
     BrickletOLED64x48.DEVICE_IDENTIFIER: BrickletOLED64x48,
@@ -853,7 +842,6 @@ DEVICE_CLASSES = {
     BrickletPiezoBuzzer.DEVICE_IDENTIFIER: BrickletPiezoBuzzer,
     BrickletPiezoSpeaker.DEVICE_IDENTIFIER: BrickletPiezoSpeaker,
     BrickletPiezoSpeakerV2.DEVICE_IDENTIFIER: BrickletPiezoSpeakerV2,
-    BrickletPowerSupply.DEVICE_IDENTIFIER: BrickletPowerSupply,
     BrickletPressure.DEVICE_IDENTIFIER: BrickletPressure,
     BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
     BrickletPTCV2.DEVICE_IDENTIFIER: BrickletPTCV2,
