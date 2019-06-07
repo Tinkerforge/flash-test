@@ -161,15 +161,23 @@ class CoMCUBrickletBase(PluginBase):
                 packet_up_to = ((regular_plugin_upto // 256)+1)*4
                 index_list = list(range(0, packet_up_to)) + [num_packets-4, num_packets-3, num_packets-2, num_packets-1]
 
-            # We add a hack for RS485 here. We can't use the partial write for RS485 for the initial flashing.
-            # Why it doesn't work is unclear, we are still investigating...
-            if plugin_filename.endswith('bricklet_rs485_firmware_latest.zbin'):
-                index_list = list(range(num_packets))
+            # The expected pattern is not pre-written in the xmc 1400,
+            # so we need to rewrite the complete flash
+            xmc_1400_bricklets = [
+                'bricklet_air_quality',
+                'bricklet_can_v2',
+                'bricklet_dmx',
+                'bricklet_e_paper_296x128',
+                'bricklet_industrial_counter',
+                'bricklet_particulate_matter',
+                'bricklet_rs485',
+                'bricklet_rs232_v2',
+                'bricklet_sound_pressure_level'
+            ]
+            if any(xmc_1400_bricklet in plugin_filename for xmc_1400_bricklet in xmc_1400_bricklets):
+                index_list = range(num_packets)
 
             for _ in range(2):
-                if 'sound_pressure_level' in plugin_filename:
-                    _ = 1
-
                 if _ == 1:
                     index_list = range(num_packets)
 
