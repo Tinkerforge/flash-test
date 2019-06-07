@@ -182,10 +182,11 @@ class CoMCUBrickletBase(PluginBase):
                     index_list = range(num_packets)
 
                 self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
+                to_write = str(len(index_list) - 1)
                 for position in index_list:
                     start = position*64
                     end   = (position+1)*64
-                    self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + str(num_packets-1))
+                    self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + to_write)
                     device.set_write_firmware_pointer(start)
                     device.write_firmware(plugin[start:end])
 
