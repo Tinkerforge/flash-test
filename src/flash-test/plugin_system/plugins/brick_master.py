@@ -38,8 +38,8 @@ class Plugin(BrickBase):
 """
     FIRMWARE_FILENAME = get_brick_firmware_filename(BrickMaster.DEVICE_URL_PART)
 
-    def start(self, device_information):
-        BrickBase.start(self, device_information)
+    def start(self):
+        BrickBase.start(self)
 
     def get_device_identifier(self):
         return BrickMaster.DEVICE_IDENTIFIER

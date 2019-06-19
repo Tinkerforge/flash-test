@@ -51,11 +51,8 @@ class Plugin(BrickletBase):
         self.pressed_count = 0
         self.pressed_current = None
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def stop(self):
         super().stop()

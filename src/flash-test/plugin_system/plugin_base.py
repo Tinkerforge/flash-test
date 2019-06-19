@@ -92,9 +92,8 @@ class PluginBase(QtWidgets.QWidget, object):
     def stop(self):
         pass
 
-    def start(self, device_information):
+    def start(self):
         self.mw.button_continue.hide()
-        self.device_information = device_information
         self.mw.text_edit_todo.setPlainText(self.TODO_TEXT)
 
     def new_enum(self, device_information):

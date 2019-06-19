@@ -46,11 +46,8 @@ class Plugin(BrickletBase):
         self.cbe_acceleration = None
         self.led_is_on = False
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def stop(self):
         super().stop()

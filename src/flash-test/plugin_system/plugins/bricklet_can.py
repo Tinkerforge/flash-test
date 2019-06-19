@@ -45,11 +45,8 @@ class Plugin(BrickletBase):
 
         self.qtcb_frame_read.connect(self.cb_frame_read)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletCAN.DEVICE_IDENTIFIER

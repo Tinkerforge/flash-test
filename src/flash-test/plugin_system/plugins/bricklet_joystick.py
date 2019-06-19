@@ -56,11 +56,8 @@ class Plugin(BrickletBase):
         self.qtcb_pressed.connect(lambda: self.cb_button(True))
         self.qtcb_released.connect(lambda: self.cb_button(False))
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def stop(self):
         super().stop()

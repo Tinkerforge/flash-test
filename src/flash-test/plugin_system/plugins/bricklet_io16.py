@@ -48,16 +48,14 @@ class Plugin(BrickletBase):
         self.running = False
         self.io16 = None
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
+    def start(self):
+        BrickletBase.start(self)
 
         self.running = True
         self.blink_thread = threading.Thread(target=self.blick_loop)
         self.blink_thread.daemon = True
         self.blink_thread.start()
 
-        if device_information:
-            self.new_enum(device_information)
 
     def stop(self):
         super().stop()

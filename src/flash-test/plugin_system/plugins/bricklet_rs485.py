@@ -45,11 +45,8 @@ class Plugin(CoMCUBrickletBase):
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletRS485.DEVICE_IDENTIFIER

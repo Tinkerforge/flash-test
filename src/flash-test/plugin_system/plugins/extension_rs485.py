@@ -39,8 +39,8 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
 7. Die Extension ist fertig, mit grauem 3-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1
 """
-    def start(self, device_information):
-        ExtensionBase.start(self, device_information)
+    def start(self):
+        ExtensionBase.start(self)
 
     def stop(self):
         ExtensionBase.stop(self)

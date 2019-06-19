@@ -37,9 +37,9 @@ class ExtensionBase(PluginBase):
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
 
-    def start(self, device_information):
+    def start(self):
         self.mw.button_flash.setEnabled(False)
-        PluginBase.start(self, device_information)
+        PluginBase.start(self, None)
         self.mw.set_tool_status_okay("-")
         self.mw.set_uid_status_okay("-")
         self.mw.set_flash_status_okay("-")

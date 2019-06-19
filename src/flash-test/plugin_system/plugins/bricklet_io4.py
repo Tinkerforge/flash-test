@@ -44,11 +44,8 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletIO4.DEVICE_IDENTIFIER

@@ -44,11 +44,8 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_decibel_below_60 = True
         self.cbe_decibel_above_60 = True
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
     def stop(self):
         super().stop()

@@ -30,7 +30,7 @@ import time
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Verbinde Laser Range Finder Bricklet 2.0 mit Port C
-2. Stelle Bricklet fest auf tisch (guckt zur Decke), nicht wackeln während Kalibrierung! 
+2. Stelle Bricklet fest auf tisch (guckt zur Decke), nicht wackeln während Kalibrierung!
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Bricklet Kalibriert sich (dauert ca. 1s)
@@ -44,11 +44,8 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_distance = None
         self.offset = 0
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
     def stop(self):
         super().stop()

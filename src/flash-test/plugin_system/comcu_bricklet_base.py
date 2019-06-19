@@ -56,10 +56,10 @@ class CoMCUBrickletBase(PluginBase):
 
         self.comcu_uid_to_flash = None
 
-    def start(self, device_information):
+    def start(self):
         self.mw.button_continue.hide()
-        PluginBase.start(self, device_information)
-        self.show_device_information(device_information, clear_value=True)
+        PluginBase.start(self)
+        self.show_device_information(None, clear_value=True)
 
     def show_device_information(self, device_information, clear_value=False):
         if device_information != None:

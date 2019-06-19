@@ -45,11 +45,8 @@ class Plugin(CoMCUBrickletBase):
 
         self.qtcb_frame_read.connect(self.cb_frame_read)
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletCANV2.DEVICE_IDENTIFIER

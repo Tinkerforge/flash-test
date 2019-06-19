@@ -49,8 +49,8 @@ class Plugin(BrickBase):
         BrickBase.__init__(self, *args)
         self.cbe_voltage = None
 
-    def start(self, device_information):
-        BrickBase.start(self, device_information)
+    def start(self):
+        BrickBase.start(self)
 
     def stop(self):
         super().stop()

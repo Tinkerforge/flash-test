@@ -134,10 +134,10 @@ class BrickBase(PluginBase):
 
         self.mw.increase_flashed_count()
 
-    def start(self, device_information):
+    def start(self):
         self.mw.button_flash.setEnabled(False)
-        PluginBase.start(self, device_information)
-        self.show_device_information(device_information, clear_value=True)
+        PluginBase.start(self)
+        self.show_device_information(None, clear_value=True)
         self.is_flashing = False
         self.flash_thread.start()
 

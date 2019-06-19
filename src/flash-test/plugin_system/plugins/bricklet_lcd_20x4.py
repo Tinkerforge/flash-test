@@ -53,11 +53,8 @@ class Plugin(BrickletBase):
         self.qtcb_button_pressed.connect(self.cb_button_pressed)
         self.qtcb_button_released.connect(self.cb_button_released)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletLCD20x4.DEVICE_IDENTIFIER

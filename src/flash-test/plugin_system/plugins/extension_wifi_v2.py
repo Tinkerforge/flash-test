@@ -60,11 +60,11 @@ class Plugin(ExtensionBase):
 7. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1
 """
-    def start(self, device_information):
+    def start(self):
         self.device_information = None
         self.master = None
 
-        ExtensionBase.start(self, device_information)
+        ExtensionBase.start(self)
 
     def stop(self):
         ExtensionBase.stop(self)

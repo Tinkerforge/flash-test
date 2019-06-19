@@ -48,11 +48,8 @@ class Plugin(BrickletBase):
         self.num = 0
         self.cbe_state = None
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def stop(self):
         super().stop()

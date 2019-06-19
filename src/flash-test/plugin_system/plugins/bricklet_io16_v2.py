@@ -49,11 +49,8 @@ class Plugin(CoMCUBrickletBase):
         self.io16 = None
         self.high = True
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
     def stop(self):
         super().stop()

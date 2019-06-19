@@ -148,11 +148,8 @@ class Plugin(BrickletBase):
         self.cbe_distance = None
         self.calibrated = False
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
         l = self.mw.distance_ir_layout
         for i in range(l.count()):

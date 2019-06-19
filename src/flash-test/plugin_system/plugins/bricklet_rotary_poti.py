@@ -47,11 +47,8 @@ class Plugin(BrickletBase):
         self.reached_negative = False
         self.reached_positive = False
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def stop(self):
         super().stop()

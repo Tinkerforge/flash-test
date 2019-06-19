@@ -41,14 +41,14 @@ class Plugin(ExtensionBase):
 9. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 10. Gehe zu 1
 """
-    def start(self, device_information):
+    def start(self):
         self.device_information = None
         self.master = None
 
         self.mw.edit_ethernet_extension.setInputMask("H:HH;_")
         self.mw.edit_ethernet_extension.setText("0:01")
         self.mw.button_ethernet_extension.clicked.connect(self.button_clicked)
-        ExtensionBase.start(self, device_information)
+        ExtensionBase.start(self)
 
     def stop(self):
         super().stop()

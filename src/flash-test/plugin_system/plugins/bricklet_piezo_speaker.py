@@ -45,13 +45,11 @@ class Plugin(BrickletBase):
     def __init__(self, *args):
         BrickletBase.__init__(self, *args)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
+    def start(self):
+        BrickletBase.start(self)
 
         self.mw.button_calibrate_ps.clicked.connect(self.calibrate_clicked)
 
-        if device_information:
-            self.new_enum(device_information)
 
     def stop(self):
         super().stop()

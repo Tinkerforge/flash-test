@@ -47,11 +47,8 @@ class Plugin(BrickletBase):
 
         self.qtcb_read.connect(self.cb_read)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletRS232.DEVICE_IDENTIFIER

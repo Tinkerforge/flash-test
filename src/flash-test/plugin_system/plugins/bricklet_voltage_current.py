@@ -49,13 +49,11 @@ class Plugin(BrickletBase):
         self.cbe_current = None
         self.last_values = [0, 0]
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
+    def start(self):
+        BrickletBase.start(self)
 
         self.mw.button_save_vc.clicked.connect(self.save_clicked)
 
-        if device_information:
-            self.new_enum(device_information)
 
     def stop(self):
         super().stop()

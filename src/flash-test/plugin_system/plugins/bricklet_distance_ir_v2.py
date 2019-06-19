@@ -48,11 +48,8 @@ class Plugin(CoMCUBrickletBase):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_distance = None
 
-    def start(self, device_information):
-        CoMCUBrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        CoMCUBrickletBase.start(self)
 
         l = self.mw.distance_ir_layout
         for i in range(l.count()):

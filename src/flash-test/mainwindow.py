@@ -156,14 +156,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if device != None:
             self.current_plugin = device
-            device_information = self.device_manager.devices.get(device.get_device_identifier())
         else:
             self.current_plugin = self.plugin_not_implemented
-            device_information = None
 
-        self.current_plugin.start(device_information)
+        self.current_plugin.start()
 
         self.reset_flashed_count()
+        self.device_manager.ipcon.enumerate()
 
     def reset_flashed_count(self):
         self.spin_flashed_count.setValue(0)

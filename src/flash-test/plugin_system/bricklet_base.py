@@ -32,14 +32,14 @@ def get_bricklet_firmware_filename(name):
     file_directory = os.path.dirname(os.path.realpath(__file__))
     return os.path.join(file_directory, '..', '..', '..', 'firmwares', 'bricklets', name, 'bricklet_' + name + '_firmware_latest.bin')
 
-class BrickletBase(PluginBase):    
+class BrickletBase(PluginBase):
     def __init__(self, *args):
         PluginBase.__init__(self, *args)
 
-    def start(self, device_information):
+    def start(self):
         self.mw.button_continue.hide()
-        PluginBase.start(self, device_information)
-        self.show_device_information(device_information, clear_value=True)
+        PluginBase.start(self)
+        self.show_device_information(None, clear_value=True)
 
     def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
@@ -67,18 +67,18 @@ class BrickletBase(PluginBase):
             offset = 0
             ipcon = self.get_ipcon()
             master = self.get_current_master()
-    
+
             while offset < len(plugin):
                 chunk = plugin[offset:offset + IPConnection.PLUGIN_CHUNK_SIZE]
-    
+
                 if len(chunk) < IPConnection.PLUGIN_CHUNK_SIZE:
                     chunk += b'\0' * (IPConnection.PLUGIN_CHUNK_SIZE - len(chunk))
-    
+
                 chunk = list(chunk)
-    
+
                 plugin_chunks.append(chunk)
                 offset += IPConnection.PLUGIN_CHUNK_SIZE
-    
+
             position = 0
             for chunk in plugin_chunks:
                 ipcon.write_bricklet_plugin(master, port, position, chunk)
@@ -86,7 +86,7 @@ class BrickletBase(PluginBase):
                 position += 1
 
                 self.mw.set_flash_status_action("Schreibe Port " + port.upper() +  ": " + str(position) + '/' + str(len(plugin_chunks)))
-                
+
             position = 0
             for chunk in plugin_chunks:
                 self.mw.set_flash_status_action("Verifiziere Port " + port.upper() + ": " + str(position) + '/' + str(len(plugin_chunks)))

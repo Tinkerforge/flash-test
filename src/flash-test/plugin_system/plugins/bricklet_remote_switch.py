@@ -49,11 +49,8 @@ class Plugin(BrickletBase):
 
         self.qtcb_switching_done.connect(self.cb_switching_done)
 
-    def start(self, device_information):
-        BrickletBase.start(self, device_information)
-
-        if device_information:
-            self.new_enum(device_information)
+    def start(self):
+        BrickletBase.start(self)
 
     def get_device_identifier(self):
         return BrickletRemoteSwitch.DEVICE_IDENTIFIER
