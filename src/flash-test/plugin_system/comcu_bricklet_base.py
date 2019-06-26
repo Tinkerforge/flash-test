@@ -277,6 +277,7 @@ class CoMCUBrickletBase(PluginBase):
         master = BrickMasterFlashAdapterXMC(uid_master, ipcon)
 
         ipcon.connect('localhost', 4223)
+        iqr.set_value(MASK_NONE) # Make sure that by default relays are off.
 
         self.mw.set_flash_status_action("Schreibe Bootstrapper und -loader")
         i = 2
@@ -294,7 +295,11 @@ class CoMCUBrickletBase(PluginBase):
 
 
         errors = set()
-        time.sleep(0.2)
+        if 'bricklet_hat' in plugin_filename:
+            # The capacitance on HAT Brick is so high that 0.2 seconds is not sufficient
+            time.sleep(0.5)
+        else:
+            time.sleep(0.2)
         i = 10
         start = time.time()
 
