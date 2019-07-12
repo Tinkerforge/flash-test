@@ -39,7 +39,7 @@ class ExtensionBase(PluginBase):
 
     def start(self):
         self.mw.button_flash.setEnabled(False)
-        PluginBase.start(self, None)
+        PluginBase.start(self)
         self.mw.set_tool_status_okay("-")
         self.mw.set_uid_status_okay("-")
         self.mw.set_flash_status_okay("-")
