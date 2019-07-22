@@ -32,8 +32,7 @@ import sys
 import time
 import math
 
-
-class ESPROM(object):
+class ESPROM:
     # These are the currently known commands supported by the ROM
     ESP_FLASH_BEGIN = 0x02
     ESP_FLASH_DATA = 0x03
@@ -72,10 +71,7 @@ class ESPROM(object):
 
     """ Read a SLIP packet from the serial port """
     def read(self):
-        if sys.hexversion < 0x03000000:
-            return self._slip_reader.next()
-        else:
-            return next(self._slip_reader)
+        return next(self._slip_reader)
 
     """ Write bytes to the serial port while performing SLIP escaping """
     def write(self, packet):
@@ -85,8 +81,9 @@ class ESPROM(object):
     """ Calculate checksum of a blob, as it is defined by the ROM """
     @staticmethod
     def checksum(data, state=ESP_CHECKSUM_MAGIC):
-        for b in data:
-            state ^= ord(b) if sys.hexversion < 0x03000000 else b
+        for byte in data:
+            state ^= byte
+
         return state
 
     """ Send a request and read the response """
@@ -213,7 +210,7 @@ class ESPROM(object):
                               struct.pack('<IIII', erase_size, num_blocks, ESPROM.ESP_FLASH_BLOCK, offset))[1]
 
         if result != b"\0\0":
-            raise FatalError.WithResult('Failed to enter Flash download mode (result "%s")', result)
+            raise FatalError.WithResult('Failed to enter Flash download mode (result "{}")', result)
 
         self._port.timeout = old_tmo
 
@@ -224,7 +221,7 @@ class ESPROM(object):
                               ESPROM.checksum(data))[1]
 
         if result != b"\0\0":
-            raise FatalError.WithResult('Failed to write to target Flash after seq %d (got result %%s)' % seq, result)
+            raise FatalError.WithResult('Failed to write to target Flash after seq {} (got result {{}})'.format(seq), result)
 
     """ Leave flash mode and run/reboot """
     def flash_finish(self, reboot=False):
@@ -321,7 +318,7 @@ class ESPROM(object):
         self.mem_finish(stub['entry'])
 
 
-class CesantaFlasher(object):
+class CesantaFlasher:
     # From stub_flasher.h
     CMD_FLASH_WRITE = 1
     CMD_FLASH_READ = 2
@@ -511,8 +508,8 @@ def slip_reader(port):
             raise FatalError("Timed out waiting for packet %s" % ("header" if partial_packet is None else "content"))
 
         for b in read_bytes:
-            if sys.hexversion >= 0x03000000:
-                b = bytes([b])
+            b = bytes([b])
+
             if partial_packet is None:  # waiting for packet header
                 if b == b'\xc0':
                     partial_packet = b''
@@ -537,20 +534,19 @@ def slip_reader(port):
 
 
 def hexify(s):
-    if sys.hexversion < 0x03000000 or type(s) == str:
+    if isinstance(s, str):
         return ''.join('%02X' % ord(c) for c in s)
-    else:
-        return ''.join('%02X' % c for c in s)
+
+    return ''.join('%02X' % c for c in s)
 
 
 def unhexify(hs):
     s = []
+
     for i in range(0, len(hs) - 1, 2):
         s.append(int(hs[i] + hs[i + 1], 16))
-    if sys.hexversion < 0x03000000:
-        return ''.join(map(chr, s))
-    else:
-        return bytes(s)
+
+    return bytes(s)
 
 
 class FatalError(RuntimeError):
@@ -558,16 +554,13 @@ class FatalError(RuntimeError):
     Wrapper class for runtime errors that aren't caused by internal bugs, but by
     ESP8266 responses or input content.
     """
-    def __init__(self, message):
-        RuntimeError.__init__(self, message)
-
     @staticmethod
     def WithResult(message, result):
         """
         Return a fatal error object that includes the hex values of
         'result' as a string formatted argument.
         """
-        return FatalError(message % ", ".join(hex(ord(x)) for x in result))
+        return FatalError(message.format(", ".join(hex(ord(x))) for x in result))
 
 
 # This is "wrapped" stub_flasher.c, to  be loaded using run_stub.
@@ -634,16 +627,9 @@ entry": 1074792180, "num_params": 1, "params_start": 1074790400, "data": "FE0510
 from zipfile import ZipFile
 from threading import Thread
 
-try:
-    from StringIO import StringIO as FileLike
-except ImportError:
-    from io import BytesIO as FileLike
+from io import BytesIO as FileLike
 
-# Queue for Python 2, queue for Python 3
-try:
-    from Queue import Queue, Empty
-except ImportError:
-    from queue import Queue, Empty
+from queue import Queue, Empty
 
 class TFSerial:
     def __init__(self, master):
@@ -665,10 +651,7 @@ class TFSerial:
 
     def write(self, data):
         try:
-            if type(data) == str:
-                data = map(ord, data) # Python 2
-            else:
-                data = list(data) # Python 3
+            data = list(data) # Python 3
 
             while data != []:
                 data_chunk = data[:60]
@@ -699,10 +682,8 @@ class TFSerial:
 
         ret = self.read_buffer[:length]
         self.read_buffer = self.read_buffer[length:]
-        if sys.hexversion < 0x03000000:
-            return ''.join(map(chr, ret))
-        else:
-            return bytes(ret)
+
+        return bytes(ret)
 
     def inWaiting(self):
         return len(self.read_buffer)
