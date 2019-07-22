@@ -30,7 +30,6 @@ import json
 import struct
 import sys
 import time
-import math
 
 class ESPROM:
     # These are the currently known commands supported by the ROM
@@ -117,7 +116,8 @@ class ESPROM:
     """ Perform a connection test """
     def sync(self):
         self.command(ESPROM.ESP_SYNC, b'\x07\x07\x12\x20' + 32 * b'\x55')
-        for i in range(7):
+
+        for _ in range(7):
             self.command()
 
     """ Try connecting repeatedly until successful, or giving up """
@@ -241,7 +241,7 @@ class ESPROM:
         mac1 = self.read_reg(self.ESP_OTP_MAC1)
         mac3 = self.read_reg(self.ESP_OTP_MAC3)
 
-        if (mac3 != 0):
+        if mac3 != 0:
             oui = ((mac3 >> 16) & 0xff, (mac3 >> 8) & 0xff, mac3 & 0xff)
         elif ((mac1 >> 16) & 0xff) == 0:
             oui = (0x18, 0xfe, 0x34)
