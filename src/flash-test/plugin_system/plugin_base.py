@@ -50,8 +50,7 @@ class PluginBase(QtWidgets.QWidget, object):
         self.device_information = None
 
     def get_new_uid(self):
-        return int(urllib.request.urlopen('https://stagingwww.tinkerforge.com/uid', timeout=5).read())
-
+        return int(urllib.request.urlopen('https://stagingwww.tinkerforge.com/uid', timeout=15).read())
     def get_ipcon(self):
         return self.mw.device_manager.ipcon
 
