@@ -114,8 +114,14 @@ class Plugin(CoMCUBrickletBase):
                                            reactive_power * 10,
                                            power_factor / 1000.0,
                                            frequency / 100)
-        connection_string = 'Spannungskalibrierungsadapter {}angeschlossen.<br/>Stromkalibrierungsadapter {}angeschlossen.'
-        connection_string = connection_string.format('' if self.voltage_transformer_connected else '<span style="color:red;">nicht</span> ',
+
+        voltage_dev_name = 'Spannungskalibrierungsadapter' if self.calibration_state < 4 else 'Spannungstransformator'
+        current_dev_name = 'Stromkalibrierungsadapter' if self.calibration_state < 4 else 'Stromwandler'
+
+        connection_string = '{} {}angeschlossen.<br/>{} {}angeschlossen.'
+        connection_string = connection_string.format(voltage_dev_name,
+                                                     '' if self.voltage_transformer_connected else '<span style="color:red;">nicht</span> ',
+                                                     current_dev_name,
                                                      '' if self.current_transformer_connected else '<span style="color:red;">nicht</span> ')
 
         if self.calibration_state == 0:
@@ -125,7 +131,7 @@ class Plugin(CoMCUBrickletBase):
         elif self.calibration_state == 2:
             cal_string = 'Kalibrierung wird gespeichert.'
         elif self.calibration_state in [3, 4]:
-            cal_string = '<span style="color:green;">Kalibrierung abgeschlossen.</span> <span style="color:red;">Warte auf Spannungstranformator und Stromwandler</span>'
+            cal_string = '<span style="color:green;">Kalibrierung abgeschlossen.</span> <span style="color:red;">Warte auf Spannungstransformator und Stromwandler</span>'
         elif self.calibration_state == 5:
             cal_string = '<span style="color:green;">Kalibrierung abgeschlossen.</span> Prüfe Messwerte'
 
