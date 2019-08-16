@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
-Copyright (C) 2016 Matthias <matthias@tinkerforge.com>
+Copyright (C) 2016 Matthias Bolte <matthias@tinkerforge.com>
 
 bricklet_color.py: Color plugin
 
