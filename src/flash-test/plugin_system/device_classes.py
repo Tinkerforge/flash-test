@@ -26,6 +26,7 @@ from .plugins.bricklet_color_v2 import Plugin as bricklet_color_v2_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
 from .plugins.bricklet_distance_ir_v2 import Plugin as bricklet_distance_ir_v2_class
 from .plugins.bricklet_distance_us import Plugin as bricklet_distance_us_class
+from .plugins.bricklet_distance_us_v2 import Plugin as bricklet_distance_us_v2_class
 from .plugins.bricklet_dmx import Plugin as bricklet_dmx_class
 from .plugins.bricklet_dual_button import Plugin as bricklet_dual_button_class
 from .plugins.bricklet_dual_button_v2 import Plugin as bricklet_dual_button_v2_class
@@ -149,6 +150,7 @@ device_classes = [
     bricklet_distance_ir_class,
     bricklet_distance_ir_v2_class,
     bricklet_distance_us_class,
+    bricklet_distance_us_v2_class,
     bricklet_dmx_class,
     bricklet_dual_button_class,
     bricklet_dual_button_v2_class,
