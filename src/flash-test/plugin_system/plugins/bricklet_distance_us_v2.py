@@ -62,6 +62,7 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_distance.set_period(0)
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 
