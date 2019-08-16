@@ -29,7 +29,7 @@ import math
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Rotary Poti Bricklet 2.0 mit Port C
+1. Verbinde Rotary Poti Bricklet 2.0  mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Poti:
@@ -60,6 +60,7 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletRotaryPotiV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
+        CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_position != None:
             self.cbe_position.set_period(0)
 
