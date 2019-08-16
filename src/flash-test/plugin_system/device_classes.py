@@ -119,6 +119,7 @@ from .plugins.bricklet_uv_light import Plugin as bricklet_uv_light_class
 from .plugins.bricklet_uv_light_v2 import Plugin as bricklet_uv_light_v2_class
 from .plugins.bricklet_voltage_current import Plugin as bricklet_voltage_current_class
 from .plugins.bricklet_voltage_current_v2 import Plugin as bricklet_voltage_current_v2_class
+from .plugins.bricklet_xmc1400_breakout import Plugin as bricklet_xmc1400_breakout_class
 from .plugins.extension_ethernet import Plugin as extension_ethernet_class
 from .plugins.extension_rs485 import Plugin as extension_rs485_class
 from .plugins.extension_wifi_v2 import Plugin as extension_wifi_v2_class
@@ -245,6 +246,7 @@ device_classes = [
     bricklet_uv_light_v2_class,
     bricklet_voltage_current_class,
     bricklet_voltage_current_v2_class,
+    bricklet_xmc1400_breakout_class,
     extension_ethernet_class,
     extension_rs485_class,
     extension_wifi_v2_class,
