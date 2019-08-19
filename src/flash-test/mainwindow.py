@@ -71,7 +71,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.ethernet_extension_layout,
                         self.color_layout,
                         self.piezo_speaker_layout,
-                        self.multi_touch_layout]
+                        self.multi_touch_layout,
+                        self.compass_layout]
         for l in temp_layouts:
             self.hide_layout(l)
 

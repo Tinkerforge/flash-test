@@ -32,9 +32,11 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Compass Bricklet  mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe Heading: Drehe bis 0° (Nord), 90° (Ost), 180° (Süd), 270° (West)
-5. Das Bricklet ist fertig, zusammen mit Knopf in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+4. Kalibriere magnetischen Fluss:
+    * Bewege Compass Bricklet in jede Richtung bis min/max sich nicht mehr ändern. Stelle sicher, dass keine Magnetfeldquellen in der Nähe des Bricklets sind. Drücke Kalibrieren wenn fertig.
+5. Überprüfe Ausrichtung: Drehe bis 0° (Nord), 90° (Ost), 180° (Süd), 270° (West)
+6. Das Bricklet ist fertig, zusammen mit Knopf in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):
@@ -42,6 +44,10 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_flux_density = None
         self.reached_negative = False
         self.reached_positive = False
+        self.calibrated = False
+        self.x = [0, 0, 0]
+        self.y = [0, 0, 0]
+        self.z = [0, 0, 0]
 
     def start(self):
         CoMCUBrickletBase.start(self)
@@ -50,6 +56,9 @@ class Plugin(CoMCUBrickletBase):
         super().stop()
         if self.cbe_flux_density != None:
             self.cbe_flux_density.set_period(0)
+        l = self.mw.compass_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(False)
 
     def get_device_identifier(self):
         return BrickletCompass.DEVICE_IDENTIFIER
@@ -68,14 +77,94 @@ class Plugin(CoMCUBrickletBase):
         if self.compass.get_bootloader_mode() != BrickletCompass.BOOTLOADER_MODE_FIRMWARE:
             return
 
+        l = self.mw.compass_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(True)
+        self.mw.button_calibration_remove.setVisible(False)
+        self.mw.button_calibration_save.clicked.connect(self.calibration_save_clicked)
+        self.mw.button_calibration_remove.clicked.connect(self.calibration_remove_clicked)
+
+
+        self.reset_calibration()
+
         self.cbe_flux_density = CallbackEmulator(self.compass.get_magnetic_flux_density,
                                              self.cb_mfd,
                                              ignore_last_data=True)
-        self.cbe_flux_density.set_period(25)
+        self.cbe_flux_density.set_period(20)
+
 
         self.show_device_information(device_information)
 
+    def reset_calibration(self):
+        self.x = [0, 0, 0]
+        self.y = [0, 0, 0]
+        self.z = [0, 0, 0]
+
+        off = [0]*3
+        mul = [10000]*3
+        self.compass.set_calibration(off, mul)
+        self.calibrated = False
+
+    def calibration_remove_clicked(self):
+        self.reset_calibration()
+        l = self.mw.compass_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(True)
+        self.mw.button_calibration_remove.setVisible(False)
+
+    def calibration_save_clicked(self):
+        off = [0]*3
+        mul = [10000]*3
+
+        off[0] = int(round((self.x[1] + self.x[2])/2, 0))
+        off[1] = int(round((self.y[1] + self.y[2])/2, 0))
+        off[2] = int(round((self.z[1] + self.z[2])/2, 0))
+
+        mul[0] = 10000
+        mul[1] = int(round(10000*(abs(self.x[1]) + abs(self.x[2]))/(abs(self.y[1]) + abs(self.y[2])), 0))
+        mul[2] = int(round(10000*(abs(self.x[1]) + abs(self.x[2]))/(abs(self.z[1]) + abs(self.z[2])), 0))
+
+        self.compass.set_calibration(off, mul)
+        l = self.mw.compass_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(False)
+        self.mw.button_calibration_remove.setVisible(True)
+        self.calibrated = True
+
+    def update_calibration_labels(self):
+        self.x[1] = min(self.x[0], self.x[1])
+        self.x[2] = max(self.x[0], self.x[2])
+        self.y[1] = min(self.y[0], self.y[1])
+        self.y[2] = max(self.y[0], self.y[2])
+        self.z[1] = min(self.z[0], self.z[1])
+        self.z[2] = max(self.z[0], self.z[2])
+
+        self.mw.label_x_cur.setText('{0}'.format(self.x[0]))
+        self.mw.label_y_cur.setText('{0}'.format(self.y[0]))
+        self.mw.label_z_cur.setText('{0}'.format(self.z[0]))
+
+        self.mw.label_x_min.setText('{0}'.format(self.x[1]))
+        self.mw.label_y_min.setText('{0}'.format(self.y[1]))
+        self.mw.label_z_min.setText('{0}'.format(self.z[1]))
+
+        self.mw.label_x_max.setText('{0}'.format(self.x[2]))
+        self.mw.label_y_max.setText('{0}'.format(self.y[2]))
+        self.mw.label_z_max.setText('{0}'.format(self.z[2]))
+
+    def calibrate(self, data):
+        x, y, z = data
+        self.x[0] = x
+        self.y[0] = y
+        self.z[0] = z
+
+        self.update_calibration_labels()
+
     def cb_mfd(self, data):
+        if not self.calibrated:
+            self.mw.set_value_action('Kalibrieren')
+            self.calibrate(data)
+            return
+
         def near(x, y):
             return abs(y-x) < 3
 
@@ -91,7 +180,7 @@ class Plugin(CoMCUBrickletBase):
         not_reached = '\u25C7'
         reached = '\u25C6'
 
-        heading_str = 'Current heading: {}°\n'.format(heading)
+        heading_str = 'Ausrichtung: {}°\n'.format(heading)
         for i, name in enumerate(['Nord', 'Ost', 'Süd', 'West']):
             heading_str += '\t{} {}° ({})\n'.format(reached if self.headings_reached[i] else not_reached,
                                                   i * 90,
