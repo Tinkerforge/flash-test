@@ -42,15 +42,14 @@ class Plugin(CoMCUBrickletBase):
 9. Gehe zu 1
 """
 
-    VOLTAGE_LOWER_BOUND = 200
-    VOLTAGE_UPPER_BOUND = 300
+    VOLTAGE_LOWER_BOUND = 210
+    VOLTAGE_UPPER_BOUND = 240
 
     FREQUENCY_LOWER_BOUND = 45
     FREQUENCY_UPPER_BOUND = 55
 
-    # TBD
-    CURRENT_LOWER_BOUND = 0
-    CURRENT_UPPER_BOUND = 1000000
+    CURRENT_LOWER_BOUND = 0.35
+    CURRENT_UPPER_BOUND = 1.15
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
@@ -105,7 +104,7 @@ class Plugin(CoMCUBrickletBase):
     def cb_energy_data(self, data):
         voltage, current, energy, real_power, apparent_power, reactive_power, power_factor, frequency = data
 
-        value_string = 'V: {}mV, C: {}mA, E: {}mWh, RP: {}mW, AP: {}mVA, RP: {}mVAR, PF: {:03}, F: {}Hz'
+        value_string = 'V: {}mV, C: {}mA, E: {}mWh\nRP: {}mW, AP: {}mVA, RP: {}mVAR\nPF: {:03}, F: {}Hz'
         value_string = value_string.format(voltage * 10,
                                            current * 10,
                                            energy * 10,
