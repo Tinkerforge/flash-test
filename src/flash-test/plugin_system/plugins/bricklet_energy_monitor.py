@@ -34,12 +34,13 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Energy Monitor Bricklet mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Stecke beide Kalibrierungsadapter ein
-5. Warte auf Kalibrierung
-6. Stecke echten Spannungstranformator und Stromwandler ein
-7. Prüfe Messwerte. Wenn grün, dann weiter
-8. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-9. Gehe zu 1
+4. Ziehe beide Kalibrierungsadapter ab, falls sie vorher eingesteckt waren
+5. Stecke beide Kalibrierungsadapter ein
+6. Warte auf Kalibrierung
+7. Stecke echten Spannungstranformator und Stromwandler ein
+8. Prüfe Messwerte. Wenn grün, dann weiter
+9. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+10. Gehe zu 1
 """
 
     VOLTAGE_LOWER_BOUND = 210
@@ -50,6 +51,10 @@ class Plugin(CoMCUBrickletBase):
 
     CURRENT_LOWER_BOUND = 0.35
     CURRENT_UPPER_BOUND = 1.15
+
+    VOLTAGE_RATIO = 1923
+    CURRENT_RATIO = 3000
+    PHASE_SHIFT = 0
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
@@ -86,7 +91,7 @@ class Plugin(CoMCUBrickletBase):
 
         self.voltage_transformer_connected = False
         self.current_transformer_connected = False
-        self.calibration_state = 0
+        self.calibration_state = -1
         self.calibration_time = 0
 
         self.em = BrickletEnergyMonitor(device_information.uid, self.get_ipcon())
@@ -119,11 +124,13 @@ class Plugin(CoMCUBrickletBase):
 
         connection_string = '{} {}angeschlossen.<br/>{} {}angeschlossen.'
         connection_string = connection_string.format(voltage_dev_name,
-                                                     '' if self.voltage_transformer_connected else '<span style="color:red;">nicht</span> ',
+                                                     '' if self.voltage_transformer_connected else '<span style="color:{};">nicht</span> '.format('green' if self.calibration_state < 0 else 'red'),
                                                      current_dev_name,
-                                                     '' if self.current_transformer_connected else '<span style="color:red;">nicht</span> ')
+                                                     '' if self.current_transformer_connected else '<span style="color:{};">nicht</span> '.format('green' if self.calibration_state < 0 else 'red'))
 
-        if self.calibration_state == 0:
+        if self.calibration_state == -1:
+            cal_string = '<span style="color:red;">Warte auf Abziehen der Kalibrierungsadapter.</span>'
+        elif self.calibration_state == 0:
             cal_string = '<span style="color:red;">Warte auf Kalibrierungsadapter.</span>'
         elif self.calibration_state == 1:
             cal_string = 'Kalibrierung läuft.'
@@ -148,7 +155,10 @@ class Plugin(CoMCUBrickletBase):
 
     def cb_transformer_status(self, status):
         self.voltage_transformer_connected, self.current_transformer_connected = status
-        if self.calibration_state == 0 and status == (True, True):
+        if self.calibration_state == -1 and status == (False, False):
+            self.em.set_transformer_calibration(self.VOLTAGE_RATIO, self.CURRENT_RATIO, self.PHASE_SHIFT)
+            self.calibration_state = 0
+        elif self.calibration_state == 0 and status == (True, True):
             self.calibration_state = 1
             self.calibration_time = time.time()
         elif self.calibration_state == 1 and  time.time() - self.calibration_time > 0.5:
