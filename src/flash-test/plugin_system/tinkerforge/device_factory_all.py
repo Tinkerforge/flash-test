@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-05-21.      #
+# This file was automatically generated on 2019-08-23.      #
 #                                                           #
-# Python Bindings Version 2.1.22                            #
+# Python Bindings Version 2.1.23                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -734,6 +734,16 @@ try:
 except ValueError:
     from bricklet_xmc1400_breakout import BrickletXMC1400Breakout
 
+try:
+    from .tng_di8 import TNGDI8
+except ValueError:
+    from tng_di8 import TNGDI8
+
+try:
+    from .tng_do8 import TNGDO8
+except ValueError:
+    from tng_do8 import TNGDO8
+
 
 DEVICE_CLASSES = {
     BrickDC.DEVICE_IDENTIFIER: BrickDC,
@@ -881,6 +891,8 @@ DEVICE_CLASSES = {
     BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
     BrickletVoltageCurrentV2.DEVICE_IDENTIFIER: BrickletVoltageCurrentV2,
     BrickletXMC1400Breakout.DEVICE_IDENTIFIER: BrickletXMC1400Breakout,
+    TNGDI8.DEVICE_IDENTIFIER: TNGDI8,
+    TNGDO8.DEVICE_IDENTIFIER: TNGDO8,
 }
 
 def get_device_class(device_identifier):
