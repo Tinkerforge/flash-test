@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-08-23.      #
+# This file was automatically generated on 2019-09-23.      #
 #                                                           #
 # Python Bindings Version 2.1.23                            #
 #                                                           #
@@ -233,6 +233,11 @@ try:
     from .bricklet_energy_monitor import BrickletEnergyMonitor
 except ValueError:
     from bricklet_energy_monitor import BrickletEnergyMonitor
+
+try:
+    from .bricklet_gas import BrickletGas
+except ValueError:
+    from bricklet_gas import BrickletGas
 
 try:
     from .bricklet_gas_detector import BrickletGasDetector
@@ -791,6 +796,7 @@ DEVICE_CLASSES = {
     BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
     BrickletEPaper296x128.DEVICE_IDENTIFIER: BrickletEPaper296x128,
     BrickletEnergyMonitor.DEVICE_IDENTIFIER: BrickletEnergyMonitor,
+    BrickletGas.DEVICE_IDENTIFIER: BrickletGas,
     BrickletGasDetector.DEVICE_IDENTIFIER: BrickletGasDetector,
     BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
     BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
