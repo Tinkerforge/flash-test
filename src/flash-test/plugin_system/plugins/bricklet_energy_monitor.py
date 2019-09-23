@@ -109,7 +109,7 @@ class Plugin(CoMCUBrickletBase):
     def cb_energy_data(self, data):
         voltage, current, energy, real_power, apparent_power, reactive_power, power_factor, frequency = data
 
-        value_string = 'V: {}mV, C: {}mA, E: {}mWh\nRP: {}mW, AP: {}mVA, RP: {}mVAR\nPF: {:03}, F: {}Hz'
+        value_string = 'Voltage: {}mV<br/>Current: {}mA<br/>Energy: {}mWh<br/>Real Power: {}mW<br/>Apparent Power: {}mVA<br/>Reactive Power: {}mVAR<br/>Power Factor: {:03}<br/>Frequency: {}Hz'
         value_string = value_string.format(voltage * 10,
                                            current * 10,
                                            energy * 10,
