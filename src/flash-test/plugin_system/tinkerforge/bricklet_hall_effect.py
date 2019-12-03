@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -72,7 +72,7 @@ class BrickletHallEffect(Device):
 
     def get_value(self):
         """
-        Returns *true* if a magnetic field of 35 Gauss (3.5mT) or greater is detected.
+        Returns *true* if a magnetic field of 3.5 millitesla or greater is detected.
         """
         return self.ipcon.send_request(self, BrickletHallEffect.FUNCTION_GET_VALUE, (), '', '!')
 
@@ -94,17 +94,15 @@ class BrickletHallEffect(Device):
         The edge type parameter configures if rising edges, falling edges or
         both are counted. Possible edge types are:
 
-        * 0 = rising (default)
+        * 0 = rising
         * 1 = falling
         * 2 = both
 
-        A magnetic field of 35 Gauss (3.5mT) or greater causes a falling edge and a
-        magnetic field of 25 Gauss (2.5mT) or smaller causes a rising edge.
+        A magnetic field of 3.5 millitesla or greater causes a falling edge and a
+        magnetic field of 2.5 millitesla or smaller causes a rising edge.
 
         If a magnet comes near the Bricklet the signal goes low (falling edge), if
         a magnet is removed from the vicinity the signal goes high (rising edge).
-
-        The debounce time is given in ms.
 
         Configuring an edge counter resets its value to 0.
 
@@ -129,8 +127,6 @@ class BrickletHallEffect(Device):
         If *edges* is set to n, an interrupt is invoked for every n-th detected edge.
 
         If *edges* is set to 0, the interrupt is disabled.
-
-        Default value is 0.
         """
         edges = int(edges)
 
@@ -175,7 +171,10 @@ class BrickletHallEffect(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be 'a', 'b', 'c' or 'd'.
+        The position can be 'a', 'b', 'c', 'd', 'e', 'f', 'g' or 'h' (Bricklet Port).
+        The Raspberry Pi HAT (Zero) Brick is always at position 'i' and the Bricklet
+        connected to an :ref:`Isolator Bricklet <isolator_bricklet>` is always as
+        position 'z'.
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|

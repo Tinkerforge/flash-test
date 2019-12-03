@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -149,7 +149,7 @@ class BrickletRGBLEDMatrix(Device):
 
     def set_frame_duration(self, frame_duration):
         """
-        Sets the frame duration in ms.
+        Sets the frame duration.
 
         Example: If you want to achieve 20 frames per second, you should
         set the frame duration to 50ms (50ms * 20 = 1 second).
@@ -166,8 +166,6 @@ class BrickletRGBLEDMatrix(Device):
         * and so on.
 
         For frame duration of 0 see :func:`Draw Frame`.
-
-        Default value: 0 = off.
         """
         frame_duration = int(frame_duration)
 
@@ -175,7 +173,7 @@ class BrickletRGBLEDMatrix(Device):
 
     def get_frame_duration(self):
         """
-        Returns the frame duration in ms as set by :func:`Set Frame Duration`.
+        Returns the frame duration as set by :func:`Set Frame Duration`.
         """
         return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_FRAME_DURATION, (), '', 'H')
 
@@ -199,7 +197,7 @@ class BrickletRGBLEDMatrix(Device):
 
     def get_supply_voltage(self):
         """
-        Returns the current supply voltage of the Bricklet. The voltage is given in mV.
+        Returns the current supply voltage of the Bricklet.
         """
         return self.ipcon.send_request(self, BrickletRGBLEDMatrix.FUNCTION_GET_SUPPLY_VOLTAGE, (), '', 'H')
 
@@ -336,7 +334,10 @@ class BrickletRGBLEDMatrix(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be 'a', 'b', 'c' or 'd'.
+        The position can be 'a', 'b', 'c', 'd', 'e', 'f', 'g' or 'h' (Bricklet Port).
+        The Raspberry Pi HAT (Zero) Brick is always at position 'i' and the Bricklet
+        connected to an :ref:`Isolator Bricklet <isolator_bricklet>` is always as
+        position 'z'.
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|

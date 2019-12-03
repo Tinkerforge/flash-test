@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -58,11 +58,6 @@ try:
     from .brick_stepper import BrickStepper
 except ValueError:
     from brick_stepper import BrickStepper
-
-try:
-    from .bricklet_ac_current import BrickletACCurrent
-except ValueError:
-    from bricklet_ac_current import BrickletACCurrent
 
 try:
     from .bricklet_accelerometer import BrickletAccelerometer
@@ -235,16 +230,6 @@ except ValueError:
     from bricklet_energy_monitor import BrickletEnergyMonitor
 
 try:
-    from .bricklet_gas import BrickletGas
-except ValueError:
-    from bricklet_gas import BrickletGas
-
-try:
-    from .bricklet_gas_detector import BrickletGasDetector
-except ValueError:
-    from bricklet_gas_detector import BrickletGasDetector
-
-try:
     from .bricklet_gps import BrickletGPS
 except ValueError:
     from bricklet_gps import BrickletGPS
@@ -263,11 +248,6 @@ try:
     from .bricklet_hall_effect_v2 import BrickletHallEffectV2
 except ValueError:
     from bricklet_hall_effect_v2 import BrickletHallEffectV2
-
-try:
-    from .bricklet_heart_rate import BrickletHeartRate
-except ValueError:
-    from bricklet_heart_rate import BrickletHeartRate
 
 try:
     from .bricklet_humidity import BrickletHumidity
@@ -313,11 +293,6 @@ try:
     from .bricklet_industrial_digital_out_4_v2 import BrickletIndustrialDigitalOut4V2
 except ValueError:
     from bricklet_industrial_digital_out_4_v2 import BrickletIndustrialDigitalOut4V2
-
-try:
-    from .bricklet_industrial_digital_out_hs_4 import BrickletIndustrialDigitalOutHS4
-except ValueError:
-    from bricklet_industrial_digital_out_hs_4 import BrickletIndustrialDigitalOutHS4
 
 try:
     from .bricklet_industrial_dual_0_20ma import BrickletIndustrialDual020mA
@@ -455,11 +430,6 @@ except ValueError:
     from bricklet_moisture import BrickletMoisture
 
 try:
-    from .bricklet_moisture_v2 import BrickletMoistureV2
-except ValueError:
-    from bricklet_moisture_v2 import BrickletMoistureV2
-
-try:
     from .bricklet_motion_detector import BrickletMotionDetector
 except ValueError:
     from bricklet_motion_detector import BrickletMotionDetector
@@ -520,11 +490,6 @@ except ValueError:
     from bricklet_outdoor_weather import BrickletOutdoorWeather
 
 try:
-    from .bricklet_ozone import BrickletOzone
-except ValueError:
-    from bricklet_ozone import BrickletOzone
-
-try:
     from .bricklet_particulate_matter import BrickletParticulateMatter
 except ValueError:
     from bricklet_particulate_matter import BrickletParticulateMatter
@@ -543,11 +508,6 @@ try:
     from .bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
 except ValueError:
     from bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
-
-try:
-    from .bricklet_pressure import BrickletPressure
-except ValueError:
-    from bricklet_pressure import BrickletPressure
 
 try:
     from .bricklet_ptc import BrickletPTC
@@ -761,7 +721,6 @@ DEVICE_CLASSES = {
     BrickServo.DEVICE_IDENTIFIER: BrickServo,
     BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
     BrickStepper.DEVICE_IDENTIFIER: BrickStepper,
-    BrickletACCurrent.DEVICE_IDENTIFIER: BrickletACCurrent,
     BrickletAccelerometer.DEVICE_IDENTIFIER: BrickletAccelerometer,
     BrickletAccelerometerV2.DEVICE_IDENTIFIER: BrickletAccelerometerV2,
     BrickletAirQuality.DEVICE_IDENTIFIER: BrickletAirQuality,
@@ -796,13 +755,10 @@ DEVICE_CLASSES = {
     BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
     BrickletEPaper296x128.DEVICE_IDENTIFIER: BrickletEPaper296x128,
     BrickletEnergyMonitor.DEVICE_IDENTIFIER: BrickletEnergyMonitor,
-    BrickletGas.DEVICE_IDENTIFIER: BrickletGas,
-    BrickletGasDetector.DEVICE_IDENTIFIER: BrickletGasDetector,
     BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
     BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
     BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
     BrickletHallEffectV2.DEVICE_IDENTIFIER: BrickletHallEffectV2,
-    BrickletHeartRate.DEVICE_IDENTIFIER: BrickletHeartRate,
     BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
     BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
     BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOut,
@@ -812,7 +768,6 @@ DEVICE_CLASSES = {
     BrickletIndustrialDigitalIn4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalIn4V2,
     BrickletIndustrialDigitalOut4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4,
     BrickletIndustrialDigitalOut4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4V2,
-    BrickletIndustrialDigitalOutHS4.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOutHS4,
     BrickletIndustrialDual020mA.DEVICE_IDENTIFIER: BrickletIndustrialDual020mA,
     BrickletIndustrialDual020mAV2.DEVICE_IDENTIFIER: BrickletIndustrialDual020mAV2,
     BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogIn,
@@ -840,7 +795,6 @@ DEVICE_CLASSES = {
     BrickletLoadCell.DEVICE_IDENTIFIER: BrickletLoadCell,
     BrickletLoadCellV2.DEVICE_IDENTIFIER: BrickletLoadCellV2,
     BrickletMoisture.DEVICE_IDENTIFIER: BrickletMoisture,
-    BrickletMoistureV2.DEVICE_IDENTIFIER: BrickletMoistureV2,
     BrickletMotionDetector.DEVICE_IDENTIFIER: BrickletMotionDetector,
     BrickletMotionDetectorV2.DEVICE_IDENTIFIER: BrickletMotionDetectorV2,
     BrickletMotorizedLinearPoti.DEVICE_IDENTIFIER: BrickletMotorizedLinearPoti,
@@ -853,12 +807,10 @@ DEVICE_CLASSES = {
     BrickletOLED64x48.DEVICE_IDENTIFIER: BrickletOLED64x48,
     BrickletOneWire.DEVICE_IDENTIFIER: BrickletOneWire,
     BrickletOutdoorWeather.DEVICE_IDENTIFIER: BrickletOutdoorWeather,
-    BrickletOzone.DEVICE_IDENTIFIER: BrickletOzone,
     BrickletParticulateMatter.DEVICE_IDENTIFIER: BrickletParticulateMatter,
     BrickletPiezoBuzzer.DEVICE_IDENTIFIER: BrickletPiezoBuzzer,
     BrickletPiezoSpeaker.DEVICE_IDENTIFIER: BrickletPiezoSpeaker,
     BrickletPiezoSpeakerV2.DEVICE_IDENTIFIER: BrickletPiezoSpeakerV2,
-    BrickletPressure.DEVICE_IDENTIFIER: BrickletPressure,
     BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
     BrickletPTCV2.DEVICE_IDENTIFIER: BrickletPTCV2,
     BrickletRealTimeClock.DEVICE_IDENTIFIER: BrickletRealTimeClock,

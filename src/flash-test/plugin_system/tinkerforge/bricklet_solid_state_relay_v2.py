@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -99,8 +99,6 @@ class BrickletSolidStateRelayV2(Device):
         Sets the state of the relays *true* means on and *false* means off.
 
         A running monoflop timer will be aborted if this function is called.
-
-        The default value is *false*.
         """
         state = bool(state)
 
@@ -115,7 +113,7 @@ class BrickletSolidStateRelayV2(Device):
     def set_monoflop(self, state, time):
         """
         The first parameter  is the desired state of the relay (*true* means on
-        and *false* means off). The second parameter indicates the time (in ms) that
+        and *false* means off). The second parameter indicates the time that
         the relay should hold the state.
 
         If this function is called with the parameters (true, 1500):
@@ -275,7 +273,10 @@ class BrickletSolidStateRelayV2(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be 'a', 'b', 'c' or 'd'.
+        The position can be 'a', 'b', 'c', 'd', 'e', 'f', 'g' or 'h' (Bricklet Port).
+        The Raspberry Pi HAT (Zero) Brick is always at position 'i' and the Bricklet
+        connected to an :ref:`Isolator Bricklet <isolator_bricklet>` is always as
+        position 'z'.
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -86,8 +86,8 @@ class BrickletRotaryPoti(Device):
 
     def get_position(self):
         """
-        Returns the position of the rotary potentiometer. The value is in degree
-        and between -150° (turned left) and 150° (turned right).
+        Returns the position of the rotary potentiometer. The value is
+        between -150° (turned left) and 150° (turned right).
 
         If you want to get the position periodically, it is recommended to use the
         :cb:`Position` callback and set the period with
@@ -98,7 +98,6 @@ class BrickletRotaryPoti(Device):
     def get_analog_value(self):
         """
         Returns the value as read by a 12-bit analog-to-digital converter.
-        The value is between 0 and 4095.
 
         .. note::
          The value returned by :func:`Get Position` is averaged over several samples
@@ -163,8 +162,6 @@ class BrickletRotaryPoti(Device):
          "'i'",    "Callback is triggered when the position is *inside* the min and max values"
          "'<'",    "Callback is triggered when the position is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the position is greater than the min value (max is ignored)"
-
-        The default value is ('x', 0, 0).
         """
         option = create_char(option)
         min = int(min)
@@ -193,8 +190,6 @@ class BrickletRotaryPoti(Device):
          "'i'",    "Callback is triggered when the analog value is *inside* the min and max values"
          "'<'",    "Callback is triggered when the analog value is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the analog value is greater than the min value (max is ignored)"
-
-        The default value is ('x', 0, 0).
         """
         option = create_char(option)
         min = int(min)
@@ -238,7 +233,10 @@ class BrickletRotaryPoti(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be 'a', 'b', 'c' or 'd'.
+        The position can be 'a', 'b', 'c', 'd', 'e', 'f', 'g' or 'h' (Bricklet Port).
+        The Raspberry Pi HAT (Zero) Brick is always at position 'i' and the Bricklet
+        connected to an :ref:`Isolator Bricklet <isolator_bricklet>` is always as
+        position 'z'.
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-11-27.      #
+# This file was automatically generated on 2019-12-03.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -26,7 +26,7 @@ GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardw
 
 class BrickletCompass(Device):
     """
-    3-axis compass with 0.1mG (milli Gauss) and 0.1° resolution
+    3-axis compass with 10 nanotesla and 0.1° resolution
     """
 
     DEVICE_IDENTIFIER = 2153
@@ -394,7 +394,10 @@ class BrickletCompass(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be 'a', 'b', 'c' or 'd'.
+        The position can be 'a', 'b', 'c', 'd', 'e', 'f', 'g' or 'h' (Bricklet Port).
+        The Raspberry Pi HAT (Zero) Brick is always at position 'i' and the Bricklet
+        connected to an :ref:`Isolator Bricklet <isolator_bricklet>` is always as
+        position 'z'.
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
