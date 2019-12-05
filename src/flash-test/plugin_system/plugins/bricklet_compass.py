@@ -35,7 +35,7 @@ class Plugin(CoMCUBrickletBase):
 4. Kalibriere magnetischen Fluss:
     * Bewege Compass Bricklet in jede Richtung bis min/max sich nicht mehr ändern. Stelle sicher, dass keine Magnetfeldquellen in der Nähe des Bricklets sind. Drücke Kalibrieren wenn fertig.
 5. Überprüfe Ausrichtung: Drehe bis 0° (Nord), 90° (Ost), 180° (Süd), 270° (West)
-6. Das Bricklet ist fertig, zusammen mit Knopf in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+6. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 7. Gehe zu 1
 """
 
