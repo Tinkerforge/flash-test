@@ -257,8 +257,6 @@ class CoMCUBrickletBase(PluginBase):
 
             self.comcu_uid_to_flash = None
 
-            BrickMasterFlashAdapterXMC(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
-
             self.mw.increase_flashed_count()
             return True
 
@@ -332,13 +330,3 @@ class CoMCUBrickletBase(PluginBase):
         ipcon.disconnect()
 
         return ret
-
-    def write_new_uid_to_bricklet(self):
-        try:
-            uid = base58encode(int(self.get_new_uid()))
-        except:
-            traceback.print_exc()
-            self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
-            return False
-
-        return True
