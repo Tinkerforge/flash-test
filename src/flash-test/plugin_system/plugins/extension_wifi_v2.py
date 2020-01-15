@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 from PyQt5 import Qt, QtWidgets, QtCore
+from PyQt5.QtWidgets import QMessageBox
 
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase, get_extension_firmware_filename
@@ -87,6 +88,7 @@ class Plugin(ExtensionBase):
         except:
             traceback.print_exc()
             self.mw.set_tool_status_error('Fehler beim Abfragen der Extension aufgetreten')
+            QMessageBox.critical(self.mw, "Fehler beim Abfragen der Extension aufgetreten.", "Fehler beim Abfragen der Extension aufgetreten:\nTraceback ist im Terminal.")
             os.system('beep -r 5 -l 50')
             return
 
@@ -99,6 +101,7 @@ class Plugin(ExtensionBase):
             except:
                 traceback.print_exc()
                 self.mw.set_tool_status_error('Fehler beim Abfragen der Firmware Version aufgetreten')
+                QMessageBox.critical(self.mw, "Fehler beim Abfragen der Firmware Version aufgetreten.", "Fehler beim Abfragen der Firmware Version aufgetreten:\nTraceback ist im Terminal.")
                 os.system('beep -r 5 -l 50')
 
             self.mw.set_value_normal('-')
@@ -126,6 +129,7 @@ class Plugin(ExtensionBase):
         except Exception as e:
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Flashen: {0}".format(e))
+            QMessageBox.critical(self.mw, "Fehler beim Flashen.", "Fehler beim Flashen:\nTraceback ist im Terminal.")
             os.system('beep -r 5 -l 50')
             return
 
@@ -162,6 +166,7 @@ class Plugin(ExtensionBase):
         except Exception as e:
             traceback.print_exc()
             self.mw.set_tool_status_error("Fehler beim Setzen des Extension-Typ: {0}".format(e))
+            QMessageBox.critical(self.mw, "Fehler beim Setzen des Extension-Typ.", "Fehler beim Setzen des Extension-Typ:\nTraceback ist im Terminal.")
             os.system('beep -r 5 -l 50')
             return
 

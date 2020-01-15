@@ -24,6 +24,8 @@ Boston, MA 02111-1307, USA.
 import os
 import traceback
 
+from PyQt5.QtWidgets import QMessageBox
+
 from plugin_system.plugin_base import PluginBase, base58encode
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.ip_connection import IPConnection
@@ -98,6 +100,7 @@ class BrickletBase(PluginBase):
                 position += 1
         except:
             traceback.print_exc()
+            QMessageBox.critical(self.mw, "Schreiben des Plugins fehlgeschlagen.", "Schreiben des Plugins fehlgeschlagen: \n{}\nTraceback ist im Terminal.".format(self.mw.label_flash_status.text()))
             return False
 
         self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
@@ -110,6 +113,7 @@ class BrickletBase(PluginBase):
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
+            QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen: \nTraceback ist im Terminal.")
             return False
 
         try:
@@ -122,6 +126,7 @@ class BrickletBase(PluginBase):
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Konnte UID für Port ' + port.upper() + ' nicht setzen')
+            QMessageBox.critical(self.mw, 'Konnte UID für Port ' + port.upper() + ' nicht setzen.', 'Konnte UID für Port ' + port.upper() + ' nicht setzen: \nTraceback ist im Terminal.')
             return False
 
         self.mw.set_uid_status_okay('Neue UID "' + uid + '" für Port ' + port.upper() + ' gesetzt')

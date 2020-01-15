@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 from PyQt5 import Qt, QtWidgets, QtCore
+from PyQt5.QtWidgets import QMessageBox
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.ip_connection import IPConnection
 
@@ -68,6 +69,7 @@ class PluginBase(QtWidgets.QWidget, object):
         except:
             traceback.print_exc()
             self.mw.set_tool_status_error('Konnte Master Brick nicht neustarten')
+            QMessageBox.critical(self.mw, "Konnte Master Brick nicht neustarten.", "Konnte Master Brick nicht neustarten:\nTraceback ist im Terminal.")
         else:
             self.mw.set_tool_status_action('Master Brick startet neu')
 

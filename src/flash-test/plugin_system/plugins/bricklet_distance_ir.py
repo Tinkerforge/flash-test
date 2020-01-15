@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 from PyQt5 import Qt, QtWidgets, QtCore
+from PyQt5.QtWidgets import QMessageBox
 
 from ..tinkerforge.bricklet_distance_ir import BrickletDistanceIR
 from ..bricklet_base import BrickletBase, get_bricklet_firmware_filename
@@ -227,6 +228,7 @@ class Plugin(BrickletBase):
         except:
             import traceback
             traceback.print_exc()
+            QMessageBox.critical(self.mw, "Konnte Sampling Points nicht setzen.", "Konnte Sampling Points nicht setzen:\nTraceback ist im Terminal.")
             return
 
     def write_calibration(self):
@@ -260,7 +262,7 @@ class Plugin(BrickletBase):
                     continue
 
                 if ':' not in line:
-                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(self.mw, "Sample points",
                                                "Sample points file is malformed (error code 1)",
                                                QtWidgets.QMessageBox.Ok)
                     return
@@ -268,7 +270,7 @@ class Plugin(BrickletBase):
                 s = line.split(':')
 
                 if len(s) != 2:
-                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(self.mw, "Sample points",
                                                "Sample points file is malformed (error code 2)",
                                                QtWidgets.QMessageBox.Ok)
                     return
@@ -277,7 +279,7 @@ class Plugin(BrickletBase):
                     x.append(int(s[1]))
                     y.append(int(s[0]))
                 except:
-                    QtWidgets.QMessageBox.critical(get_main_window(), "Sample points",
+                    QtWidgets.QMessageBox.critical(self.mw, "Sample points",
                                                "Sample points file is malformed (error code 3)",
                                                QtWidgets.QMessageBox.Ok)
                     return

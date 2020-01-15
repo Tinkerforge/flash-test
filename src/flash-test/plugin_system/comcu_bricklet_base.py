@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 from plugin_system.plugin_base import PluginBase, base58encode
 from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
@@ -137,15 +138,18 @@ class CoMCUBrickletBase(PluginBase):
 
             device.set_bootloader_mode(device.BOOTLOADER_MODE_BOOTLOADER)
             counter = 0
+            last_exc_tup = None
             while True:
                 try:
                     if device.get_bootloader_mode() == device.BOOTLOADER_MODE_BOOTLOADER:
                         break
                 except:
-                    pass
+                    last_exc_tup = sys.exc_info()
 
                 if counter == 10:
                     self.mw.set_flash_status_error('Gerät nicht im Bootloader-Modus nach 2,5s.')
+                    traceback.print_exception(*last_exc_tup)
+                    QMessageBox.critical(self.mw, 'Gerät nicht im Bootloader-Modus nach 2,5s.', 'Gerät nicht im Bootloader-Modus nach 2,5s\nTraceback ist im Terminal.')
                     return False
 
                 time.sleep(0.25)
@@ -217,16 +221,19 @@ class CoMCUBrickletBase(PluginBase):
                 break
 
             counter = 0
+            last_exc_tup = None
             while True:
                 try:
                     bootloader_mode = device.get_bootloader_mode()
                     if bootloader_mode == device.BOOTLOADER_MODE_FIRMWARE:
                         break
                 except:
-                    traceback.print_exc()
+                    last_exc_tup = sys.exc_info()
 
                 if counter == 10:
                     self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 2,5s.')
+                    traceback.print_exception(*last_exc_tup)
+                    QMessageBox.critical(self.mw, 'Gerät nicht im Firmware-Modus nach 2,5s.', 'Gerät nicht im Firmware-Modus nach 2,5s\nTraceback ist im Terminal.')
                     return False
 
                 time.sleep(0.25)
@@ -239,6 +246,7 @@ class CoMCUBrickletBase(PluginBase):
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
+                QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen:\nTraceback ist im Terminal.")
                 return False
 
             try:
@@ -251,6 +259,7 @@ class CoMCUBrickletBase(PluginBase):
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte UID nicht setzen')
+                QMessageBox.critical(self.mw, "Konnte UID nicht setzen.", "Konnte UID nicht setzen:\nTraceback ist im Terminal.")
                 return False
 
             self.mw.set_uid_status_okay('Neue UID "' + base58encode(uid) + '" gesetzt')
@@ -261,6 +270,7 @@ class CoMCUBrickletBase(PluginBase):
             return True
 
         except:
+            traceback.print_exc()
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
             return False
 
