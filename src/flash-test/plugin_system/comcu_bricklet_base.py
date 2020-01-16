@@ -266,6 +266,8 @@ class CoMCUBrickletBase(PluginBase):
 
             self.comcu_uid_to_flash = None
 
+            BrickMasterFlashAdapterXMC(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
+
             self.mw.increase_flashed_count()
             return True
 
