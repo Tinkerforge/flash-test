@@ -52,6 +52,13 @@ class Progress:
 
 class Plugin(ExtensionBase):
     TODO_TEXT = u"""\
+0. Nehme Test Access Point in Betrieb
+   a. Test Access Point besteht aus Master Brick mit WIFI Extension 2.0 an USB Power Supply
+   b. WIFI Extension 2.0 Konfiguration:
+      - Mode: Access Point (Client muss deaktiviert sein)
+      - SSID: Your Access Point
+      - Password: password
+
 1. Stecke WIFI Extension 2.0 auf Master Brick
 2. Stecke Master Brick an USB
 3. Warte bis Flash-Vorgang abgeschlossen wird
