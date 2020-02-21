@@ -5,6 +5,7 @@ from .plugins.brick_imu_v2 import Plugin as brick_imu_v2_class
 from .plugins.brick_master import Plugin as brick_master_class
 from .plugins.brick_servo import Plugin as brick_servo_class
 from .plugins.brick_silent_stepper import Plugin as brick_silent_stepper_class
+from .plugins.brick_smartbed import Plugin as brick_smartbed_class
 from .plugins.brick_stepper import Plugin as brick_stepper_class
 from .plugins.bricklet_accelerometer import Plugin as bricklet_accelerometer_class
 from .plugins.bricklet_accelerometer_v2 import Plugin as bricklet_accelerometer_v2_class
@@ -133,6 +134,7 @@ device_classes = [
     brick_master_class,
     brick_servo_class,
     brick_silent_stepper_class,
+    brick_smartbed_class,
     brick_stepper_class,
     bricklet_accelerometer_class,
     bricklet_accelerometer_v2_class,

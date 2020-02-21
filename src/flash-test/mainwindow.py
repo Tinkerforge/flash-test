@@ -95,6 +95,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         device_identifiers.append((40013, 'Ethernet Extension'))
         device_identifiers.append((50013, 'WIFI Extension 2.0'))
 
+        device_identifiers.append((102, 'Smartbed Brick'))
+
         self.device_by_identifier = {}
         for cls in device_classes:
             instance = cls(self)

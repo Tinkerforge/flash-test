@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2019-12-03.      #
+# This file was automatically generated on 2020-01-16.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -173,6 +173,11 @@ try:
     from .bricklet_current25 import BrickletCurrent25
 except ValueError:
     from bricklet_current25 import BrickletCurrent25
+
+try:
+    from .bricklet_dc_v2 import BrickletDCV2
+except ValueError:
+    from bricklet_dc_v2 import BrickletDCV2
 
 try:
     from .bricklet_distance_ir import BrickletDistanceIR
@@ -510,6 +515,11 @@ except ValueError:
     from bricklet_piezo_speaker_v2 import BrickletPiezoSpeakerV2
 
 try:
+    from .bricklet_power_supply import BrickletPowerSupply
+except ValueError:
+    from bricklet_power_supply import BrickletPowerSupply
+
+try:
     from .bricklet_ptc import BrickletPTC
 except ValueError:
     from bricklet_ptc import BrickletPTC
@@ -605,6 +615,16 @@ except ValueError:
     from bricklet_segment_display_4x7_v2 import BrickletSegmentDisplay4x7V2
 
 try:
+    from .bricklet_servo_v2 import BrickletServoV2
+except ValueError:
+    from bricklet_servo_v2 import BrickletServoV2
+
+try:
+    from .bricklet_silent_stepper_v2 import BrickletSilentStepperV2
+except ValueError:
+    from bricklet_silent_stepper_v2 import BrickletSilentStepperV2
+
+try:
     from .bricklet_solid_state_relay import BrickletSolidStateRelay
 except ValueError:
     from bricklet_solid_state_relay import BrickletSolidStateRelay
@@ -668,6 +688,11 @@ try:
     from .bricklet_tilt import BrickletTilt
 except ValueError:
     from bricklet_tilt import BrickletTilt
+
+try:
+    from .bricklet_tng_base import BrickletTNGBase
+except ValueError:
+    from bricklet_tng_base import BrickletTNGBase
 
 try:
     from .bricklet_uv_light import BrickletUVLight
@@ -744,6 +769,7 @@ DEVICE_CLASSES = {
     BrickletCompass.DEVICE_IDENTIFIER: BrickletCompass,
     BrickletCurrent12.DEVICE_IDENTIFIER: BrickletCurrent12,
     BrickletCurrent25.DEVICE_IDENTIFIER: BrickletCurrent25,
+    BrickletDCV2.DEVICE_IDENTIFIER: BrickletDCV2,
     BrickletDistanceIR.DEVICE_IDENTIFIER: BrickletDistanceIR,
     BrickletDistanceIRV2.DEVICE_IDENTIFIER: BrickletDistanceIRV2,
     BrickletDistanceUS.DEVICE_IDENTIFIER: BrickletDistanceUS,
@@ -811,6 +837,7 @@ DEVICE_CLASSES = {
     BrickletPiezoBuzzer.DEVICE_IDENTIFIER: BrickletPiezoBuzzer,
     BrickletPiezoSpeaker.DEVICE_IDENTIFIER: BrickletPiezoSpeaker,
     BrickletPiezoSpeakerV2.DEVICE_IDENTIFIER: BrickletPiezoSpeakerV2,
+    BrickletPowerSupply.DEVICE_IDENTIFIER: BrickletPowerSupply,
     BrickletPTC.DEVICE_IDENTIFIER: BrickletPTC,
     BrickletPTCV2.DEVICE_IDENTIFIER: BrickletPTCV2,
     BrickletRealTimeClock.DEVICE_IDENTIFIER: BrickletRealTimeClock,
@@ -830,6 +857,8 @@ DEVICE_CLASSES = {
     BrickletRS485.DEVICE_IDENTIFIER: BrickletRS485,
     BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
     BrickletSegmentDisplay4x7V2.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7V2,
+    BrickletServoV2.DEVICE_IDENTIFIER: BrickletServoV2,
+    BrickletSilentStepperV2.DEVICE_IDENTIFIER: BrickletSilentStepperV2,
     BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
     BrickletSolidStateRelayV2.DEVICE_IDENTIFIER: BrickletSolidStateRelayV2,
     BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,
@@ -843,6 +872,7 @@ DEVICE_CLASSES = {
     BrickletThermocouple.DEVICE_IDENTIFIER: BrickletThermocouple,
     BrickletThermocoupleV2.DEVICE_IDENTIFIER: BrickletThermocoupleV2,
     BrickletTilt.DEVICE_IDENTIFIER: BrickletTilt,
+    BrickletTNGBase.DEVICE_IDENTIFIER: BrickletTNGBase,
     BrickletUVLight.DEVICE_IDENTIFIER: BrickletUVLight,
     BrickletUVLightV2.DEVICE_IDENTIFIER: BrickletUVLightV2,
     BrickletVoltage.DEVICE_IDENTIFIER: BrickletVoltage,
