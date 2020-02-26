@@ -29,7 +29,7 @@ from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from .tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
-from .tinkerforge.bricklet_gps_v2 import BrickletGPSV2
+from .tinkerforge.bricklet_generic import BrickletGeneric
 from .tinkerforge.ip_connection import IPConnection
 
 from zipfile import ZipFile
@@ -133,7 +133,7 @@ class CoMCUBrickletBase(PluginBase):
                 self.mw.set_flash_status_error('Konnte "magic number" in Firmware nicht finden')
 
             ipcon = IPConnection()
-            device = BrickletGPSV2(self.comcu_uid_to_flash, ipcon)
+            device = BrickletGeneric(self.comcu_uid_to_flash, ipcon)
             ipcon.connect('localhost', 4223)
 
             device.set_bootloader_mode(device.BOOTLOADER_MODE_BOOTLOADER)
