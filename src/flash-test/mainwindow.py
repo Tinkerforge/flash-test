@@ -65,6 +65,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         urllib.request.install_opener(opener)
 
         self.setupUi(self)
+        self.resize(800, 800)
         temp_layouts = [self.industrial_dual_analog_in_layout,
                         self.voltage_current_layout,
                         self.distance_ir_layout,

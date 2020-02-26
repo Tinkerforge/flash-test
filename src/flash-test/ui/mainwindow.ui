@@ -6,666 +6,660 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
-    <height>892</height>
+    <width>723</width>
+    <height>1003</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tinkerforge Flash und Test</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>7</x>
-      <y>7</y>
-      <width>705</width>
-      <height>1067</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QComboBox" name="combo_device"/>
-     </item>
-     <item>
-      <widget class="QPlainTextEdit" name="text_edit_todo">
-       <property name="minimumSize">
-        <size>
-         <width>700</width>
-         <height>200</height>
-        </size>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="plainText">
-        <string>1. Beschreibe hier was zu tun ist.
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QComboBox" name="combo_device"/>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="text_edit_todo">
+        <property name="minimumSize">
+         <size>
+          <width>700</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="plainText">
+         <string>1. Beschreibe hier was zu tun ist.
 2. In einfachen Schritten.
 3. ...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="button_flash">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Flashen</string>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_restart_test">
-         <property name="text">
-          <string>Test Neustarten</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Anzahl:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spin_flashed_count">
-         <property name="maximum">
-          <number>2147483647</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_continue">
-       <property name="text">
-        <string>Fortsetzen</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="layout_plugin_top"/>
-     </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Tool Status:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>UID Status:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_tool_status">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Flash Status:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Wert:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_flash_status">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_uid_status">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_value">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="industrial_dual_analog_in_layout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>Eingespeiste Spannung:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spinbox_voltage_idai">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximum">
-          <number>35000</number>
-         </property>
-         <property name="value">
-          <number>24000</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>mV</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_offset_idai">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_gain_idai">
-         <property name="text">
-          <string>Gain</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="compass_layout">
-       <item row="5" column="0" colspan="4">
-        <widget class="QPushButton" name="button_calibration_save">
-         <property name="text">
-          <string>Kalibrieren</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>Min</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Max</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="label_z_min">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_x_cur">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_z_cur">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Current</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QLabel" name="label_y_max">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLabel" name="label_x_max">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Magnetic Flux Density X</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="label_y_min">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="label_x_min">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Magnetic Flux Density Z:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>Magnetic Flux Density Y:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QLabel" name="label_z_max">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_y_cur">
-         <property name="text">
-          <string>TBD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="4">
-        <widget class="QPushButton" name="button_calibration_remove">
-         <property name="text">
-          <string>Kalibrierung löschen</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="voltage_current_layout">
-       <item>
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Gemessener Strom:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spinbox_current_vc">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>-20000</number>
-         </property>
-         <property name="maximum">
-          <number>20000</number>
-         </property>
-         <property name="value">
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>mA</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_save_vc">
-         <property name="text">
-          <string>Kalibrieren</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="distance_ir_layout">
-       <item>
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Sharp Distanz-Sensor:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="distance_ir_sensor_combo">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>2Y0A41 (4-30cm)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="button_flash">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-         </item>
-         <item>
           <property name="text">
-           <string>2Y0A21 (10-80cm)</string>
+           <string>Flashen</string>
           </property>
-         </item>
-         <item>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_restart_test">
           <property name="text">
-           <string>2Y0A02 (20-150cm)</string>
+           <string>Test Neustarten</string>
           </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="ethernet_extension_layout">
-       <item>
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>MAC Adresse:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>40:D8:55:02:A</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="edit_ethernet_extension">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_ethernet_extension">
-         <property name="text">
-          <string>MAC Adresse Schreiben</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="color_layout">
-       <item>
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Farbe:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_color">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="piezo_speaker_layout">
-       <item>
-        <widget class="QPushButton" name="button_calibrate_ps">
-         <property name="text">
-          <string>Kalibrieren</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="multi_touch_layout">
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Elektroden:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_0">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_1">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_2">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_3">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_4">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_5">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_6">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_7">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_8">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_9">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_10">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_multi_touch_11">
-         <property name="styleSheet">
-          <string notr="true">QLabel { background-color : black; }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="layout_plugin_bottom"/>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>703</width>
-         <height>13</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Anzahl:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spin_flashed_count">
+          <property name="maximum">
+           <number>2147483647</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="button_continue">
+        <property name="text">
+         <string>Fortsetzen</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="layout_plugin_top"/>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Tool Status:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>UID Status:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_tool_status">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Flash Status:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Wert:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_flash_status">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_uid_status">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="industrial_dual_analog_in_layout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Eingespeiste Spannung:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_voltage_idai">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>35000</number>
+          </property>
+          <property name="value">
+           <number>24000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>mV</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_offset_idai">
+          <property name="text">
+           <string>Offset</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_gain_idai">
+          <property name="text">
+           <string>Gain</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="compass_layout">
+        <item row="5" column="0" colspan="4">
+         <widget class="QPushButton" name="button_calibration_save">
+          <property name="text">
+           <string>Kalibrieren</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>Min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Max</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_z_min">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_x_cur">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_z_cur">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Current</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_y_max">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="label_x_max">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>Magnetic Flux Density X</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_y_min">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_x_min">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Magnetic Flux Density Z:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Magnetic Flux Density Y:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QLabel" name="label_z_max">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_y_cur">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="4">
+         <widget class="QPushButton" name="button_calibration_remove">
+          <property name="text">
+           <string>Kalibrierung löschen</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="voltage_current_layout">
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Gemessener Strom:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_current_vc">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>-20000</number>
+          </property>
+          <property name="maximum">
+           <number>20000</number>
+          </property>
+          <property name="value">
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>mA</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_save_vc">
+          <property name="text">
+           <string>Kalibrieren</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="distance_ir_layout">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Sharp Distanz-Sensor:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="distance_ir_sensor_combo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>2Y0A41 (4-30cm)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2Y0A21 (10-80cm)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2Y0A02 (20-150cm)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="ethernet_extension_layout">
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>MAC Adresse:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>40:D8:55:02:A</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="edit_ethernet_extension">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_ethernet_extension">
+          <property name="text">
+           <string>MAC Adresse Schreiben</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="color_layout">
+        <item>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Farbe:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_color">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="piezo_speaker_layout">
+        <item>
+         <widget class="QPushButton" name="button_calibrate_ps">
+          <property name="text">
+           <string>Kalibrieren</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="multi_touch_layout">
+        <item>
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Elektroden:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_0">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_1">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_2">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_3">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_4">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_5">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_6">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_7">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_8">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_9">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_10">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_multi_touch_11">
+          <property name="styleSheet">
+           <string notr="true">QLabel { background-color : black; }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="layout_plugin_bottom"/>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>703</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
