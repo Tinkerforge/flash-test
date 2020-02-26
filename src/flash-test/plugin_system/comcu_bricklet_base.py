@@ -40,8 +40,8 @@ import sys
 from subprocess import Popen, PIPE
 import fcntl
 
-MASK_NONE  = 0b0000
-MASK_POWER = 0b0011
+MASK_NONE = (False, False, False, False)
+MASK_POWER = (False, False, True, True)
 
 CONFIG_BAUDRATE   = 115200
 CONFIG_TTY        = '/dev/ttyUSB0'

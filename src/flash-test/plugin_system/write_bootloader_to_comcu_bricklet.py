@@ -7,8 +7,8 @@ CONFIG_UID_IQR    = '555'
 
 USBDEVFS_RESET = 21780
 
-MASK_NONE  = 0b0000
-MASK_POWER = 0b0011
+MASK_NONE = (False, False, False, False)
+MASK_POWER = (False, False, True, True)
 
 import time
 import os

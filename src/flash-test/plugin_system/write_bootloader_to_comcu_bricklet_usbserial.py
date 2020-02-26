@@ -7,9 +7,9 @@ CONFIG_UID_IQR    = '555'
 
 USBDEVFS_RESET = 21780
 
-MASK_NONE  = 0b0000
-MASK_POWER = 0b0010
-MASK_DATA  = 0b0001
+MASK_NONE = (False, False, False, False)
+MASK_POWER = (False, False, True, False)
+MASK_POWER_AND_DATA = (False, False, True, True)
 
 import time
 import os
@@ -60,7 +60,7 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
             master.get_chibi_error_log()
             iqr.set_value(MASK_NONE)
             time.sleep(0.1)
-            iqr.set_value(MASK_POWER | MASK_DATA)
+            iqr.set_value(MASK_POWER_AND_DATA)
             i = 0
 
         i += 1
