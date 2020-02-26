@@ -18,7 +18,7 @@ import fcntl
 from zipfile import ZipFile
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
+from tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
 
@@ -53,7 +53,7 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
         print('Could not find program master')
         return
 
-    iqr = BrickletIndustrialQuadRelay(uid_iqr, ipcon)
+    iqr = BrickletIndustrialQuadRelayV2(uid_iqr, ipcon)
     master = BrickMasterFlashAdapterXMC(uid_master, ipcon)
 
     use_half_duplex = 0

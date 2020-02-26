@@ -18,7 +18,7 @@ from subprocess import Popen, PIPE
 import fcntl
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
+from tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from tinkerforge.brick_master import BrickMaster
 from xmc_flash import xmc_flash
 
@@ -51,7 +51,7 @@ def relay_flash(baudrate, tty, firmware, uid_iqr):
         print('Could not find program master')
         return
 
-    iqr = BrickletIndustrialQuadRelay(uid_iqr, ipcon)
+    iqr = BrickletIndustrialQuadRelayV2(uid_iqr, ipcon)
     master = BrickMaster(uid_master, ipcon)
 
     i = 2
