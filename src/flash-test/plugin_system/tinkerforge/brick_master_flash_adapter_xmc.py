@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2018-02-19.      #
+# This file was automatically generated on 2020-02-26.      #
 #                                                           #
-# Python Bindings Version 2.1.15                            #
+# Python Bindings Version 2.1.24                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -51,6 +51,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
     DEVICE_IDENTIFIER = 110
     DEVICE_DISPLAY_NAME = 'Master Flash Adapter XMC Brick'
+    DEVICE_URL_PART = 'master_flash_adapter_xmc' # internal
 
     CALLBACK_STACK_CURRENT = 59
     CALLBACK_STACK_VOLTAGE = 60
@@ -178,6 +179,8 @@ class BrickMasterFlashAdapterXMC(Device):
     FUNCTION_GET_PROTOCOL1_BRICKLET_NAME = 241
     FUNCTION_GET_CHIP_TEMPERATURE = 242
     FUNCTION_RESET = 243
+    FUNCTION_WRITE_BRICKLET_PLUGIN = 246
+    FUNCTION_READ_BRICKLET_PLUGIN = 247
     FUNCTION_GET_IDENTITY = 255
 
     EXTENSION_TYPE_CHIBI = 1
@@ -273,9 +276,9 @@ class BrickMasterFlashAdapterXMC(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon)
+        Device.__init__(self, uid, ipcon, BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER, BrickMasterFlashAdapterXMC.DEVICE_DISPLAY_NAME)
 
-        self.api_version = (2, 0, 4)
+        self.api_version = (2, 0, 9)
 
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_VOLTAGE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_CURRENT] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -395,6 +398,8 @@ class BrickMasterFlashAdapterXMC(Device):
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_PROTOCOL1_BRICKLET_NAME] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIP_TEMPERATURE] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_RESET] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_WRITE_BRICKLET_PLUGIN] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_READ_BRICKLET_PLUGIN] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickMasterFlashAdapterXMC.FUNCTION_GET_IDENTITY] = BrickMasterFlashAdapterXMC.RESPONSE_EXPECTED_ALWAYS_TRUE
 
         self.callback_formats[BrickMasterFlashAdapterXMC.CALLBACK_STACK_CURRENT] = 'H'
@@ -404,27 +409,32 @@ class BrickMasterFlashAdapterXMC(Device):
         self.callback_formats[BrickMasterFlashAdapterXMC.CALLBACK_STACK_VOLTAGE_REACHED] = 'H'
         self.callback_formats[BrickMasterFlashAdapterXMC.CALLBACK_USB_VOLTAGE_REACHED] = 'H'
 
+        ipcon.add_device(self)
 
     def get_stack_voltage(self):
         """
-        Returns the stack voltage in mV. The stack voltage is the
+        Returns the stack voltage. The stack voltage is the
         voltage that is supplied via the stack, i.e. it is given by a
         Step-Down or Step-Up Power Supply.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_VOLTAGE, (), '', 'H')
 
     def get_stack_current(self):
         """
-        Returns the stack current in mA. The stack current is the
+        Returns the stack current. The stack current is the
         current that is drawn via the stack, i.e. it is given by a
         Step-Down or Step-Up Power Supply.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_CURRENT, (), '', 'H')
 
     def set_extension_type(self, extension, exttype):
         """
         Writes the extension type to the EEPROM of a specified extension.
-        The extension is either 0 or 1 (0 is the on the bottom, 1 is the one on top,
+        The extension is either 0 or 1 (0 is the lower one, 1 is the upper one,
         if only one extension is present use 0).
 
         Possible extension types:
@@ -442,6 +452,8 @@ class BrickMasterFlashAdapterXMC(Device):
         The extension type is already set when bought and it can be set with the
         Brick Viewer, it is unlikely that you need this function.
         """
+        self.check_validity()
+
         extension = int(extension)
         exttype = int(exttype)
 
@@ -451,24 +463,31 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the type for a given extension as set by :func:`Set Extension Type`.
         """
+        self.check_validity()
+
         extension = int(extension)
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_EXTENSION_TYPE, (extension,), 'B', 'I')
 
     def is_chibi_present(self):
         """
-        Returns *true* if a Chibi Extension is available to be used by the Master Brick.
+        Returns *true* if the Master Brick is at position 0 in the stack and a Chibi
+        Extension is available.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_CHIBI_PRESENT, (), '', '!')
 
     def set_chibi_address(self, address):
         """
-        Sets the address (1-255) belonging to the Chibi Extension.
+        Sets the address belonging to the Chibi Extension.
 
         It is possible to set the address with the Brick Viewer and it will be
         saved in the EEPROM of the Chibi Extension, it does not
         have to be set on every startup.
         """
+        self.check_validity()
+
         address = int(address)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_CHIBI_ADDRESS, (address,), 'B', '')
@@ -477,17 +496,21 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the address as set by :func:`Set Chibi Address`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_ADDRESS, (), '', 'B')
 
     def set_chibi_master_address(self, address):
         """
-        Sets the address (1-255) of the Chibi Master. This address is used if the
+        Sets the address of the Chibi Master. This address is used if the
         Chibi Extension is used as slave (i.e. it does not have a USB connection).
 
         It is possible to set the address with the Brick Viewer and it will be
         saved in the EEPROM of the Chibi Extension, it does not
         have to be set on every startup.
         """
+        self.check_validity()
+
         address = int(address)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_CHIBI_MASTER_ADDRESS, (address,), 'B', '')
@@ -496,11 +519,13 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the address as set by :func:`Set Chibi Master Address`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_MASTER_ADDRESS, (), '', 'B')
 
     def set_chibi_slave_address(self, num, address):
         """
-        Sets up to 254 slave addresses. Valid addresses are in range 1-255. 0 has a
+        Sets up to 254 slave addresses. 0 has a
         special meaning, it is used as list terminator and not allowed as normal slave
         address. The address numeration (via ``num`` parameter) has to be used
         ascending from 0. For example: If you use the Chibi Extension in Master mode
@@ -516,6 +541,8 @@ class BrickMasterFlashAdapterXMC(Device):
         The slave addresses will be saved in the EEPROM of the Chibi Extension, they
         don't have to be set on every startup.
         """
+        self.check_validity()
+
         num = int(num)
         address = int(address)
 
@@ -526,6 +553,8 @@ class BrickMasterFlashAdapterXMC(Device):
         Returns the slave address for a given ``num`` as set by
         :func:`Set Chibi Slave Address`.
         """
+        self.check_validity()
+
         num = int(num)
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_SLAVE_ADDRESS, (num,), 'B', 'B')
@@ -535,6 +564,8 @@ class BrickMasterFlashAdapterXMC(Device):
         Returns the signal strength in dBm. The signal strength updates every time a
         packet is received.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_SIGNAL_STRENGTH, (), '', 'B')
 
     def get_chibi_error_log(self):
@@ -544,6 +575,8 @@ class BrickMasterFlashAdapterXMC(Device):
         distance between two Chibi stacks is becoming too big or there are
         interferences.
         """
+        self.check_validity()
+
         return GetChibiErrorLog(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_ERROR_LOG, (), '', 'H H H H'))
 
     def set_chibi_frequency(self, frequency):
@@ -563,6 +596,8 @@ class BrickMasterFlashAdapterXMC(Device):
         saved in the EEPROM of the Chibi Extension, it does not
         have to be set on every startup.
         """
+        self.check_validity()
+
         frequency = int(frequency)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_CHIBI_FREQUENCY, (frequency,), 'B', '')
@@ -571,6 +606,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the frequency value as set by :func:`Set Chibi Frequency`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_FREQUENCY, (), '', 'B')
 
     def set_chibi_channel(self, channel):
@@ -579,7 +616,7 @@ class BrickMasterFlashAdapterXMC(Device):
         different for different frequencies:
 
         .. csv-table::
-         :header: "Frequency",             "Possible Channels"
+         :header: "Frequency", "Possible Channels"
          :widths: 40, 60
 
          "OQPSK 868MHz (Europe)", "0"
@@ -591,6 +628,8 @@ class BrickMasterFlashAdapterXMC(Device):
         saved in the EEPROM of the Chibi Extension, it does not
         have to be set on every startup.
         """
+        self.check_validity()
+
         channel = int(channel)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_CHIBI_CHANNEL, (channel,), 'B', '')
@@ -599,12 +638,17 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the channel as set by :func:`Set Chibi Channel`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIBI_CHANNEL, (), '', 'B')
 
     def is_rs485_present(self):
         """
-        Returns *true* if a RS485 Extension is available to be used by the Master Brick.
+        Returns *true* if the Master Brick is at position 0 in the stack and a RS485
+        Extension is available.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_RS485_PRESENT, (), '', '!')
 
     def set_rs485_address(self, address):
@@ -618,6 +662,8 @@ class BrickMasterFlashAdapterXMC(Device):
         saved in the EEPROM of the RS485 Extension, it does not
         have to be set on every startup.
         """
+        self.check_validity()
+
         address = int(address)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_RS485_ADDRESS, (address,), 'B', '')
@@ -626,6 +672,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the address as set by :func:`Set RS485 Address`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_RS485_ADDRESS, (), '', 'B')
 
     def set_rs485_slave_address(self, num, address):
@@ -646,6 +694,8 @@ class BrickMasterFlashAdapterXMC(Device):
         The slave addresses will be saved in the EEPROM of the Chibi Extension, they
         don't have to be set on every startup.
         """
+        self.check_validity()
+
         num = int(num)
         address = int(address)
 
@@ -656,6 +706,8 @@ class BrickMasterFlashAdapterXMC(Device):
         Returns the slave address for a given ``num`` as set by
         :func:`Set RS485 Slave Address`.
         """
+        self.check_validity()
+
         num = int(num)
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_RS485_SLAVE_ADDRESS, (num,), 'B', 'B')
@@ -667,23 +719,26 @@ class BrickMasterFlashAdapterXMC(Device):
         between the RS485 nodes is too big or there is some kind of
         interference.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_RS485_ERROR_LOG, (), '', 'H')
 
     def set_rs485_configuration(self, speed, parity, stopbits):
         """
-        Sets the configuration of the RS485 Extension. Speed is given in baud. The
+        Sets the configuration of the RS485 Extension. The
         Master Brick will try to match the given baud rate as exactly as possible.
-        The maximum recommended baud rate is 2000000 (2Mbit/s).
+        The maximum recommended baud rate is 2000000 (2MBd).
         Possible values for parity are 'n' (none), 'e' (even) and 'o' (odd).
-        Possible values for stop bits are 1 and 2.
 
         If your RS485 is unstable (lost messages etc.), the first thing you should
         try is to decrease the speed. On very large bus (e.g. 1km), you probably
-        should use a value in the range of 100000 (100kbit/s).
+        should use a value in the range of 100000 (100kBd).
 
         The values are stored in the EEPROM and only applied on startup. That means
         you have to restart the Master Brick after configuration.
         """
+        self.check_validity()
+
         speed = int(speed)
         parity = create_char(parity)
         stopbits = int(stopbits)
@@ -694,12 +749,17 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the configuration as set by :func:`Set RS485 Configuration`.
         """
+        self.check_validity()
+
         return GetRS485Configuration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_RS485_CONFIGURATION, (), '', 'I c B'))
 
     def is_wifi_present(self):
         """
-        Returns *true* if a WIFI Extension is available to be used by the Master Brick.
+        Returns *true* if the Master Brick is at position 0 in the stack and a WIFI
+        Extension is available.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI_PRESENT, (), '', '!')
 
     def set_wifi_configuration(self, ssid, connection, ip, subnet_mask, gateway, port):
@@ -724,14 +784,15 @@ class BrickMasterFlashAdapterXMC(Device):
         ``connection`` is set to one of the DHCP options then ``ip``, ``subnet_mask``
         and ``gateway`` are ignored, you can set them to 0.
 
-        The last parameter is the port that your program will connect to. The
-        default port, that is used by brickd, is 4223.
+        The last parameter is the port that your program will connect to.
 
         The values are stored in the EEPROM and only applied on startup. That means
         you have to restart the Master Brick after configuration.
 
         It is recommended to use the Brick Viewer to set the WIFI configuration.
         """
+        self.check_validity()
+
         ssid = create_string(ssid)
         connection = int(connection)
         ip = list(map(int, ip))
@@ -745,6 +806,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the configuration as set by :func:`Set Wifi Configuration`.
         """
+        self.check_validity()
+
         return GetWifiConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_CONFIGURATION, (), '', '32s B 4B 4B 4B H'))
 
     def set_wifi_encryption(self, encryption, key, key_index, eap_options, ca_certificate_length, client_certificate_length, private_key_length):
@@ -773,7 +836,7 @@ class BrickMasterFlashAdapterXMC(Device):
 
         If you choose WPA Enterprise as encryption, you have to set ``eap_options`` and
         the length of the certificates (for other encryption types these parameters
-        are ignored). The certificate length are given in byte and the certificates
+        are ignored). The certificates
         themselves can be set with :func:`Set Wifi Certificate`. ``eap_options`` consist
         of the outer authentication (bits 1-2), inner authentication (bit 3) and
         certificate type (bits 4-5):
@@ -793,6 +856,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         It is recommended to use the Brick Viewer to set the Wi-Fi encryption.
         """
+        self.check_validity()
+
         encryption = int(encryption)
         key = create_string(key)
         key_index = int(key_index)
@@ -806,7 +871,12 @@ class BrickMasterFlashAdapterXMC(Device):
     def get_wifi_encryption(self):
         """
         Returns the encryption as set by :func:`Set Wifi Encryption`.
+
+        .. note::
+         Since Master Brick Firmware version 2.4.4 the key is not returned anymore.
         """
+        self.check_validity()
+
         return GetWifiEncryption(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_ENCRYPTION, (), '', 'B 50s B B H H H'))
 
     def get_wifi_status(self):
@@ -827,6 +897,8 @@ class BrickMasterFlashAdapterXMC(Device):
          "3", "Error"
          "255", "Not initialized yet"
         """
+        self.check_validity()
+
         return GetWifiStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_STATUS, (), '', '6B 6B B h 4B 4B 4B I I B'))
 
     def refresh_wifi_status(self):
@@ -838,6 +910,8 @@ class BrickMasterFlashAdapterXMC(Device):
         until the stack with attached WIFI Extension reacts again after this
         function is called.
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_REFRESH_WIFI_STATUS, (), '', '')
 
     def set_wifi_certificate(self, index, data, data_length):
@@ -861,6 +935,8 @@ class BrickMasterFlashAdapterXMC(Device):
         It is recommended to use the Brick Viewer to set the certificate, username
         and password.
         """
+        self.check_validity()
+
         index = int(index)
         data = list(map(int, data))
         data_length = int(data_length)
@@ -871,6 +947,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the certificate for a given index as set by :func:`Set Wifi Certificate`.
         """
+        self.check_validity()
+
         index = int(index)
 
         return GetWifiCertificate(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_CERTIFICATE, (index,), 'H', '32B B'))
@@ -885,9 +963,9 @@ class BrickMasterFlashAdapterXMC(Device):
 
          "0", "Full Speed (high power consumption, high throughput)"
          "1", "Low Power (low power consumption, low throughput)"
-
-        The default value is 0 (Full Speed).
         """
+        self.check_validity()
+
         mode = int(mode)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI_POWER_MODE, (mode,), 'B', '')
@@ -896,6 +974,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the power mode as set by :func:`Set Wifi Power Mode`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_POWER_MODE, (), '', 'B')
 
     def get_wifi_buffer_info(self):
@@ -915,6 +995,8 @@ class BrickMasterFlashAdapterXMC(Device):
         Try to not send more then 50 messages at a time without any kind of
         break between them.
         """
+        self.check_validity()
+
         return GetWifiBufferInfo(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_BUFFER_INFO, (), '', 'I H H'))
 
     def set_wifi_regulatory_domain(self, domain):
@@ -928,9 +1010,9 @@ class BrickMasterFlashAdapterXMC(Device):
          "0", "FCC: Channel 1-11 (N/S America, Australia, New Zealand)"
          "1", "ETSI: Channel 1-13 (Europe, Middle East, Africa)"
          "2", "TELEC: Channel 1-14 (Japan)"
-
-        The default value is 1 (ETSI).
         """
+        self.check_validity()
+
         domain = int(domain)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI_REGULATORY_DOMAIN, (domain,), 'B', '')
@@ -939,12 +1021,16 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the regulatory domain as set by :func:`Set Wifi Regulatory Domain`.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_REGULATORY_DOMAIN, (), '', 'B')
 
     def get_usb_voltage(self):
         """
-        Returns the USB voltage in mV. Does not work with hardware version 2.1.
+        Returns the USB voltage. Does not work with hardware version 2.1.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_USB_VOLTAGE, (), '', 'H')
 
     def set_long_wifi_key(self, key):
@@ -959,6 +1045,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         key = create_string(key)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_LONG_WIFI_KEY, (key,), '64s', '')
@@ -967,8 +1055,13 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the encryption key as set by :func:`Set Long Wifi Key`.
 
+        .. note::
+         Since Master Brick firmware version 2.4.4 the key is not returned anymore.
+
         .. versionadded:: 2.0.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_LONG_WIFI_KEY, (), '', '64s')
 
     def set_wifi_hostname(self, hostname):
@@ -980,6 +1073,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         hostname = create_string(hostname)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI_HOSTNAME, (hostname,), '16s', '')
@@ -992,20 +1087,22 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_HOSTNAME, (), '', '16s')
 
     def set_stack_current_callback_period(self, period):
         """
-        Sets the period in ms with which the :cb:`Stack Current` callback is triggered
+        Sets the period with which the :cb:`Stack Current` callback is triggered
         periodically. A value of 0 turns the callback off.
 
         The :cb:`Stack Current` callback is only triggered if the current has changed
         since the last triggering.
 
-        The default value is 0.
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         period = int(period)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_STACK_CURRENT_CALLBACK_PERIOD, (period,), 'I', '')
@@ -1016,20 +1113,22 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_CURRENT_CALLBACK_PERIOD, (), '', 'I')
 
     def set_stack_voltage_callback_period(self, period):
         """
-        Sets the period in ms with which the :cb:`Stack Voltage` callback is triggered
+        Sets the period with which the :cb:`Stack Voltage` callback is triggered
         periodically. A value of 0 turns the callback off.
 
         The :cb:`Stack Voltage` callback is only triggered if the voltage has changed
         since the last triggering.
 
-        The default value is 0.
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         period = int(period)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_STACK_VOLTAGE_CALLBACK_PERIOD, (period,), 'I', '')
@@ -1040,20 +1139,22 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_VOLTAGE_CALLBACK_PERIOD, (), '', 'I')
 
     def set_usb_voltage_callback_period(self, period):
         """
-        Sets the period in ms with which the :cb:`USB Voltage` callback is triggered
+        Sets the period with which the :cb:`USB Voltage` callback is triggered
         periodically. A value of 0 turns the callback off.
 
         The :cb:`USB Voltage` callback is only triggered if the voltage has changed
         since the last triggering.
 
-        The default value is 0.
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         period = int(period)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_USB_VOLTAGE_CALLBACK_PERIOD, (period,), 'I', '')
@@ -1064,6 +1165,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_USB_VOLTAGE_CALLBACK_PERIOD, (), '', 'I')
 
     def set_stack_current_callback_threshold(self, option, min, max):
@@ -1082,10 +1185,10 @@ class BrickMasterFlashAdapterXMC(Device):
          "'<'",    "Callback is triggered when the current is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the current is greater than the min value (max is ignored)"
 
-        The default value is ('x', 0, 0).
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         option = create_char(option)
         min = int(min)
         max = int(max)
@@ -1098,6 +1201,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetStackCurrentCallbackThreshold(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_CURRENT_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_stack_voltage_callback_threshold(self, option, min, max):
@@ -1116,10 +1221,10 @@ class BrickMasterFlashAdapterXMC(Device):
          "'<'",    "Callback is triggered when the voltage is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the voltage is greater than the min value (max is ignored)"
 
-        The default value is ('x', 0, 0).
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         option = create_char(option)
         min = int(min)
         max = int(max)
@@ -1132,6 +1237,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetStackVoltageCallbackThreshold(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_STACK_VOLTAGE_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_usb_voltage_callback_threshold(self, option, min, max):
@@ -1150,10 +1257,10 @@ class BrickMasterFlashAdapterXMC(Device):
          "'<'",    "Callback is triggered when the voltage is smaller than the min value (max is ignored)"
          "'>'",    "Callback is triggered when the voltage is greater than the min value (max is ignored)"
 
-        The default value is ('x', 0, 0).
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         option = create_char(option)
         min = int(min)
         max = int(max)
@@ -1166,11 +1273,13 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetUSBVoltageCallbackThreshold(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_USB_VOLTAGE_CALLBACK_THRESHOLD, (), '', 'c H H'))
 
     def set_debounce_period(self, debounce):
         """
-        Sets the period in ms with which the threshold callbacks
+        Sets the period with which the threshold callbacks
 
         * :cb:`Stack Current Reached`,
         * :cb:`Stack Voltage Reached`,
@@ -1184,10 +1293,10 @@ class BrickMasterFlashAdapterXMC(Device):
 
         keep being reached.
 
-        The default value is 100.
-
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         debounce = int(debounce)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_DEBOUNCE_PERIOD, (debounce,), 'I', '')
@@ -1198,15 +1307,19 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.0.5$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_DEBOUNCE_PERIOD, (), '', 'I')
 
     def is_ethernet_present(self):
         """
-        Returns *true* if a Ethernet Extension is available to be used by the Master
-        Brick.
+        Returns *true* if the Master Brick is at position 0 in the stack and an Ethernet
+        Extension is available.
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_ETHERNET_PRESENT, (), '', '!')
 
     def set_ethernet_configuration(self, connection, ip, subnet_mask, gateway, port):
@@ -1227,8 +1340,7 @@ class BrickMasterFlashAdapterXMC(Device):
         to the DHCP options then ``ip``, ``subnet_mask`` and ``gateway`` are ignored,
         you can set them to 0.
 
-        The last parameter is the port that your program will connect to. The
-        default port, that is used by brickd, is 4223.
+        The last parameter is the port that your program will connect to.
 
         The values are stored in the EEPROM and only applied on startup. That means
         you have to restart the Master Brick after configuration.
@@ -1237,6 +1349,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         connection = int(connection)
         ip = list(map(int, ip))
         subnet_mask = list(map(int, subnet_mask))
@@ -1251,6 +1365,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetEthernetConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_ETHERNET_CONFIGURATION, (), '', 'B 4B 4B 4B H'))
 
     def get_ethernet_status(self):
@@ -1267,6 +1383,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetEthernetStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_ETHERNET_STATUS, (), '', '6B 4B 4B 4B I I 32s'))
 
     def set_ethernet_hostname(self, hostname):
@@ -1280,6 +1398,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         hostname = create_string(hostname)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_ETHERNET_HOSTNAME, (hostname,), '32s', '')
@@ -1294,6 +1414,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.1.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         mac_address = list(map(int, mac_address))
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_ETHERNET_MAC_ADDRESS, (mac_address,), '6B', '')
@@ -1313,10 +1435,10 @@ class BrickMasterFlashAdapterXMC(Device):
 
         It is recommended to use the Brick Viewer to set the Ethernet configuration.
 
-        The default values are 3 for the socket connections and 4280 for the port.
-
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         sockets = int(sockets)
         port = int(port)
 
@@ -1328,6 +1450,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetEthernetWebsocketConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_ETHERNET_WEBSOCKET_CONFIGURATION, (), '', 'B H'))
 
     def set_ethernet_authentication_secret(self, secret):
@@ -1347,6 +1471,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         secret = create_string(secret)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_ETHERNET_AUTHENTICATION_SECRET, (secret,), '64s', '')
@@ -1358,6 +1484,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_ETHERNET_AUTHENTICATION_SECRET, (), '', '64s')
 
     def set_wifi_authentication_secret(self, secret):
@@ -1377,6 +1505,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         secret = create_string(secret)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI_AUTHENTICATION_SECRET, (secret,), '64s', '')
@@ -1388,6 +1518,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.2.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI_AUTHENTICATION_SECRET, (), '', '64s')
 
     def get_connection_type(self):
@@ -1396,15 +1528,19 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CONNECTION_TYPE, (), '', 'B')
 
     def is_wifi2_present(self):
         """
-        Returns *true* if a WIFI Extension 2.0 is available to be used by the Master
-        Brick.
+        Returns *true* if the Master Brick is at position 0 in the stack and a WIFI
+        Extension 2.0 is available.
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_PRESENT, (), '', '!')
 
     def start_wifi2_bootloader(self):
@@ -1422,6 +1558,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_START_WIFI2_BOOTLOADER, (), '', 'b')
 
     def write_wifi2_serial_port(self, data, length):
@@ -1438,6 +1576,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         data = list(map(int, data))
         length = int(length)
 
@@ -1457,6 +1597,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         length = int(length)
 
         return ReadWifi2SerialPort(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_READ_WIFI2_SERIAL_PORT, (length,), 'B', '60B B'))
@@ -1478,6 +1620,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         secret = create_string(secret)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_AUTHENTICATION_SECRET, (secret,), '64s', '')
@@ -1489,6 +1633,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_AUTHENTICATION_SECRET, (), '', '64s')
 
     def set_wifi2_configuration(self, port, websocket_port, website_port, phy_mode, sleep_mode, website):
@@ -1496,16 +1642,16 @@ class BrickMasterFlashAdapterXMC(Device):
         Sets the general configuration of the WIFI Extension 2.0.
 
         The ``port`` parameter sets the port number that your programm will connect
-        to. The default value is 4223.
+        to.
 
         The ``websocket_port`` parameter sets the WebSocket port number that your
-        JavaScript programm will connect to. The default value is 4280.
+        JavaScript programm will connect to.
 
         The ``website_port`` parameter sets the port number for the website of the
-        WIFI Extension 2.0. The default value is 80.
+        WIFI Extension 2.0.
 
         The ``phy_mode`` parameter sets the specific wireless network mode to be used.
-        Possible values are B, G and N. The default value is G.
+        Possible values are B, G and N.
 
         The ``sleep_mode`` parameter is currently unused.
 
@@ -1525,6 +1671,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         port = int(port)
         websocket_port = int(websocket_port)
         website_port = int(website_port)
@@ -1540,6 +1688,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2Configuration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CONFIGURATION, (), '', 'H H H B B B'))
 
     def get_wifi2_status(self):
@@ -1548,6 +1698,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2Status(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_STATUS, (), '', '! B 4B 4B 4B 6B I I b ! 4B 4B 4B 6B I I B'))
 
     def set_wifi2_client_configuration(self, enable, ssid, ip, subnet_mask, gateway, mac_address, bssid):
@@ -1555,7 +1707,7 @@ class BrickMasterFlashAdapterXMC(Device):
         Sets the client specific configuration of the WIFI Extension 2.0.
 
         The ``enable`` parameter enables or disables the client part of the
-        WIFI Extension 2.0. The default value is *true*.
+        WIFI Extension 2.0.
 
         The ``ssid`` parameter sets the SSID (up to 32 characters) of the access point
         to connect to.
@@ -1582,6 +1734,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         enable = bool(enable)
         ssid = create_string(ssid)
         ip = list(map(int, ip))
@@ -1598,6 +1752,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2ClientConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CLIENT_CONFIGURATION, (), '', '! 32s 4B 4B 4B 6B 6B'))
 
     def set_wifi2_client_hostname(self, hostname):
@@ -1614,6 +1770,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         hostname = create_string(hostname)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_CLIENT_HOSTNAME, (hostname,), '32s', '')
@@ -1624,6 +1782,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CLIENT_HOSTNAME, (), '', '32s')
 
     def set_wifi2_client_password(self, password):
@@ -1638,6 +1798,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         password = create_string(password)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_CLIENT_PASSWORD, (password,), '64s', '')
@@ -1646,8 +1808,14 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the client password as set by :func:`Set Wifi2 Client Password`.
 
+        .. note::
+         Since WIFI Extension 2.0 firmware version 2.1.3 the password is not
+         returned anymore.
+
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_CLIENT_PASSWORD, (), '', '64s')
 
     def set_wifi2_ap_configuration(self, enable, ssid, ip, subnet_mask, gateway, encryption, hidden, channel, mac_address):
@@ -1655,7 +1823,7 @@ class BrickMasterFlashAdapterXMC(Device):
         Sets the access point specific configuration of the WIFI Extension 2.0.
 
         The ``enable`` parameter enables or disables the access point part of the
-        WIFI Extension 2.0. The default value is true.
+        WIFI Extension 2.0.
 
         The ``ssid`` parameter sets the SSID (up to 32 characters) of the access point.
 
@@ -1665,15 +1833,13 @@ class BrickMasterFlashAdapterXMC(Device):
         The default configuration is DHCP.
 
         The ``encryption`` parameter sets the encryption mode to be used. Possible
-        values are Open (no encryption), WEP or WPA/WPA2 PSK. The default value is
-        WPA/WPA2 PSK. Use the :func:`Set Wifi2 AP Password` function to set the encryption
+        values are Open (no encryption), WEP or WPA/WPA2 PSK.
+        Use the :func:`Set Wifi2 AP Password` function to set the encryption
         password.
 
         The ``hidden`` parameter makes the access point hide or show its SSID.
-        The default value is *false*.
 
         The ``channel`` parameter sets the channel (1 to 13) of the access point.
-        The default value is 1.
 
         If the ``mac_address`` parameter is set to all zero then the factory MAC
         address is used. Otherwise this parameter can be used to set a custom MAC
@@ -1687,6 +1853,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         enable = bool(enable)
         ssid = create_string(ssid)
         ip = list(map(int, ip))
@@ -1705,11 +1873,13 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2APConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_AP_CONFIGURATION, (), '', '! 32s 4B 4B 4B B ! B 6B'))
 
     def set_wifi2_ap_password(self, password):
         """
-        Sets the access point password (up to 63 chars) for the configured encryption
+        Sets the access point password (at least 8 and up to 63 chars) for the configured encryption
         mode, see :func:`Set Wifi2 AP Configuration`.
 
         To apply configuration changes to the WIFI Extension 2.0 the
@@ -1720,6 +1890,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         password = create_string(password)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_AP_PASSWORD, (password,), '64s', '')
@@ -1728,8 +1900,14 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         Returns the access point password as set by :func:`Set Wifi2 AP Password`.
 
+        .. note::
+         Since WIFI Extension 2.0 firmware version 2.1.3 the password is not
+         returned anymore.
+
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_AP_PASSWORD, (), '', '64s')
 
     def save_wifi2_configuration(self):
@@ -1743,14 +1921,18 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SAVE_WIFI2_CONFIGURATION, (), '', 'B')
 
     def get_wifi2_firmware_version(self):
         """
-        Returns the current version of the WIFI Extension 2.0 firmware (major, minor, revision).
+        Returns the current version of the WIFI Extension 2.0 firmware.
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_FIRMWARE_VERSION, (), '', '3B')
 
     def enable_wifi2_status_led(self):
@@ -1759,6 +1941,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_ENABLE_WIFI2_STATUS_LED, (), '', '')
 
     def disable_wifi2_status_led(self):
@@ -1767,6 +1951,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_DISABLE_WIFI2_STATUS_LED, (), '', '')
 
     def is_wifi2_status_led_enabled(self):
@@ -1775,6 +1961,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.0$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_WIFI2_STATUS_LED_ENABLED, (), '', '!')
 
     def set_wifi2_mesh_configuration(self, enable, root_ip, root_subnet_mask, root_gateway, router_bssid, group_id, group_ssid_prefix, gateway_ip, gateway_port):
@@ -1784,7 +1972,7 @@ class BrickMasterFlashAdapterXMC(Device):
         Sets the mesh specific configuration of the WIFI Extension 2.0.
 
         The ``enable`` parameter enables or disables the mesh part of the
-        WIFI Extension 2.0. The default value is *false*. The mesh part cannot be
+        WIFI Extension 2.0. The mesh part cannot be
         enabled together with the client and access-point part.
 
         If the ``root_ip`` parameter is set to all zero then ``root_subnet_mask``
@@ -1813,6 +2001,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         enable = bool(enable)
         root_ip = list(map(int, root_ip))
         root_subnet_mask = list(map(int, root_subnet_mask))
@@ -1833,6 +2023,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2MeshConfiguration(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_CONFIGURATION, (), '', '! 4B 4B 4B 6B 6B 16s 4B H'))
 
     def set_wifi2_mesh_router_ssid(self, ssid):
@@ -1854,6 +2046,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         ssid = create_string(ssid)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_MESH_ROUTER_SSID, (ssid,), '32s', '')
@@ -1866,6 +2060,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_ROUTER_SSID, (), '', '32s')
 
     def set_wifi2_mesh_router_password(self, password):
@@ -1883,6 +2079,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         password = create_string(password)
 
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_WIFI2_MESH_ROUTER_PASSWORD, (password,), '64s', '')
@@ -1895,6 +2093,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_ROUTER_PASSWORD, (), '', '64s')
 
     def get_wifi2_mesh_common_status(self):
@@ -1905,6 +2105,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2MeshCommonStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_COMMON_STATUS, (), '', 'B ! ! H I I'))
 
     def get_wifi2_mesh_client_status(self):
@@ -1915,6 +2117,8 @@ class BrickMasterFlashAdapterXMC(Device):
 
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetWifi2MeshClientStatus(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_WIFI2_MESH_CLIENT_STATUS, (), '', '32s 4B 4B 4B 6B'))
 
     def get_wifi2_mesh_ap_status(self):
@@ -1931,6 +2135,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         config = int(config)
         parameter1 = int(parameter1)
         parameter2 = int(parameter2)
@@ -1942,6 +2148,8 @@ class BrickMasterFlashAdapterXMC(Device):
         """
         .. versionadded:: 2.4.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         data = list(map(int, data))
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_SET_FLASH_ADAPTER_XMC_DATA, (data,), '64B', 'I')
@@ -1952,8 +2160,8 @@ class BrickMasterFlashAdapterXMC(Device):
         enabled, the Brick will try to adapt the baudrate for the communication
         between Bricks and Bricklets according to the amount of data that is transferred.
 
-        The baudrate will be increased exponetially if lots of data is send/receieved and
-        decreased linearly if little data is send/received.
+        The baudrate will be increased exponentially if lots of data is sent/received and
+        decreased linearly if little data is sent/received.
 
         This lowers the baudrate in applications where little data is transferred (e.g.
         a weather station) and increases the robustness. If there is lots of data to transfer
@@ -1967,10 +2175,10 @@ class BrickMasterFlashAdapterXMC(Device):
         :func:`Set SPITFP Baudrate`. If the dynamic baudrate is disabled, the baudrate
         as set by :func:`Set SPITFP Baudrate` will be used statically.
 
-        The minimum dynamic baudrate has a value range of 400000 to 2000000 baud.
-
-        By default dynamic baudrate is enabled and the minimum dynamic baudrate is 400000.
+        .. versionadded:: 2.4.6$nbsp;(Firmware)
         """
+        self.check_validity()
+
         enable_dynamic_baudrate = bool(enable_dynamic_baudrate)
         minimum_dynamic_baudrate = int(minimum_dynamic_baudrate)
 
@@ -1979,7 +2187,11 @@ class BrickMasterFlashAdapterXMC(Device):
     def get_spitfp_baudrate_config(self):
         """
         Returns the baudrate config, see :func:`Set SPITFP Baudrate Config`.
+
+        .. versionadded:: 2.4.6$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return GetSPITFPBaudrateConfig(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE_CONFIG, (), '', '! I'))
 
     def get_send_timeout_count(self, communication_method):
@@ -1990,15 +2202,18 @@ class BrickMasterFlashAdapterXMC(Device):
 
         This function is mostly used for debugging during development, in normal operation
         the counters should nearly always stay at 0.
+
+        .. versionadded:: 2.4.3$nbsp;(Firmware)
         """
+        self.check_validity()
+
         communication_method = int(communication_method)
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SEND_TIMEOUT_COUNT, (communication_method,), 'B', 'I')
 
     def set_spitfp_baudrate(self, bricklet_port, baudrate):
         """
-        Sets the baudrate for a specific Bricklet port ('a' - 'd'). The
-        baudrate can be in the range 400000 to 2000000.
+        Sets the baudrate for a specific Bricklet port.
 
         If you want to increase the throughput of Bricklets you can increase
         the baudrate. If you get a high error count because of high
@@ -2008,12 +2223,14 @@ class BrickMasterFlashAdapterXMC(Device):
         If the dynamic baudrate feature is enabled, the baudrate set by this
         function corresponds to the maximum baudrate (see :func:`Set SPITFP Baudrate Config`).
 
-        Regulatory testing is done with the default baudrate. If CE compatability
+        Regulatory testing is done with the default baudrate. If CE compatibility
         or similar is necessary in you applications we recommend to not change
         the baudrate.
 
-        The default baudrate for all ports is 1400000.
+        .. versionadded:: 2.4.3$nbsp;(Firmware)
         """
+        self.check_validity()
+
         bricklet_port = create_char(bricklet_port)
         baudrate = int(baudrate)
 
@@ -2022,7 +2239,11 @@ class BrickMasterFlashAdapterXMC(Device):
     def get_spitfp_baudrate(self, bricklet_port):
         """
         Returns the baudrate for a given Bricklet port, see :func:`Set SPITFP Baudrate`.
+
+        .. versionadded:: 2.4.3$nbsp;(Firmware)
         """
+        self.check_validity()
+
         bricklet_port = create_char(bricklet_port)
 
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_BAUDRATE, (bricklet_port,), 'c', 'I')
@@ -2035,12 +2256,16 @@ class BrickMasterFlashAdapterXMC(Device):
 
         * ACK checksum errors,
         * message checksum errors,
-        * frameing errors and
+        * framing errors and
         * overflow errors.
 
         The errors counts are for errors that occur on the Brick side. All
         Bricklets have a similar function that returns the errors on the Bricklet side.
+
+        .. versionadded:: 2.4.3$nbsp;(Firmware)
         """
+        self.check_validity()
+
         bricklet_port = create_char(bricklet_port)
 
         return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_SPITFP_ERROR_COUNT, (bricklet_port,), 'c', 'I I I I'))
@@ -2053,7 +2278,11 @@ class BrickMasterFlashAdapterXMC(Device):
         on and it flickers if data is transfered. If disabled it is always off.
 
         The default state is enabled.
+
+        .. versionadded:: 2.3.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_ENABLE_STATUS_LED, (), '', '')
 
     def disable_status_led(self):
@@ -2064,13 +2293,21 @@ class BrickMasterFlashAdapterXMC(Device):
         on and it flickers if data is transfered. If disabled it is always off.
 
         The default state is enabled.
+
+        .. versionadded:: 2.3.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_DISABLE_STATUS_LED, (), '', '')
 
     def is_status_led_enabled(self):
         """
         Returns *true* if the status LED is enabled, *false* otherwise.
+
+        .. versionadded:: 2.3.2$nbsp;(Firmware)
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_IS_STATUS_LED_ENABLED, (), '', '!')
 
     def get_protocol1_bricklet_name(self, port):
@@ -2081,19 +2318,23 @@ class BrickMasterFlashAdapterXMC(Device):
         This functions sole purpose is to allow automatic flashing of v1.x.y Bricklet
         plugins.
         """
+        self.check_validity()
+
         port = create_char(port)
 
         return GetProtocol1BrickletName(*self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_PROTOCOL1_BRICKLET_NAME, (port,), 'c', 'B 3B 40s'))
 
     def get_chip_temperature(self):
         """
-        Returns the temperature in °C/10 as measured inside the microcontroller. The
+        Returns the temperature as measured inside the microcontroller. The
         value returned is not the ambient temperature!
 
         The temperature is only proportional to the real temperature and it has an
-        accuracy of +-15%. Practically it is only useful as an indicator for
+        accuracy of ±15%. Practically it is only useful as an indicator for
         temperature changes.
         """
+        self.check_validity()
+
         return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 'h')
 
     def reset(self):
@@ -2105,7 +2346,40 @@ class BrickMasterFlashAdapterXMC(Device):
         calling functions on the existing ones will result in
         undefined behavior!
         """
+        self.check_validity()
+
         self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_RESET, (), '', '')
+
+    def write_bricklet_plugin(self, port, offset, chunk):
+        """
+        Writes 32 bytes of firmware to the bricklet attached at the given port.
+        The bytes are written to the position offset * 32.
+
+        This function is used by Brick Viewer during flashing. It should not be
+        necessary to call it in a normal user program.
+        """
+        self.check_validity()
+
+        port = create_char(port)
+        offset = int(offset)
+        chunk = list(map(int, chunk))
+
+        self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_WRITE_BRICKLET_PLUGIN, (port, offset, chunk), 'c B 32B', '')
+
+    def read_bricklet_plugin(self, port, offset):
+        """
+        Reads 32 bytes of firmware from the bricklet attached at the given port.
+        The bytes are read starting at the position offset * 32.
+
+        This function is used by Brick Viewer during flashing. It should not be
+        necessary to call it in a normal user program.
+        """
+        self.check_validity()
+
+        port = create_char(port)
+        offset = int(offset)
+
+        return self.ipcon.send_request(self, BrickMasterFlashAdapterXMC.FUNCTION_READ_BRICKLET_PLUGIN, (port, offset), 'c B', '32B')
 
     def get_identity(self):
         """
@@ -2113,7 +2387,7 @@ class BrickMasterFlashAdapterXMC(Device):
         the position, the hardware and firmware version as well as the
         device identifier.
 
-        The position can be '0'-'8' (stack position).
+        The position is the position in the stack from '0' (bottom) to '8' (top).
 
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
