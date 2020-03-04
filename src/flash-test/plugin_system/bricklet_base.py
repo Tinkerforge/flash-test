@@ -83,7 +83,7 @@ class BrickletBase(PluginBase):
 
             position = 0
             for chunk in plugin_chunks:
-                ipcon.write_bricklet_plugin(master, port, position, chunk)
+                master.write_bricklet_plugin(port, position, chunk)
 
                 position += 1
 
@@ -92,7 +92,7 @@ class BrickletBase(PluginBase):
             position = 0
             for chunk in plugin_chunks:
                 self.mw.set_flash_status_action("Verifiziere Port " + port.upper() + ": " + str(position) + '/' + str(len(plugin_chunks)))
-                read_chunk = list((ipcon.read_bricklet_plugin(master, port, position)))
+                read_chunk = list(master.read_bricklet_plugin(port, position))
 
                 if read_chunk != chunk:
                     self.mw.set_flash_status_error("Konnte Plugin an Port " + port.upper() + ' nicht verifizieren')
