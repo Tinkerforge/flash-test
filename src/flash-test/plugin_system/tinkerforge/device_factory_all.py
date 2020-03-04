@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-02-26.      #
+# This file was automatically generated on 2020-03-04.      #
 #                                                           #
 # Python Bindings Version 2.1.24                            #
 #                                                           #
@@ -675,6 +675,11 @@ except ValueError:
     from bricklet_tilt import BrickletTilt
 
 try:
+    from .bricklet_unknown import BrickletUnknown
+except ValueError:
+    from bricklet_unknown import BrickletUnknown
+
+try:
     from .bricklet_uv_light import BrickletUVLight
 except ValueError:
     from bricklet_uv_light import BrickletUVLight
@@ -713,6 +718,11 @@ try:
     from .tng_do8 import TNGDO8
 except ValueError:
     from tng_do8 import TNGDO8
+
+try:
+    from .tng_unknown import TNGUnknown
+except ValueError:
+    from tng_unknown import TNGUnknown
 
 
 DEVICE_CLASSES = {
@@ -849,6 +859,7 @@ DEVICE_CLASSES = {
     BrickletThermocouple.DEVICE_IDENTIFIER: BrickletThermocouple,
     BrickletThermocoupleV2.DEVICE_IDENTIFIER: BrickletThermocoupleV2,
     BrickletTilt.DEVICE_IDENTIFIER: BrickletTilt,
+    BrickletUnknown.DEVICE_IDENTIFIER: BrickletUnknown,
     BrickletUVLight.DEVICE_IDENTIFIER: BrickletUVLight,
     BrickletUVLightV2.DEVICE_IDENTIFIER: BrickletUVLightV2,
     BrickletVoltage.DEVICE_IDENTIFIER: BrickletVoltage,
@@ -857,6 +868,7 @@ DEVICE_CLASSES = {
     BrickletXMC1400Breakout.DEVICE_IDENTIFIER: BrickletXMC1400Breakout,
     TNGDI8.DEVICE_IDENTIFIER: TNGDI8,
     TNGDO8.DEVICE_IDENTIFIER: TNGDO8,
+    TNGUnknown.DEVICE_IDENTIFIER: TNGUnknown,
 }
 
 def get_device_class(device_identifier):
