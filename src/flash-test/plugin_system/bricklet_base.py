@@ -65,21 +65,22 @@ class BrickletBase(PluginBase):
         try:
             port = 'c'
             plugin = open(plugin_filename, mode='rb').read()
+            plugin_chunk_size = 32
             plugin_chunks = []
             offset = 0
             ipcon = self.get_ipcon()
             master = self.get_current_master()
 
             while offset < len(plugin):
-                chunk = plugin[offset:offset + IPConnection.PLUGIN_CHUNK_SIZE]
+                chunk = plugin[offset:offset + plugin_chunk_size]
 
-                if len(chunk) < IPConnection.PLUGIN_CHUNK_SIZE:
-                    chunk += b'\0' * (IPConnection.PLUGIN_CHUNK_SIZE - len(chunk))
+                if len(chunk) < plugin_chunk_size:
+                    chunk += b'\0' * (plugin_chunk_size - len(chunk))
 
                 chunk = list(chunk)
 
                 plugin_chunks.append(chunk)
-                offset += IPConnection.PLUGIN_CHUNK_SIZE
+                offset += plugin_chunk_size
 
             position = 0
             for chunk in plugin_chunks:
