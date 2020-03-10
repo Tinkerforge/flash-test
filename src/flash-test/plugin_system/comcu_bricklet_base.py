@@ -25,9 +25,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
 from plugin_system.plugin_base import PluginBase, base58encode
-from plugin_system.xmc_flash_by_master import xmc_flash, xmc_write_firmwares_to_ram
+from plugin_system.xmc_flash_bootloader import xmc_flash_bootloader
 from .tinkerforge.brick_master import BrickMaster
-from .tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from .tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from .tinkerforge.bricklet_unknown import BrickletUnknown
 from .tinkerforge.ip_connection import IPConnection
@@ -39,13 +38,6 @@ import os
 import sys
 from subprocess import Popen, PIPE
 import fcntl
-
-MASK_NONE = (False, False, False, False)
-MASK_POWER = (True, True, False, False)
-
-CONFIG_BAUDRATE   = 115200
-CONFIG_TTY        = '/dev/ttyUSB0'
-CONFIG_UID_IQR    = '555'
 
 def get_bricklet_firmware_filename(name):
     file_directory = os.path.dirname(os.path.realpath(__file__))
@@ -266,7 +258,7 @@ class CoMCUBrickletBase(PluginBase):
 
             self.comcu_uid_to_flash = None
 
-            BrickMasterFlashAdapterXMC(self.mw.device_manager.flash_adapter_xmc_uid, ipcon).reset()
+            BrickMaster(self.mw.device_manager.flash_master_brick_v3_uid, ipcon).reset()
 
             self.mw.increase_flashed_count()
             return True
@@ -277,68 +269,13 @@ class CoMCUBrickletBase(PluginBase):
             return False
 
     def write_bootloader_to_bricklet(self, plugin_filename):
-        uid_master = self.mw.device_manager.flash_adapter_xmc_uid
+        uid_master = self.mw.device_manager.flash_master_brick_v3_uid
         if uid_master == None:
-            self.mw.set_flash_status_error('Flash Adapter XMC nicht angeschlossen')
+            self.mw.set_flash_status_error('Kein Master Brick HW Version 3.0 angeschlossen')
             return False
-
-        ipcon = IPConnection()
-        iqr = BrickletIndustrialQuadRelayV2(CONFIG_UID_IQR, ipcon)
-        master = BrickMasterFlashAdapterXMC(uid_master, ipcon)
-
-        ipcon.connect('localhost', 4223)
-        iqr.set_value(MASK_NONE) # Make sure that by default relays are off.
-
-        self.mw.set_flash_status_action("Schreibe Bootstrapper und -loader")
-        i = 2
-
-        use_half_duplex = 0
-        if plugin_filename.endswith('industrial-encoder-bricklet-firmware.zbin'):
-            use_half_duplex = 1
 
         try:
-            xmc_write_firmwares_to_ram(plugin_filename, master, non_standard_print=self.mw.set_flash_status_action)
+            return xmc_flash_bootloader(plugin_filename, uid_master, self.mw.set_flash_status_action) 
         except Exception as e:
             self.mw.set_flash_status_error(str(e))
-            ipcon.disconnect()
             return False
-
-
-        errors = set()
-        if 'bricklet_hat' in plugin_filename:
-            # The capacitance on HAT Brick is so high that 0.2 seconds is not sufficient
-            time.sleep(0.5)
-        else:
-            time.sleep(0.2)
-        i = 10
-        start = time.time()
-
-        ret = True
-        while True:
-            if time.time() - start > 3:
-                self.mw.set_flash_status_error('Timeout beim Bootloader schreiben')
-                ret = False
-                break
-
-            if i == 10:
-                if len(errors) > 0:
-                    self.mw.set_flash_status_error(str(errors))
-                    errors.clear()
-                iqr.set_value(MASK_NONE)
-                time.sleep(0.05)
-                iqr.set_value(MASK_POWER)
-                i = 0
-
-            i += 1
-            try:
-                time.sleep(0.001)
-                xmc_flash(master, use_half_duplex)
-                break
-            except Exception as e:
-                errors.add(str(e))
-
-        iqr.set_value(MASK_POWER)
-        master.reset()
-        ipcon.disconnect()
-
-        return ret

@@ -25,9 +25,7 @@ from PyQt5 import QtCore
 
 from plugin_system.tinkerforge.ip_connection import IPConnection
 from plugin_system.tinkerforge.brick_master import BrickMaster
-from plugin_system.tinkerforge.brick_master_flash_adapter_xmc import BrickMasterFlashAdapterXMC
 from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
-from plugin_system.tinkerforge.bricklet_industrial_quad_relay import BrickletIndustrialQuadRelay
 from plugin_system.tinkerforge.bricklet_dmx import BrickletDMX
 from collections import namedtuple
 
@@ -39,6 +37,7 @@ class DeviceManager(QtCore.QObject):
 
     devices = {}
     flash_adapter_xmc_uid = None
+    flash_master_brick_v3_uid = None
     qtcb_enumerate = QtCore.pyqtSignal(str, str, str, type((0,)), type((0,)), int, int)
 
     def __init__(self, mw):
@@ -66,16 +65,9 @@ class DeviceManager(QtCore.QObject):
 
                 return
 
-            # Flash Adapter XMC quad relay and control master
-            if (device_identifier == BrickletIndustrialQuadRelay.DEVICE_IDENTIFIER and uid == '555') or \
-               (device_identifier == BrickMaster.DEVICE_IDENTIFIER and uid in ('6qZ5ow', '6R62QC', '5VjDHm', '6DdLE5')):
-                return
-
-            # Flash Adapter XMC program masster
-            if device_identifier == BrickMasterFlashAdapterXMC.DEVICE_IDENTIFIER and uid in ('6qzRzc', '6kP6n3', '6Jprbj', '6DdMSG'):
-                # Override old UID if new Flash adapter is connected
-                # We don't support two flash adapter simultaneously
-                self.flash_adapter_xmc_uid = uid
+            # TODO: Add specific list of flash Master Bricks?
+            if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3):
+                self.flash_master_brick_v3_uid = uid
                 return
 
             # DMX Master
