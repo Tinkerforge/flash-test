@@ -6,11 +6,11 @@ import sys
 from zipfile import ZipFile
 
 try:
-    from tinkerforge.ip_connection import IPConnection
-    from tinkerforge.brick_master import BrickMaster
-except:
     from .tinkerforge.ip_connection import IPConnection
     from .tinkerforge.brick_master import BrickMaster
+except ImportError:
+    from tinkerforge.ip_connection import IPConnection
+    from tinkerforge.brick_master import BrickMaster
 
 global_uid_master = None
 
