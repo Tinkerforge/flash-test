@@ -21,6 +21,8 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
+import datetime
+
 from PyQt5 import Qt, QtGui, QtCore
 
 from ..tinkerforge.bricklet_gps_v2 import BrickletGPSV2
@@ -73,4 +75,25 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_datetime(self, ret):
-        self.mw.set_value_normal('Date/Time: ' + str(ret.date) + ' / ' + str(ret.time))
+        date = ret.date
+        time = ret.time
+        yy = date % 100
+        yy += 2000
+        date //= 100
+        mm = date % 100
+        date //= 100
+        dd = date
+
+        us = (time % 1000) * 1000
+        time //= 1000
+        ss = time % 100
+        time //= 100
+        mins = time % 100
+        time //= 100
+        hh = time
+
+        try:
+            date_str = datetime.datetime(yy, mm, dd, hh, mins, ss, us).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] + " UTC"
+        except Exception as e:
+            date_str = "Unknown: " + str(e)
+        self.mw.set_value_normal(date_str)
