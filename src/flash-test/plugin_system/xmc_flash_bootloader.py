@@ -79,11 +79,14 @@ def xmc_write_firmwares_to_ram(zbin, master, non_standard_print = None):
         if ret != 0:
             raise Exception('Bricklet', 'Bootloader schreiben Chunk Fehler: ' + str(ret))
 
-def xmc_flash_bootloader(zbin, uid_master = None, non_standard_print = None):
+def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_off_duration=None):
     if non_standard_print != None:
         print_func = non_standard_print
     else:
         print_func = print
+
+    if power_off_duration == None:
+        power_off_duration = 0.05
 
     ipcon = IPConnection()
     ipcon.connect('localhost', 4223)
@@ -128,7 +131,7 @@ def xmc_flash_bootloader(zbin, uid_master = None, non_standard_print = None):
                 print_func('Errors: {0}'.format(str(errors)))
                 errors.clear()
             master.set_bricklets_enabled(False)
-            time.sleep(0.05)
+            time.sleep(power_off_duration)
             master.set_bricklets_enabled(True)
             i = 0
 
