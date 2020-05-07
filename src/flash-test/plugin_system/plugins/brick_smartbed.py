@@ -26,6 +26,8 @@ from PyQt5 import Qt, QtGui, QtCore
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
+from ..tinkerforge.ip_connection import base58decode
+
 import os
 
 class Plugin(CoMCUBrickletBase):
@@ -49,7 +51,7 @@ class Plugin(CoMCUBrickletBase):
         super().stop()
 
     def get_new_uid(self):
-        return 'XYZ' # All Smartbed Bricks have UID XYZ
+        return base58decode('XYZ') # All Smartbed Bricks have UID XYZ
 
     def get_device_identifier(self):
         return 102
@@ -58,7 +60,7 @@ class Plugin(CoMCUBrickletBase):
         print("Add correct path to current firmware in:")
         print(os.path.abspath(__file__))
         self.mw.set_value_normal("Add correct path to current firmware in: \n{0}".format(os.path.abspath(__file__)))
-#        self.flash_bricklet("/home/olaf/tf/bettzeit/releases/v1_0_2/firmware/mainboard_firmware_v1.0.2.zbin")
+#        self.flash_bricklet("/home/olaf/tf/bettzeit/releases/v1_0_2/firmware/mainboard_firmware_v1.0.2.zbin", power_off_duration=0.75)
 
     def new_enum(self, device_information):
         self.show_device_information(device_information)
