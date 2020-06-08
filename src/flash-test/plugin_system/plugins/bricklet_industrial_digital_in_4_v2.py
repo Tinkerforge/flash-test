@@ -72,6 +72,7 @@ class Plugin(CoMCUBrickletBase):
             self.cbe_value.set_period(0)
 
         self.changes = [0, 0, 0, 0]
+        self.relay_value = 0
         self.last_values = None
         self.industrial_digital_in_4_v2 = BrickletIndustrialDigitalIn4V2(device_information.uid, self.get_ipcon())
         if self.industrial_digital_in_4_v2.get_bootloader_mode() != BrickletIndustrialDigitalIn4V2.BOOTLOADER_MODE_FIRMWARE:
@@ -80,26 +81,32 @@ class Plugin(CoMCUBrickletBase):
         if self.relay == None:
             self.relay = BrickletIndustrialQuadRelayV2('test', self.get_ipcon())
 
+            try:
+                self.relay.get_identity()
+            except:
+                self.relay = None
+
         self.cbe_value = CallbackEmulator(self.industrial_digital_in_4_v2.get_value, self.cb_value, ignore_last_data=True)
         self.cbe_value.set_period(250)
 
         self.show_device_information(device_information)
 
     def cb_value(self, values):
-        if self.relay_value == 0:
-            self.relay.set_value((True, False, False, False))
-        if self.relay_value == 1:
-            self.relay.set_value((False, True, False, False))
-        if self.relay_value == 2:
-            self.relay.set_value((False, False, True, False))
-        if self.relay_value == 3:
-            self.relay.set_value((False, False, False, True))
-        if self.relay_value == 4:
-            self.relay.set_value((True, True, True, True))
-        if self.relay_value == 5:
-            self.relay.set_value((False, False, False, False))
+        if self.relay != None:
+            if self.relay_value == 0:
+                self.relay.set_value((True, False, False, False))
+            if self.relay_value == 1:
+                self.relay.set_value((False, True, False, False))
+            if self.relay_value == 2:
+                self.relay.set_value((False, False, True, False))
+            if self.relay_value == 3:
+                self.relay.set_value((False, False, False, True))
+            if self.relay_value == 4:
+                self.relay.set_value((True, True, True, True))
+            if self.relay_value == 5:
+                self.relay.set_value((False, False, False, False))
 
-        self.relay_value = (self.relay_value + 1) % 6
+            self.relay_value = (self.relay_value + 1) % 6
 
         if self.last_values == None:
             self.last_values = values
