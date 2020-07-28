@@ -50,7 +50,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
             sys.exit(0)
 
-        context = ssl.SSLContext(protocol=PROTOCOL_TLS)
+        if sys.version_info < (3,5,3):
+            context = ssl.SSLContext(protocol=ssl.PROTOCOL_SSLv23)
+        else:
+            context = ssl.SSLContext()
+
         #context.verify_mode = ssl.CERT_REQUIRED
         #context.load_verify_locations(certifi.where())
         https_handler = urllib.request.HTTPSHandler(context=context)
