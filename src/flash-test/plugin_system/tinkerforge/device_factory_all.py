@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-06-08.      #
+# This file was automatically generated on 2020-07-30.      #
 #                                                           #
 # Python Bindings Version 2.1.26                            #
 #                                                           #
@@ -120,6 +120,11 @@ except ValueError:
     from bricklet_analog_out_v3 import BrickletAnalogOutV3
 
 try:
+    from .bricklet_arinc429 import BrickletARINC429
+except ValueError:
+    from bricklet_arinc429 import BrickletARINC429
+
+try:
     from .bricklet_barometer import BrickletBarometer
 except ValueError:
     from bricklet_barometer import BrickletBarometer
@@ -233,6 +238,11 @@ try:
     from .bricklet_energy_monitor import BrickletEnergyMonitor
 except ValueError:
     from bricklet_energy_monitor import BrickletEnergyMonitor
+
+try:
+    from .bricklet_evse import BrickletEVSE
+except ValueError:
+    from bricklet_evse import BrickletEVSE
 
 try:
     from .bricklet_gps import BrickletGPS
@@ -715,6 +725,16 @@ except ValueError:
     from bricklet_xmc1400_breakout import BrickletXMC1400Breakout
 
 try:
+    from .tng_ai_4u_4i import TNGAI4U4I
+except ValueError:
+    from tng_ai_4u_4i import TNGAI4U4I
+
+try:
+    from .tng_ao_4u_4i import TNGAO4U4I
+except ValueError:
+    from tng_ao_4u_4i import TNGAO4U4I
+
+try:
     from .tng_di8 import TNGDI8
 except ValueError:
     from tng_di8 import TNGDI8
@@ -753,6 +773,7 @@ DEVICE_CLASSES = {
     BrickletAnalogOut.DEVICE_IDENTIFIER: BrickletAnalogOut,
     BrickletAnalogOutV2.DEVICE_IDENTIFIER: BrickletAnalogOutV2,
     BrickletAnalogOutV3.DEVICE_IDENTIFIER: BrickletAnalogOutV3,
+    BrickletARINC429.DEVICE_IDENTIFIER: BrickletARINC429,
     BrickletBarometer.DEVICE_IDENTIFIER: BrickletBarometer,
     BrickletBarometerV2.DEVICE_IDENTIFIER: BrickletBarometerV2,
     BrickletCAN.DEVICE_IDENTIFIER: BrickletCAN,
@@ -776,6 +797,7 @@ DEVICE_CLASSES = {
     BrickletDustDetector.DEVICE_IDENTIFIER: BrickletDustDetector,
     BrickletEPaper296x128.DEVICE_IDENTIFIER: BrickletEPaper296x128,
     BrickletEnergyMonitor.DEVICE_IDENTIFIER: BrickletEnergyMonitor,
+    BrickletEVSE.DEVICE_IDENTIFIER: BrickletEVSE,
     BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
     BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
     BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
@@ -872,6 +894,8 @@ DEVICE_CLASSES = {
     BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
     BrickletVoltageCurrentV2.DEVICE_IDENTIFIER: BrickletVoltageCurrentV2,
     BrickletXMC1400Breakout.DEVICE_IDENTIFIER: BrickletXMC1400Breakout,
+    TNGAI4U4I.DEVICE_IDENTIFIER: TNGAI4U4I,
+    TNGAO4U4I.DEVICE_IDENTIFIER: TNGAO4U4I,
     TNGDI8.DEVICE_IDENTIFIER: TNGDI8,
     TNGDO8.DEVICE_IDENTIFIER: TNGDO8,
     TNGUnknown.DEVICE_IDENTIFIER: TNGUnknown,

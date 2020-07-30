@@ -18,25 +18,29 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
-GetValues = namedtuple('Values', ['timestamp', 'values'])
-GetSelectedValue = namedtuple('SelectedValue', ['timestamp', 'value'])
+GetValues = namedtuple('Values', ['timestamp', 'voltages', 'currents'])
+GetVoltages = namedtuple('Voltages', ['timestamp', 'voltages'])
+GetCurrents = namedtuple('Currents', ['timestamp', 'currents'])
+GetSelectedVoltage = namedtuple('SelectedVoltage', ['timestamp', 'voltage'])
+GetSelectedCurrent = namedtuple('SelectedCurrent', ['timestamp', 'current'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class TNGDO8(Device):
+class TNGAI4U4I(Device):
     """
     TBD
     """
 
-    DEVICE_IDENTIFIER = 205
-    DEVICE_DISPLAY_NAME = 'TNG DO8'
-    DEVICE_URL_PART = 'do8' # internal
+    DEVICE_IDENTIFIER = 203
+    DEVICE_DISPLAY_NAME = 'TNG AI 4U 4I'
+    DEVICE_URL_PART = 'ai_4u_4i' # internal
 
 
 
-    FUNCTION_SET_VALUES = 1
-    FUNCTION_GET_VALUES = 2
-    FUNCTION_SET_SELECTED_VALUE = 3
-    FUNCTION_GET_SELECTED_VALUE = 4
+    FUNCTION_GET_VALUES = 1
+    FUNCTION_GET_VOLTAGES = 2
+    FUNCTION_GET_CURRENTS = 3
+    FUNCTION_GET_SELECTED_VOLTAGE = 4
+    FUNCTION_GET_SELECTED_CURRENT = 5
     FUNCTION_GET_TIMESTAMP = 234
     FUNCTION_COPY_FIRMWARE = 235
     FUNCTION_SET_WRITE_FIRMWARE_POINTER = 237
@@ -57,36 +61,26 @@ class TNGDO8(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon, TNGDO8.DEVICE_IDENTIFIER, TNGDO8.DEVICE_DISPLAY_NAME)
+        Device.__init__(self, uid, ipcon, TNGAI4U4I.DEVICE_IDENTIFIER, TNGAI4U4I.DEVICE_DISPLAY_NAME)
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[TNGDO8.FUNCTION_SET_VALUES] = TNGDO8.RESPONSE_EXPECTED_FALSE
-        self.response_expected[TNGDO8.FUNCTION_GET_VALUES] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_SET_SELECTED_VALUE] = TNGDO8.RESPONSE_EXPECTED_FALSE
-        self.response_expected[TNGDO8.FUNCTION_GET_SELECTED_VALUE] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_GET_TIMESTAMP] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_COPY_FIRMWARE] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = TNGDO8.RESPONSE_EXPECTED_FALSE
-        self.response_expected[TNGDO8.FUNCTION_WRITE_FIRMWARE] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_RESET] = TNGDO8.RESPONSE_EXPECTED_FALSE
-        self.response_expected[TNGDO8.FUNCTION_WRITE_UID] = TNGDO8.RESPONSE_EXPECTED_FALSE
-        self.response_expected[TNGDO8.FUNCTION_READ_UID] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[TNGDO8.FUNCTION_GET_IDENTITY] = TNGDO8.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_VALUES] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_VOLTAGES] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_CURRENTS] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_SELECTED_VOLTAGE] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_SELECTED_CURRENT] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_TIMESTAMP] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_COPY_FIRMWARE] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = TNGAI4U4I.RESPONSE_EXPECTED_FALSE
+        self.response_expected[TNGAI4U4I.FUNCTION_WRITE_FIRMWARE] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_RESET] = TNGAI4U4I.RESPONSE_EXPECTED_FALSE
+        self.response_expected[TNGAI4U4I.FUNCTION_WRITE_UID] = TNGAI4U4I.RESPONSE_EXPECTED_FALSE
+        self.response_expected[TNGAI4U4I.FUNCTION_READ_UID] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[TNGAI4U4I.FUNCTION_GET_IDENTITY] = TNGAI4U4I.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
         ipcon.add_device(self)
-
-    def set_values(self, timestamp, values):
-        """
-        timestamp = 0 => now
-        """
-        self.check_validity()
-
-        timestamp = int(timestamp)
-        values = list(map(bool, values))
-
-        self.ipcon.send_request(self, TNGDO8.FUNCTION_SET_VALUES, (timestamp, values), 'Q 8!', 0, '')
 
     def get_values(self):
         """
@@ -94,29 +88,43 @@ class TNGDO8(Device):
         """
         self.check_validity()
 
-        return GetValues(*self.ipcon.send_request(self, TNGDO8.FUNCTION_GET_VALUES, (), '', 17, 'Q 8!'))
+        return GetValues(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_VALUES, (), '', 48, 'Q 4i 4i'))
 
-    def set_selected_value(self, channel, timestamp, value):
-        """
-        timestamp = 0 => now
-        """
-        self.check_validity()
-
-        channel = int(channel)
-        timestamp = int(timestamp)
-        value = list(map(bool, value))
-
-        self.ipcon.send_request(self, TNGDO8.FUNCTION_SET_SELECTED_VALUE, (channel, timestamp, value), 'B Q 8!', 0, '')
-
-    def get_selected_value(self, channel):
+    def get_voltages(self):
         """
 
         """
         self.check_validity()
 
+        return GetVoltages(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_VOLTAGES, (), '', 32, 'Q 4i'))
+
+    def get_currents(self):
+        """
+
+        """
+        self.check_validity()
+
+        return GetCurrents(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_CURRENTS, (), '', 32, 'Q 4i'))
+
+    def get_selected_voltage(self, channel):
+        """
+
+        """
+        self.check_validity()
+
         channel = int(channel)
 
-        return GetSelectedValue(*self.ipcon.send_request(self, TNGDO8.FUNCTION_GET_SELECTED_VALUE, (channel,), 'B', 17, 'Q !'))
+        return GetSelectedVoltage(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_SELECTED_VOLTAGE, (channel,), 'B', 20, 'Q i'))
+
+    def get_selected_current(self, channel):
+        """
+
+        """
+        self.check_validity()
+
+        channel = int(channel)
+
+        return GetSelectedCurrent(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_SELECTED_CURRENT, (channel,), 'B', 20, 'Q i'))
 
     def get_timestamp(self):
         """
@@ -124,7 +132,7 @@ class TNGDO8(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, TNGDO8.FUNCTION_GET_TIMESTAMP, (), '', 16, 'Q')
+        return self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_TIMESTAMP, (), '', 16, 'Q')
 
     def copy_firmware(self):
         """
@@ -132,7 +140,7 @@ class TNGDO8(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, TNGDO8.FUNCTION_COPY_FIRMWARE, (), '', 9, 'B')
+        return self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_COPY_FIRMWARE, (), '', 9, 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -142,7 +150,7 @@ class TNGDO8(Device):
 
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, TNGDO8.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
+        self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
 
     def write_firmware(self, data):
         """
@@ -152,7 +160,7 @@ class TNGDO8(Device):
 
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, TNGDO8.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
+        return self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
 
     def reset(self):
         """
@@ -165,7 +173,7 @@ class TNGDO8(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, TNGDO8.FUNCTION_RESET, (), '', 0, '')
+        self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_RESET, (), '', 0, '')
 
     def write_uid(self, uid):
         """
@@ -179,7 +187,7 @@ class TNGDO8(Device):
 
         uid = int(uid)
 
-        self.ipcon.send_request(self, TNGDO8.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
+        self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
 
     def read_uid(self):
         """
@@ -188,7 +196,7 @@ class TNGDO8(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, TNGDO8.FUNCTION_READ_UID, (), '', 12, 'I')
+        return self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_READ_UID, (), '', 12, 'I')
 
     def get_identity(self):
         """
@@ -201,4 +209,4 @@ class TNGDO8(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, TNGDO8.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, TNGAI4U4I.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))

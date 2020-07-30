@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-07-24.      #
+# This file was automatically generated on 2020-07-30.      #
 #                                                           #
 # Python Bindings Version 2.1.26                            #
 #                                                           #
@@ -9,8 +9,6 @@
 # to the generators git repository on tinkerforge.com       #
 #############################################################
 
-#### __DEVICE_IS_NOT_RELEASED__ ####
-
 from collections import namedtuple
 
 try:
@@ -18,21 +16,26 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
+DebugGetDiscretes = namedtuple('DebugGetDiscretes', ['rx_discretes', 'tx_discretes'])
+DebugReadRegisterLowLevel = namedtuple('DebugReadRegisterLowLevel', ['value_length', 'value_data', 'rw_error'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
+DebugReadRegister = namedtuple('DebugReadRegister', ['value', 'rw_error'])
 
-class BrickletUnknown(Device):
+class BrickletARINC429(Device):
+    """
+    TBD
     """
 
-    """
-
-    DEVICE_IDENTIFIER = -21
-    DEVICE_DISPLAY_NAME = 'Unknown Bricklet'
-    DEVICE_URL_PART = 'unknown' # internal
-
-    CALLBACK_ENUMERATE = 253
+    DEVICE_IDENTIFIER = 2160
+    DEVICE_DISPLAY_NAME = 'ARINC429 Bricklet'
+    DEVICE_URL_PART = 'arinc429' # internal
 
 
+
+    FUNCTION_DEBUG_GET_DISCRETES = 1
+    FUNCTION_DEBUG_READ_REGISTER_LOW_LEVEL = 2
+    FUNCTION_DEBUG_WRITE_REGISTER_LOW_LEVEL = 3
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -44,13 +47,14 @@ class BrickletUnknown(Device):
     FUNCTION_RESET = 243
     FUNCTION_WRITE_UID = 248
     FUNCTION_READ_UID = 249
-    FUNCTION_COMCU_ENUMERATE = 252
-    FUNCTION_ENUMERATE = 254
     FUNCTION_GET_IDENTITY = 255
 
-    ENUMERATION_TYPE_AVAILABLE = 0
-    ENUMERATION_TYPE_CONNECTED = 1
-    ENUMERATION_TYPE_DISCONNECTED = 2
+    RW_ERROR_OK = 0
+    RW_ERROR_NO_WRITE = 1
+    RW_ERROR_NO_READ = 2
+    RW_ERROR_INVALID_OP_CODE = 3
+    RW_ERROR_INVALID_LENGTH = 4
+    RW_ERROR_SPI = 5
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -72,28 +76,73 @@ class BrickletUnknown(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon, BrickletUnknown.DEVICE_IDENTIFIER, BrickletUnknown.DEVICE_DISPLAY_NAME)
+        Device.__init__(self, uid, ipcon, BrickletARINC429.DEVICE_IDENTIFIER, BrickletARINC429.DEVICE_DISPLAY_NAME)
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletUnknown.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_BOOTLOADER_MODE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_BOOTLOADER_MODE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_WRITE_FIRMWARE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_RESET] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_WRITE_UID] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_READ_UID] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_COMCU_ENUMERATE] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_ENUMERATE] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_IDENTITY] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_DEBUG_GET_DISCRETES] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_DEBUG_READ_REGISTER_LOW_LEVEL] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_DEBUG_WRITE_REGISTER_LOW_LEVEL] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_SET_BOOTLOADER_MODE] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_GET_BOOTLOADER_MODE] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletARINC429.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletARINC429.FUNCTION_WRITE_FIRMWARE] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletARINC429.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletARINC429.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_RESET] = BrickletARINC429.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletARINC429.FUNCTION_WRITE_UID] = BrickletARINC429.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletARINC429.FUNCTION_READ_UID] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletARINC429.FUNCTION_GET_IDENTITY] = BrickletARINC429.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletUnknown.CALLBACK_ENUMERATE] = (34, '8s 8s c 3B 3B H B')
 
         ipcon.add_device(self)
+
+    def debug_get_discretes(self):
+        """
+        Debug function to read the discrete signals from the A429 chip.
+
+        RX Discretes Bit   9: MB2-1   - pending frame in RX2, PRIO 1
+                           8: MB2-2   -                            2
+                           7: MB2-3   -                            3
+                           6: R2FLAG  -                       FIFO
+                           5: R2INT   -                       FIFO
+                           4: MB1-1   - pending frame in RX1, PRIO 1
+                           3: MB1-2   -                            2
+                           2: MB1-3   -                            3
+                           1: R1FLAG  -                       FIFO
+                           0: R1INT   -                       FIFO
+
+        TX Discretes Bit 2-7: unused
+                           1: TFULL   - TX buffer full
+                           0: TEMPTY  - TX buffer empty
+        """
+        self.check_validity()
+
+        return DebugGetDiscretes(*self.ipcon.send_request(self, BrickletARINC429.FUNCTION_DEBUG_GET_DISCRETES, (), '', 12, 'H H'))
+
+    def debug_read_register_low_level(self, op_code):
+        """
+        Debug function to read from a SPI register of the A429 chip.
+        """
+        self.check_validity()
+
+        op_code = int(op_code)
+
+        return DebugReadRegisterLowLevel(*self.ipcon.send_request(self, BrickletARINC429.FUNCTION_DEBUG_READ_REGISTER_LOW_LEVEL, (op_code,), 'B', 42, 'B 32B B'))
+
+    def debug_write_register_low_level(self, op_code, value_length, value_data):
+        """
+        Debug function to write to a SPI register of the A429 chip.
+        """
+        self.check_validity()
+
+        op_code = int(op_code)
+        value_length = int(value_length)
+        value_data = list(map(int, value_data))
+
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_DEBUG_WRITE_REGISTER_LOW_LEVEL, (op_code, value_length, value_data), 'B B 32B', 9, 'B')
 
     def get_spitfp_error_count(self):
         """
@@ -111,7 +160,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletARINC429.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -129,7 +178,7 @@ class BrickletUnknown(Device):
 
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
 
     def get_bootloader_mode(self):
         """
@@ -137,7 +186,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -152,7 +201,7 @@ class BrickletUnknown(Device):
 
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletARINC429.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
 
     def write_firmware(self, data):
         """
@@ -169,7 +218,7 @@ class BrickletUnknown(Device):
 
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
 
     def set_status_led_config(self, config):
         """
@@ -185,7 +234,7 @@ class BrickletUnknown(Device):
 
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
+        self.ipcon.send_request(self, BrickletARINC429.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
 
     def get_status_led_config(self):
         """
@@ -193,7 +242,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
 
     def get_chip_temperature(self):
         """
@@ -206,7 +255,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
 
     def reset(self):
         """
@@ -219,7 +268,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_RESET, (), '', 0, '')
+        self.ipcon.send_request(self, BrickletARINC429.FUNCTION_RESET, (), '', 0, '')
 
     def write_uid(self, uid):
         """
@@ -233,7 +282,7 @@ class BrickletUnknown(Device):
 
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletARINC429.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
 
     def read_uid(self):
         """
@@ -242,25 +291,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_READ_UID, (), '', 12, 'I')
-
-    def comcu_enumerate(self):
-        """
-        This function is equivalent to the normal enumerate function.
-        It is used to trigger the initial enumeration of CoMCU-Bricklets.
-        See :cb:`Enumerate`.
-        """
-        self.check_validity()
-
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_COMCU_ENUMERATE, (), '', 0, '')
-
-    def enumerate(self):
-        """
-        Broadcasts an enumerate request. All devices will respond with an :cb:`Enumerate` callback.
-        """
-        self.check_validity()
-
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_ENUMERATE, (), '', 0, '')
+        return self.ipcon.send_request(self, BrickletARINC429.FUNCTION_READ_UID, (), '', 12, 'I')
 
     def get_identity(self):
         """
@@ -276,15 +307,34 @@ class BrickletUnknown(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletARINC429.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
 
-    def register_callback(self, callback_id, function):
+    def debug_read_register(self, op_code):
         """
-        Registers the given *function* with the given *callback_id*.
+        Debug function to read from a SPI register of the A429 chip.
         """
-        if function is None:
-            self.registered_callbacks.pop(callback_id, None)
-        else:
-            self.registered_callbacks[callback_id] = function
+        op_code = int(op_code)
 
-Unknown = BrickletUnknown # for backward compatibility
+        ret = self.debug_read_register_low_level(op_code)
+
+        return DebugReadRegister(ret.value_data[:ret.value_length], ret.rw_error)
+
+    def debug_write_register(self, op_code, value):
+        """
+        Debug function to write to a SPI register of the A429 chip.
+        """
+        op_code = int(op_code)
+        value = list(map(int, value))
+
+        value_length = len(value)
+        value_data = list(value) # make a copy so we can potentially extend it
+
+        if value_length > 32:
+            raise Error(Error.INVALID_PARAMETER, 'Value can be at most 32 items long')
+
+        if value_length < 32:
+            value_data += [0] * (32 - value_length)
+
+        return self.debug_write_register_low_level(op_code, value_length, value_data)
+
+ARINC429 = BrickletARINC429 # for backward compatibility

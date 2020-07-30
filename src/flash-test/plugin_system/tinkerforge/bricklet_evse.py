@@ -18,21 +18,25 @@ try:
 except ValueError:
     from ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
+GetState = namedtuple('State', ['iec61851_state', 'led_state', 'resistance', 'cp_pwm_duty_cycle', 'contactor_state', 'contactor_error', 'gpio', 'lock_state', 'jumper_configuration', 'has_lock_switch', 'uptime'])
+GetLowLevelStatus = namedtuple('LowLevelStatus', ['low_level_mode_enabled', 'cp_duty_cycle', 'motor_direction', 'motor_duty_cycle', 'relay_enabled', 'cp_voltage', 'pp_voltage', 'ac_input', 'gp_input', 'motor_fault', 'motor_switch'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletUnknown(Device):
+class BrickletEVSE(Device):
+    """
+    TBD
     """
 
-    """
-
-    DEVICE_IDENTIFIER = -21
-    DEVICE_DISPLAY_NAME = 'Unknown Bricklet'
-    DEVICE_URL_PART = 'unknown' # internal
-
-    CALLBACK_ENUMERATE = 253
+    DEVICE_IDENTIFIER = 2159
+    DEVICE_DISPLAY_NAME = 'EVSE Bricklet'
+    DEVICE_URL_PART = 'evse' # internal
 
 
+
+    FUNCTION_GET_STATE = 1
+    FUNCTION_SET_LOW_LEVEL_OUTPUT = 2
+    FUNCTION_GET_LOW_LEVEL_STATUS = 3
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -44,13 +48,36 @@ class BrickletUnknown(Device):
     FUNCTION_RESET = 243
     FUNCTION_WRITE_UID = 248
     FUNCTION_READ_UID = 249
-    FUNCTION_COMCU_ENUMERATE = 252
-    FUNCTION_ENUMERATE = 254
     FUNCTION_GET_IDENTITY = 255
 
-    ENUMERATION_TYPE_AVAILABLE = 0
-    ENUMERATION_TYPE_CONNECTED = 1
-    ENUMERATION_TYPE_DISCONNECTED = 2
+    IEC61851_STATE_A = 0
+    IEC61851_STATE_B = 1
+    IEC61851_STATE_C = 2
+    IEC61851_STATE_D = 3
+    IEC61851_STATE_EF = 4
+    LED_STATE_OFF = 0
+    LED_STATE_ON = 1
+    LED_STATE_BLINKING = 2
+    LED_STATE_BREATHING = 3
+    CONTACTOR_STATE_AC1_NLIVE_AC2_NLIVE = 0
+    CONTACTOR_STATE_AC1_LIVE_AC2_NLIVE = 1
+    CONTACTOR_STATE_AC1_NLIVE_AC2_LIVE = 2
+    CONTACTOR_STATE_AC1_LIVE_AC2_LIVE = 3
+    LOCK_STATE_INIT = 0
+    LOCK_STATE_OPEN = 1
+    LOCK_STATE_CLOSING = 2
+    LOCK_STATE_CLOSE = 3
+    LOCK_STATE_OPENING = 4
+    LOCK_STATE_ERROR = 5
+    JUMPER_CONFIGURATION_6A = 0
+    JUMPER_CONFIGURATION_10A = 1
+    JUMPER_CONFIGURATION_13A = 2
+    JUMPER_CONFIGURATION_16A = 3
+    JUMPER_CONFIGURATION_20A = 4
+    JUMPER_CONFIGURATION_25A = 5
+    JUMPER_CONFIGURATION_32A = 6
+    JUMPER_CONFIGURATION_SOFTWARE = 7
+    JUMPER_CONFIGURATION_UNCONFIGURED = 8
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -72,28 +99,59 @@ class BrickletUnknown(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon, BrickletUnknown.DEVICE_IDENTIFIER, BrickletUnknown.DEVICE_DISPLAY_NAME)
+        Device.__init__(self, uid, ipcon, BrickletEVSE.DEVICE_IDENTIFIER, BrickletEVSE.DEVICE_DISPLAY_NAME)
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletUnknown.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_BOOTLOADER_MODE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_BOOTLOADER_MODE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_WRITE_FIRMWARE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_RESET] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_WRITE_UID] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_READ_UID] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletUnknown.FUNCTION_COMCU_ENUMERATE] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_ENUMERATE] = BrickletUnknown.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletUnknown.FUNCTION_GET_IDENTITY] = BrickletUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_STATE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_LOW_LEVEL_OUTPUT] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATUS] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_WRITE_FIRMWARE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_RESET] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_WRITE_UID] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_READ_UID] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_IDENTITY] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
 
-        self.callback_formats[BrickletUnknown.CALLBACK_ENUMERATE] = (34, '8s 8s c 3B 3B H B')
 
         ipcon.add_device(self)
+
+    def get_state(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return GetState(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_STATE, (), '', 30, 'B B 2I H B B 4! B B ! I'))
+
+    def set_low_level_output(self, low_level_mode_enabled, cp_duty_cycle, motor_direction, motor_duty_cycle, relay_enabled, password):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        low_level_mode_enabled = bool(low_level_mode_enabled)
+        cp_duty_cycle = int(cp_duty_cycle)
+        motor_direction = bool(motor_direction)
+        motor_duty_cycle = int(motor_duty_cycle)
+        relay_enabled = int(relay_enabled)
+        password = int(password)
+
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_LOW_LEVEL_OUTPUT, (low_level_mode_enabled, cp_duty_cycle, motor_direction, motor_duty_cycle, relay_enabled, password), '! H ! H H I', 0, '')
+
+    def get_low_level_status(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return GetLowLevelStatus(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATUS, (), '', 25, '! H H H H h h 2! ! ! !'))
 
     def get_spitfp_error_count(self):
         """
@@ -111,7 +169,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -129,7 +187,7 @@ class BrickletUnknown(Device):
 
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
 
     def get_bootloader_mode(self):
         """
@@ -137,7 +195,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -152,7 +210,7 @@ class BrickletUnknown(Device):
 
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
 
     def write_firmware(self, data):
         """
@@ -169,7 +227,7 @@ class BrickletUnknown(Device):
 
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
 
     def set_status_led_config(self, config):
         """
@@ -185,7 +243,7 @@ class BrickletUnknown(Device):
 
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
 
     def get_status_led_config(self):
         """
@@ -193,7 +251,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
 
     def get_chip_temperature(self):
         """
@@ -206,7 +264,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
 
     def reset(self):
         """
@@ -219,7 +277,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_RESET, (), '', 0, '')
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_RESET, (), '', 0, '')
 
     def write_uid(self, uid):
         """
@@ -233,7 +291,7 @@ class BrickletUnknown(Device):
 
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
 
     def read_uid(self):
         """
@@ -242,25 +300,7 @@ class BrickletUnknown(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletUnknown.FUNCTION_READ_UID, (), '', 12, 'I')
-
-    def comcu_enumerate(self):
-        """
-        This function is equivalent to the normal enumerate function.
-        It is used to trigger the initial enumeration of CoMCU-Bricklets.
-        See :cb:`Enumerate`.
-        """
-        self.check_validity()
-
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_COMCU_ENUMERATE, (), '', 0, '')
-
-    def enumerate(self):
-        """
-        Broadcasts an enumerate request. All devices will respond with an :cb:`Enumerate` callback.
-        """
-        self.check_validity()
-
-        self.ipcon.send_request(self, BrickletUnknown.FUNCTION_ENUMERATE, (), '', 0, '')
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_READ_UID, (), '', 12, 'I')
 
     def get_identity(self):
         """
@@ -276,15 +316,6 @@ class BrickletUnknown(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletUnknown.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
 
-    def register_callback(self, callback_id, function):
-        """
-        Registers the given *function* with the given *callback_id*.
-        """
-        if function is None:
-            self.registered_callbacks.pop(callback_id, None)
-        else:
-            self.registered_callbacks[callback_id] = function
-
-Unknown = BrickletUnknown # for backward compatibility
+EVSE = BrickletEVSE # for backward compatibility
