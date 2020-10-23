@@ -270,6 +270,11 @@ except ValueError:
     from bricklet_humidity_v2 import BrickletHumidityV2
 
 try:
+    from .bricklet_imu_v3 import BrickletIMUV3
+except ValueError:
+    from bricklet_imu_v3 import BrickletIMUV3
+
+try:
     from .bricklet_industrial_analog_out import BrickletIndustrialAnalogOut
 except ValueError:
     from bricklet_industrial_analog_out import BrickletIndustrialAnalogOut
@@ -818,6 +823,7 @@ DEVICE_CLASSES = {
     BrickletHallEffectV2.DEVICE_IDENTIFIER: BrickletHallEffectV2,
     BrickletHumidity.DEVICE_IDENTIFIER: BrickletHumidity,
     BrickletHumidityV2.DEVICE_IDENTIFIER: BrickletHumidityV2,
+    BrickletIMUV3.DEVICE_IDENTIFIER: BrickletIMUV3,
     BrickletIndustrialAnalogOut.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOut,
     BrickletIndustrialAnalogOutV2.DEVICE_IDENTIFIER: BrickletIndustrialAnalogOutV2,
     BrickletIndustrialCounter.DEVICE_IDENTIFIER: BrickletIndustrialCounter,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-08-18.      #
+# This file was automatically generated on 2020-10-23.      #
 #                                                           #
 # Python Bindings Version 2.1.26                            #
 #                                                           #
@@ -146,7 +146,9 @@ DEVICE_DISPLAY_NAMES = {
     2146: 'E-Paper 296x128 Bricklet',
     2147: 'CO2 Bricklet 2.0',
     2152: 'Energy Monitor Bricklet',
-    2153: 'Compass Bricklet'
+    2153: 'Compass Bricklet',
+    2161: 'IMU Bricklet 3.0',
+    2162: 'Industrial Dual AC Relay Bricklet'
 }
 
 def get_device_display_name(device_identifier):
