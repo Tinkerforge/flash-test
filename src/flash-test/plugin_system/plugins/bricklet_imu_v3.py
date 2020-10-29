@@ -73,4 +73,4 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_orientation(self, data):
-        self.mw.set_value_normal('Heading: {0}, Roll: {1}, Pitch: {2}'.format(*data))
+        self.mw.set_value_normal('Heading: {0:.2f}, Roll: {1:.2f}, Pitch: {2:.2f}'.format(data.heading/16, data.roll/16, data.pitch/16))
