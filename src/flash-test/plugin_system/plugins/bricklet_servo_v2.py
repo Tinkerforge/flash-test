@@ -23,6 +23,8 @@ Boston, MA 02111-1307, USA.
 
 from PyQt5 import Qt, QtGui, QtCore
 
+import time
+
 from ..tinkerforge.bricklet_servo_v2 import BrickletServoV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -33,14 +35,16 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Servo Bricklet 2.0 mit Flash Adapter XMC
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe ob Servo sich dreht (Mittelposition, +90°, -90°)
-5. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+4. Strom-Offset-Kalibrierung findet automatisch statt (dauert ca. 2 Sekunden)
+5. Überprüfe ob Servo sich dreht (Mittelposition, +90°, -90°)
+6. Das Bricklet ist fertig, in kleine ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
         self.cbe_servo_current = None
+        self.calibrate = True
 
     def start(self):
         CoMCUBrickletBase.start(self)
@@ -57,7 +61,6 @@ class Plugin(CoMCUBrickletBase):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletServoV2.DEVICE_URL_PART))
 
     def new_enum(self, device_information):
-        print(device_information)
         CoMCUBrickletBase.new_enum(self, device_information)
         if self.cbe_servo_current != None:
             self.cbe_servo_current.set_period(0)
@@ -65,6 +68,20 @@ class Plugin(CoMCUBrickletBase):
         self.servo = BrickletServoV2(device_information.uid, self.get_ipcon())
         if self.servo.get_bootloader_mode() != BrickletServoV2.BOOTLOADER_MODE_FIRMWARE:
             return
+
+        self.mw.set_value_normal('Calibrating...')
+        offset = [0]*10
+        self.servo.set_current_calibration(offset)
+        time.sleep(0.25)
+        t = time.time()
+        while time.time() - t < 2:
+            time.sleep(0.25)
+            for i in range(10):
+                offset[i] = min(offset[i], -self.servo.get_servo_current(i))
+
+        self.servo.set_current_calibration(offset)
+        self.mw.set_value_normal('Calibration done.')
+
 
         self.state = 0
         self.servo.set_enable(0, True)
@@ -75,8 +92,6 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_servo_current(self, current):
-        print(current)
-
         if self.state == 0:
             self.servo.set_position(0, 0)
         elif self.state == 1:
