@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-10-30.      #
+# This file was automatically generated on 2021-01-15.      #
 #                                                           #
-# Python Bindings Version 2.1.27                            #
+# Python Bindings Version 2.1.28                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -178,6 +178,11 @@ try:
     from .bricklet_current25 import BrickletCurrent25
 except ValueError:
     from bricklet_current25 import BrickletCurrent25
+
+try:
+    from .bricklet_dc_v2 import BrickletDCV2
+except ValueError:
+    from bricklet_dc_v2 import BrickletDCV2
 
 try:
     from .bricklet_distance_ir import BrickletDistanceIR
@@ -645,6 +650,11 @@ except ValueError:
     from bricklet_servo_v2 import BrickletServoV2
 
 try:
+    from .bricklet_silent_stepper_v2 import BrickletSilentStepperV2
+except ValueError:
+    from bricklet_silent_stepper_v2 import BrickletSilentStepperV2
+
+try:
     from .bricklet_solid_state_relay import BrickletSolidStateRelay
 except ValueError:
     from bricklet_solid_state_relay import BrickletSolidStateRelay
@@ -805,6 +815,7 @@ DEVICE_CLASSES = {
     BrickletCompass.DEVICE_IDENTIFIER: BrickletCompass,
     BrickletCurrent12.DEVICE_IDENTIFIER: BrickletCurrent12,
     BrickletCurrent25.DEVICE_IDENTIFIER: BrickletCurrent25,
+    BrickletDCV2.DEVICE_IDENTIFIER: BrickletDCV2,
     BrickletDistanceIR.DEVICE_IDENTIFIER: BrickletDistanceIR,
     BrickletDistanceIRV2.DEVICE_IDENTIFIER: BrickletDistanceIRV2,
     BrickletDistanceUS.DEVICE_IDENTIFIER: BrickletDistanceUS,
@@ -898,6 +909,7 @@ DEVICE_CLASSES = {
     BrickletSegmentDisplay4x7.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7,
     BrickletSegmentDisplay4x7V2.DEVICE_IDENTIFIER: BrickletSegmentDisplay4x7V2,
     BrickletServoV2.DEVICE_IDENTIFIER: BrickletServoV2,
+    BrickletSilentStepperV2.DEVICE_IDENTIFIER: BrickletSilentStepperV2,
     BrickletSolidStateRelay.DEVICE_IDENTIFIER: BrickletSolidStateRelay,
     BrickletSolidStateRelayV2.DEVICE_IDENTIFIER: BrickletSolidStateRelayV2,
     BrickletSoundIntensity.DEVICE_IDENTIFIER: BrickletSoundIntensity,

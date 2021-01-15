@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2020-10-30.      #
+# This file was automatically generated on 2021-01-15.      #
 #                                                           #
-# Python Bindings Version 2.1.27                            #
+# Python Bindings Version 2.1.28                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
-
-#### __DEVICE_IS_NOT_RELEASED__ ####
 
 from collections import namedtuple
 
@@ -21,18 +19,22 @@ except ValueError:
 GetMotion = namedtuple('Motion', ['acceleration', 'deceleration'])
 GetPowerStatistics = namedtuple('PowerStatistics', ['voltage', 'current', 'temperature'])
 GetGPIOConfiguration = namedtuple('GPIOConfiguration', ['debounce', 'stop_deceleration'])
+GetCurrentVelocityCallbackConfiguration = namedtuple('CurrentVelocityCallbackConfiguration', ['period', 'value_has_to_change'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
 class BrickletPerformanceDC(Device):
     """
-    TBD
+    Drives one brushed DC motor with up to 36V and 10A
     """
 
     DEVICE_IDENTIFIER = 2156
     DEVICE_DISPLAY_NAME = 'Performance DC Bricklet'
     DEVICE_URL_PART = 'performance_dc' # internal
 
+    CALLBACK_EMERGENCY_SHUTDOWN = 35
+    CALLBACK_VELOCITY_REACHED = 36
+    CALLBACK_CURRENT_VELOCITY = 37
 
 
     FUNCTION_SET_ENABLED = 1
@@ -48,19 +50,27 @@ class BrickletPerformanceDC(Device):
     FUNCTION_SET_PWM_FREQUENCY = 11
     FUNCTION_GET_PWM_FREQUENCY = 12
     FUNCTION_GET_POWER_STATISTICS = 13
-    FUNCTION_SET_GPIO_CONFIGURATION = 14
-    FUNCTION_GET_GPIO_CONFIGURATION = 15
-    FUNCTION_SET_GPIO_ACTION = 16
-    FUNCTION_GET_GPIO_ACTION = 17
-    FUNCTION_GET_GPIO_STATE = 18
-    FUNCTION_SET_ERROR_LED_CONFIG = 19
-    FUNCTION_GET_ERROR_LED_CONFIG = 20
-    FUNCTION_SET_CW_LED_CONFIG = 21
-    FUNCTION_GET_CW_LED_CONFIG = 22
-    FUNCTION_SET_CCW_LED_CONFIG = 23
-    FUNCTION_GET_CCW_LED_CONFIG = 24
-    FUNCTION_SET_GPIO_LED_CONFIG = 25
-    FUNCTION_GET_GPIO_LED_CONFIG = 26
+    FUNCTION_SET_THERMAL_SHUTDOWN = 14
+    FUNCTION_GET_THERMAL_SHUTDOWN = 15
+    FUNCTION_SET_GPIO_CONFIGURATION = 16
+    FUNCTION_GET_GPIO_CONFIGURATION = 17
+    FUNCTION_SET_GPIO_ACTION = 18
+    FUNCTION_GET_GPIO_ACTION = 19
+    FUNCTION_GET_GPIO_STATE = 20
+    FUNCTION_SET_ERROR_LED_CONFIG = 21
+    FUNCTION_GET_ERROR_LED_CONFIG = 22
+    FUNCTION_SET_CW_LED_CONFIG = 23
+    FUNCTION_GET_CW_LED_CONFIG = 24
+    FUNCTION_SET_CCW_LED_CONFIG = 25
+    FUNCTION_GET_CCW_LED_CONFIG = 26
+    FUNCTION_SET_GPIO_LED_CONFIG = 27
+    FUNCTION_GET_GPIO_LED_CONFIG = 28
+    FUNCTION_SET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION = 29
+    FUNCTION_GET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION = 30
+    FUNCTION_SET_VELOCITY_REACHED_CALLBACK_CONFIGURATION = 31
+    FUNCTION_GET_VELOCITY_REACHED_CALLBACK_CONFIGURATION = 32
+    FUNCTION_SET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION = 33
+    FUNCTION_GET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION = 34
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -140,6 +150,8 @@ class BrickletPerformanceDC(Device):
         self.response_expected[BrickletPerformanceDC.FUNCTION_SET_PWM_FREQUENCY] = BrickletPerformanceDC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_PWM_FREQUENCY] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_POWER_STATISTICS] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_SET_THERMAL_SHUTDOWN] = BrickletPerformanceDC.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_GET_THERMAL_SHUTDOWN] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_SET_GPIO_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_GPIO_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_SET_GPIO_ACTION] = BrickletPerformanceDC.RESPONSE_EXPECTED_FALSE
@@ -153,6 +165,12 @@ class BrickletPerformanceDC(Device):
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_CCW_LED_CONFIG] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_SET_GPIO_LED_CONFIG] = BrickletPerformanceDC.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_GPIO_LED_CONFIG] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_SET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_GET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_SET_VELOCITY_REACHED_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_GET_VELOCITY_REACHED_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_SET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletPerformanceDC.FUNCTION_GET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_SET_BOOTLOADER_MODE] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_BOOTLOADER_MODE] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -166,12 +184,16 @@ class BrickletPerformanceDC(Device):
         self.response_expected[BrickletPerformanceDC.FUNCTION_READ_UID] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletPerformanceDC.FUNCTION_GET_IDENTITY] = BrickletPerformanceDC.RESPONSE_EXPECTED_ALWAYS_TRUE
 
+        self.callback_formats[BrickletPerformanceDC.CALLBACK_EMERGENCY_SHUTDOWN] = (8, '')
+        self.callback_formats[BrickletPerformanceDC.CALLBACK_VELOCITY_REACHED] = (10, 'h')
+        self.callback_formats[BrickletPerformanceDC.CALLBACK_CURRENT_VELOCITY] = (10, 'h')
 
         ipcon.add_device(self)
 
     def set_enabled(self, enabled):
         """
-        TBD
+        Enables/Disables the driver chip. The driver parameters can be configured
+        (velocity, acceleration, etc) before it is enabled.
         """
         self.check_validity()
 
@@ -181,7 +203,7 @@ class BrickletPerformanceDC(Device):
 
     def get_enabled(self):
         """
-        TBD
+        Returns *true* if the driver chip is enabled, *false* otherwise.
         """
         self.check_validity()
 
@@ -191,13 +213,13 @@ class BrickletPerformanceDC(Device):
         """
         Sets the velocity of the motor. Whereas -32767 is full speed backward,
         0 is stop and 32767 is full speed forward. Depending on the
-        acceleration (see TBD), the motor is not immediately
+        acceleration (see :func:`Set Motion`), the motor is not immediately
         brought to the velocity but smoothly accelerated.
 
         The velocity describes the duty cycle of the PWM with which the motor is
         controlled, e.g. a velocity of 3277 sets a PWM with a 10% duty cycle.
         You can not only control the duty cycle of the PWM but also the frequency,
-        see TBD.
+        see :func:`Set PWM Frequency`.
         """
         self.check_validity()
 
@@ -225,16 +247,16 @@ class BrickletPerformanceDC(Device):
 
     def set_motion(self, acceleration, deceleration):
         """
-        Sets the acceleration of the motor. It is given in *velocity/s*. An
-        acceleration of 10000 means, that every second the velocity is increased
+        Sets the acceleration and deceleration of the motor. It is given in *velocity/s*.
+        An acceleration of 10000 means, that every second the velocity is increased
         by 10000 (or about 30% duty cycle).
 
         For example: If the current velocity is 0 and you want to accelerate to a
         velocity of 16000 (about 50% duty cycle) in 10 seconds, you should set
         an acceleration of 1600.
 
-        If acceleration is set to 0, there is no speed ramping, i.e. a new velocity
-        is immediately given to the motor.
+        If acceleration and deceleration is set to 0, there is no speed ramping, i.e. a
+        new velocity is immediately given to the motor.
         """
         self.check_validity()
 
@@ -245,7 +267,7 @@ class BrickletPerformanceDC(Device):
 
     def get_motion(self):
         """
-        Returns the acceleration as set by :func:`Set Motion`.
+        Returns the acceleration/deceleration as set by :func:`Set Motion`.
         """
         self.check_validity()
 
@@ -325,15 +347,41 @@ class BrickletPerformanceDC(Device):
 
     def get_power_statistics(self):
         """
-        TBD
+        Returns input voltage, current usage and temperature of the driver.
         """
         self.check_validity()
 
         return GetPowerStatistics(*self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_POWER_STATISTICS, (), '', 14, 'H H h'))
 
+    def set_thermal_shutdown(self, temperature):
+        """
+        Sets a temperature threshold that is used for thermal shutdown.
+
+        Additionally to this user defined threshold the driver chip will shut down at a
+        temperature of 150°C.
+
+        If a thermal shutdown is triggered the driver is disabled and has to be
+        explicitly re-enabled with :func:`Set Enabled`.
+        """
+        self.check_validity()
+
+        temperature = int(temperature)
+
+        self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_SET_THERMAL_SHUTDOWN, (temperature,), 'B', 0, '')
+
+    def get_thermal_shutdown(self):
+        """
+        Returns the thermal shutdown temperature as set by :func:`Set Thermal Shutdown`.
+        """
+        self.check_validity()
+
+        return self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_THERMAL_SHUTDOWN, (), '', 9, 'B')
+
     def set_gpio_configuration(self, channel, debounce, stop_deceleration):
         """
-        TBD
+        Sets the GPIO configuration for the given channel.
+        You can configure a debounce and the deceleration that is used if the action is
+        configured as ``normal stop``. See :func:`Set GPIO Action`.
         """
         self.check_validity()
 
@@ -345,7 +393,7 @@ class BrickletPerformanceDC(Device):
 
     def get_gpio_configuration(self, channel):
         """
-        TBD
+        Returns the GPIO configuration for a channel as set by :func:`Set GPIO Configuration`.
         """
         self.check_validity()
 
@@ -355,7 +403,15 @@ class BrickletPerformanceDC(Device):
 
     def set_gpio_action(self, channel, action):
         """
-        TBD
+        Sets the GPIO action for the given channel.
+
+        The action can be a normal stop, a full brake or a callback. Each for a rising
+        edge or falling edge. The actions are a bitmask they can be used at the same time.
+        You can for example trigger a full brake and a callback at the same time or for
+        rising and falling edge.
+
+        The deceleration speed for the normal stop can be configured with
+        :func:`Set GPIO Configuration`.
         """
         self.check_validity()
 
@@ -366,7 +422,7 @@ class BrickletPerformanceDC(Device):
 
     def get_gpio_action(self, channel):
         """
-        TBD
+        Returns the GPIO action for a channel as set by :func:`Set GPIO Action`.
         """
         self.check_validity()
 
@@ -376,7 +432,8 @@ class BrickletPerformanceDC(Device):
 
     def get_gpio_state(self):
         """
-        TBD
+        Returns the GPIO state for both channels. True if the state is ``high`` and
+        false if the state is ``low``.
         """
         self.check_validity()
 
@@ -384,14 +441,14 @@ class BrickletPerformanceDC(Device):
 
     def set_error_led_config(self, config):
         """
-        Configures the touch LED to be either turned off, turned on, blink in
-        heartbeat mode or show TBD.
+        Configures the error LED to be either turned off, turned on, blink in
+        heartbeat mode or show an error.
 
-        TODO:
+        If the LED is configured to show errors it has three different states:
 
-        * one second interval blink: Input voltage too small
-        * 250ms interval blink: Overtemperature warning
-        * full red: motor disabled because of short to ground in phase a or b or because of overtemperature
+        * Off: No error present.
+        * 1s interval blinking: Input voltage too low (below 6V).
+        * 250ms interval blinking: Overtemperature or overcurrent.
         """
         self.check_validity()
 
@@ -409,7 +466,8 @@ class BrickletPerformanceDC(Device):
 
     def set_cw_led_config(self, config):
         """
-        TBD
+        Configures the CW LED to be either turned off, turned on, blink in
+        heartbeat mode or if the motor turn clockwise.
         """
         self.check_validity()
 
@@ -427,7 +485,8 @@ class BrickletPerformanceDC(Device):
 
     def set_ccw_led_config(self, config):
         """
-        TBD
+        Configures the CCW LED to be either turned off, turned on, blink in
+        heartbeat mode or if the motor turn counter-clockwise.
         """
         self.check_validity()
 
@@ -445,8 +504,10 @@ class BrickletPerformanceDC(Device):
 
     def set_gpio_led_config(self, channel, config):
         """
-        Configures the touch LED to be either turned off, turned on, blink in
-        heartbeat mode or show TBD.
+        Configures the GPIO LED to be either turned off, turned on, blink in
+        heartbeat mode or the GPIO state.
+
+        The GPIO LED can be configured for both channels.
         """
         self.check_validity()
 
@@ -464,6 +525,72 @@ class BrickletPerformanceDC(Device):
         channel = int(channel)
 
         return self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_GPIO_LED_CONFIG, (channel,), 'B', 9, 'B')
+
+    def set_emergency_shutdown_callback_configuration(self, enabled):
+        """
+        Enable/Disable :cb:`Emergency Shutdown` callback.
+        """
+        self.check_validity()
+
+        enabled = bool(enabled)
+
+        self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_SET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION, (enabled,), '!', 0, '')
+
+    def get_emergency_shutdown_callback_configuration(self):
+        """
+        Returns the callback configuration as set by
+        :func:`Set Emergency Shutdown Callback Configuration`.
+        """
+        self.check_validity()
+
+        return self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_EMERGENCY_SHUTDOWN_CALLBACK_CONFIGURATION, (), '', 9, '!')
+
+    def set_velocity_reached_callback_configuration(self, enabled):
+        """
+        Enable/Disable :cb:`Velocity Reached` callback.
+        """
+        self.check_validity()
+
+        enabled = bool(enabled)
+
+        self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_SET_VELOCITY_REACHED_CALLBACK_CONFIGURATION, (enabled,), '!', 0, '')
+
+    def get_velocity_reached_callback_configuration(self):
+        """
+        Returns the callback configuration as set by
+        :func:`Set Velocity Reached Callback Configuration`.
+        """
+        self.check_validity()
+
+        return self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_VELOCITY_REACHED_CALLBACK_CONFIGURATION, (), '', 9, '!')
+
+    def set_current_velocity_callback_configuration(self, period, value_has_to_change):
+        """
+        The period is the period with which the :cb:`Current Velocity`
+        callback is triggered periodically. A value of 0 turns the callback off.
+
+        If the `value has to change`-parameter is set to true, the callback is only
+        triggered after the value has changed. If the value didn't change within the
+        period, the callback is triggered immediately on change.
+
+        If it is set to false, the callback is continuously triggered with the period,
+        independent of the value.
+        """
+        self.check_validity()
+
+        period = int(period)
+        value_has_to_change = bool(value_has_to_change)
+
+        self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_SET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION, (period, value_has_to_change), 'I !', 0, '')
+
+    def get_current_velocity_callback_configuration(self):
+        """
+        Returns the callback configuration as set by
+        :func:`Set Current Velocity Callback Configuration`.
+        """
+        self.check_validity()
+
+        return GetCurrentVelocityCallbackConfiguration(*self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_CURRENT_VELOCITY_CALLBACK_CONFIGURATION, (), '', 13, 'I !'))
 
     def get_spitfp_error_count(self):
         """
@@ -628,5 +755,14 @@ class BrickletPerformanceDC(Device):
         |device_identifier_constant|
         """
         return GetIdentity(*self.ipcon.send_request(self, BrickletPerformanceDC.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+
+    def register_callback(self, callback_id, function):
+        """
+        Registers the given *function* with the given *callback_id*.
+        """
+        if function is None:
+            self.registered_callbacks.pop(callback_id, None)
+        else:
+            self.registered_callbacks[callback_id] = function
 
 PerformanceDC = BrickletPerformanceDC # for backward compatibility
