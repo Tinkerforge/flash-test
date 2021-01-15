@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2019 Olaf Lüke <olaf@tinkerforge.com>
 
-brick_hat_zero_zero.py: HAT plugin
+brick_hat_zero.py: HAT Zero plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,11 +31,11 @@ import os
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. Nutze neuen flash adapter!!!
-1. Verbinde HAT Zero Brick mit flash adapter
+0. Nutze neuen Flash Adapter!
+1. Verbinde HAT Zero Brick mit Flash Adapter
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Das HAT Zero Brick muss jetzt mit RPi und RPI-Test-Image getestet werden
+4. Das HAT Zero Brick muss jetzt mit RPi und RPi-Test-Image getestet werden
 5. Gehe zu 1
 """
 

@@ -31,12 +31,12 @@ import os
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. Nutze neuen flash adapter!!!
-1. Verbinde HAT Brick mit flash adapter
+0. Nutze neuen Flash Adapter!
+1. Verbinde HAT Brick mit Flash Adapter
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Lange Kondensatorpinne abschneiden und Gummifuss aufkleben
-5. Das HAT Brick muss jetzt mit RPi und RPI-Test-Image getestet werden
+5. Das HAT Brick muss jetzt mit RPi und RPi-Test-Image getestet werden
 6. 2-Pol Stecker beilegen, eintüten, einschweißen
 7. Gehe zu 1
 """
