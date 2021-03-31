@@ -81,7 +81,8 @@ class Plugin(ExtensionBase):
             self.mw.set_value_error('self.master == None or self.device_information == None')
             return
 
-        mac_prefix = "40:D8:55:02:A"
+#        mac_prefix = "40:D8:55:02:A" # old MAC
+        mac_prefix = "70:B3:D5:50:9" # new MAC
         mac_str = mac_prefix + str(self.mw.edit_ethernet_extension.text())
         if len(mac_str) != 12 + 5:
             self.mw.set_value_error('MAC Adresse hat ungültige Länge')
