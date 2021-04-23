@@ -150,7 +150,8 @@ DEVICE_DISPLAY_NAMES = {
     2156: 'Performance DC Bricklet',
     2157: 'Servo Bricklet 2.0',
     2161: 'IMU Bricklet 3.0',
-    2162: 'Industrial Dual AC Relay Bricklet'
+    2162: 'Industrial Dual AC Relay Bricklet',
+    2164: 'Industrial PTC Bricklet'
 }
 
 def get_device_display_name(device_identifier):

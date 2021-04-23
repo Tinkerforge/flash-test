@@ -35,7 +35,7 @@ class Plugin(CoMCUBrickletBase):
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
      * Temperatur sollte sinnvoll sein
-5. Das Bricklet ist fertig. Zusammen mit Jumper in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+6. Das Bricklet ist fertig, mit grünem 8-Pol Stecker in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 6. Gehe zu 1
 """
 
