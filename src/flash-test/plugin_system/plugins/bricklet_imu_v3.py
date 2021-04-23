@@ -31,7 +31,7 @@ import math
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Accelerometer Bricklet 2.0 mit Port C
+1. Verbinde IMU Bricklet 3.0 mit Port D
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4  Kalibrieren und Testen im Brick Viewer
