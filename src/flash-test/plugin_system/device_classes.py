@@ -25,6 +25,7 @@ from .plugins.bricklet_co2_v2 import Plugin as bricklet_co2_v2_class
 from .plugins.bricklet_color import Plugin as bricklet_color_class
 from .plugins.bricklet_color_v2 import Plugin as bricklet_color_v2_class
 from .plugins.bricklet_compass import Plugin as bricklet_compass_class
+from .plugins.bricklet_dc_v2 import Plugin as bricklet_dc_v2_class
 from .plugins.bricklet_distance_ir import Plugin as bricklet_distance_ir_class
 from .plugins.bricklet_distance_ir_v2 import Plugin as bricklet_distance_ir_v2_class
 from .plugins.bricklet_distance_us import Plugin as bricklet_distance_us_class
@@ -159,6 +160,7 @@ device_classes = [
     bricklet_color_class,
     bricklet_color_v2_class,
     bricklet_compass_class,
+    bricklet_dc_v2_class,
     bricklet_distance_ir_class,
     bricklet_distance_ir_v2_class,
     bricklet_distance_us_class,
