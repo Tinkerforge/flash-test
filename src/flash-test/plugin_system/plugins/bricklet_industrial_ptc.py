@@ -29,7 +29,8 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial PTC Bricklet mit Port C
+0. Verbinde Industrial PTC Bricklet mit Port C
+1. Pt100 anstecken und Dippschalter auf Pt100/2-Leiter
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:
@@ -65,7 +66,7 @@ class Plugin(CoMCUBrickletBase):
         if self.industrial_ptc.get_bootloader_mode() != BrickletIndustrialPTC.BOOTLOADER_MODE_FIRMWARE:
             return
 
-        self.industrial_ptc.set_wire_mode(BrickletIndustrialPTC.WIRE_MODE_3)
+        self.industrial_ptc.set_wire_mode(BrickletIndustrialPTC.WIRE_MODE_2)
         self.cbe_temperature = CallbackEmulator(self.industrial_ptc.get_temperature,
                                                 self.cb_temperature)
         self.cbe_temperature.set_period(100)
