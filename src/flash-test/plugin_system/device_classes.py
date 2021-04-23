@@ -113,6 +113,7 @@ from .plugins.bricklet_rs485 import Plugin as bricklet_rs485_class
 from .plugins.bricklet_segment_display_4x7 import Plugin as bricklet_segment_display_4x7_class
 from .plugins.bricklet_segment_display_4x7_v2 import Plugin as bricklet_segment_display_4x7_v2_class
 from .plugins.bricklet_servo_v2 import Plugin as bricklet_servo_v2_class
+from .plugins.bricklet_silent_stepper_v2 import Plugin as bricklet_silent_stepper_v2_class
 from .plugins.bricklet_solid_state_relay import Plugin as bricklet_solid_state_relay_class
 from .plugins.bricklet_solid_state_relay_v2 import Plugin as bricklet_solid_state_relay_v2_class
 from .plugins.bricklet_sound_intensity import Plugin as bricklet_sound_intensity_class
@@ -249,6 +250,7 @@ device_classes = [
     bricklet_segment_display_4x7_class,
     bricklet_segment_display_4x7_v2_class,
     bricklet_servo_v2_class,
+    bricklet_silent_stepper_v2_class,
     bricklet_solid_state_relay_class,
     bricklet_solid_state_relay_v2_class,
     bricklet_sound_intensity_class,
