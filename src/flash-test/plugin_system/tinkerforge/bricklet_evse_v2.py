@@ -20,19 +20,22 @@ except ValueError:
 
 GetState = namedtuple('State', ['iec61851_state', 'vehicle_state', 'contactor_state', 'contactor_error', 'charge_release', 'allowed_charging_current', 'error_state', 'lock_state', 'time_since_state_change', 'uptime'])
 GetHardwareConfiguration = namedtuple('HardwareConfiguration', ['jumper_configuration', 'has_lock_switch'])
-GetLowLevelState = namedtuple('LowLevelState', ['low_level_mode_enabled', 'led_state', 'cp_pwm_duty_cycle', 'adc_values', 'voltages', 'resistances', 'gpio'])
-GetMaxChargingCurrent = namedtuple('MaxChargingCurrent', ['max_current_configured', 'max_current_incoming_cable', 'max_current_outgoing_cable', 'max_current_managed'])
+GetLowLevelState = namedtuple('LowLevelState', ['led_state', 'cp_pwm_duty_cycle', 'adc_values', 'voltages', 'resistances', 'gpio'])
+GetMaxChargingCurrent = namedtuple('MaxChargingCurrent', ['max_current_configured', 'max_current_incoming_cable', 'max_current_outgoing_cable'])
+GetEnergyMeterValues = namedtuple('EnergyMeterValues', ['power', 'energy_relative', 'energy_absolute'])
+GetEnergyMeterState = namedtuple('EnergyMeterState', ['available', 'error_count'])
+GetGPIOConfiguration = namedtuple('GPIOConfiguration', ['input_configuration', 'output_configuration'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickletEVSE(Device):
+class BrickletEVSEV2(Device):
     """
     TBD
     """
 
-    DEVICE_IDENTIFIER = 2159
-    DEVICE_DISPLAY_NAME = 'EVSE Bricklet'
-    DEVICE_URL_PART = 'evse' # internal
+    DEVICE_IDENTIFIER = 2167
+    DEVICE_DISPLAY_NAME = 'EVSE Bricklet 2.0'
+    DEVICE_URL_PART = 'evse_v2' # internal
 
 
 
@@ -41,14 +44,17 @@ class BrickletEVSE(Device):
     FUNCTION_GET_LOW_LEVEL_STATE = 3
     FUNCTION_SET_MAX_CHARGING_CURRENT = 4
     FUNCTION_GET_MAX_CHARGING_CURRENT = 5
-    FUNCTION_CALIBRATE = 6
-    FUNCTION_START_CHARGING = 7
-    FUNCTION_STOP_CHARGING = 8
-    FUNCTION_SET_CHARGING_AUTOSTART = 9
-    FUNCTION_GET_CHARGING_AUTOSTART = 10
-    FUNCTION_GET_MANAGED = 11
-    FUNCTION_SET_MANAGED = 12
-    FUNCTION_SET_MANAGED_CURRENT = 13
+    FUNCTION_START_CHARGING = 6
+    FUNCTION_STOP_CHARGING = 7
+    FUNCTION_SET_CHARGING_AUTOSTART = 8
+    FUNCTION_GET_CHARGING_AUTOSTART = 9
+    FUNCTION_GET_ENERGY_METER_VALUES = 10
+    FUNCTION_GET_ENERGY_METER_STATE = 11
+    FUNCTION_RESET_ENERGY_METER = 12
+    FUNCTION_GET_DC_FAULT_CURRENT_STATE = 13
+    FUNCTION_RESET_DC_FAULT_CURRENT = 14
+    FUNCTION_SET_GPIO_CONFIGURATION = 15
+    FUNCTION_GET_GPIO_CONFIGURATION = 16
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -103,7 +109,11 @@ class BrickletEVSE(Device):
     CHARGE_RELEASE_AUTOMATIC = 0
     CHARGE_RELEASE_MANUAL = 1
     CHARGE_RELEASE_DEACTIVATED = 2
-    CHARGE_RELEASE_MANAGED = 3
+    DC_FAULT_CURRENT_STATE_NORMAL_CONDITION = 0
+    DC_FAULT_CURRENT_STATE_6_MA = 1
+    DC_FAULT_CURRENT_STATE_SYSTEM = 2
+    DC_FAULT_CURRENT_STATE_UNKNOWN = 3
+    DC_FAULT_CURRENT_STATE_CALIBRATION = 4
     BOOTLOADER_MODE_BOOTLOADER = 0
     BOOTLOADER_MODE_FIRMWARE = 1
     BOOTLOADER_MODE_BOOTLOADER_WAIT_FOR_REBOOT = 2
@@ -125,35 +135,38 @@ class BrickletEVSE(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon, BrickletEVSE.DEVICE_IDENTIFIER, BrickletEVSE.DEVICE_DISPLAY_NAME)
+        Device.__init__(self, uid, ipcon, BrickletEVSEV2.DEVICE_IDENTIFIER, BrickletEVSEV2.DEVICE_DISPLAY_NAME)
 
-        self.api_version = (2, 0, 2)
+        self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickletEVSE.FUNCTION_GET_STATE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_HARDWARE_CONFIGURATION] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_MAX_CHARGING_CURRENT] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_MAX_CHARGING_CURRENT] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_CALIBRATE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_START_CHARGING] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_STOP_CHARGING] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_CHARGING_AUTOSTART] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_CHARGING_AUTOSTART] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_MANAGED] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_MANAGED] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_MANAGED_CURRENT] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_WRITE_FIRMWARE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_RESET] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_WRITE_UID] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
-        self.response_expected[BrickletEVSE.FUNCTION_READ_UID] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_GET_IDENTITY] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_STATE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_HARDWARE_CONFIGURATION] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_LOW_LEVEL_STATE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_MAX_CHARGING_CURRENT] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_MAX_CHARGING_CURRENT] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_START_CHARGING] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_STOP_CHARGING] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_CHARGING_AUTOSTART] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_CHARGING_AUTOSTART] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_ENERGY_METER_VALUES] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_ENERGY_METER_STATE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_RESET_ENERGY_METER] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_DC_FAULT_CURRENT_STATE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_RESET_DC_FAULT_CURRENT] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_GPIO_CONFIGURATION] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_GPIO_CONFIGURATION] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_BOOTLOADER_MODE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_BOOTLOADER_MODE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_WRITE_FIRMWARE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_SET_STATUS_LED_CONFIG] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_STATUS_LED_CONFIG] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_CHIP_TEMPERATURE] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_RESET] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_WRITE_UID] = BrickletEVSEV2.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSEV2.FUNCTION_READ_UID] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSEV2.FUNCTION_GET_IDENTITY] = BrickletEVSEV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
         ipcon.add_device(self)
@@ -161,12 +174,10 @@ class BrickletEVSE(Device):
     def get_state(self):
         """
         TODO
-
-        .. versionadded:: 2.0.5$nbsp;(Plugin)
         """
         self.check_validity()
 
-        return GetState(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_STATE, (), '', 25, 'B B B B B H B B I I'))
+        return GetState(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_STATE, (), '', 25, 'B B B B B H B B I I'))
 
     def get_hardware_configuration(self):
         """
@@ -174,7 +185,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return GetHardwareConfiguration(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_HARDWARE_CONFIGURATION, (), '', 10, 'B !'))
+        return GetHardwareConfiguration(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_HARDWARE_CONFIGURATION, (), '', 10, 'B !'))
 
     def get_low_level_state(self):
         """
@@ -182,7 +193,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return GetLowLevelState(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATE, (), '', 31, '! B H 2H 3h 2I 5!'))
+        return GetLowLevelState(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_LOW_LEVEL_STATE, (), '', 42, 'B H 5H 5h 2I 24!'))
 
     def set_max_charging_current(self, max_current):
         """
@@ -192,7 +203,7 @@ class BrickletEVSE(Device):
 
         max_current = int(max_current)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_MAX_CHARGING_CURRENT, (max_current,), 'H', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_MAX_CHARGING_CURRENT, (max_current,), 'H', 0, '')
 
     def get_max_charging_current(self):
         """
@@ -201,24 +212,10 @@ class BrickletEVSE(Device):
         * Max Current Outgoing Cable -> set with resistor between PP/PE (if fixed cable is used)
 
         TODO
-
-        .. versionadded:: 2.0.6$nbsp;(Plugin)
         """
         self.check_validity()
 
-        return GetMaxChargingCurrent(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_MAX_CHARGING_CURRENT, (), '', 16, 'H H H H'))
-
-    def calibrate(self, state, password, value):
-        """
-        TODO
-        """
-        self.check_validity()
-
-        state = int(state)
-        password = int(password)
-        value = int(value)
-
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_CALIBRATE, (state, password, value), 'B I i', 9, '!')
+        return GetMaxChargingCurrent(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_MAX_CHARGING_CURRENT, (), '', 14, 'H H H'))
 
     def start_charging(self):
         """
@@ -226,7 +223,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_START_CHARGING, (), '', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_START_CHARGING, (), '', 0, '')
 
     def stop_charging(self):
         """
@@ -234,7 +231,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_STOP_CHARGING, (), '', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_STOP_CHARGING, (), '', 0, '')
 
     def set_charging_autostart(self, autostart):
         """
@@ -244,7 +241,7 @@ class BrickletEVSE(Device):
 
         autostart = bool(autostart)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_CHARGING_AUTOSTART, (autostart,), '!', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_CHARGING_AUTOSTART, (autostart,), '!', 0, '')
 
     def get_charging_autostart(self):
         """
@@ -252,42 +249,68 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_CHARGING_AUTOSTART, (), '', 9, '!')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_CHARGING_AUTOSTART, (), '', 9, '!')
 
-    def get_managed(self):
+    def get_energy_meter_values(self):
         """
         TODO
-
-        .. versionadded:: 2.0.6$nbsp;(Plugin)
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_MANAGED, (), '', 9, '!')
+        return GetEnergyMeterValues(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_ENERGY_METER_VALUES, (), '', 20, 'I I I'))
 
-    def set_managed(self, managed, password):
+    def get_energy_meter_state(self):
         """
         TODO
-
-        .. versionadded:: 2.0.6$nbsp;(Plugin)
         """
         self.check_validity()
 
-        managed = bool(managed)
+        return GetEnergyMeterState(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_ENERGY_METER_STATE, (), '', 33, '! 6I'))
+
+    def reset_energy_meter(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_RESET_ENERGY_METER, (), '', 0, '')
+
+    def get_dc_fault_current_state(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_DC_FAULT_CURRENT_STATE, (), '', 9, 'B')
+
+    def reset_dc_fault_current(self, password):
+        """
+        TODO
+        """
+        self.check_validity()
+
         password = int(password)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_MANAGED, (managed, password), '! I', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_RESET_DC_FAULT_CURRENT, (password,), 'I', 0, '')
 
-    def set_managed_current(self, current):
+    def set_gpio_configuration(self, input_configuration, output_configuration):
         """
         TODO
-
-        .. versionadded:: 2.0.6$nbsp;(Plugin)
         """
         self.check_validity()
 
-        current = int(current)
+        input_configuration = int(input_configuration)
+        output_configuration = int(output_configuration)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_MANAGED_CURRENT, (current,), 'H', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_GPIO_CONFIGURATION, (input_configuration, output_configuration), 'B B', 0, '')
+
+    def get_gpio_configuration(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return GetGPIOConfiguration(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_GPIO_CONFIGURATION, (), '', 10, 'B B'))
 
     def get_spitfp_error_count(self):
         """
@@ -305,7 +328,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
+        return GetSPITFPErrorCount(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_SPITFP_ERROR_COUNT, (), '', 24, 'I I I I'))
 
     def set_bootloader_mode(self, mode):
         """
@@ -323,7 +346,7 @@ class BrickletEVSE(Device):
 
         mode = int(mode)
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_BOOTLOADER_MODE, (mode,), 'B', 9, 'B')
 
     def get_bootloader_mode(self):
         """
@@ -331,7 +354,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_BOOTLOADER_MODE, (), '', 9, 'B')
 
     def set_write_firmware_pointer(self, pointer):
         """
@@ -346,7 +369,7 @@ class BrickletEVSE(Device):
 
         pointer = int(pointer)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_WRITE_FIRMWARE_POINTER, (pointer,), 'I', 0, '')
 
     def write_firmware(self, data):
         """
@@ -363,7 +386,7 @@ class BrickletEVSE(Device):
 
         data = list(map(int, data))
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_WRITE_FIRMWARE, (data,), '64B', 9, 'B')
 
     def set_status_led_config(self, config):
         """
@@ -379,7 +402,7 @@ class BrickletEVSE(Device):
 
         config = int(config)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_SET_STATUS_LED_CONFIG, (config,), 'B', 0, '')
 
     def get_status_led_config(self):
         """
@@ -387,7 +410,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_STATUS_LED_CONFIG, (), '', 9, 'B')
 
     def get_chip_temperature(self):
         """
@@ -400,7 +423,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_CHIP_TEMPERATURE, (), '', 10, 'h')
 
     def reset(self):
         """
@@ -413,7 +436,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_RESET, (), '', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_RESET, (), '', 0, '')
 
     def write_uid(self, uid):
         """
@@ -427,7 +450,7 @@ class BrickletEVSE(Device):
 
         uid = int(uid)
 
-        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
+        self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_WRITE_UID, (uid,), 'I', 0, '')
 
     def read_uid(self):
         """
@@ -436,7 +459,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_READ_UID, (), '', 12, 'I')
+        return self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_READ_UID, (), '', 12, 'I')
 
     def get_identity(self):
         """
@@ -451,6 +474,6 @@ class BrickletEVSE(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickletEVSEV2.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
 
-EVSE = BrickletEVSE # for backward compatibility
+EVSEV2 = BrickletEVSEV2 # for backward compatibility

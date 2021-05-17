@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2021-01-15.      #
+# This file was automatically generated on 2021-05-11.      #
 #                                                           #
-# Python Bindings Version 2.1.28                            #
+# Python Bindings Version 2.1.29                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -243,6 +243,11 @@ try:
     from .bricklet_evse import BrickletEVSE
 except ValueError:
     from bricklet_evse import BrickletEVSE
+
+try:
+    from .bricklet_evse_v2 import BrickletEVSEV2
+except ValueError:
+    from bricklet_evse_v2 import BrickletEVSEV2
 
 try:
     from .bricklet_gps import BrickletGPS
@@ -828,6 +833,7 @@ DEVICE_CLASSES = {
     BrickletEPaper296x128.DEVICE_IDENTIFIER: BrickletEPaper296x128,
     BrickletEnergyMonitor.DEVICE_IDENTIFIER: BrickletEnergyMonitor,
     BrickletEVSE.DEVICE_IDENTIFIER: BrickletEVSE,
+    BrickletEVSEV2.DEVICE_IDENTIFIER: BrickletEVSEV2,
     BrickletGPS.DEVICE_IDENTIFIER: BrickletGPS,
     BrickletGPSV2.DEVICE_IDENTIFIER: BrickletGPSV2,
     BrickletHallEffect.DEVICE_IDENTIFIER: BrickletHallEffect,
