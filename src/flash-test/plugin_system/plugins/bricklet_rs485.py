@@ -32,7 +32,7 @@ import traceback
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. DIP Schalter auf 1=ON, 2=OFF, 3=OFF, 4=ON stellen
+1. DIP Schalter auf 1=ON, 2=OFF, 3=OFF, 4=OFF stellen
 2. Verbinde TX+/- mit RX+/-
 3. Verbinde RS485 Bricklet mit Flash Adapter XMC
 4. Drücke "Flashen"
