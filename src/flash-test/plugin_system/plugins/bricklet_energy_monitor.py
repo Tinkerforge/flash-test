@@ -161,7 +161,7 @@ class Plugin(CoMCUBrickletBase):
         elif self.calibration_state == 0 and status == (True, True):
             self.calibration_state = 1
             self.calibration_time = time.time()
-        elif self.calibration_state == 1 and  time.time() - self.calibration_time > 0.5:
+        elif self.calibration_state == 1 and  time.time() - self.calibration_time > 1:
             self.calibration_state = 2
             self.em.calibrate_offset()
             self.calibration_state = 3
