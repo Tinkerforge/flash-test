@@ -25,6 +25,7 @@ from ..tinkerforge.bricklet_e_paper_296x128 import BrickletEPaper296x128
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 from ..pixel_data import e_paper_pixels_bw, e_paper_pixels_red
+import time
 
 STATE_VERTICAL = 0
 STATE_HORIZONTAL = 1
@@ -46,6 +47,17 @@ class Plugin(CoMCUBrickletBase):
     def start(self):
         CoMCUBrickletBase.start(self)
 
+        l = self.mw.epaper_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(True)
+
+    def stop(self):
+        CoMCUBrickletBase.stop(self)
+
+        l = self.mw.epaper_layout
+        for i in range(l.count()):
+            l.itemAt(i).widget().setVisible(False)
+
     def get_device_identifier(self):
         return BrickletEPaper296x128.DEVICE_IDENTIFIER
 
@@ -58,6 +70,19 @@ class Plugin(CoMCUBrickletBase):
         self.epaper = BrickletEPaper296x128(device_information.uid, self.get_ipcon())
         if self.epaper.get_bootloader_mode() != BrickletEPaper296x128.BOOTLOADER_MODE_FIRMWARE:
             return
+
+        epaper_color      = self.mw.combo_epaper_color.currentIndex()
+        epaper_driver     = self.mw.combo_epaper_driver.currentIndex()
+        epaper_color_cur  = self.epaper.get_display_type()
+        epaper_driver_cur = self.epaper.get_display_driver()
+
+        if (epaper_color != epaper_color_cur) or (epaper_driver != epaper_driver_cur):
+            self.epaper.set_display_type(epaper_color)
+            self.epaper.set_display_driver(epaper_driver)
+            time.sleep(0.1)
+            self.epaper.reset()
+            return
+
 
         self.epaper.set_update_mode(0)
         self.epaper.write_black_white(0, 0, 295, 127, e_paper_pixels_bw)
