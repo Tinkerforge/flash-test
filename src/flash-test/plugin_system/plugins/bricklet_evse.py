@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Schalter-Platine auf EVSE Bricklet schrauben
-1. Verbinde EVSE Bricklet mit Port C
+1. Verbinde EVSE Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Stromversorgung aus/an
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Stecke Jumper auf 3.3V-Stellung
-2. Verbinde One Wire Bricklet mit Port C
+2. Verbinde One Wire Bricklet mit Port D des Master Bricks 3.0
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Verbinde MAX31820 mit One Wire Bricklet

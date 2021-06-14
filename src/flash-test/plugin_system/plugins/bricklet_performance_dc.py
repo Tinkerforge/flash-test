@@ -32,7 +32,7 @@ import math
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Stromversorgung, Motor und GPIO-Tester anschließen
-1. Verbinde Performance DC Bricklet mit Port D
+1. Verbinde Performance DC Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Motor fährt abwechselnd vorwärts/rückwärts

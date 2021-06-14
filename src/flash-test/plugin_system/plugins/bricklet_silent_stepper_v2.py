@@ -34,17 +34,18 @@ class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 Pre-Flash/Test: Kühlkörper aufkleben!
 
-1. Stecke schwarzen Stecker (24V) und grünen Stecker (Motor) und GPIO-Tester in Silent Stepper Bricklet 2.0
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe ob Schrittmotor sich abwechselnd in beide Richtungen dreht
-5. Überprüfe Spannungswert:
+1. Verbinde das Silent Stepper Bricklet 2.0 mit Port D des Master Bricks 3.0
+2. Stecke schwarzen Stecker (24V) und grünen Stecker (Motor) und GPIO-Tester in Silent Stepper Bricklet 2.0
+3. Drücke "Flashen"
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+5. Überprüfe ob Schrittmotor sich abwechselnd in beide Richtungen dreht
+6. Überprüfe Spannungswert:
     * Externe Versorgungsspannung sollte um die 24V liegen
-6. Überprüfe beide Taster:
+7. Überprüfe beide Taster:
     * Tastendruck wird angezeigt
-7. Kühlkörper auf Silent Stepper Brick aufkleben
-8. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker und grünem 4-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-9. Gehe zu 1
+8. Kühlkörper auf Silent Stepper Brick aufkleben
+9. Das Bricklet ist fertig, mit schwarzem 2-Pol Stecker und grünem 4-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+10. Gehe zu 1
 """
 
     def __init__(self, *args):

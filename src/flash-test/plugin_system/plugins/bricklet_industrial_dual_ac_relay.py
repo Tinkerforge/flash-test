@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Dual AC Relay Bricklet mit Port C
+1. Verbinde Industrial Dual AC Relay Bricklet mit Port D des Master Bricks 3.0
 2. Verbinde Testadapter mit Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

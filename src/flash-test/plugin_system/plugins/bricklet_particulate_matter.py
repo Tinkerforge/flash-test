@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Entferne untere Folie von Sensor, klebe Sensor auf Bricklet
-1. Verbinde Particulate Matter Bricklet mit 2.0 Port C
+1. Verbinde Particulate Matter Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Werte: PM Konzentration zwischen 1 und 50.

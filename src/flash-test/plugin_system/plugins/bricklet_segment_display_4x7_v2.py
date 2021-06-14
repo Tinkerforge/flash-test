@@ -27,7 +27,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-2. Verbinde Segment Display 4x7 2.0 Bricklet mit Port C
+2. Verbinde Segment Display 4x7 2.0 Bricklet mit Port D des Master Bricks 3.0
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. Alle Elemente wechseln zwischen: Aus, an (dunkel), an (hell).

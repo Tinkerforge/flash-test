@@ -33,7 +33,7 @@ import math
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Digital In 4 Bricklet 2.0 mit Port C
+1. Verbinde Industrial Digital In 4 Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Verbinde Testadapter mit Industrial Digital In 4 Bricklet 2.0
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

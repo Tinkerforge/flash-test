@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. Verbinde Outdoor Weather Bricklet mit Port C
+0. Verbinde Outdoor Weather Bricklet mit Port D des Master Bricks 3.0
 1. Schließe Antenna an Bricklet an
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

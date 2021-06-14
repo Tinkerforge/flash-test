@@ -34,7 +34,7 @@ import os
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Wähle korrekten Sensor aus
-1. Verbinde Distance IR Bricklet (inklusive Sensor) mit Port C
+1. Verbinde Distance IR 2.0 Bricklet (inklusive Sensor) mit Port D des Master Bricks 3.0
 2. Sensortyp einstellen
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

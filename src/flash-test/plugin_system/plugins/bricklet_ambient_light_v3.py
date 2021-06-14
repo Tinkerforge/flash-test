@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Ambient Light 3.0 Bricklet mit Port C
+1. Verbinde Ambient Light 3.0 Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:

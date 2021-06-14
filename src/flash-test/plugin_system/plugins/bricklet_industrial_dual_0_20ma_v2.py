@@ -32,7 +32,7 @@ import math
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Dual 0-20mA Bricklet 2.0 mit Port C
+1. Verbinde Industrial Dual 0-20mA Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Verbinde Strom-Testadapter mit Industrial Dual 0-20mA 2.0 Bricklet
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

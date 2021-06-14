@@ -33,7 +33,7 @@ STATE_ALL_ON = 2
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde E-Paper 296x128 Bricklet mit Port C
+1. Verbinde E-Paper 296x128 Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Tinkerforge Logo wird auf Bildschirm dargestellt

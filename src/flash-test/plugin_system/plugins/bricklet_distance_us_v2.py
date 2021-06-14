@@ -33,7 +33,7 @@ import os
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Distance US Bricklet 2.0 mit Flash Adapter XMC
+1. Verbinde Distance US Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Entfernung wird angezeigt, überprüfe Entfernung.

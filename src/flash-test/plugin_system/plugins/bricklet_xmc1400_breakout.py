@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde XMC1400 Breakout Bricklet mit Flash Adapter XMC
+1. Verbinde XMC1400 Breakout Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Prüfe ob Counter hochzählt

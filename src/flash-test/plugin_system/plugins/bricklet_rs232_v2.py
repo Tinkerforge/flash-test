@@ -28,7 +28,7 @@ from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filen
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde RS232 Bricklet 2.0 mit Port C
+1. Verbinde RS232 Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Setze Jumper zwischen TX und RX1
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

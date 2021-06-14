@@ -28,7 +28,7 @@ from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filen
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde CAN Bricklet 2.0 mit Port C
+1. Verbinde CAN Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Schalte Terminierung am CAN Bricklet 2.0 ein
 3. Verbinde CAN Bricklet 2.0 mit Testadapter
 4. Drücke "Flashen"

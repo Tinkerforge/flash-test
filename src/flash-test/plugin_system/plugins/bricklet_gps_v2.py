@@ -32,7 +32,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Antenne aufkleben
-1. Verbinde GPS 2.0 Bricklet mit Flash Adapter XMC
+1. Verbinde GPS 2.0 Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Überprüfe Wert:

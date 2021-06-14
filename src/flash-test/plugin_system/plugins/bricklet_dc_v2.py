@@ -35,12 +35,13 @@ class Plugin(CoMCUBrickletBase):
 Pre-Flash/Test: Kühlkörper aufkleben!
 
 0. Baue Netzteil auf, verbinde Motor mit Netzteil und stelle Spannung auf 10V.
-1. Stecke Motor (mit grünem und schwarzem Stecker) in DC Bricklet 2.0
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Überprüfe ob Motor sich dreht (3 Sekunden Beschleunigung mit anschließender Debeschleunigung)
-5. Das Brick ist fertig, mit schwarzem und grünen 2-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-6. Gehe zu 1
+1. Verbinde DC Bricklet 2.0 mit Port D des Master Bricks 3.0
+2. Stecke Motor (mit grünem und schwarzem Stecker) in DC Bricklet 2.0
+3. Drücke "Flashen"
+4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
+5. Überprüfe ob Motor sich dreht (3 Sekunden Beschleunigung mit anschließender Debeschleunigung)
+6. Das Brick ist fertig, mit schwarzem und grünen 2-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
+7. Gehe zu 1
 """
 
     def __init__(self, *args):

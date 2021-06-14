@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Digital Out 4 Bricklet 2.0 mit Port C
+1. Verbinde Industrial Digital Out 4 Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Verbinde LED-Testadapter mit Industrial Digital Out 4 Bricklet 2.0
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")

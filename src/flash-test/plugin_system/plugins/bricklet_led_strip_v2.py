@@ -30,7 +30,7 @@ from ..callback_emulator import CallbackEmulator
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. Drücke LED Strip Bricklet Tester auf LED Strip Bricklet 2.0
-2. Verbinde LED Strip Bricklet 2.0 mit Port C
+2. Verbinde LED Strip Bricklet 2.0 mit Port D des Master Bricks 3.0
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 5. LED ändert Farbe: R -> G -> B -> W
