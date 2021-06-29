@@ -23,8 +23,12 @@ Boston, MA 02111-1307, USA.
 
 from PyQt5 import Qt, QtGui, QtCore
 
+import traceback
+import time
+
 from ..tinkerforge.brick_master import BrickMaster
 from ..tinkerforge.bricklet_joystick import BrickletJoystick
+from ..tinkerforge.bricklet_color_v2 import BrickletColorV2
 from ..brick_base import BrickBase, get_brick_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
@@ -32,11 +36,22 @@ LIMIT = 15
 
 class Plugin(BrickBase):
     TODO_TEXT = u"""
+*** Master Brick 1.0, 2.0, 2.1 und 2.2: ***
 1. Verbinde Master Brick mit PC per Mini-USB
 2. Falls Brick nicht automatisch geflasht wird, drücke "Erase"- und "Reset"-Taster
-3. Blaue LED neben Mini-USB buchse muss leuchten, 4 blaue LEDs an der Seite
+3. Blaue LED neben Mini-USB Buchse muss leuchten, 4 blaue LEDs an der Seite
    müssen einmal Lauflicht anzeigen
 4. Gehe zu 1
+
+*** Master Brick 3.0 und 3.1: ***
+1. Verbinde Bricklet-Tester mit allen 4 Ports
+2. Verbinde Master Brick mit PC per USB-C
+2. Falls Brick nicht automatisch geflasht wird, drücke "Erase"- und "Reset"-Taster
+3. Blaue LED neben USB-C Buchse muss leuchten, 4 blaue LEDs an der Seite
+   müssen einmal Lauflicht anzeigen
+4. Alle vier Bricklets müssen gefunden werden
+5. Gehe zu 1
+
 
 * Weitere Tests (Stapel und Extension) findet im Brick Viewer statt
 """
@@ -88,6 +103,39 @@ class Plugin(BrickBase):
         return BrickMaster.DEVICE_IDENTIFIER
 
     def new_enum(self, device_information):
+        if device_information.hardware_version[0] < 3:
+            self.enum_v1_and_v2(device_information)
+        else:
+            self.enum_v3(device_information)
+
+    def enum_v3(self, device_information):
+        bricklets = []
+        identities = []
+        for i in range(4):
+            bricklets.append(BrickletColorV2('V3' + chr(ord('A') + i), self.get_ipcon()))
+
+        ok = True
+        old_timeout = self.get_ipcon().get_timeout()
+        time.sleep(0.1)
+        self.get_ipcon().set_timeout(0.5)
+        for i in range(4):
+            try:
+                bricklets[i].get_identity()
+                identities.append('\u2713')
+            except:
+                ok = False
+                identities.append('\u2717')
+        self.get_ipcon().set_timeout(old_timeout)
+        
+        text = 'Port A: {0}, Port B: {1}, Port C: {2}, Port D: {3}'.format(*identities)
+        if ok:
+            self.mw.set_value_okay(text)
+        else:
+            self.mw.set_value_error(text)
+                
+        self.show_device_information(device_information)
+
+    def enum_v1_and_v2(self, device_information):
         def get_pos_lambda(i):
             return lambda x: self.cb_position(x, i)
 
