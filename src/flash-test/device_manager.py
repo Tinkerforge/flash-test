@@ -68,7 +68,7 @@ class DeviceManager(QtCore.QObject):
             # TODO: Add specific list of flash Master Bricks?
             if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3):
                 self.flash_master_brick_v3_uid = uid
-                return
+#                return
 
             # DMX Master
             if device_identifier == BrickletDMX.DEVICE_IDENTIFIER and uid == 'dmxT1':
