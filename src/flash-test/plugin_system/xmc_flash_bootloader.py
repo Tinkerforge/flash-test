@@ -20,7 +20,7 @@ def cb_enumerate(uid, connected_uid, position, hardware_version, firmware_versio
     if enumeration_type == IPConnection.ENUMERATION_TYPE_DISCONNECTED:
         return
 
-    if hardware_version[0] == 3:
+    if (hardware_version[0] == 3) and (position == '0'):
         global_uid_master = uid
 
 def xmc_write_firmwares_to_ram(zbin, master, non_standard_print = None):
