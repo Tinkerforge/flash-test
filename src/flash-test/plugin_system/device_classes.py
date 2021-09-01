@@ -38,6 +38,7 @@ from .plugins.bricklet_dust_detector import Plugin as bricklet_dust_detector_cla
 from .plugins.bricklet_e_paper_296x128 import Plugin as bricklet_e_paper_296x128_class
 from .plugins.bricklet_energy_monitor import Plugin as bricklet_energy_monitor_class
 from .plugins.bricklet_evse import Plugin as bricklet_evse_class
+from .plugins.bricklet_evse_v2 import Plugin as bricklet_evse_v2_class
 from .plugins.bricklet_gps_v2 import Plugin as bricklet_gps_v2_class
 from .plugins.bricklet_hall_effect import Plugin as bricklet_hall_effect_class
 from .plugins.bricklet_hall_effect_v2 import Plugin as bricklet_hall_effect_v2_class
@@ -175,6 +176,7 @@ device_classes = [
     bricklet_e_paper_296x128_class,
     bricklet_energy_monitor_class,
     bricklet_evse_class,
+    bricklet_evse_v2_class,
     bricklet_gps_v2_class,
     bricklet_hall_effect_class,
     bricklet_hall_effect_v2_class,
