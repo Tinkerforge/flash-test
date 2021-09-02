@@ -47,7 +47,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletEVSEV2.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART), 0.5)
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
