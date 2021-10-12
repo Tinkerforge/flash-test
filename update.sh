@@ -1,10 +1,11 @@
 #!/bin/bash -e
 
-echo "Lade Firmwares herunter..."
+echo "Aktualisiere Firmwares..."
 rm -rf download.tinkerforge.com firmwares
-wget --no-parent -r http://download.tinkerforge.com/firmwares/
-mv download.tinkerforge.com/firmwares firmwares
-rm -rf download.tinkerforge.com
+ln -s ../firmwares firmwares
+pushd firmwares
+git pull
+popd
 
 echo ""
 echo "Aktualisiere Software..."
