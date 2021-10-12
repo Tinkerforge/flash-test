@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2021-05-11.      #
+# This file was automatically generated on 2021-10-12.      #
 #                                                           #
 # Python Bindings Version 2.1.29                            #
 #                                                           #
@@ -20,8 +20,10 @@ except ValueError:
 
 GetState = namedtuple('State', ['iec61851_state', 'vehicle_state', 'contactor_state', 'contactor_error', 'charge_release', 'allowed_charging_current', 'error_state', 'lock_state', 'time_since_state_change', 'uptime'])
 GetHardwareConfiguration = namedtuple('HardwareConfiguration', ['jumper_configuration', 'has_lock_switch'])
-GetLowLevelState = namedtuple('LowLevelState', ['low_level_mode_enabled', 'led_state', 'cp_pwm_duty_cycle', 'adc_values', 'voltages', 'resistances', 'gpio'])
+GetLowLevelState = namedtuple('LowLevelState', ['low_level_mode_enabled', 'led_state', 'cp_pwm_duty_cycle', 'adc_values', 'voltages', 'resistances', 'gpio', 'hardware_version'])
 GetMaxChargingCurrent = namedtuple('MaxChargingCurrent', ['max_current_configured', 'max_current_incoming_cable', 'max_current_outgoing_cable', 'max_current_managed'])
+GetUserCalibration = namedtuple('UserCalibration', ['user_calibration_active', 'voltage_diff', 'voltage_mul', 'voltage_div', 'resistance_2700', 'resistance_880'])
+GetIndicatorLED = namedtuple('IndicatorLED', ['indication', 'duration'])
 GetSPITFPErrorCount = namedtuple('SPITFPErrorCount', ['error_count_ack_checksum', 'error_count_message_checksum', 'error_count_frame', 'error_count_overflow'])
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
@@ -49,6 +51,12 @@ class BrickletEVSE(Device):
     FUNCTION_GET_MANAGED = 11
     FUNCTION_SET_MANAGED = 12
     FUNCTION_SET_MANAGED_CURRENT = 13
+    FUNCTION_GET_USER_CALIBRATION = 14
+    FUNCTION_SET_USER_CALIBRATION = 15
+    FUNCTION_GET_DATA_STORAGE = 16
+    FUNCTION_SET_DATA_STORAGE = 17
+    FUNCTION_GET_INDICATOR_LED = 18
+    FUNCTION_SET_INDICATOR_LED = 19
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -140,8 +148,14 @@ class BrickletEVSE(Device):
         self.response_expected[BrickletEVSE.FUNCTION_SET_CHARGING_AUTOSTART] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletEVSE.FUNCTION_GET_CHARGING_AUTOSTART] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletEVSE.FUNCTION_GET_MANAGED] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
-        self.response_expected[BrickletEVSE.FUNCTION_SET_MANAGED] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_MANAGED] = BrickletEVSE.RESPONSE_EXPECTED_TRUE
         self.response_expected[BrickletEVSE.FUNCTION_SET_MANAGED_CURRENT] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_USER_CALIBRATION] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_USER_CALIBRATION] = BrickletEVSE.RESPONSE_EXPECTED_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_DATA_STORAGE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_DATA_STORAGE] = BrickletEVSE.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletEVSE.FUNCTION_GET_INDICATOR_LED] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickletEVSE.FUNCTION_SET_INDICATOR_LED] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletEVSE.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletEVSE.FUNCTION_SET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletEVSE.FUNCTION_GET_BOOTLOADER_MODE] = BrickletEVSE.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -182,7 +196,7 @@ class BrickletEVSE(Device):
         """
         self.check_validity()
 
-        return GetLowLevelState(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATE, (), '', 31, '! B H 2H 3h 2I 5!'))
+        return GetLowLevelState(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_LOW_LEVEL_STATE, (), '', 32, '! B H 2H 3h 2I 5! B'))
 
     def set_max_charging_current(self, max_current):
         """
@@ -288,6 +302,70 @@ class BrickletEVSE(Device):
         current = int(current)
 
         self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_MANAGED_CURRENT, (current,), 'H', 0, '')
+
+    def get_user_calibration(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return GetUserCalibration(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_USER_CALIBRATION, (), '', 45, '! h h h h 14h'))
+
+    def set_user_calibration(self, password, user_calibration_active, voltage_diff, voltage_mul, voltage_div, resistance_2700, resistance_880):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        password = int(password)
+        user_calibration_active = bool(user_calibration_active)
+        voltage_diff = int(voltage_diff)
+        voltage_mul = int(voltage_mul)
+        voltage_div = int(voltage_div)
+        resistance_2700 = int(resistance_2700)
+        resistance_880 = list(map(int, resistance_880))
+
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_USER_CALIBRATION, (password, user_calibration_active, voltage_diff, voltage_mul, voltage_div, resistance_2700, resistance_880), 'I ! h h h h 14h', 0, '')
+
+    def get_data_storage(self, page):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        page = int(page)
+
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_DATA_STORAGE, (page,), 'B', 71, '63B')
+
+    def set_data_storage(self, page, data):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        page = int(page)
+        data = list(map(int, data))
+
+        self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_DATA_STORAGE, (page, data), 'B 63B', 0, '')
+
+    def get_indicator_led(self):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        return GetIndicatorLED(*self.ipcon.send_request(self, BrickletEVSE.FUNCTION_GET_INDICATOR_LED, (), '', 12, 'h H'))
+
+    def set_indicator_led(self, indication, duration):
+        """
+        TODO
+        """
+        self.check_validity()
+
+        indication = int(indication)
+        duration = int(duration)
+
+        return self.ipcon.send_request(self, BrickletEVSE.FUNCTION_SET_INDICATOR_LED, (indication, duration), 'h H', 9, 'B')
 
     def get_spitfp_error_count(self):
         """
