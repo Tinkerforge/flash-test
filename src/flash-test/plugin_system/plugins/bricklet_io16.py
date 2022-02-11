@@ -71,6 +71,10 @@ class Plugin(BrickletBase):
         while self.running:
             io16 = self.io16
 
+            if io16 == None:
+                time.sleep(0.1)
+                continue
+
             try:
                 io16.set_port_configuration('a', 0xFF, 'o', True)
                 io16.set_port_configuration('b', 0xFF, 'o', True)
