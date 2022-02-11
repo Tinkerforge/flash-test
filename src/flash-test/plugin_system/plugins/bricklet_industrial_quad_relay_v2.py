@@ -29,7 +29,7 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde Industrial Quad Relay V2 Bricklet mit Port D des Master Bricks 3.0
+1. Verbinde Industrial Quad Relay Bricklet 2.0 mit Port D des Master Bricks 3.0
 2. Verbinde LED Testadapter mit Industrial Quad Relay V2 Bricklet
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
