@@ -35,7 +35,7 @@ from ..callback_emulator import CallbackEmulator
 LIMIT = 15
 
 class Plugin(BrickBase):
-    TODO_TEXT = u"""
+    TODO_TEXT = u"""\
 *** Master Brick 1.0, 2.0, 2.1 und 2.2: ***
 1. Verbinde Master Brick mit PC per Mini-USB
 2. Falls Brick nicht automatisch geflasht wird, drücke "Erase"- und "Reset"-Taster
@@ -51,7 +51,6 @@ class Plugin(BrickBase):
    müssen einmal Lauflicht anzeigen
 4. Alle vier Bricklets müssen gefunden werden
 5. Gehe zu 1
-
 
 * Weitere Tests (Stapel und Extension) findet im Brick Viewer statt
 """

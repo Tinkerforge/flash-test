@@ -37,7 +37,7 @@ class Plugin(CoMCUBrickletBase):
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Lange Kondensatorpinne abschneiden und Gummifuss aufkleben
 5. Das HAT Brick muss jetzt mit RPi und RPi-Test-Image getestet werden
-6. 2-Pol Stecker beilegen, eintüten, einschweißen
+6. Schwarzen 2-Pol Stecker beilegen, eintüten, einschweißen
 7. Gehe zu 1
 """
 

@@ -34,7 +34,7 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
 2. Stecker RS485 Extension auf Master Brick
 3. Starte RS485 Master neu
 4. Warte bis RS485 Master gefunden wird
-5. Starter RS485 Slave neu
+5. Starte RS485 Slave neu
 6. Warte bis RS485 Slave gefunden wird
 7. Die Extension ist fertig, mit grauem 3-Pol Stecker in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 8. Gehe zu 1

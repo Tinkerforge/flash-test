@@ -34,7 +34,7 @@ class Plugin(ExtensionBase):
 2. Stecke Ethernet Extension auf Master Brick
 3. Starte Master Brick neu
 4. Warte bis Ethernet gefunden wird
-5. Trage MAC Adresse ein und drücke Knopf "Mac Adresse schreiben"
+5. Trage MAC Adresse ein und drücke Knopf "MAC Adresse schreiben"
 6. Warte bis Ethernet-Verbindung hergestellt wird
 7. Falls mit PoE: Entferne USB. Läuft Master weiter?
 8. MAC Adressen-Aufkleber aufkleben
@@ -114,12 +114,12 @@ class Plugin(ExtensionBase):
             self.mw.show_layout(self.mw.ethernet_extension_layout)
             status = self.master.get_ethernet_status()
             if status.mac_address[4] == 0xA0 and status.mac_address[5] == 0x00:
-                self.mw.set_value_action('MAC Adresse eintragen und auf "Mac Adresse Schreiben" klicken')
+                self.mw.set_value_action('MAC Adresse eintragen und auf "MAC Adresse Schreiben" klicken')
             else:
                 mac = map(hex, status.mac_address)
                 mac = map(lambda x: x.replace('0x', ''), mac)
                 mac = map(lambda x: '0'+x if len(x) == 1 else x, mac)
-                self.mw.set_value_action('Versuche Ethernet-Verbindung aufzubauen (Mac: ' + ':'.join(mac).upper() + ')')
+                self.mw.set_value_action('Versuche Ethernet-Verbindung aufzubauen (MAC: ' + ':'.join(mac).upper() + ')')
                 QtCore.QTimer.singleShot(0.1, self.try_connect)
         else:
             self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_ETHERNET)

@@ -32,8 +32,8 @@ import os
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-0. Nutze neuen flash adapter!!!
-1. Verbinde Smartbed Brick mit flash adapter
+0. Nutze neuen Flash Adapter!
+1. Verbinde Smartbed Brick mit Flash Adapter
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
 4. Teste mit Smartbed-Tester
