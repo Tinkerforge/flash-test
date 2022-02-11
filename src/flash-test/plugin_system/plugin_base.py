@@ -108,7 +108,10 @@ class PluginBase(QtWidgets.QWidget, object):
         pass
 
     def get_device_identifier(self):
-        return -1
+        return None
+
+    def handles_device_identifier(self, device_identifier):
+        return False
 
     def flash_clicked(self):
         pass

@@ -132,8 +132,12 @@ from .plugins.bricklet_voltage_current import Plugin as bricklet_voltage_current
 from .plugins.bricklet_voltage_current_v2 import Plugin as bricklet_voltage_current_v2_class
 from .plugins.bricklet_xmc1400_breakout import Plugin as bricklet_xmc1400_breakout_class
 from .plugins.extension_ethernet import Plugin as extension_ethernet_class
+from .plugins.extension_ethernet_wo_poe import Plugin as extension_ethernet_wo_poe_class
 from .plugins.extension_rs485 import Plugin as extension_rs485_class
 from .plugins.extension_wifi_v2 import Plugin as extension_wifi_v2_class
+from .plugins.label_brick import Plugin as label_brick_class
+from .plugins.label_bricklet import Plugin as label_bricklet_class
+from .plugins.label_extension import Plugin as label_extension_class
 
 device_classes = [
     brick_dc_class,
@@ -270,6 +274,10 @@ device_classes = [
     bricklet_voltage_current_v2_class,
     bricklet_xmc1400_breakout_class,
     extension_ethernet_class,
+    extension_ethernet_wo_poe_class,
     extension_rs485_class,
     extension_wifi_v2_class,
+    label_brick_class,
+    label_bricklet_class,
+    label_extension_class,
 ]

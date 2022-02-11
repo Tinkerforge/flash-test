@@ -24,6 +24,7 @@ Boston, MA 02111-1307, USA.
 from PyQt5 import Qt, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
 
+from ..util import LabelInfo
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase, get_extension_firmware_filename
 from ..esp_flash import ESPFlash
@@ -78,7 +79,10 @@ class Plugin(ExtensionBase):
         ExtensionBase.stop(self)
 
     def get_device_identifier(self):
-        return BrickMaster.EXTENSION_TYPE_WIFI2*10000 + BrickMaster.DEVICE_IDENTIFIER
+        return 36
+
+    def handles_device_identifier(self, device_identifier):
+        return device_identifier == BrickMaster.DEVICE_IDENTIFIER
 
     def new_enum(self, device_information):
         self.device_information = device_information
@@ -183,10 +187,14 @@ class Plugin(ExtensionBase):
     def try_connect(self):
         i = 0
         range_to = 100
+        firmware_version = None
 
         for i in range(range_to):
             try:
                 status = self.master.get_wifi2_status()
+
+                if firmware_version != None:
+                    firmware_version = self.master.get_wifi2_firmware_version()
 
                 if status.client_status == 5: # got IP address
                     i = 0
@@ -205,3 +213,6 @@ class Plugin(ExtensionBase):
 
         self.mw.set_tool_status_okay('WLAN-Verbindung aufgebaut. Fertig!')
         os.system('beep -r 2')
+
+        if self.mw.check_print_label.isChecked():
+            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', firmware_version))

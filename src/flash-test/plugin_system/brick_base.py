@@ -136,6 +136,7 @@ class BrickBase(PluginBase):
 
     def start(self):
         self.mw.button_flash.setEnabled(False)
+        self.mw.check_print_label.hide()
         PluginBase.start(self)
         self.show_device_information(None, clear_value=True)
         self.is_flashing = False

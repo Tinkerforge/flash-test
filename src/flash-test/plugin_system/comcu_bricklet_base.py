@@ -26,6 +26,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 from plugin_system.plugin_base import PluginBase, base58encode
 from plugin_system.xmc_flash_bootloader import xmc_flash_bootloader
+from plugin_system.util import LabelInfo
 from .tinkerforge.brick_master import BrickMaster
 from .tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from .tinkerforge.bricklet_unknown import BrickletUnknown
@@ -50,6 +51,7 @@ class CoMCUBrickletBase(PluginBase):
         self.comcu_uid_to_flash = None
 
     def start(self):
+        self.mw.check_print_label.show()
         self.mw.button_continue.hide()
         PluginBase.start(self)
         self.show_device_information(None, clear_value=True)
@@ -81,17 +83,18 @@ class CoMCUBrickletBase(PluginBase):
     def flash_bricklet(self, plugin_filename, power_off_duration=None):
         self.comcu_uid_to_flash = None
         bootloader_success = self.write_bootloader_to_bricklet(plugin_filename, power_off_duration=power_off_duration)
-        firmware_success = self.write_firmware_and_uid_to_bricklet(plugin_filename)
+        firmware_success, label_info = self.write_firmware_and_uid_to_bricklet(plugin_filename)
 
         if bootloader_success and firmware_success:
-            pass
+            if self.mw.check_print_label.isChecked():
+                self.mw.print_label(label_info)
 
     def write_firmware_and_uid_to_bricklet(self, plugin_filename):
         start = time.time()
         while self.comcu_uid_to_flash == None:
             if time.time() - start > 3:
                 self.mw.set_flash_status_error('Timeout beim Firmware schreiben')
-                return False
+                return False, None
             QtWidgets.QApplication.processEvents()
 
         try:
@@ -101,7 +104,7 @@ class CoMCUBrickletBase(PluginBase):
                 zf = ZipFile(plugin_filename, 'r')
             except:
                 self.mw.set_flash_status_error('Konnte Bricklet Plugin nicht öffnen:\n\n' + traceback.format_exc())
-                return False
+                return False, None
 
             plugin_data = None
             for name in zf.namelist():
@@ -111,7 +114,7 @@ class CoMCUBrickletBase(PluginBase):
 
             if plugin_data == None:
                 self.mw.set_flash_status_error('Konnte Firmware in zbin nicht finden')
-                return False
+                return False, None
 
             # Now convert plugin to list of bytes
             plugin = plugin_data
@@ -142,7 +145,7 @@ class CoMCUBrickletBase(PluginBase):
                     self.mw.set_flash_status_error('Gerät nicht im Bootloader-Modus nach 2,5s.')
                     traceback.print_exception(*last_exc_tup)
                     QMessageBox.critical(self.mw, 'Gerät nicht im Bootloader-Modus nach 2,5s.', 'Gerät nicht im Bootloader-Modus nach 2,5s\nTraceback ist im Terminal.')
-                    return False
+                    return False, None
 
                 time.sleep(0.25)
                 counter += 1
@@ -207,7 +210,7 @@ class CoMCUBrickletBase(PluginBase):
                         continue
 
                     self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
-                    return False
+                    return False, None
 
                 # Everything OK, we dont have to try a second time
                 break
@@ -223,10 +226,10 @@ class CoMCUBrickletBase(PluginBase):
                     last_exc_tup = sys.exc_info()
 
                 if counter == 10:
-                    self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 2,5s.')
+                    self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 25s.')
                     traceback.print_exception(*last_exc_tup)
-                    QMessageBox.critical(self.mw, 'Gerät nicht im Firmware-Modus nach 2,5s.', 'Gerät nicht im Firmware-Modus nach 2,5s\nTraceback ist im Terminal.')
-                    return False
+                    QMessageBox.critical(self.mw, 'Gerät nicht im Firmware-Modus nach 25s.', 'Gerät nicht im Firmware-Modus nach 25s\nTraceback ist im Terminal.')
+                    return False, None
 
                 time.sleep(0.25)
                 counter += 1
@@ -239,7 +242,15 @@ class CoMCUBrickletBase(PluginBase):
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
                 QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen:\nTraceback ist im Terminal.")
-                return False
+                return False, None
+
+            try:
+                identity = device.get_identity()
+            except:
+                traceback.print_exc()
+                self.mw.set_uid_status_error('Konnte Identity nicht abfragen')
+                QMessageBox.critical(self.mw, "Konnte Identity nicht abfragen.", "Konnte Identity nicht abfragen:\nTraceback ist im Terminal.")
+                return False, None
 
             try:
                 device.write_uid(uid)
@@ -247,12 +258,12 @@ class CoMCUBrickletBase(PluginBase):
                     uid_read = device.read_uid()
                     if uid != uid_read:
                         self.mw.set_uid_status_error("Konnte UID nicht verifizieren")
-                        return False
+                        return False, None
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte UID nicht setzen')
                 QMessageBox.critical(self.mw, "Konnte UID nicht setzen.", "Konnte UID nicht setzen:\nTraceback ist im Terminal.")
-                return False
+                return False, None
 
             self.mw.set_uid_status_okay('Neue UID "' + base58encode(uid) + '" gesetzt')
 
@@ -261,12 +272,11 @@ class CoMCUBrickletBase(PluginBase):
             BrickMaster(self.mw.device_manager.flash_master_brick_v3_uid, ipcon).reset()
 
             self.mw.increase_flashed_count()
-            return True
-
+            return True, LabelInfo(identity.device_identifier, base58encode(uid), identity.firmware_version)
         except:
             traceback.print_exc()
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
-            return False
+            return False, None
 
     def write_bootloader_to_bricklet(self, plugin_filename, power_off_duration=None):
         uid_master = self.mw.device_manager.flash_master_brick_v3_uid

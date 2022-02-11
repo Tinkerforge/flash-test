@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>1003</height>
+    <width>800</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -74,6 +74,13 @@
          <widget class="QSpinBox" name="spin_flashed_count">
           <property name="maximum">
            <number>2147483647</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="check_print_label">
+          <property name="text">
+           <string>Etikett drucken</string>
           </property>
          </widget>
         </item>

@@ -39,6 +39,7 @@ class BrickletBase(PluginBase):
         PluginBase.__init__(self, *args)
 
     def start(self):
+        self.mw.check_print_label.hide()
         self.mw.button_continue.hide()
         PluginBase.start(self)
         self.show_device_information(None, clear_value=True)

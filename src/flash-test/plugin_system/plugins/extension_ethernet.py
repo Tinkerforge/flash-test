@@ -3,7 +3,7 @@
 flash-test (Brick/Bricklet/Extension Flash and Test tool)
 Copyright (C) 2015 Olaf Lüke <olaf@tinkerforge.com>
 
-extension_ethernet.py: Ethernet Extension plugin
+extension_ethernet.py: Ethernet Extension with PoE plugin
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@ Boston, MA 02111-1307, USA.
 
 from PyQt5 import Qt, QtGui, QtCore
 
+from ..util import LabelInfo
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase
 
@@ -30,13 +31,13 @@ import time
 
 class Plugin(ExtensionBase):
     TODO_TEXT = u"""\
-1. Verbinde Ethernet-Kabel mit Ethernet Extension (über PoE falls möglich)
+1. Verbinde Ethernet-Kabel mit Ethernet Extension über PoE
 2. Stecke Ethernet Extension auf Master Brick
 3. Starte Master Brick neu
 4. Warte bis Ethernet gefunden wird
 5. Trage MAC Adresse ein und drücke Knopf "MAC Adresse schreiben"
 6. Warte bis Ethernet-Verbindung hergestellt wird
-7. Falls mit PoE: Entferne USB. Läuft Master weiter?
+7. Teste PoE: Entferne USB. Läuft Master weiter?
 8. MAC Adressen-Aufkleber aufkleben
 9. Die Extension ist fertig, in ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
 10. Gehe zu 1
@@ -57,7 +58,10 @@ class Plugin(ExtensionBase):
         ExtensionBase.stop(self)
 
     def get_device_identifier(self):
-        return BrickMaster.EXTENSION_TYPE_ETHERNET*10000 + BrickMaster.DEVICE_IDENTIFIER
+        return 34 # with PoE
+
+    def handles_device_identifier(self, device_identifier):
+        return device_identifier == BrickMaster.DEVICE_IDENTIFIER
 
     def try_connect(self):
         i = 0
@@ -73,8 +77,10 @@ class Plugin(ExtensionBase):
             self.mw.set_value_error('Konnte keine Ethernet-Verbindung aufbauen')
             return
 
-
         self.mw.set_value_okay('Ethernet-Verbindung aufgebaut. Fertig!')
+
+        if self.mw.check_print_label.isChecked():
+            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-'))
 
     def button_clicked(self):
         if self.master == None or self.device_information == None:

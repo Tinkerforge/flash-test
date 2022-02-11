@@ -26,12 +26,19 @@ from PyQt5 import Qt, QtGui, QtCore, QtWidgets
 from ui_mainwindow import Ui_MainWindow
 from device_manager import DeviceManager
 from plugin_system.plugin_base import PluginBase
+from plugin_system.plugins.label_brick import Plugin as LabelBrickPlugin
+from plugin_system.plugins.label_bricklet import Plugin as LabelBrickletPlugin
+from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 from plugin_system.tinkerforge.brick_master import BrickMaster
+from plugin_system.tinkerforge.device_display_names import get_device_display_name
 
 import urllib.request
 import sys
 import os
 import ssl
+import subprocess
+import traceback
+from datetime import datetime
 
 class PluginNotImplemented(PluginBase):
     pass
@@ -70,6 +77,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.setupUi(self)
         self.resize(800, 800)
+        self.check_print_label.setChecked(os.path.exists(os.path.join(file_directory, '..', '..', 'enable_label_print')))
         temp_layouts = [self.industrial_dual_analog_in_layout,
                         self.voltage_current_layout,
                         self.distance_ir_layout,
@@ -90,28 +98,42 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         from plugin_system.tinkerforge.device_factory_all import DEVICE_CLASSES
         from plugin_system.device_classes import device_classes
 
-        device_identifiers = []
+        device_identifiers = [] # must match SKU
 
         for key, value in DEVICE_CLASSES.items():
             device_identifiers.append((key, value.DEVICE_DISPLAY_NAME))
 
-        device_identifiers.append((10013, 'Chibi Extension'))
-        device_identifiers.append((20013, 'RS485 Extension'))
-        device_identifiers.append((30013, 'WIFI Extension'))
-        device_identifiers.append((40013, 'Ethernet Extension'))
-        device_identifiers.append((50013, 'WIFI Extension 2.0'))
+        device_identifiers.append((31, 'Chibi Extension'))
+        device_identifiers.append((32, 'RS485 Extension'))
+        device_identifiers.append((33, 'WIFI Extension'))
+        device_identifiers.append((34, 'Ethernet Extension (mit PoE)'))
+        device_identifiers.append((35, 'Ethernet Extension (ohne PoE)'))
+        device_identifiers.append((36, 'WIFI Extension 2.0'))
 
         device_identifiers.append((102, 'Smartbed Brick'))
 
         self.device_by_identifier = {}
         for cls in device_classes:
             instance = cls(self)
-            self.device_by_identifier[instance.get_device_identifier()] = instance
+            device_identifier = instance.get_device_identifier()
+
+            if device_identifier != None:
+                self.device_by_identifier[device_identifier] = instance
 
         for di in sorted(device_identifiers, key=lambda x: x[1]):
             name = di[1]
             device_identifier = di[0]
             self.combo_device.addItem(name, self.device_by_identifier.get(device_identifier))
+
+        self.combo_device.insertSeparator(self.combo_device.count())
+
+        self.label_brick_plugin = LabelBrickPlugin(self)
+        self.label_bricklet_plugin = LabelBrickletPlugin(self)
+        self.label_extension_plugin = LabelExtensionPlugin(self)
+
+        self.combo_device.addItem('Brick Etikett drucken', self.label_brick_plugin)
+        self.combo_device.addItem('Bricklet Etikett drucken', self.label_bricklet_plugin)
+        self.combo_device.addItem('Extension Etikett drucken', self.label_extension_plugin)
 
         self.combo_device.currentIndexChanged.connect(self.device_index_changed)
         self.button_flash.clicked.connect(self.flash_clicked)
@@ -156,6 +178,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def get_master_brick_device_information(self):
         return self.device_manager.devices.get(BrickMaster.DEVICE_IDENTIFIER)
+
+    def print_label(self, label_info):
+        try:
+            if label_info.sku == 31:
+                name = 'Chibi Master Extension'
+            elif label_info.sku == 32:
+                name = 'RS485 Master Extension'
+            elif label_info.sku == 33:
+                name = 'WIFI Master Extension'
+            elif label_info.sku == 34:
+                name = 'Ethernet Master Extension (with PoE)'
+            elif label_info.sku == 35:
+                name = 'Ethernet Master Extension (w/o PoE)'
+            elif label_info.sku == 36:
+                name = 'WIFI Master Extension 2.0'
+            else:
+                name = get_device_display_name(label_info.sku)
+
+            subprocess.check_call([
+                os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'label', 'print-label.py'),
+                name,
+                str(label_info.sku),
+                datetime.now().strftime('%Y-%m-%d'),
+                label_info.uid,
+                '.'.join([str(x) for x in label_info.firmware_version])
+            ])
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(None, 'Etiketten Problem', 'Konnte Etikett nicht drucken:\nTraceback ist im Terminal')
 
     def device_index_changed(self, index):
         if self.current_plugin != None:

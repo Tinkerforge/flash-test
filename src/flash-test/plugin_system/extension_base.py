@@ -39,6 +39,7 @@ class ExtensionBase(PluginBase):
 
     def start(self):
         self.mw.button_flash.setEnabled(False)
+        self.mw.check_print_label.show()
         PluginBase.start(self)
         self.mw.set_tool_status_okay("-")
         self.mw.set_uid_status_okay("-")

@@ -80,7 +80,7 @@ class DeviceManager(QtCore.QObject):
             # Overwrite device if it already exists
             self.devices[device_identifier] = device_information
             if self.mw.current_plugin:
-                if (self.mw.current_plugin.get_device_identifier() % 10000) == device_identifier:
+                if self.mw.current_plugin.get_device_identifier() == device_identifier or self.mw.current_plugin.handles_device_identifier(device_identifier):
                     is_first_brick_in_stack_or_bricklet_or_hat = not str(device_identifier).startswith('1') or position == '0' or device_identifier in (111, 112, 102)
                     if is_first_brick_in_stack_or_bricklet_or_hat:
                         self.mw.current_plugin.new_enum(device_information)

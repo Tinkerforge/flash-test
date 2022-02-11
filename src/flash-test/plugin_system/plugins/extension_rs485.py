@@ -23,6 +23,7 @@ Boston, MA 02111-1307, USA.
 
 from PyQt5 import Qt, QtGui, QtCore
 
+from ..util import LabelInfo
 from ..tinkerforge.brick_master import BrickMaster
 from ..extension_base import ExtensionBase
 
@@ -46,13 +47,20 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
         ExtensionBase.stop(self)
 
     def get_device_identifier(self):
-        return BrickMaster.EXTENSION_TYPE_RS485*10000 + BrickMaster.DEVICE_IDENTIFIER
+        return 32
+
+    def handles_device_identifier(self, device_identifier):
+        return device_identifier == BrickMaster.DEVICE_IDENTIFIER
 
     def new_enum(self, device_information):
         master = BrickMaster(device_information.uid, self.get_ipcon())
 
         if master.is_ethernet_present(): # slave
             self.mw.set_value_okay('RS485 Slave gefunden. Alles OK!')
+
+            if self.mw.check_print_label.isChecked():
+                self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-'))
+
             return
 
         if not master.is_rs485_present():
@@ -82,4 +90,3 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
                 self.mw.set_value_error('Konnte RS485 Extension nicht konfigurieren')
         else:
             self.mw.set_value_action('RS485 Extension konfiguriert, drücke Reset-Knopf an RS485 Slave')
-
