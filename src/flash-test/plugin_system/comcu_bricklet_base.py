@@ -272,7 +272,7 @@ class CoMCUBrickletBase(PluginBase):
             BrickMaster(self.mw.device_manager.flash_master_brick_v3_uid, ipcon).reset()
 
             self.mw.increase_flashed_count()
-            return True, LabelInfo(identity.device_identifier, base58encode(uid), identity.firmware_version)
+            return True, LabelInfo(identity.device_identifier, base58encode(uid), identity.firmware_version, None)
         except:
             traceback.print_exc()
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())

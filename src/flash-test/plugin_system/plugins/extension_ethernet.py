@@ -80,7 +80,7 @@ class Plugin(ExtensionBase):
         self.mw.set_value_okay('Ethernet-Verbindung aufgebaut. Fertig!')
 
         if self.mw.check_print_label.isChecked():
-            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-'))
+            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-', None))
 
     def button_clicked(self):
         if self.master == None or self.device_information == None:

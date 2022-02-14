@@ -215,4 +215,4 @@ class Plugin(ExtensionBase):
         os.system('beep -r 2')
 
         if self.mw.check_print_label.isChecked():
-            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', firmware_version))
+            self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', firmware_version, None))

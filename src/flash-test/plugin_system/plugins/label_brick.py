@@ -63,4 +63,4 @@ class Plugin(PluginBase):
         self.show_device_information(device_information)
 
         if self.mw.check_print_label.isChecked():
-            self.mw.print_label(LabelInfo(device_information.device_identifier, device_information.uid, device_information.firmware_version))
+            self.mw.print_label(LabelInfo(device_information.device_identifier, device_information.uid, device_information.firmware_version, device_information.hardware_version))

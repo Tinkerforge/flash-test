@@ -1,3 +1,3 @@
 from collections import namedtuple
 
-LabelInfo = namedtuple('LabelInfo', 'sku uid firmware_version')
+LabelInfo = namedtuple('LabelInfo', 'sku uid firmware_version hardware_version')

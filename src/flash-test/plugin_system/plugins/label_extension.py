@@ -104,4 +104,4 @@ class Plugin(PluginBase):
         self.mw.set_tool_status_okay(status)
 
         if self.mw.check_print_label.isChecked():
-            self.mw.print_label(LabelInfo(sku, '-', firmware_version))
+            self.mw.print_label(LabelInfo(sku, '-', firmware_version, None))

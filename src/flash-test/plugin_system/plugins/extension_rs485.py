@@ -59,7 +59,7 @@ Vorbereitung: RS485 Slave mit Adresse 42, Speed 1000000, Parity None und Stopbit
             self.mw.set_value_okay('RS485 Slave gefunden. Alles OK!')
 
             if self.mw.check_print_label.isChecked():
-                self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-'))
+                self.mw.print_label(LabelInfo(self.get_device_identifier(), '-', '-', None))
 
             return
 

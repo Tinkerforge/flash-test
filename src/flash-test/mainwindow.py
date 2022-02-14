@@ -181,32 +181,43 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def print_label(self, label_info):
         try:
-            if label_info.sku == 31:
+            sku = label_info.sku
+
+            if sku == BrickMaster.DEVICE_IDENTIFIER:
+                if label_info.hardware_version[0] < 3:
+                    pass
+                elif label_info.hardware_version[0] == 3:
+                    sku = 116
+                else:
+                    raise Exception('Unbekannte Master Brick Hardware Version: {0}'.format(label_info.hardware_version))
+
+                name = 'Master Brick {0}.{1}'.format(label_info.hardware_version[0], label_info.hardware_version[1])
+            elif sku == 31:
                 name = 'Chibi Master Extension'
-            elif label_info.sku == 32:
+            elif sku == 32:
                 name = 'RS485 Master Extension'
-            elif label_info.sku == 33:
+            elif sku == 33:
                 name = 'WIFI Master Extension'
-            elif label_info.sku == 34:
+            elif sku == 34:
                 name = 'Ethernet Master Extension (with PoE)'
-            elif label_info.sku == 35:
+            elif sku == 35:
                 name = 'Ethernet Master Extension (w/o PoE)'
-            elif label_info.sku == 36:
+            elif sku == 36:
                 name = 'WIFI Master Extension 2.0'
             else:
-                name = get_device_display_name(label_info.sku)
+                name = get_device_display_name(sku)
 
             subprocess.check_call([
                 os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'label', 'print-label.py'),
                 name,
-                str(label_info.sku),
+                str(sku),
                 datetime.now().strftime('%Y-%m-%d'),
                 label_info.uid,
                 '.'.join([str(x) for x in label_info.firmware_version])
             ])
         except:
             traceback.print_exc()
-            QtWidgets.QMessageBox.critical(None, 'Etiketten Problem', 'Konnte Etikett nicht drucken:\nTraceback ist im Terminal')
+            QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\nTraceback ist im Terminal')
 
     def device_index_changed(self, index):
         if self.current_plugin != None:
