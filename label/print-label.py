@@ -10,7 +10,15 @@ from datetime import datetime
 PRINTER_HOST = '192.168.178.244'
 PRINTER_PORT = 9100
 
-NAME_PLACEHOLDER = b'Industrial Dual Analog In Bricklet 2.0'
+NAME_1_PLACEHOLDER = b'Industrial Dual Analog In Bricklet 2.0'
+NAME_2_PLACEHOLDER = b'Ethernet Master Extension (without PoE)'
+NAME_3_PLACEHOLDER = b'Board-to-Board Connector 30 Pin (Brick Bottom 4.85mm)'
+NAME_4a_PLACEHOLDER = b'Starter Kit: Server Room Monitoring (Assembly Kit,'
+NAME_4b_PLACEHOLDER = b'None-Stand-Alone)'
+
+NAME_1_MAX_LENGTH = 35
+NAME_2_MAX_LENGTH = 50
+NAME_3_MAX_LENGTH = 55
 
 SKU_PLACEHOLDER = b'556677'
 
@@ -35,7 +43,35 @@ def print_label(name, sku, date, uid, version, copies, stdout):
         raise Exception('Invalid version: {0}'.format(version))
 
     # read EZPL file
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'label.prn'), 'rb') as f:
+    if len(name) <= NAME_1_MAX_LENGTH:
+        template_filename = 'label1.prn'
+        name_placeholders = [NAME_1_PLACEHOLDER]
+        name_parts = [name]
+    elif len(name) <= NAME_2_MAX_LENGTH:
+        template_filename = 'label2.prn'
+        name_placeholders = [NAME_2_PLACEHOLDER]
+        name_parts = [name]
+    elif len(name) <= NAME_3_MAX_LENGTH:
+        template_filename = 'label3.prn'
+        name_placeholders = [NAME_3_PLACEHOLDER]
+        name_parts = [name]
+    else:
+        template_filename = 'label4.prn'
+        name_placeholders = [NAME_4a_PLACEHOLDER, NAME_4b_PLACEHOLDER]
+        name_parts = [[]]
+
+        for name_part in name.split(' '):
+            if len(' '.join(name_parts[-1] + [name_part])) <= NAME_3_MAX_LENGTH:
+                name_parts[-1].append(name_part)
+            else:
+                name_parts.append([name_part])
+
+        name_parts = [' '.join(x) for x in name_parts]
+
+        if len(name_parts) < 2:
+            name_parts.append('')
+
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), template_filename), 'rb') as f:
         template = f.read()
 
     if b'^D0\r' not in template or b'^D0\r' not in template:
@@ -53,16 +89,17 @@ def print_label(name, sku, date, uid, version, copies, stdout):
         raise Exception('EZPL file is using wrong tear-off setting')
 
     # patch name
-    if template.find(NAME_PLACEHOLDER) < 0:
-        raise Exception('Name placeholder missing in EZPL file')
+    for name_placeholder, name_part in zip(name_placeholders, name_parts):
+        if template.find(name_placeholder) < 0:
+            raise Exception('Name placeholder missing in EZPL file')
 
-    template = template.replace(NAME_PLACEHOLDER, name.encode('ascii'))
+        template = template.replace(name_placeholder, name_part.encode('latin1'))
 
     # patch SKU
     if template.find(SKU_PLACEHOLDER) < 0:
         raise Exception('SKU placeholder missing in EZPL file')
 
-    template = template.replace(SKU_PLACEHOLDER, sku.encode('ascii'))
+    template = template.replace(SKU_PLACEHOLDER, sku.encode('latin1'))
 
     # patch date
     if template.find(DATE_PLACEHOLDER) < 0:
