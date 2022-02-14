@@ -1,0 +1,1762 @@
+[
+    [
+        "DC Brick",
+        "11"
+    ],
+    [
+        "Debug Brick 1.2",
+        "12"
+    ],
+    [
+        "Master Brick 2.1",
+        "13"
+    ],
+    [
+        "Servo Brick",
+        "14"
+    ],
+    [
+        "Stepper Brick",
+        "15"
+    ],
+    [
+        "RED Brick",
+        "17"
+    ],
+    [
+        "IMU Brick 2.0",
+        "18"
+    ],
+    [
+        "Silent Stepper Brick",
+        "19"
+    ],
+    [
+        "HAT Brick",
+        "111"
+    ],
+    [
+        "HAT Zero Brick",
+        "112"
+    ],
+    [
+        "ESP32 Brick",
+        "113"
+    ],
+    [
+        "ESP32 Ethernet Brick",
+        "115"
+    ],
+    [
+        "Master Brick 3.1",
+        "116"
+    ],
+    [
+        "Prototyp Smartbed Controller 1.0",
+        "102"
+    ],
+    [
+        "Breakout Bricklet",
+        "22"
+    ],
+    [
+        "Dual Relay Bricklet",
+        "26"
+    ],
+    [
+        "IO-16 Bricklet",
+        "28"
+    ],
+    [
+        "Joystick Bricklet",
+        "210"
+    ],
+    [
+        "LCD 20x4 Bricklet 1.2",
+        "212"
+    ],
+    [
+        "Linear Poti Bricklet",
+        "213"
+    ],
+    [
+        "Rotary Poti Bricklet",
+        "215"
+    ],
+    [
+        "Temperature Bricklet",
+        "216"
+    ],
+    [
+        "Barometer Bricklet",
+        "221"
+    ],
+    [
+        "Industrial Digital Out 4 Bricklet",
+        "224"
+    ],
+    [
+        "Industrial Dual 0-20mA Bricklet",
+        "228"
+    ],
+    [
+        "Dual Button Bricklet",
+        "230"
+    ],
+    [
+        "Motion Detector Bricklet",
+        "233"
+    ],
+    [
+        "Multi Touch Bricklet",
+        "234"
+    ],
+    [
+        "Segment Display 4x7 Bricklet",
+        "237"
+    ],
+    [
+        "Tilt Bricklet",
+        "239"
+    ],
+    [
+        "Hall Effect Bricklet",
+        "240"
+    ],
+    [
+        "Line Bricklet",
+        "241"
+    ],
+    [
+        "Piezo Speaker Bricklet",
+        "242"
+    ],
+    [
+        "Color Bricklet",
+        "243"
+    ],
+    [
+        "RS232 Bricklet",
+        "254"
+    ],
+    [
+        "Analog Out Bricklet 2.0",
+        "256"
+    ],
+    [
+        "Industrial Analog Out Bricklet",
+        "258"
+    ],
+    [
+        "Dust Detector Bricklet",
+        "260"
+    ],
+    [
+        "OLED 64x48 Bricklet",
+        "264"
+    ],
+    [
+        "UV Light Bricklet",
+        "265"
+    ],
+    [
+        "Motorized Linear Poti Bricklet",
+        "267"
+    ],
+    [
+        "Real-Time Clock Bricklet",
+        "268"
+    ],
+    [
+        "CAN Bricklet",
+        "270"
+    ],
+    [
+        "RGB LED Bricklet",
+        "271"
+    ],
+    [
+        "Distance IR 4-30cm Bricklet",
+        "273"
+    ],
+    [
+        "Distance IR 10-80cm Bricklet",
+        "274"
+    ],
+    [
+        "Distance IR 20-150cm Bricklet",
+        "275"
+    ],
+    [
+        "GPS Bricklet 2.0",
+        "276"
+    ],
+    [
+        "RS485 Bricklet",
+        "277"
+    ],
+    [
+        "Thermal Imaging Bricklet",
+        "278"
+    ],
+    [
+        "XMC1400 Breakout Bricklet",
+        "279"
+    ],
+    [
+        "RGB LED Button Bricklet",
+        "282"
+    ],
+    [
+        "Humidity Bricklet 2.0",
+        "283"
+    ],
+    [
+        "Industrial Dual Relay Bricklet",
+        "284"
+    ],
+    [
+        "DMX Bricklet",
+        "285"
+    ],
+    [
+        "NFC Bricklet",
+        "286"
+    ],
+    [
+        "Outdoor Weather Bricklet",
+        "288"
+    ],
+    [
+        "Remote Switch Bricklet 2.0",
+        "289"
+    ],
+    [
+        "Sound Pressure Level Bricklet",
+        "290"
+    ],
+    [
+        "Temperature IR Bricklet 2.0",
+        "291"
+    ],
+    [
+        "Motion Detector Bricklet 2.0",
+        "292"
+    ],
+    [
+        "Industrial Counter Bricklet",
+        "293"
+    ],
+    [
+        "Rotary Encoder Bricklet 2.0",
+        "294"
+    ],
+    [
+        "Analog In Bricklet 3.0",
+        "295"
+    ],
+    [
+        "Solid State Relay Bricklet 2.0",
+        "296"
+    ],
+    [
+        "Air Quality Bricklet",
+        "297"
+    ],
+    [
+        "LCD 128x64 Bricklet",
+        "298"
+    ],
+    [
+        "Distance US Bricklet 2.0",
+        "299"
+    ],
+    [
+        "Industrial Digital In 4 Bricklet 2.0",
+        "2100"
+    ],
+    [
+        "PTC Bricklet 2.0",
+        "2101"
+    ],
+    [
+        "Industrial Quad Relay Bricklet 2.0",
+        "2102"
+    ],
+    [
+        "LED Strip Bricklet 2.0",
+        "2103"
+    ],
+    [
+        "Load Cell Bricklet 2.0",
+        "2104"
+    ],
+    [
+        "Voltage/Current Bricklet 2.0",
+        "2105"
+    ],
+    [
+        "Real-Time Clock Bricklet 2.0",
+        "2106"
+    ],
+    [
+        "CAN Bricklet 2.0",
+        "2107"
+    ],
+    [
+        "RS232 Bricklet 2.0",
+        "2108"
+    ],
+    [
+        "Thermocouple Bricklet 2.0",
+        "2109"
+    ],
+    [
+        "Particulate Matter Bricklet",
+        "2110"
+    ],
+    [
+        "IO-4 Bricklet 2.0",
+        "2111"
+    ],
+    [
+        "OLED 128x64 Bricklet 2.0",
+        "2112"
+    ],
+    [
+        "Temperature Bricklet 2.0",
+        "2113"
+    ],
+    [
+        "IO-16 Bricklet 2.0",
+        "2114"
+    ],
+    [
+        "Analog Out Bricklet 3.0",
+        "2115"
+    ],
+    [
+        "Industrial Analog Out Bricklet 2.0",
+        "2116"
+    ],
+    [
+        "Barometer Bricklet 2.0",
+        "2117"
+    ],
+    [
+        "UV Light Bricklet 2.0",
+        "2118"
+    ],
+    [
+        "Dual Button Bricklet 2.0",
+        "2119"
+    ],
+    [
+        "Industrial Dual 0-20mA Bricklet 2.0",
+        "2120"
+    ],
+    [
+        "Industrial Dual Analog In Bricklet 2.1",
+        "2121"
+    ],
+    [
+        "Isolator Bricklet",
+        "2122"
+    ],
+    [
+        "One Wire Bricklet",
+        "2123"
+    ],
+    [
+        "Industrial Digital Out 4 Bricklet 2.0",
+        "2124"
+    ],
+    [
+        "Distance IR 4-30cm Bricklet 2.0",
+        "2125"
+    ],
+    [
+        "RGB LED Bricklet 2.0",
+        "2127"
+    ],
+    [
+        "Color Bricklet 2.0",
+        "2128"
+    ],
+    [
+        "Multi Touch Bricklet 2.0",
+        "2129"
+    ],
+    [
+        "Accelerometer Bricklet 2.0",
+        "2130"
+    ],
+    [
+        "Ambient Light Bricklet 3.0",
+        "2131"
+    ],
+    [
+        "Hall Effect Bricklet 2.0",
+        "2132"
+    ],
+    [
+        "Segment Display 4x7 Bricklet 2.0",
+        "2137"
+    ],
+    [
+        "Joystick Bricklet 2.0",
+        "2138"
+    ],
+    [
+        "Linear Poti Bricklet 2.0",
+        "2139"
+    ],
+    [
+        "Rotary Poti Bricklet 2.0",
+        "2140"
+    ],
+    [
+        "Distance IR 10-80cm Bricklet 2.0",
+        "2142"
+    ],
+    [
+        "Distance IR 20-150cm Bricklet 2.0",
+        "2143"
+    ],
+    [
+        "Laser Range Finder Bricklet 2.0",
+        "2144"
+    ],
+    [
+        "Piezo Speaker Bricklet 2.0",
+        "2145"
+    ],
+    [
+        "E-Paper 296x128 Bricklet (black/white/red)",
+        "2146"
+    ],
+    [
+        "CO2 Bricklet 2.0",
+        "2147"
+    ],
+    [
+        "E-Paper 296x128 Bricklet (black/white/gray)",
+        "2148"
+    ],
+    [
+        "Energy Monitor Bricklet",
+        "2152"
+    ],
+    [
+        "Compass Bricklet",
+        "2153"
+    ],
+    [
+        "Performance DC Bricklet",
+        "2156"
+    ],
+    [
+        "Servo Bricklet 2.0",
+        "2157"
+    ],
+    [
+        "EVSE Bricklet",
+        "2159"
+    ],
+    [
+        "ARINC429 Bricklet",
+        "2160"
+    ],
+    [
+        "IMU Bricklet 3.0",
+        "2161"
+    ],
+    [
+        "Industrial Dual AC Relay Bricklet",
+        "2162"
+    ],
+    [
+        "Industrial PTC Bricklet",
+        "2164"
+    ],
+    [
+        "DC Bricklet 2.0",
+        "2165"
+    ],
+    [
+        "Silent Stepper Bricklet 2.0",
+        "2166"
+    ],
+    [
+        "EVSE Bricklet 2.0",
+        "2167"
+    ],
+    [
+        "RS485 Master Extension",
+        "32"
+    ],
+    [
+        "WIFI Master Extension",
+        "33"
+    ],
+    [
+        "Ethernet Master Extension (with PoE)",
+        "34"
+    ],
+    [
+        "Ethernet Master Extension (w/o PoE)",
+        "35"
+    ],
+    [
+        "WIFI Master Extension 2.0",
+        "36"
+    ],
+    [
+        "Step Down Power Supply",
+        "41"
+    ],
+    [
+        "ESP32 Power Supply",
+        "42"
+    ],
+    [
+        "Education Kit",
+        "54"
+    ],
+    [
+        "Starter Kit: Weather Station (transparent)",
+        "55"
+    ],
+    [
+        "Weather Station Push Button Add-on (transparent)",
+        "56"
+    ],
+    [
+        "Starter Kit: Hardware Hacking",
+        "57"
+    ],
+    [
+        "Starter Kit: Blinkenlights",
+        "59"
+    ],
+    [
+        "Blinkenlights Dual Button Add-on",
+        "510"
+    ],
+    [
+        "Blinkenlights Piezo Speaker Add-on",
+        "511"
+    ],
+    [
+        "Blinkenlights Segment Display 4x7 Add-on",
+        "512"
+    ],
+    [
+        "Blinkenlights Multi Touch Add-on",
+        "513"
+    ],
+    [
+        "Blinkenlights Master Add-on",
+        "514"
+    ],
+    [
+        "Starter Kit: Internet of Things",
+        "516"
+    ],
+    [
+        "Starter Kit: Camera Slider",
+        "518"
+    ],
+    [
+        "Camera Slider Touchscreen Add-on",
+        "519"
+    ],
+    [
+        "Starter Kit: Weather Station (black)",
+        "520"
+    ],
+    [
+        "Starter Kit: Server Room Monitoring (Assembly Kit, None-Stand-Alone)",
+        "521"
+    ],
+    [
+        "Starter Kit: Server Room Monitoring (Assembly Kit, Stand-Alone)",
+        "522"
+    ],
+    [
+        "Starter Kit: Server Room Monitoring (Pre-Assembled, None-Stand-Alone)",
+        "523"
+    ],
+    [
+        "Starter Kit: Server Room Monitoring (Pre-Assembled, Stand-Alone)",
+        "524"
+    ],
+    [
+        "Tinker Kit: Ultimate",
+        "526"
+    ],
+    [
+        "Tinker Kit: Industrial",
+        "527"
+    ],
+    [
+        "Tinker Kit: Environment",
+        "528"
+    ],
+    [
+        "Tabletop Weather Station (Transparent)",
+        "529"
+    ],
+    [
+        "Tabletop Weather Station (Black)",
+        "530"
+    ],
+    [
+        "Tabletop Weather Station (Blue)",
+        "531"
+    ],
+    [
+        "Tabletop Weather Station (Frosted)",
+        "532"
+    ],
+    [
+        "2 Pole Black Connector",
+        "61"
+    ],
+    [
+        "2 Pole Green Connector",
+        "62"
+    ],
+    [
+        "3 Pole Gray Connector",
+        "63"
+    ],
+    [
+        "4 Pole Green Connector",
+        "64"
+    ],
+    [
+        "Bricklet Cable 15cm (10p-10p)",
+        "68"
+    ],
+    [
+        "Bricklet Cable 50cm (10p-10p)",
+        "610"
+    ],
+    [
+        "Bricklet Cable 100cm (10p-10p)",
+        "611"
+    ],
+    [
+        "Bricklet Cable 200cm (10p-10p)",
+        "612"
+    ],
+    [
+        "USB-A to USB-Mini Cable 90cm",
+        "618"
+    ],
+    [
+        "DC Jack Adapter",
+        "619"
+    ],
+    [
+        "Micro Switch",
+        "620"
+    ],
+    [
+        "Slide Switch",
+        "621"
+    ],
+    [
+        "USB-A to USB-Mini Cable 180cm",
+        "622"
+    ],
+    [
+        "Infrared Sensor 4-30cm GP2Y0A41SK0F",
+        "626"
+    ],
+    [
+        "Infrared Sensor 10-80cm GP2Y0A21YK0F",
+        "627"
+    ],
+    [
+        "Infrared Sensor 20-150cm GP2Y0A02YK0F",
+        "628"
+    ],
+    [
+        "4 Pole Green Connector Header",
+        "630"
+    ],
+    [
+        "2 Pole Green Connector Header",
+        "631"
+    ],
+    [
+        "3 Pole Grey Connector Header",
+        "632"
+    ],
+    [
+        "2 Pole Black Connector Header",
+        "633"
+    ],
+    [
+        "Board-to-Board Connector 30 Pin (Brick Top 9.35mm)",
+        "635"
+    ],
+    [
+        "Board-to-Board Connector 30 Pin (Brick Bottom 4.85mm)",
+        "636"
+    ],
+    [
+        "Bricklet Connector Header",
+        "637"
+    ],
+    [
+        "Bricklet Connector Crimp Socket",
+        "638"
+    ],
+    [
+        "Bricklet Connector Crimp Contact",
+        "639"
+    ],
+    [
+        "USB Power Supply",
+        "642"
+    ],
+    [
+        "Flip Switch",
+        "643"
+    ],
+    [
+        "Rocker Switch",
+        "644"
+    ],
+    [
+        "2.4GHz RP-SMA Antenna Small",
+        "645"
+    ],
+    [
+        "Bricklet Cable Shielded 50cm (10p-10p)",
+        "650"
+    ],
+    [
+        "Bricklet Cable Shielded 100cm (10p-10p)",
+        "651"
+    ],
+    [
+        "Bricklet Cable Shielded 200cm (10p-10p)",
+        "652"
+    ],
+    [
+        "8 Pole Green Connector (Push-In)",
+        "653"
+    ],
+    [
+        "8 Pole Green Connector Header",
+        "654"
+    ],
+    [
+        "Right Angle Pin Header 2x3",
+        "655"
+    ],
+    [
+        "GPS Antenna, U.FL, 10cm cable",
+        "656"
+    ],
+    [
+        "U.FL to SMA Pigtail Cable",
+        "657"
+    ],
+    [
+        "Push Button",
+        "658"
+    ],
+    [
+        "Mounting Kit 9mm",
+        "659"
+    ],
+    [
+        "Mounting Kit 12mm",
+        "660"
+    ],
+    [
+        "Mounting Screws",
+        "661"
+    ],
+    [
+        "USB A to USB Mini-B Adapter",
+        "662"
+    ],
+    [
+        "Wire 10m (blue)",
+        "664"
+    ],
+    [
+        "Wire 10m (yellow)",
+        "665"
+    ],
+    [
+        "Wire 10m (purple)",
+        "666"
+    ],
+    [
+        "Wire 10m (black)",
+        "667"
+    ],
+    [
+        "Wire 10m (red)",
+        "668"
+    ],
+    [
+        "Remote Control Mains Switches (Set)",
+        "669"
+    ],
+    [
+        "Wire Set 6x15cm (assorted colors)",
+        "670"
+    ],
+    [
+        "Bricklet Cable 6cm (10p-10p)",
+        "671"
+    ],
+    [
+        "Temperature Sensor Pt100 (2-Wire)",
+        "672"
+    ],
+    [
+        "Jumper Cable Set 12x30cm (multiple colors)",
+        "673"
+    ],
+    [
+        "RGB LED Pixels, 50pcs, WS2811",
+        "674"
+    ],
+    [
+        "Self-Adhesive Aluminum Tape (1m)",
+        "678"
+    ],
+    [
+        "Button Pad",
+        "679"
+    ],
+    [
+        "Slider Pad",
+        "680"
+    ],
+    [
+        "Key Pad 3x4",
+        "681"
+    ],
+    [
+        "Cursor Pad",
+        "682"
+    ],
+    [
+        "Giant Game Pad",
+        "683"
+    ],
+    [
+        "5V 8A AC/DC Power Adapter",
+        "688"
+    ],
+    [
+        "Wago 2-Wire Terminal Block CLASSIC",
+        "689"
+    ],
+    [
+        "Wago 3-Wire Terminal Block CLASSIC",
+        "690"
+    ],
+    [
+        "Wago 5-Wire Terminal Block CLASSIC",
+        "691"
+    ],
+    [
+        "2x2.5mm\u00b2 Stranded Wire",
+        "692"
+    ],
+    [
+        "LED Pixel Connectors",
+        "694"
+    ],
+    [
+        "USB-A to USB-Mini Cable 10cm",
+        "695"
+    ],
+    [
+        "Remote Control Mains Switch (Single)",
+        "696"
+    ],
+    [
+        "Remote for Mains Switches",
+        "697"
+    ],
+    [
+        "Solid State Relay AC 380V/25A",
+        "698"
+    ],
+    [
+        "Solid State Relay DC 50V/80A",
+        "699"
+    ],
+    [
+        "Solid State Relay Cover",
+        "6100"
+    ],
+    [
+        "Solid State Relay Heatsink",
+        "6101"
+    ],
+    [
+        "5x NFC Sticker 25mm white",
+        "6102"
+    ],
+    [
+        "5x NFC Sticker 22mm transparent",
+        "6103"
+    ],
+    [
+        "NFC Key Fob 30x40mm black",
+        "6104"
+    ],
+    [
+        "NFC Key Fob 30x40mm red",
+        "6105"
+    ],
+    [
+        "NFC Card white",
+        "6106"
+    ],
+    [
+        "Distance US Sensor",
+        "6107"
+    ],
+    [
+        "RGB LED Strip, 5m, WS2812B (NeoPixel)",
+        "6108"
+    ],
+    [
+        "Micro-HDMI Cable 90cm",
+        "6109"
+    ],
+    [
+        "SD-Card 8GB (RED Brick Image)",
+        "6110"
+    ],
+    [
+        "Wi-Fi USB Adapter",
+        "6112"
+    ],
+    [
+        "Storage Box",
+        "6113"
+    ],
+    [
+        "HDMI Display 12.7cm (5\", 800x480 with Touchscreen)",
+        "6114"
+    ],
+    [
+        "24V 4A AC/DC Power Adapter",
+        "6115"
+    ],
+    [
+        "Servo Hitec HS-645MG",
+        "6116"
+    ],
+    [
+        "Servo Hitec HS-311",
+        "6117"
+    ],
+    [
+        "Stepper Motor, Nema 17, 0.43Nm",
+        "6118"
+    ],
+    [
+        "Stepper Motor with Gearbox 27:1, 3Nm",
+        "6119"
+    ],
+    [
+        "Shaft Coupling 5mm / 8mm",
+        "6120"
+    ],
+    [
+        "Shaft Coupling 5mm / 5mm",
+        "6121"
+    ],
+    [
+        "Shaft Coupling 8mm / 8mm",
+        "6122"
+    ],
+    [
+        "Timing Belt with Pulleys",
+        "6123"
+    ],
+    [
+        "Shaft Reducer 5mm / 3mm",
+        "6124"
+    ],
+    [
+        "Brackets for Camera Slider",
+        "6125"
+    ],
+    [
+        "Load Cell 5kg CZL635",
+        "6126"
+    ],
+    [
+        "Load Cell 20kg CZL601",
+        "6127"
+    ],
+    [
+        "Load Cell 50kg CZL601",
+        "6128"
+    ],
+    [
+        "3G USB Adapter",
+        "6129"
+    ],
+    [
+        "Load Cell 1kg CZL635",
+        "6130"
+    ],
+    [
+        "Servo Hitec HS-53",
+        "6131"
+    ],
+    [
+        "Scale Kit",
+        "6132"
+    ],
+    [
+        "Thermocouple Type K",
+        "6133"
+    ],
+    [
+        "USB-A to USB-Micro Cable 90cm",
+        "6134"
+    ],
+    [
+        "GPS Antenna, SMA, 300cm cable",
+        "6135"
+    ],
+    [
+        "Bricklet Cable 6cm (7p-10p)",
+        "6136"
+    ],
+    [
+        "Bricklet Cable 15cm (7p-10p)",
+        "6137"
+    ],
+    [
+        "Bricklet Cable 50cm (7p-10p)",
+        "6138"
+    ],
+    [
+        "Bricklet Cable 100cm (7p-10p)",
+        "6139"
+    ],
+    [
+        "Bricklet Cable 200cm (7p-10p)",
+        "6140"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type J",
+        "6141"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type T",
+        "6142"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type E",
+        "6143"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type U",
+        "6144"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type N",
+        "6145"
+    ],
+    [
+        "Thermocouple Bricklet Connector Type Wires",
+        "6146"
+    ],
+    [
+        "Outdoor Weather Station WS-6147",
+        "6147"
+    ],
+    [
+        "Temperature/Humidity Sensor TH-6148",
+        "6148"
+    ],
+    [
+        "Bricklet Cable 6cm (7p-7p)",
+        "6149"
+    ],
+    [
+        "Bricklet Cable 15cm (7p-7p)",
+        "6150"
+    ],
+    [
+        "Bricklet Cable 50cm (7p-7p)",
+        "6151"
+    ],
+    [
+        "Bricklet Cable 100cm (7p-7p)",
+        "6152"
+    ],
+    [
+        "Bricklet Cable 200cm (7p-7p)",
+        "6153"
+    ],
+    [
+        "Bricklet Connector Header 7p",
+        "6154"
+    ],
+    [
+        "Toolbox Rack",
+        "6155"
+    ],
+    [
+        "Toolbox Assortment Box",
+        "6156"
+    ],
+    [
+        "Toolbox 1 x 1 Bin",
+        "6157"
+    ],
+    [
+        "Toolbox 1 x 2 Bin",
+        "6158"
+    ],
+    [
+        "Toolbox 1 x 3 Bin",
+        "6159"
+    ],
+    [
+        "Toolbox 1 x 4 bin",
+        "6160"
+    ],
+    [
+        "Toolbox 1 x 5 bin",
+        "6161"
+    ],
+    [
+        "Toolbox 2 x 2 bin",
+        "6162"
+    ],
+    [
+        "Toolbox 2 x 3 Bin",
+        "6163"
+    ],
+    [
+        "Toolbox 2 x 5 Bin",
+        "6164"
+    ],
+    [
+        "Toolbox 2 x 6 bin",
+        "6165"
+    ],
+    [
+        "Toolbox Drawer",
+        "6166"
+    ],
+    [
+        "Toolbox Pro 120",
+        "6167"
+    ],
+    [
+        "Toolbox Pro 175",
+        "6168"
+    ],
+    [
+        "Toolbox Hand Trolley",
+        "6169"
+    ],
+    [
+        "Toolbox Transport Trolley",
+        "6170"
+    ],
+    [
+        "Toolbox Lid Panel 1",
+        "6171"
+    ],
+    [
+        "Toolbox Lid Panel 2",
+        "6172"
+    ],
+    [
+        "Toolbox Lid Panel 3",
+        "6173"
+    ],
+    [
+        "Toolbox Carry Strap",
+        "6174"
+    ],
+    [
+        "AC/AC voltage transformer 230V/9V",
+        "6175"
+    ],
+    [
+        "5A:1V current transformer clamp (hinged)",
+        "6176"
+    ],
+    [
+        "30A:1V current transformer clamp (hinged)",
+        "6177"
+    ],
+    [
+        "Heatsink for Raspberry Pi Compute Module",
+        "6181"
+    ],
+    [
+        "USB-A to USB-C Cable 200cm",
+        "6182"
+    ],
+    [
+        "USB-A to USB-C Cable 100cm",
+        "6183"
+    ],
+    [
+        "USB-C to USB-C Cable 200cm",
+        "6184"
+    ],
+    [
+        "8 Pole Green Connector (Screw Clamp)",
+        "6185"
+    ],
+    [
+        "4 Pole Green Connector (Screw Clamp)",
+        "6186"
+    ],
+    [
+        "RGB LED Matrix 8X32",
+        "6187"
+    ],
+    [
+        "RGB LED Matrix 16X16",
+        "6188"
+    ],
+    [
+        "7-28V to 5V Inline Power Supply",
+        "6189"
+    ],
+    [
+        "Wago 2-Wire Terminal Block COMPACT",
+        "6190"
+    ],
+    [
+        "Wago 3-Wire Terminal Block COMPACT",
+        "6191"
+    ],
+    [
+        "Wago 5-Wire Terminal Block COMPACT",
+        "6192"
+    ],
+    [
+        "Bricklet Cable 30cm (7p-7p)",
+        "6193"
+    ],
+    [
+        "Rail Mounting Bracket for WAGO Compact Terminal Block",
+        "6194"
+    ],
+    [
+        "Load Cell 100kg CZL601",
+        "6195"
+    ],
+    [
+        "Weather Station Case (transparent)",
+        "71"
+    ],
+    [
+        "Weather Station Case (black)",
+        "72"
+    ],
+    [
+        "Weather Station leftside wall replacement (transparent)",
+        "73"
+    ],
+    [
+        "Weather Station leftside wall replacement (black)",
+        "74"
+    ],
+    [
+        "Mounting Plate 22x10 (12x6cm)",
+        "75"
+    ],
+    [
+        "Self-Adhesive Non-Slip Rubber Feet",
+        "77"
+    ],
+    [
+        "Case for Light/Baro/Hum/Temp Bricklet",
+        "78"
+    ],
+    [
+        "Case for Distance IR Bricklet",
+        "710"
+    ],
+    [
+        "Case for Dual Relay Bricklet",
+        "711"
+    ],
+    [
+        "Case for Industrial Bricklet",
+        "713"
+    ],
+    [
+        "Case for IO-16 Bricklet",
+        "714"
+    ],
+    [
+        "Case for IO-4 Bricklet",
+        "715"
+    ],
+    [
+        "Case for Joystick Bricklet",
+        "716"
+    ],
+    [
+        "Case for LCD 20x4 Bricklet",
+        "717"
+    ],
+    [
+        "Case for Linear Poti Bricklet",
+        "718"
+    ],
+    [
+        "Case for Rotary Poti/Encoder Bricklet",
+        "719"
+    ],
+    [
+        "Case for Temperature IR Bricklet 2.0",
+        "720"
+    ],
+    [
+        "Case for Voltage/Current Bricklet",
+        "721"
+    ],
+    [
+        "Rail Mounting Kit",
+        "722"
+    ],
+    [
+        "Case for PTC Bricklet",
+        "723"
+    ],
+    [
+        "Mounting Plate 8x8 (4x4cm)",
+        "724"
+    ],
+    [
+        "Server Room Monitoring Case",
+        "725"
+    ],
+    [
+        "Case for Distance US Bricklet",
+        "726"
+    ],
+    [
+        "Case for LED Strip Bricklet",
+        "727"
+    ],
+    [
+        "Mounting Plate for Line Bricklet",
+        "728"
+    ],
+    [
+        "Case for Motion Detector Bricklet",
+        "730"
+    ],
+    [
+        "Case for Multi Touch Bricklet",
+        "731"
+    ],
+    [
+        "Case for Piezo Speaker Bricklet",
+        "732"
+    ],
+    [
+        "Case for Remote Bricklet",
+        "733"
+    ],
+    [
+        "Case for Segment Display 4x7 Bricklet",
+        "734"
+    ],
+    [
+        "Case for Sound Intensity Bricklet",
+        "735"
+    ],
+    [
+        "Case for Tilt Bricklet",
+        "736"
+    ],
+    [
+        "Blinkenlights Base Frame",
+        "737"
+    ],
+    [
+        "Internet of Things Case",
+        "738"
+    ],
+    [
+        "Case for Accelerometer/Compass Bricklet",
+        "740"
+    ],
+    [
+        "Case for Analog In/Out Bricklet 2.0/3.0",
+        "741"
+    ],
+    [
+        "Case for Load Cell / One Wire Bricklet",
+        "742"
+    ],
+    [
+        "Case for RS232 Bricklet",
+        "743"
+    ],
+    [
+        "Tinkerforge Workbench (20x14cm)",
+        "744"
+    ],
+    [
+        "Case for Thermocouple Bricklet",
+        "745"
+    ],
+    [
+        "Case for CAN Bricklet",
+        "746"
+    ],
+    [
+        "Case for Real-Time Clock / IMU Bricklet",
+        "747"
+    ],
+    [
+        "Case for GPS Bricklet 2.0",
+        "748"
+    ],
+    [
+        "Case for RS485 Bricklet",
+        "749"
+    ],
+    [
+        "Case for RGB LED Button Bricklet",
+        "750"
+    ],
+    [
+        "Case for Motorized Linear Poti Bricklet",
+        "751"
+    ],
+    [
+        "Case for DMX Bricklet",
+        "752"
+    ],
+    [
+        "Case for Thermal Imaging Bricklet",
+        "753"
+    ],
+    [
+        "Case for NFC Bricklet",
+        "754"
+    ],
+    [
+        "Case for Motion Detector Bricklet 2.0",
+        "755"
+    ],
+    [
+        "Case for Outdoor Weather Bricklet",
+        "756"
+    ],
+    [
+        "Case for Motion Detector Bricklet 2.0 (black edition)",
+        "757"
+    ],
+    [
+        "Case for Sound Pressure Level Bricklet",
+        "758"
+    ],
+    [
+        "Case for Particulate Matter Bricklet",
+        "759"
+    ],
+    [
+        "Case for Industrial Dual Relay Bricklet",
+        "760"
+    ],
+    [
+        "Rail Mounting Case",
+        "761"
+    ],
+    [
+        "Tinkerforge Workbench (34x20cm)",
+        "762"
+    ],
+    [
+        "Mounting Plate 22x22 (12x12cm)",
+        "763"
+    ],
+    [
+        "Mounting Plate 22x22 (12x12cm) with cable lead-through",
+        "764"
+    ],
+    [
+        "Mounting Plate 46x22 (24x12cm)",
+        "765"
+    ],
+    [
+        "Mounting Plate 46x22 (24x12cm) with cable lead-through",
+        "766"
+    ],
+    [
+        "Case for Air Quality Bricklet",
+        "767"
+    ],
+    [
+        "Case for Dual Button Bricklet",
+        "768"
+    ],
+    [
+        "Case for Isolator Bricklet",
+        "769"
+    ],
+    [
+        "Case for LCD 128x64 Bricklet",
+        "770"
+    ],
+    [
+        "Case for OLED 128x64 Bricklet",
+        "771"
+    ],
+    [
+        "Tabletop Weather Station Case (black)",
+        "772"
+    ],
+    [
+        "Tabletop Weather Station Case (transparent)",
+        "773"
+    ],
+    [
+        "Tabletop Weather Station Case (blue)",
+        "774"
+    ],
+    [
+        "Tabletop Weather Station Case (frosted)",
+        "775"
+    ],
+    [
+        "Case for Piezo Speaker Bricklet 2.0",
+        "776"
+    ],
+    [
+        "Case for E-Paper 296x128 Bricklet",
+        "777"
+    ],
+    [
+        "Mounting Kit for Raspberry Pi",
+        "778"
+    ],
+    [
+        "Case for Energy Monitor Bricklet",
+        "779"
+    ],
+    [
+        "Case for Distance US Bricklet 2.0",
+        "780"
+    ],
+    [
+        "Vertical Rail Mounting Kit",
+        "781"
+    ],
+    [
+        "Horizontal Rail Mounting Kit",
+        "782"
+    ],
+    [
+        "Server Room Monitoring 2.0 Case",
+        "783"
+    ],
+    [
+        "MakerBeam 40mm, 8pcs, black",
+        "81"
+    ],
+    [
+        "MakerBeam 60mm, 8pcs, black",
+        "82"
+    ],
+    [
+        "MakerBeam 100mm, 16pcs, black",
+        "83"
+    ],
+    [
+        "MakerBeam 150mm, 6pcs, black",
+        "84"
+    ],
+    [
+        "MakerBeam 200mm, 8pcs, black",
+        "85"
+    ],
+    [
+        "MakerBeam 300mm, 4pcs, black",
+        "86"
+    ],
+    [
+        "MakerBeam 600mm, black",
+        "87"
+    ],
+    [
+        "MakerBeam 900mm, black",
+        "88"
+    ],
+    [
+        "MakerBeam 1500mm, black",
+        "89"
+    ],
+    [
+        "MakerBeam Corner Cubes, 12pcs",
+        "811"
+    ],
+    [
+        "MakerBeam Straight Brackets, 12pcs",
+        "812"
+    ],
+    [
+        "MakerBeam T-Brackets, 12pcs",
+        "813"
+    ],
+    [
+        "MakerBeam Right Angle Brackets, 12pcs",
+        "814"
+    ],
+    [
+        "MakerBeam 45\u00b0 Brackets, 12pcs",
+        "815"
+    ],
+    [
+        "MakerBeam 60\u00b0 Brackets, 12pcs",
+        "816"
+    ],
+    [
+        "MakerBeam Corner Brackets, 12pcs",
+        "817"
+    ],
+    [
+        "MakerBeam L-Brackets, 12pcs",
+        "818"
+    ],
+    [
+        "MakerBeam NEMA 17 Bracket",
+        "819"
+    ],
+    [
+        "MakerBeam Servo Bracket",
+        "820"
+    ],
+    [
+        "MakerBeam Micro Stepper Bracket",
+        "821"
+    ],
+    [
+        "MakerBeam Micro Stepper Bracket flat",
+        "822"
+    ],
+    [
+        "M3 Square Headed Bolts with Hex Hole, 6mm, 250pcs",
+        "823"
+    ],
+    [
+        "M3 Square Headed Bolts with Hex Hole, 12mm, 100pcs",
+        "824"
+    ],
+    [
+        "M3 Wing Type Bolts with Hex Hole, 6mm, 100pcs",
+        "825"
+    ],
+    [
+        "M3 Square Headed Bolts with Hex Hole, 25mm, 25pcs",
+        "826"
+    ],
+    [
+        "M3 Self Locking Nuts, 100pcs",
+        "827"
+    ],
+    [
+        "M3 Cap Nuts, 50pcs",
+        "828"
+    ],
+    [
+        "M3 Nuts, 250pcs",
+        "829"
+    ],
+    [
+        "M3 knurled Nuts, 4pcs",
+        "830"
+    ],
+    [
+        "M3 Hex Key Driver",
+        "831"
+    ],
+    [
+        "Bearing Set",
+        "832"
+    ],
+    [
+        "Hinge Set",
+        "833"
+    ],
+    [
+        "3D printed End Caps, 4pcs",
+        "834"
+    ],
+    [
+        "Vinyl End Caps, 4pcs",
+        "835"
+    ],
+    [
+        "Eye Plate",
+        "836"
+    ],
+    [
+        "Starter Kit: MakerBeam",
+        "837"
+    ],
+    [
+        "M3 Hex Nut Driver",
+        "838"
+    ],
+    [
+        "MakerBeam vertical guidance brackets",
+        "839"
+    ],
+    [
+        "MakerBeam Hinges",
+        "840"
+    ],
+    [
+        "MakerBeam T-slot nuts, 25pcs",
+        "841"
+    ],
+    [
+        "MakerBeam Magnets",
+        "842"
+    ],
+    [
+        "MakerBeam Linear Slide 300mm",
+        "843"
+    ],
+    [
+        "MakerBeam Linear Slide 600mm",
+        "844"
+    ],
+    [
+        "MakerBeam Linear Slide Carriage",
+        "845"
+    ],
+    [
+        "Gift Card",
+        "91"
+    ]
+]
