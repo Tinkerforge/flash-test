@@ -12,7 +12,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
-os.system('pyuic5 -o ui_print_label_ui.py print-label-ui.ui') # sudo apt install pyqt5-dev-tools
+os.system('python3 ../src/pyuic5-fixed.py -o ui_print_label_ui.py print-label-ui.ui')
 
 from ui_print_label_ui import Ui_PrintLabelUI
 
