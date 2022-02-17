@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2022-02-10.      #
+# This file was automatically generated on 2022-02-17.      #
 #                                                           #
 # Python Bindings Version 2.1.29                            #
 #                                                           #
@@ -70,9 +70,9 @@ except (ValueError, ImportError):
     from brick_stepper import BrickStepper
 
 try:
-    from .brick_unknown import BrickUnknown
+    from .brick_unknown_v2 import BrickUnknownV2
 except (ValueError, ImportError):
-    from brick_unknown import BrickUnknown
+    from brick_unknown_v2 import BrickUnknownV2
 
 try:
     from .bricklet_accelerometer import BrickletAccelerometer
@@ -833,7 +833,7 @@ DEVICE_CLASSES = {
     BrickServo.DEVICE_IDENTIFIER: BrickServo,
     BrickSilentStepper.DEVICE_IDENTIFIER: BrickSilentStepper,
     BrickStepper.DEVICE_IDENTIFIER: BrickStepper,
-    BrickUnknown.DEVICE_IDENTIFIER: BrickUnknown,
+    BrickUnknownV2.DEVICE_IDENTIFIER: BrickUnknownV2,
     BrickletAccelerometer.DEVICE_IDENTIFIER: BrickletAccelerometer,
     BrickletAccelerometerV2.DEVICE_IDENTIFIER: BrickletAccelerometerV2,
     BrickletAirQuality.DEVICE_IDENTIFIER: BrickletAirQuality,

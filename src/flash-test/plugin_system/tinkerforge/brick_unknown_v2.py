@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2022-02-10.      #
+# This file was automatically generated on 2022-02-17.      #
 #                                                           #
 # Python Bindings Version 2.1.29                            #
 #                                                           #
@@ -20,14 +20,14 @@ except (ValueError, ImportError):
 
 GetIdentity = namedtuple('Identity', ['uid', 'connected_uid', 'position', 'hardware_version', 'firmware_version', 'device_identifier'])
 
-class BrickUnknown(Device):
+class BrickUnknownV2(Device):
     """
 
     """
 
     DEVICE_IDENTIFIER = -11
-    DEVICE_DISPLAY_NAME = 'Unknown Brick'
-    DEVICE_URL_PART = 'unknown' # internal
+    DEVICE_DISPLAY_NAME = 'Unknown Brick 2.0'
+    DEVICE_URL_PART = 'unknown_v2' # internal
 
 
 
@@ -39,11 +39,11 @@ class BrickUnknown(Device):
         Creates an object with the unique device ID *uid* and adds it to
         the IP Connection *ipcon*.
         """
-        Device.__init__(self, uid, ipcon, BrickUnknown.DEVICE_IDENTIFIER, BrickUnknown.DEVICE_DISPLAY_NAME)
+        Device.__init__(self, uid, ipcon, BrickUnknownV2.DEVICE_IDENTIFIER, BrickUnknownV2.DEVICE_DISPLAY_NAME)
 
         self.api_version = (2, 0, 0)
 
-        self.response_expected[BrickUnknown.FUNCTION_GET_IDENTITY] = BrickUnknown.RESPONSE_EXPECTED_ALWAYS_TRUE
+        self.response_expected[BrickUnknownV2.FUNCTION_GET_IDENTITY] = BrickUnknownV2.RESPONSE_EXPECTED_ALWAYS_TRUE
 
 
         ipcon.add_device(self)
@@ -59,6 +59,6 @@ class BrickUnknown(Device):
         The device identifier numbers can be found :ref:`here <device_identifier>`.
         |device_identifier_constant|
         """
-        return GetIdentity(*self.ipcon.send_request(self, BrickUnknown.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
+        return GetIdentity(*self.ipcon.send_request(self, BrickUnknownV2.FUNCTION_GET_IDENTITY, (), '', 33, '8s 8s c 3B 3B H'))
 
-Unknown = BrickUnknown # for backward compatibility
+UnknownV2 = BrickUnknownV2 # for backward compatibility
