@@ -80,16 +80,16 @@ class CoMCUBrickletBase(PluginBase):
     def is_comcu(self):
         return True
 
-    def flash_bricklet(self, plugin_filename, power_off_duration=None):
+    def flash_bricklet(self, plugin_filename, power_off_duration=None, sku_override=None):
         self.comcu_uid_to_flash = None
         bootloader_success = self.write_bootloader_to_bricklet(plugin_filename, power_off_duration=power_off_duration)
-        firmware_success, label_info = self.write_firmware_and_uid_to_bricklet(plugin_filename)
+        firmware_success, label_info = self.write_firmware_and_uid_to_bricklet(plugin_filename, sku_override=sku_override)
 
         if bootloader_success and firmware_success:
             if self.mw.check_print_label.isChecked():
                 self.mw.print_label(label_info)
 
-    def write_firmware_and_uid_to_bricklet(self, plugin_filename):
+    def write_firmware_and_uid_to_bricklet(self, plugin_filename, sku_override=None):
         start = time.time()
         while self.comcu_uid_to_flash == None:
             if time.time() - start > 3:
@@ -272,7 +272,13 @@ class CoMCUBrickletBase(PluginBase):
             BrickMaster(self.mw.device_manager.flash_master_brick_v3_uid, ipcon).reset()
 
             self.mw.increase_flashed_count()
-            return True, LabelInfo(identity.device_identifier, base58encode(uid), identity.firmware_version, None)
+
+            if sku_override != None:
+                sku = sku_override
+            else:
+                sku = identity.device_identifier
+
+            return True, LabelInfo(sku, base58encode(uid), identity.firmware_version, None)
         except:
             traceback.print_exc()
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())

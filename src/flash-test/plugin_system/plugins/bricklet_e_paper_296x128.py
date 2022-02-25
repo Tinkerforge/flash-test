@@ -21,6 +21,8 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
+from PyQt5.QtWidgets import QMessageBox
+
 from ..tinkerforge.bricklet_e_paper_296x128 import BrickletEPaper296x128
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
@@ -62,7 +64,17 @@ class Plugin(CoMCUBrickletBase):
         return BrickletEPaper296x128.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename(BrickletEPaper296x128.DEVICE_URL_PART))
+        color = self.mw.combo_epaper_color.currentIndex()
+
+        if color == 0:
+            sku_override = 2146 # red
+        elif color == 1:
+            sku_override = 2148 # gray
+        else:
+            QMessageBox.critical(self.mw, 'E-Paper 296x128 Bricklet', 'Unbekannte Farbe: {0}'.format(color))
+            return
+
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletEPaper296x128.DEVICE_URL_PART), sku_override=sku_override)
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
@@ -82,7 +94,6 @@ class Plugin(CoMCUBrickletBase):
             time.sleep(0.1)
             self.epaper.reset()
             return
-
 
         self.epaper.set_update_mode(0)
         self.epaper.write_black_white(0, 0, 295, 127, e_paper_pixels_bw)

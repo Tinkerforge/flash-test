@@ -201,9 +201,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             elif sku == 34:
                 name = 'Ethernet Master Extension (with PoE)'
             elif sku == 35:
-                name = 'Ethernet Master Extension (w/o PoE)'
+                name = 'Ethernet Master Extension (without PoE)'
             elif sku == 36:
                 name = 'WIFI Master Extension 2.0'
+            elif sku == 2125:
+                name = 'Distance IR 4-30cm Bricklet 2.0'
+            elif sku == 2142:
+                name = 'Distance IR 10-80cm Bricklet 2.0'
+            elif sku == 2143:
+                name = 'Distance IR 20-150cm Bricklet 2.0'
+            elif sku == 2146:
+                name = 'E-Paper 296x128 Bricklet (black/white/red)'
+            elif sku == 2148:
+                name = 'E-Paper 296x128 Bricklet (black/white/gray)'
             else:
                 name = get_device_display_name(sku)
 

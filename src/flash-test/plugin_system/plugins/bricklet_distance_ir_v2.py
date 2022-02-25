@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 """
 
 from PyQt5 import Qt, QtGui, QtCore
+from PyQt5.QtWidgets import QMessageBox
 
 from ..tinkerforge.bricklet_distance_ir_v2 import BrickletDistanceIRV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
@@ -34,7 +35,7 @@ import os
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 0. Wähle korrekten Sensor aus
-1. Verbinde Distance IR 2.0 Bricklet (inklusive Sensor) mit Port D des Master Bricks 3.0
+1. Verbinde Distance IR Bricklet 2.0 (inklusive Sensor) mit Port D des Master Bricks 3.0
 2. Sensortyp einstellen
 3. Drücke "Flashen"
 4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
@@ -68,7 +69,19 @@ class Plugin(CoMCUBrickletBase):
         return BrickletDistanceIRV2.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceIRV2.DEVICE_URL_PART))
+        sensor_type = self.mw.distance_ir_sensor_combo.currentIndex()
+
+        if sensor_type == 0:
+            sku_override = 2125 # 4-30cm
+        elif sensor_type == 1:
+            sku_override = 2142 # 10-80cm
+        elif sensor_type == 2:
+            sku_override = 2143 # 20-150cm
+        else:
+            QMessageBox.critical(self.mw, 'Distance IR Bricklet 2.0', 'Unbekannter Sharp Distanz-Sensor: {0}'.format(sensor_type))
+            return
+
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletDistanceIRV2.DEVICE_URL_PART), sku_override=sku_override)
         if self.cbe_distance != None:
             self.cbe_distance.set_period(0)
 
