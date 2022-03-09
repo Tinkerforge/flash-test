@@ -136,6 +136,7 @@ from .plugins.extension_ethernet_wo_poe import Plugin as extension_ethernet_wo_p
 from .plugins.extension_rs485 import Plugin as extension_rs485_class
 from .plugins.extension_wifi_v2 import Plugin as extension_wifi_v2_class
 from .plugins.label_brick import Plugin as label_brick_class
+from .plugins.label_brick_wo_master import Plugin as label_brick_wo_master_class
 from .plugins.label_bricklet import Plugin as label_bricklet_class
 from .plugins.label_extension import Plugin as label_extension_class
 
@@ -278,6 +279,7 @@ device_classes = [
     extension_rs485_class,
     extension_wifi_v2_class,
     label_brick_class,
+    label_brick_wo_master_class,
     label_bricklet_class,
     label_extension_class,
 ]

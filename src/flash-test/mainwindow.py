@@ -27,6 +27,7 @@ from ui_mainwindow import Ui_MainWindow
 from device_manager import DeviceManager
 from plugin_system.plugin_base import PluginBase
 from plugin_system.plugins.label_brick import Plugin as LabelBrickPlugin
+from plugin_system.plugins.label_brick_wo_master import Plugin as LabelBrickWithoutMasterPlugin
 from plugin_system.plugins.label_bricklet import Plugin as LabelBrickletPlugin
 from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 from plugin_system.tinkerforge.brick_master import BrickMaster
@@ -128,10 +129,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.combo_device.insertSeparator(self.combo_device.count())
 
         self.label_brick_plugin = LabelBrickPlugin(self)
+        self.label_brick_wo_master_plugin = LabelBrickWithoutMasterPlugin(self)
         self.label_bricklet_plugin = LabelBrickletPlugin(self)
         self.label_extension_plugin = LabelExtensionPlugin(self)
 
         self.combo_device.addItem('Brick Etikett drucken', self.label_brick_plugin)
+        self.combo_device.addItem('Brick Etikett drucken (ohne Master Brick)', self.label_brick_wo_master_plugin)
         self.combo_device.addItem('Bricklet Etikett drucken', self.label_bricklet_plugin)
         self.combo_device.addItem('Extension Etikett drucken', self.label_extension_plugin)
 
