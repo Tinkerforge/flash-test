@@ -31,6 +31,7 @@ from plugin_system.plugins.label_brick_wo_master import Plugin as LabelBrickWith
 from plugin_system.plugins.label_bricklet import Plugin as LabelBrickletPlugin
 from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 from plugin_system.tinkerforge.brick_master import BrickMaster
+from plugin_system.tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from plugin_system.tinkerforge.device_display_names import get_device_display_name
 
 import urllib.request
@@ -195,6 +196,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     raise Exception('Unbekannte Master Brick Hardware Version: {0}'.format(label_info.hardware_version))
 
                 name = 'Master Brick {0}.{1}'.format(label_info.hardware_version[0], label_info.hardware_version[1])
+            elif sku == BrickletIndustrialQuadRelayV2.DEVICE_IDENTIFIER:
+                name = 'Industrial Quad Relay Bricklet 2.1'
             elif sku == 31:
                 name = 'Chibi Master Extension'
             elif sku == 32:
