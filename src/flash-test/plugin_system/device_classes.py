@@ -40,6 +40,7 @@ from .plugins.bricklet_energy_monitor import Plugin as bricklet_energy_monitor_c
 from .plugins.bricklet_evse import Plugin as bricklet_evse_class
 from .plugins.bricklet_evse_v2 import Plugin as bricklet_evse_v2_class
 from .plugins.bricklet_gps_v2 import Plugin as bricklet_gps_v2_class
+from .plugins.bricklet_gps_v3 import Plugin as bricklet_gps_v3_class
 from .plugins.bricklet_hall_effect import Plugin as bricklet_hall_effect_class
 from .plugins.bricklet_hall_effect_v2 import Plugin as bricklet_hall_effect_v2_class
 from .plugins.bricklet_humidity import Plugin as bricklet_humidity_class
@@ -183,6 +184,7 @@ device_classes = [
     bricklet_evse_class,
     bricklet_evse_v2_class,
     bricklet_gps_v2_class,
+    bricklet_gps_v3_class,
     bricklet_hall_effect_class,
     bricklet_hall_effect_v2_class,
     bricklet_humidity_class,
