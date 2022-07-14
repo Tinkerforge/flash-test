@@ -30,7 +30,7 @@ VERSION_PLACEHOLDER = b'2.17.5'
 
 COPIES_FORMAT = '^C{0}\r'
 
-def print_label(name, sku, date, uid, version, copies, stdout):
+def print_label(name, sku, date, uid, version, printer_host, copies, stdout):
     # check copies
     if copies < 1 or copies > 20:
         raise Exception('Invalid copies: {0}'.format(copies))
@@ -132,7 +132,7 @@ def print_label(name, sku, date, uid, version, copies, stdout):
         sys.stdout.buffer.write(template)
         sys.stdout.buffer.flush()
     else:
-        with socket.create_connection((PRINTER_HOST, PRINTER_PORT)) as s:
+        with socket.create_connection((printer_host, PRINTER_PORT)) as s:
             s.send(template)
 
 def main():
@@ -143,6 +143,7 @@ def main():
     parser.add_argument('date')
     parser.add_argument('uid')
     parser.add_argument('version')
+    parser.add_argument('-p', '--printer-host', type=str, default=PRINTER_HOST)
     parser.add_argument('-c', '--copies', type=int, default=1)
     parser.add_argument('-s', '--stdout', action='store_true')
 
@@ -150,7 +151,7 @@ def main():
 
     assert args.copies > 0
 
-    print_label(args.name, args.sku, args.date, args.uid, args.version, args.copies, args.stdout)
+    print_label(args.name, args.sku, args.date, args.uid, args.version, args.printer_host, args.copies, args.stdout)
 
 if __name__ == '__main__':
     main()

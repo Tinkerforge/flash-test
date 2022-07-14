@@ -6,5 +6,6 @@ ui_*.py
 .pydevproject
 .settings
 staging_password.txt
+printer_host.txt
 firmwares
 .vscode
