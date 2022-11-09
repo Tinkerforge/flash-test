@@ -7,7 +7,9 @@ import argparse
 import socket
 from datetime import datetime
 
-PRINTER_HOST = '192.168.178.244'
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'printer_host.txt'), 'r') as f:
+    PRINTER_HOST = f.read().split('\n')[0].strip()
+
 PRINTER_PORT = 9100
 
 NAME_1_PLACEHOLDER = b'Industrial Dual Analog In Bricklet 2.0'
