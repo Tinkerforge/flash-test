@@ -86,7 +86,7 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
         print_func = print
 
     if power_off_duration == None:
-        power_off_duration = 0.05
+        power_off_duration = 0.25
 
     ipcon = IPConnection()
     ipcon.connect('localhost', 4223)
