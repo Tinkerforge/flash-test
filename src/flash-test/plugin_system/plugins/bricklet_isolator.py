@@ -56,7 +56,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletIsolator.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
-        self.flash_bricklet(get_bricklet_firmware_filename(BrickletIsolator.DEVICE_URL_PART))
+        self.flash_bricklet(get_bricklet_firmware_filename(BrickletIsolator.DEVICE_URL_PART), power_off_duration=0.75)
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
