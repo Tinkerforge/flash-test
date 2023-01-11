@@ -126,7 +126,7 @@ class Plugin(ExtensionBase):
                 mac = map(lambda x: x.replace('0x', ''), mac)
                 mac = map(lambda x: '0'+x if len(x) == 1 else x, mac)
                 self.mw.set_value_action('Versuche Ethernet-Verbindung aufzubauen (MAC: ' + ':'.join(mac).upper() + ')')
-                QtCore.QTimer.singleShot(0.1, self.try_connect)
+                QtCore.QTimer.singleShot(1, self.try_connect)
         else:
             self.master.set_extension_type(0, BrickMaster.EXTENSION_TYPE_ETHERNET)
             self.master.reset()
