@@ -30,6 +30,11 @@ except (ValueError, ImportError):
     from brick_hat import BrickHAT
 
 try:
+    from .brick_hat_warp_energy_manager import BrickHATWARPEnergyManager
+except (ValueError, ImportError):
+    from brick_hat_warp_energy_manager import BrickHATWARPEnergyManager
+
+try:
     from .brick_hat_zero import BrickHATZero
 except (ValueError, ImportError):
     from brick_hat_zero import BrickHATZero
@@ -825,6 +830,7 @@ DEVICE_CLASSES = {
     BrickESP32.DEVICE_IDENTIFIER: BrickESP32,
     BrickESP32Ethernet.DEVICE_IDENTIFIER: BrickESP32Ethernet,
     BrickHAT.DEVICE_IDENTIFIER: BrickHAT,
+    BrickHATWARPEnergyManager.DEVICE_IDENTIFIER: BrickHATWARPEnergyManager,
     BrickHATZero.DEVICE_IDENTIFIER: BrickHATZero,
     BrickIMU.DEVICE_IDENTIFIER: BrickIMU,
     BrickIMUV2.DEVICE_IDENTIFIER: BrickIMUV2,
