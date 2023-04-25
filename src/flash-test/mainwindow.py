@@ -60,13 +60,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
             sys.exit(0)
 
-        try:
-            with open(os.path.join(file_directory, '..', '..', 'printer_host.txt'), 'rb') as f:
-                self.printer_host = f.read().decode('utf-8').split('\n')[0].strip()
-        except:
-            QtWidgets.QMessageBox.warning(None, 'Warning', 'printer_host.txt missing or malformed, will not be able to print labels')
-            self.printer_host = None
-
         if sys.version_info < (3,5,3):
             context = ssl.SSLContext(protocol=ssl.PROTOCOL_SSLv23)
         else:
@@ -192,9 +185,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         return self.device_manager.devices.get(BrickMaster.DEVICE_IDENTIFIER)
 
     def print_label(self, label_info):
-        if self.printer_host == None:
-            return
-
         try:
             sku = label_info.sku
 
@@ -240,8 +230,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 str(sku),
                 datetime.now().strftime('%Y-%m-%d'),
                 label_info.uid,
-                '.'.join([str(x) for x in label_info.firmware_version]),
-                '--printer-host', self.printer_host
+                '.'.join([str(x) for x in label_info.firmware_version])
             ])
         except:
             traceback.print_exc()
