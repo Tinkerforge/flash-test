@@ -7,11 +7,6 @@ import argparse
 import socket
 from datetime import datetime
 
-with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'printer_host.txt'), 'r') as f:
-    PRINTER_HOST = f.read().split('\n')[0].strip()
-
-PRINTER_PORT = 9100
-
 NAME_1_PLACEHOLDER = b'Industrial Dual Analog In Bricklet 2.0'
 NAME_2_PLACEHOLDER = b'Ethernet Master Extension (without PoE)'
 NAME_3_PLACEHOLDER = b'Board-to-Board Connector 30 Pin (Brick Bottom 4.85mm)'
@@ -31,6 +26,39 @@ UID_PLACEHOLDER = b'XXYYZZ'
 VERSION_PLACEHOLDER = b'2.17.5'
 
 COPIES_FORMAT = '^C{0}\r'
+
+
+def get_tf_printer_host(task):
+    import re
+    import os
+    import sys
+
+    x = re.compile(r'^\s*([A-Za-z0-9_-]+)\s+([0-9\.]+)\s*$')
+
+    try:
+        with open(os.path.expanduser('~/tf_printer_host.txt'), 'r', encoding='utf-8') as f:
+            for line in f.readlines():
+                m = x.match(line)
+
+                if m == None:
+                    print('WARNING: Invalid line in ~/tf_printer_host.txt: {0}'.format(repr(line)))
+
+                    continue
+
+                other_task = m.group(1)
+                other_host = m.group(2)
+
+                if other_task != task:
+                    continue
+
+                return other_host
+    except FileNotFoundError:
+        pass
+
+    print('ERROR: Printer host for task {0} not found in ~/tf_printer_host.txt')
+
+    sys.exit(1)
+
 
 def print_label(name, sku, date, uid, version, printer_host, copies, stdout):
     # check copies
@@ -134,8 +162,9 @@ def print_label(name, sku, date, uid, version, printer_host, copies, stdout):
         sys.stdout.buffer.write(template)
         sys.stdout.buffer.flush()
     else:
-        with socket.create_connection((printer_host, PRINTER_PORT)) as s:
+        with socket.create_connection((printer_host, 9100)) as s:
             s.send(template)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -145,7 +174,7 @@ def main():
     parser.add_argument('date')
     parser.add_argument('uid')
     parser.add_argument('version')
-    parser.add_argument('-p', '--printer-host', type=str, default=PRINTER_HOST)
+    parser.add_argument('-p', '--printer-host', type=str, default=get_tf_printer_host('flash-test'))
     parser.add_argument('-c', '--copies', type=int, default=1)
     parser.add_argument('-s', '--stdout', action='store_true')
 
@@ -154,6 +183,7 @@ def main():
     assert args.copies > 0
 
     print_label(args.name, args.sku, args.date, args.uid, args.version, args.printer_host, args.copies, args.stdout)
+
 
 if __name__ == '__main__':
     main()
