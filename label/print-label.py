@@ -60,7 +60,7 @@ def get_tf_printer_host(task):
     sys.exit(1)
 
 
-def print_label(name, sku, date, uid, version, printer_host, copies, stdout):
+def print_label(name, sku, date, uid, version, copies, stdout):
     # check copies
     if copies < 1 or copies > 20:
         raise Exception('Invalid copies: {0}'.format(copies))
@@ -162,7 +162,7 @@ def print_label(name, sku, date, uid, version, printer_host, copies, stdout):
         sys.stdout.buffer.write(template)
         sys.stdout.buffer.flush()
     else:
-        with socket.create_connection((printer_host, 9100)) as s:
+        with socket.create_connection((get_tf_printer_host('esd-bag'), 9100)) as s:
             s.send(template)
 
 
@@ -174,7 +174,6 @@ def main():
     parser.add_argument('date')
     parser.add_argument('uid')
     parser.add_argument('version')
-    parser.add_argument('-p', '--printer-host', type=str, default=get_tf_printer_host('flash-test'))
     parser.add_argument('-c', '--copies', type=int, default=1)
     parser.add_argument('-s', '--stdout', action='store_true')
 
@@ -182,7 +181,7 @@ def main():
 
     assert args.copies > 0
 
-    print_label(args.name, args.sku, args.date, args.uid, args.version, args.printer_host, args.copies, args.stdout)
+    print_label(args.name, args.sku, args.date, args.uid, args.version, args.copies, args.stdout)
 
 
 if __name__ == '__main__':
