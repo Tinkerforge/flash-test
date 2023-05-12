@@ -32,7 +32,7 @@ class Plugin(CoMCUBrickletBase):
 1. Verbinde Analog In 3.0 Bricklet mit Port D des Master Bricks 3.0
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Speise 24V an VIN und GND ein
+4. Speise 3.3V an VIN per Brücke ein
 5. Überprüfe Wert:
      * Spannung sollte mit eingespeister Spannung übereinstimmen
      * Abweichungen bis 0,24V sind okay
@@ -75,7 +75,7 @@ class Plugin(CoMCUBrickletBase):
         self.show_device_information(device_information)
 
     def cb_voltage(self, voltage):
-        if (23760 < voltage < 24240):
+        if (3060 < voltage < 3540):
             set_value = self.mw.set_value_okay
         else:
             set_value = self.mw.set_value_error
