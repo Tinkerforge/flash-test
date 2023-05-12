@@ -85,7 +85,7 @@ class Plugin(CoMCUBrickletBase):
         r, g, b, c = color
         normalize = 0xFFFF
         p = self.mw.label_color.palette()
-        p.setColor(QtGui.QPalette.Background, QtGui.QColor(r*255.0/normalize, g*255.0/normalize, b*255.0/normalize))
+        p.setColor(QtGui.QPalette.Background, QtGui.QColor(int(r*255.0/normalize), int(g*255.0/normalize), int(b*255.0/normalize)))
         self.mw.label_color.setPalette(p)
 
         self.mw.set_value_normal('R: {0}, G: {1}, B: {2}, C: {3}'.format(r, g, b, c))
