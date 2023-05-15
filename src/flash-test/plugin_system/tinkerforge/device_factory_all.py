@@ -355,6 +355,11 @@ except (ValueError, ImportError):
     from bricklet_industrial_dual_0_20ma_v2 import BrickletIndustrialDual020mAV2
 
 try:
+    from .bricklet_industrial_dual_ac_in import BrickletIndustrialDualACIn
+except (ValueError, ImportError):
+    from bricklet_industrial_dual_ac_in import BrickletIndustrialDualACIn
+
+try:
     from .bricklet_industrial_dual_ac_relay import BrickletIndustrialDualACRelay
 except (ValueError, ImportError):
     from bricklet_industrial_dual_ac_relay import BrickletIndustrialDualACRelay
@@ -890,6 +895,7 @@ DEVICE_CLASSES = {
     BrickletIndustrialDigitalOut4V2.DEVICE_IDENTIFIER: BrickletIndustrialDigitalOut4V2,
     BrickletIndustrialDual020mA.DEVICE_IDENTIFIER: BrickletIndustrialDual020mA,
     BrickletIndustrialDual020mAV2.DEVICE_IDENTIFIER: BrickletIndustrialDual020mAV2,
+    BrickletIndustrialDualACIn.DEVICE_IDENTIFIER: BrickletIndustrialDualACIn,
     BrickletIndustrialDualACRelay.DEVICE_IDENTIFIER: BrickletIndustrialDualACRelay,
     BrickletIndustrialDualAnalogIn.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogIn,
     BrickletIndustrialDualAnalogInV2.DEVICE_IDENTIFIER: BrickletIndustrialDualAnalogInV2,
