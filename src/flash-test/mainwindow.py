@@ -33,6 +33,7 @@ from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from plugin_system.tinkerforge.device_display_names import get_device_display_name
+from plugin_system.database import insert_report
 
 import urllib.request
 import sys
@@ -58,6 +59,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 staging_password = f.read().decode('utf-8').split('\n')[0].strip()
         except:
             QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
+            sys.exit(0)
+
+        try:
+            with open(os.path.join(file_directory, '..', '..', 'postgres_password.txt'), 'rb') as f:
+                self.postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
+        except:
+            QtWidgets.QMessageBox.critical(None, 'Error', 'postgres_password.txt missing or malformed')
             sys.exit(0)
 
         if sys.version_info < (3,5,3):
@@ -232,9 +240,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 label_info.uid,
                 '.'.join([str(x) for x in label_info.firmware_version])
             ])
+
+            insert_report(
+                self,
+                self.postgres_password,
+                str(sku),
+                label_info.uid,
+                '.'.join([str(x) for x in label_info.firmware_version]),
+                '.'.join([str(x) for x in label_info.hardware_version]))
         except:
-            traceback.print_exc()
-            QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\nTraceback ist im Terminal')
+            QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\n\n' + traceback.format_exc())
 
     def device_index_changed(self, index):
         if self.current_plugin != None:
