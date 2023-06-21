@@ -38,7 +38,7 @@ def insert_report(parent, postgres_password, sku, uid, firmware_version, hardwar
     conn = None
 
     try:
-        conn = psycopg2.connect(host='192.168.0.45', dbname='foobar', user='postgres', password=postgres_password)
+        conn = psycopg2.connect(host='192.168.178.12', dbname='foobar', user='postgres', password=postgres_password)
         cur = conn.cursor()
         cur.execute(sql, (created_on, hostname, '', sku, uid, firmware_version, hardware_version))
         conn.commit()
