@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2023-05-15.      #
+# This file was automatically generated on 2023-06-21.      #
 #                                                           #
 # Python Bindings Version 2.1.30                            #
 #                                                           #
@@ -8,6 +8,8 @@
 # please fix the bug in the generator. You can find a link  #
 # to the generators git repository on tinkerforge.com       #
 #############################################################
+
+#### __DEVICE_IS_NOT_RELEASED__ ####
 
 from collections import namedtuple
 
