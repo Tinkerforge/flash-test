@@ -247,7 +247,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 str(sku),
                 label_info.uid,
                 '.'.join([str(x) for x in label_info.firmware_version]),
-                '.'.join([str(x) for x in label_info.hardware_version]))
+                '.'.join([str(x) for x in label_info.hardware_version] if label_info.hardware_version != None else ''))
         except:
             QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\n\n' + traceback.format_exc())
 

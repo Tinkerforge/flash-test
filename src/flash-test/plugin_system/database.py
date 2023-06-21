@@ -44,7 +44,6 @@ def insert_report(parent, postgres_password, sku, uid, firmware_version, hardwar
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
         QtWidgets.QMessageBox.critical(parent, 'Datenbankproblem', 'Konnte Etikett nicht drucken:\n\n' + traceback.format_exc())
     finally:
         if conn != None:
