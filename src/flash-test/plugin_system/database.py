@@ -21,6 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 """
 
+import os
 import socket
 import traceback
 from datetime import datetime
@@ -28,9 +29,12 @@ import psycopg2 # pip install psycopg2
 from tzlocal import get_localzone
 from PyQt5 import QtWidgets
 
+HOST = '192.168.178.12'
+DBNAME = 'foobar'
+USER = 'postgres'
+
 def insert_report(parent, postgres_password, sku, uid, firmware_version, hardware_version):
     created_on = datetime.now(tz=get_localzone()).isoformat()
-    print(created_on)
     hostname = socket.gethostname()
 
     sql = """INSERT INTO flash_test_reports(created_on, hostname, username, sku, uid, firmware_version, hardware_version)
@@ -38,7 +42,7 @@ def insert_report(parent, postgres_password, sku, uid, firmware_version, hardwar
     conn = None
 
     try:
-        conn = psycopg2.connect(host='192.168.178.12', dbname='foobar', user='postgres', password=postgres_password)
+        conn = psycopg2.connect(host=HOST, dbname=DBNAME, user=USER, password=postgres_password)
         cur = conn.cursor()
         cur.execute(sql, (created_on, hostname, '', sku, uid, firmware_version, hardware_version))
         conn.commit()
@@ -48,3 +52,27 @@ def insert_report(parent, postgres_password, sku, uid, firmware_version, hardwar
     finally:
         if conn != None:
             conn.close()
+
+def main():
+    from tinkerforge.device_display_names import get_device_display_name
+
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', 'postgres_password.txt'), 'rb') as f:
+        postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
+
+    try:
+        conn = psycopg2.connect(host=HOST, dbname=DBNAME, user=USER, password=postgres_password)
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM flash_test_reports;')
+
+        for row in cur.fetchall():
+            print(f'{row[0].isoformat()}   {row[1]}   {row[2] if len(row[2]) > 0 else "?"}   {get_device_display_name(int(row[3]))}   {row[4]}   {row[5]}   {row[6] if len(row[6]) > 0 else "?"}')
+
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        QtWidgets.QMessageBox.critical(parent, 'Datenbankproblem', 'Konnte Report nicht eintragen:\n\n' + traceback.format_exc())
+    finally:
+        if conn != None:
+            conn.close()
+
+if __name__ == '__main__':
+    main()
