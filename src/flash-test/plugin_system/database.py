@@ -64,8 +64,7 @@ def main():
         cur = conn.cursor()
         cur.execute('SELECT * FROM flash_test_reports;')
 
-        for row in cur.fetchall():
-            print(f'{row[0].isoformat()}   {row[1]}   {row[2] if len(row[2]) > 0 else "?"}   {get_device_display_name(int(row[3]))}   {row[4]}   {row[5]}   {row[6] if len(row[6]) > 0 else "?"}')
+        rows = list(cur.fetchall())
 
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -73,6 +72,22 @@ def main():
     finally:
         if conn != None:
             conn.close()
+
+    by_date = {}
+
+    for row in rows:
+        row = list(row)
+        row[0] = row[0].astimezone(get_localzone())
+
+        by_date.setdefault(row[0].date(), []).append(tuple(row))
+
+    for date, rows in by_date.items():
+        print()
+        print(date, len(rows))
+
+        for row in rows:
+            created_on, hostname, username, sku, uid, firmware_version, hardware_version = row
+            print(f'  {created_on.isoformat()}   {hostname}   {username if len(username) > 0 else "?"}   {get_device_display_name(int(sku))}   {uid}   {firmware_version}   {hardware_version if len(hardware_version) > 0 else "?"}')
 
 if __name__ == '__main__':
     main()
