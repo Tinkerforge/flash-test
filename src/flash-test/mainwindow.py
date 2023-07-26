@@ -41,6 +41,7 @@ import os
 import ssl
 import subprocess
 import traceback
+import argparse
 from datetime import datetime
 
 class PluginNotImplemented(PluginBase):
@@ -51,6 +52,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--no-report')
+        args = parser.parse_args()
+        self.no_report = args.no_report == '1'
 
         file_directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -61,12 +66,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
             sys.exit(0)
 
-        try:
-            with open(os.path.join(file_directory, '..', '..', 'postgres_password.txt'), 'rb') as f:
-                self.postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
-        except:
-            QtWidgets.QMessageBox.critical(None, 'Error', 'postgres_password.txt missing or malformed')
-            sys.exit(0)
+        if not self.no_report:
+            try:
+                with open(os.path.join(file_directory, '..', '..', 'postgres_password.txt'), 'rb') as f:
+                    self.postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
+            except:
+                QtWidgets.QMessageBox.critical(None, 'Error', 'postgres_password.txt missing or malformed')
+                sys.exit(0)
 
         if sys.version_info < (3,5,3):
             context = ssl.SSLContext(protocol=ssl.PROTOCOL_SSLv23)
@@ -241,13 +247,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 '.'.join([str(x) for x in label_info.firmware_version])
             ])
 
-            insert_report(
-                self,
-                self.postgres_password,
-                str(sku),
-                label_info.uid,
-                '.'.join([str(x) for x in label_info.firmware_version]),
-                '.'.join([str(x) for x in label_info.hardware_version] if label_info.hardware_version != None else ''))
+            if not self.no_report:
+                insert_report(
+                    self,
+                    self.postgres_password,
+                    str(sku),
+                    label_info.uid,
+                    '.'.join([str(x) for x in label_info.firmware_version]),
+                    '.'.join([str(x) for x in label_info.hardware_version] if label_info.hardware_version != None else ''))
         except:
             QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\n\n' + traceback.format_exc())
 
