@@ -93,3 +93,7 @@ class Plugin(CoMCUBrickletBase):
 
             self.nfc.reader_request_tag_id()
             self.mw.set_value_okay(s)
+
+        elif state == self.nfc.READER_STATE_REQUEST_TAG_ID_ERROR:
+            self.mw.set_value_normal("Warte auf Tag")
+            self.nfc.reader_request_tag_id()
