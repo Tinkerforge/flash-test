@@ -73,7 +73,7 @@ class Plugin(CoMCUBrickletBase):
 
         # Set RTC driver to DS1338Z (we assume that all new HATs will have this RTC).
         # If the RTC changes again in the future we should add a ComboBox for this.
-        self.hat.set_rtc_driver(self.hat.RTC_DRIVER_DS1338Z)
+        self.hat.set_rtc_driver(self.hat.RTC_DRIVER_DS1338)
 
         self.show_device_information(device_information)
 
