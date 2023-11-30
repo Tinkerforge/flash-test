@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2023-05-09.      #
+# This file was automatically generated on 2023-11-30.      #
 #                                                           #
 # Python Bindings Version 2.1.30                            #
 #                                                           #
@@ -22,10 +22,10 @@ except (ValueError, ImportError):
         from tinkerforge.ip_connection import Device, IPConnection, Error, create_char, create_char_list, create_string, create_chunk_data
 
 GetRGBValue = namedtuple('RGBValue', ['r', 'g', 'b'])
-GetEnergyMeterValues = namedtuple('EnergyMeterValues', ['power', 'energy_import', 'energy_export'])
+GetEnergyMeterValues = namedtuple('EnergyMeterValues', ['power', 'current'])
 GetEnergyMeterDetailedValuesLowLevel = namedtuple('EnergyMeterDetailedValuesLowLevel', ['values_chunk_offset', 'values_chunk_data'])
 GetEnergyMeterState = namedtuple('EnergyMeterState', ['energy_meter_type', 'error_count'])
-GetAllData1 = namedtuple('AllData1', ['contactor_value', 'r', 'g', 'b', 'power', 'energy_import', 'energy_export', 'energy_meter_type', 'error_count', 'input', 'output', 'voltage', 'contactor_check_state', 'uptime'])
+GetAllData1 = namedtuple('AllData1', ['contactor_value', 'r', 'g', 'b', 'power', 'current', 'energy_meter_type', 'error_count', 'input', 'output', 'voltage', 'contactor_check_state', 'uptime'])
 GetSDInformation = namedtuple('SDInformation', ['sd_status', 'lfs_status', 'sector_size', 'sector_count', 'card_type', 'product_rev', 'product_name', 'manufacturer_id'])
 GetDateTime = namedtuple('DateTime', ['seconds', 'minutes', 'hours', 'days', 'days_of_week', 'month', 'year'])
 GetLEDState = namedtuple('LEDState', ['pattern', 'hue'])
@@ -100,6 +100,7 @@ class BrickletWARPEnergyManager(Device):
     ENERGY_METER_TYPE_SDM72V2 = 3
     ENERGY_METER_TYPE_SDM72CTM = 4
     ENERGY_METER_TYPE_SDM630MCTV2 = 5
+    ENERGY_METER_TYPE_DSZ15DZMOD = 6
     DATA_STATUS_OK = 0
     DATA_STATUS_SD_ERROR = 1
     DATA_STATUS_LFS_ERROR = 2
@@ -235,7 +236,7 @@ class BrickletWARPEnergyManager(Device):
         """
         self.check_validity()
 
-        return GetEnergyMeterValues(*self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_GET_ENERGY_METER_VALUES, (), '', 20, 'f f f'))
+        return GetEnergyMeterValues(*self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_GET_ENERGY_METER_VALUES, (), '', 24, 'f 3f'))
 
     def get_energy_meter_detailed_values_low_level(self):
         r"""
@@ -309,7 +310,7 @@ class BrickletWARPEnergyManager(Device):
         """
         self.check_validity()
 
-        return GetAllData1(*self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_GET_ALL_DATA_1, (), '', 58, '! B B B f f f B 6I 2! ! H B I'))
+        return GetAllData1(*self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_GET_ALL_DATA_1, (), '', 62, '! B B B f 3f B 6I 2! ! H B I'))
 
     def get_sd_information(self):
         r"""
