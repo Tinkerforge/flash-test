@@ -92,7 +92,7 @@ class CoMCUBrickletBase(PluginBase):
     def write_firmware_and_uid_to_bricklet(self, plugin_filename, sku_override=None):
         start = time.time()
         while self.comcu_uid_to_flash == None:
-            if time.time() - start > 3:
+            if time.time() - start > 10:
                 self.mw.set_flash_status_error('Timeout beim Firmware schreiben')
                 return False, None
             QtWidgets.QApplication.processEvents()
@@ -129,6 +129,7 @@ class CoMCUBrickletBase(PluginBase):
 
             ipcon = IPConnection()
             device = BrickletUnknown(self.comcu_uid_to_flash, ipcon)
+            device.set_response_expected_all(True)
             ipcon.connect('localhost', 4223)
 
             device.set_bootloader_mode(device.BOOTLOADER_MODE_BOOTLOADER)
