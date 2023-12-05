@@ -29,7 +29,7 @@ import psycopg2 # pip install psycopg2
 from tzlocal import get_localzone
 from PyQt5 import QtWidgets
 
-HOST = '192.168.178.12'
+HOST = '192.168.1.212'
 DBNAME = 'foobar'
 USER = 'postgres'
 
