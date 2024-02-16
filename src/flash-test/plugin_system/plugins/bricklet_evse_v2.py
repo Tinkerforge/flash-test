@@ -29,10 +29,10 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. EVSE 2.0 Bricklet an EVSE-Tester anschließen
+1. EVSE 3.0 Bricklet an EVSE-Tester anschließen
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Test EVSE 2.0 Bricklet mit full_test.py Script
+4. Test EVSE 3.0 Bricklet mit full_test_v3.py Script
 5. Das Bricklet ist fertig
 6. Gehe zu 1
 """
