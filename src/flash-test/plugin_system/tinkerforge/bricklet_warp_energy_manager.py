@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2023-11-30.      #
+# This file was automatically generated on 2024-02-20.      #
 #                                                           #
-# Python Bindings Version 2.1.30                            #
+# Python Bindings Version 2.1.31                            #
 #                                                           #
 # If you have a bugfix for this file and want to commit it, #
 # please fix the bug in the generator. You can find a link  #
@@ -81,6 +81,7 @@ class BrickletWARPEnergyManager(Device):
     FUNCTION_GET_LED_STATE = 32
     FUNCTION_GET_DATA_STORAGE = 33
     FUNCTION_SET_DATA_STORAGE = 34
+    FUNCTION_RESET_ENERGY_METER_RELATIVE_ENERGY = 35
     FUNCTION_GET_SPITFP_ERROR_COUNT = 234
     FUNCTION_SET_BOOTLOADER_MODE = 235
     FUNCTION_GET_BOOTLOADER_MODE = 236
@@ -101,6 +102,7 @@ class BrickletWARPEnergyManager(Device):
     ENERGY_METER_TYPE_SDM72CTM = 4
     ENERGY_METER_TYPE_SDM630MCTV2 = 5
     ENERGY_METER_TYPE_DSZ15DZMOD = 6
+    ENERGY_METER_TYPE_DEM4A = 7
     DATA_STATUS_OK = 0
     DATA_STATUS_SD_ERROR = 1
     DATA_STATUS_LFS_ERROR = 2
@@ -168,6 +170,7 @@ class BrickletWARPEnergyManager(Device):
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_GET_LED_STATE] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_GET_DATA_STORAGE] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_SET_DATA_STORAGE] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_FALSE
+        self.response_expected[BrickletWARPEnergyManager.FUNCTION_RESET_ENERGY_METER_RELATIVE_ENERGY] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_FALSE
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_GET_SPITFP_ERROR_COUNT] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_SET_BOOTLOADER_MODE] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_ALWAYS_TRUE
         self.response_expected[BrickletWARPEnergyManager.FUNCTION_GET_BOOTLOADER_MODE] = BrickletWARPEnergyManager.RESPONSE_EXPECTED_ALWAYS_TRUE
@@ -516,6 +519,14 @@ class BrickletWARPEnergyManager(Device):
 
         self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_SET_DATA_STORAGE, (page, data), 'B 63B', 0, '')
 
+    def reset_energy_meter_relative_energy(self):
+        r"""
+        TODO
+        """
+        self.check_validity()
+
+        self.ipcon.send_request(self, BrickletWARPEnergyManager.FUNCTION_RESET_ENERGY_METER_RELATIVE_ENERGY, (), '', 0, '')
+
     def get_spitfp_error_count(self):
         r"""
         Returns the error count for the communication between Brick and Bricklet.
@@ -684,7 +695,7 @@ class BrickletWARPEnergyManager(Device):
         r"""
         TBD
         """
-        values_length = 85
+        values_length = 88
 
         with self.stream_lock:
             ret = self.get_energy_meter_detailed_values_low_level()
