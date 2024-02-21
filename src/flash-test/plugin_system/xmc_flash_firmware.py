@@ -16,8 +16,11 @@ except ImportError:
 
 found_uid = None
 def cb_enumerate(uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type):
+    # allow HATs
+    if (str(device_identifier) == '111') or (str(device_identifier) == '112'):
+        pass
     # search for bricklets only
-    if not str(device_identifier).startswith('2'):
+    elif not str(device_identifier).startswith('2'):
         return
 
     global found_uid
