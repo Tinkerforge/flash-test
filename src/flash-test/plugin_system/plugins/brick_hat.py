@@ -71,9 +71,9 @@ class Plugin(CoMCUBrickletBase):
         self.cbe_voltage = CallbackEmulator(self.hat.get_voltages, self.cb_voltages)
         self.cbe_voltage.set_period(100)
 
-        # Set RTC driver to DS1338Z (we assume that all new HATs will have this RTC).
+        # Set RTC driver to PCF8523 (we assume that all new HATs will have this RTC).
         # If the RTC changes again in the future we should add a ComboBox for this.
-        self.hat.set_rtc_driver(self.hat.RTC_DRIVER_DS1338)
+        self.hat.set_rtc_driver(self.hat.RTC_DRIVER_PCF8523)
 
         self.show_device_information(device_information)
 
