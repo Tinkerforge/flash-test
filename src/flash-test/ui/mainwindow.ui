@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>1000</height>
+    <height>1070</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,20 +105,6 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Tool Status:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>UID Status:</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_tool_status">
           <property name="sizePolicy">
@@ -132,10 +118,10 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_3">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Flash Status:</string>
+           <string>UID Status:</string>
           </property>
          </widget>
         </item>
@@ -146,6 +132,26 @@
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Tool Status:</string>
           </property>
          </widget>
         </item>
@@ -175,16 +181,10 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="label_value">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>1</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>-</string>
+           <string>Flash Status:</string>
           </property>
          </widget>
         </item>
@@ -243,10 +243,45 @@
       </item>
       <item>
        <layout class="QGridLayout" name="compass_layout">
+        <item row="4" column="0" colspan="4">
+         <widget class="QPushButton" name="button_calibration_remove">
+          <property name="text">
+           <string>Kalibrierung löschen</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_z_min">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Current</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_x_min">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
         <item row="5" column="0" colspan="4">
          <widget class="QPushButton" name="button_calibration_save">
           <property name="text">
            <string>Kalibrieren</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_y_min">
+          <property name="text">
+           <string>TBD</string>
           </property>
          </widget>
         </item>
@@ -264,20 +299,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_z_min">
-          <property name="text">
-           <string>TBD</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="label_x_cur">
-          <property name="text">
-           <string>TBD</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="1">
          <widget class="QLabel" name="label_z_cur">
           <property name="text">
@@ -285,15 +306,8 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Current</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_y_max">
+        <item row="3" column="3">
+         <widget class="QLabel" name="label_z_max">
           <property name="text">
            <string>TBD</string>
           </property>
@@ -306,6 +320,13 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_y_cur">
+          <property name="text">
+           <string>TBD</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_16">
           <property name="text">
@@ -313,15 +334,15 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_y_min">
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_x_cur">
           <property name="text">
            <string>TBD</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="label_x_min">
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_y_max">
           <property name="text">
            <string>TBD</string>
           </property>
@@ -338,27 +359,6 @@
          <widget class="QLabel" name="label_13">
           <property name="text">
            <string>Magnetic Flux Density Y:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QLabel" name="label_z_max">
-          <property name="text">
-           <string>TBD</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="label_y_cur">
-          <property name="text">
-           <string>TBD</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0" colspan="4">
-         <widget class="QPushButton" name="button_calibration_remove">
-          <property name="text">
-           <string>Kalibrierung löschen</string>
           </property>
          </widget>
         </item>
@@ -708,6 +708,20 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="layout_plugin_bottom"/>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="evse_layout">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTextEdit" name="evse_textedit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="verticalSpacer_2">

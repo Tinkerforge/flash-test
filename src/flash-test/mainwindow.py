@@ -103,7 +103,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.piezo_speaker_layout,
                         self.multi_touch_layout,
                         self.compass_layout,
-                        self.epaper_layout]
+                        self.epaper_layout,
+                        self.evse_layout]
         for l in temp_layouts:
             self.hide_layout(l)
 
@@ -290,8 +291,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.current_plugin.flash_clicked()
 
     def restart_test_clicked(self):
-        # trigger test-restart by forcing an enumerate
-        self.device_manager.ipcon.enumerate()
+        try:
+            # try to trigger specific restart implementation of plugin
+            self.current_plugin.restart_button_clicked()
+        except:
+            # otherwise trigger test-restart by forcing an enumerate
+            self.device_manager.ipcon.enumerate()
 
     def continue_clicked(self):
         if self.current_plugin != None:
