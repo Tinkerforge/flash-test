@@ -6,6 +6,7 @@ import re
 import argparse
 import socket
 from datetime import datetime
+import tinkerforge_util as tfutil  # sudo apt install python3-tinkerforge-util
 
 NAME_1_PLACEHOLDER = b'Industrial Dual Analog In Bricklet 2.0'
 NAME_2_PLACEHOLDER = b'Ethernet Master Extension (without PoE)'
@@ -26,63 +27,6 @@ UID_PLACEHOLDER = b'XXYYZZ'
 VERSION_PLACEHOLDER = b'2.17.5'
 
 COPIES_FORMAT = '^C{0}\r'
-
-
-def get_tf_printer_host(task):
-    import re
-    import os
-    import sys
-    import socket
-    import tkinter.messagebox
-
-    path = '~/tf_printer_host.txt'
-    x = re.compile(r'^([A-Za-z0-9_-]+)\s+([A-Za-z0-9_\.-]+)$')
-    host = None
-
-    try:
-        with open(os.path.expanduser(path), 'r', encoding='utf-8') as f:
-            for line in f.readlines():
-                line = line.strip()
-
-                if len(line) == 0 or line.startswith('#'):
-                    continue
-
-                m = x.match(line)
-
-                if m == None:
-                    message = 'WARNING: Invalid line in {0}: {1}'.format(path, repr(line))
-
-                    print(message)
-                    tkinter.messagebox.showerror(title=path, message=message)
-
-                    continue
-
-                other_task = m.group(1)
-                other_host = m.group(2)
-
-                if other_task != task:
-                    continue
-
-                host = other_host
-                break
-    except FileNotFoundError:
-        pass
-
-    if host == None:
-        message = 'ERROR: Printer host for task {0} not found in {1}'.format(task, path)
-    else:
-        try:
-            with socket.create_connection((host, 9100), timeout=5) as s:
-                pass
-
-            return host
-        except Exception as e:
-            message = 'ERROR: Coould not connect to printer at {0} for task {1}: {2}'.format(host, task, e)
-
-    print(message)
-    tkinter.messagebox.showerror(title=path, message=message)
-
-    sys.exit(1)
 
 
 def print_label(name, sku, date, uid, version, copies, stdout):
@@ -187,7 +131,7 @@ def print_label(name, sku, date, uid, version, copies, stdout):
         sys.stdout.buffer.write(template)
         sys.stdout.buffer.flush()
     else:
-        with socket.create_connection((get_tf_printer_host('esd-bag'), 9100)) as s:
+        with socket.create_connection((tfutil.get_tf_printer_host('esd-bag'), 9100)) as s:
             s.send(template)
 
 
