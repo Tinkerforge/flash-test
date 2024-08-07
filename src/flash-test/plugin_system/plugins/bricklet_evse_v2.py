@@ -39,20 +39,21 @@ class Plugin(CoMCUBrickletBase):
 1. EVSE 3.0 Bricklet an EVSE-Tester anschließen
 2. Drücke "Flashen"
 3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Drücke "Test Neustarten" um Test zu starten 
+4. Drücke "Test Neustarten" um Test zu starten
 5. Das Bricklet ist fertig
 6. Gehe zu 1
 """
 
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
+        self.after_flash_clicked = False
 
     def start(self):
         CoMCUBrickletBase.start(self)
         l = self.mw.evse_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
-            
+
     def stop(self):
         CoMCUBrickletBase.stop(self)
         l = self.mw.evse_layout
@@ -64,6 +65,7 @@ class Plugin(CoMCUBrickletBase):
 
     def flash_clicked(self):
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART), 0.5)
+        self.after_flash_clicked = True
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
@@ -73,7 +75,10 @@ class Plugin(CoMCUBrickletBase):
             return
 
         self.show_device_information(device_information)
-    
+        if self.after_flash_clicked:
+            self.after_flash_clicked = False
+            self.restart_button_clicked()
+
     def restart_button_clicked(self):
         self.mw.evse_textedit.clear()
         QtWidgets.QApplication.processEvents()
@@ -150,7 +155,7 @@ def evse_v3_test_generator():
         yield("Konnte wallbox git nicht finden.")
         yield("Wallbox git wird benötigt um den Testbericht zu speichern.")
         return
-    
+
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
