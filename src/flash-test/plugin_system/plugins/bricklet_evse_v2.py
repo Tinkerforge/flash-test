@@ -401,9 +401,11 @@ def evse_v3_test_generator():
     evse_tester.set_cp_pe_resistor(True, True, False)
     yield('... OK')
 
+    yield('Aktiviere Schütz')
     evse_tester.wait_for_contactor_gpio(False)
+    yield('... OK')
 
-    yield('Aktiviere Schütz (2 Sekunden)')
+    yield('Aktiviere Schütz Test')
     evse_tester.set_contactor_fb(True)
 
     time.sleep(0.5)
@@ -426,7 +428,7 @@ def evse_v3_test_generator():
         if test_value(vol_cppe, test_voltages[i], margin_percent=0.15):
             yield(' * ... OK ({0} mV)'.format(vol_cppe))
         else:
-            yield('-----------------> NICHT OK {0} mV (erwartet {1} mV)'.format(vol_cppe, test_voltages[i]))
+            yield('-----------------> NICHT OK {0} mV (erwartet {1} mV) -> Wahrscheinlich kein PWM'.format(vol_cppe, test_voltages[i]))
             evse_tester.exit(1)
             return
 
