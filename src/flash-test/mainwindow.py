@@ -119,7 +119,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         device_identifiers = [] # must match SKU
 
         for key, value in DEVICE_CLASSES.items():
-            device_identifiers.append((key, value.DEVICE_DISPLAY_NAME))
+            display_name = value.DEVICE_DISPLAY_NAME
+            if display_name == "EVSE Bricklet 2.0":
+                display_name = "EVSE Bricklet 2.0 (flash) and 3.0 (flash+test)"
+            device_identifiers.append((key, display_name))
 
         device_identifiers.append((31, 'Chibi Extension'))
         device_identifiers.append((32, 'RS485 Extension'))
