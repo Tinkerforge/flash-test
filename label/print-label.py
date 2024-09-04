@@ -698,34 +698,39 @@ def print_label(name, sku, date, uid, version, type_, copies, stdout):
         template = template.replace(name_placeholder, name_part.encode('latin1'))
 
     # patch SKU
-    if template.find(SKU_PLACEHOLDER) < 0:
-        raise Exception('SKU placeholder missing in EZPL file')
+    if type_ == 'normal':
+        if template.find(SKU_PLACEHOLDER) < 0:
+            raise Exception('SKU placeholder missing in EZPL file')
 
-    template = template.replace(SKU_PLACEHOLDER, sku.encode('latin1'))
+        template = template.replace(SKU_PLACEHOLDER, sku.encode('latin1'))
 
     # patch date
-    if template.find(DATE_PLACEHOLDER) < 0:
-        raise Exception('Date placeholder missing in EZPL file')
+    if type_ == 'normal':
+        if template.find(DATE_PLACEHOLDER) < 0:
+            raise Exception('Date placeholder missing in EZPL file')
 
-    template = template.replace(DATE_PLACEHOLDER, date.encode('ascii'))
+        template = template.replace(DATE_PLACEHOLDER, date.encode('ascii'))
 
     # patch UID
-    if template.find(UID_PLACEHOLDER) < 0:
-        raise Exception('UID placeholder missing in EZPL file')
+    if type_ == 'normal':
+        if template.find(UID_PLACEHOLDER) < 0:
+            raise Exception('UID placeholder missing in EZPL file')
 
-    template = template.replace(UID_PLACEHOLDER, uid.encode('ascii'))
+        template = template.replace(UID_PLACEHOLDER, uid.encode('ascii'))
 
     # patch version
-    if template.find(VERSION_PLACEHOLDER) < 0:
-        raise Exception('Version placeholder missing in EZPL file')
+    if type_ == 'normal':
+        if template.find(VERSION_PLACEHOLDER) < 0:
+            raise Exception('Version placeholder missing in EZPL file')
 
-    template = template.replace(VERSION_PLACEHOLDER, version.encode('ascii'))
+        template = template.replace(VERSION_PLACEHOLDER, version.encode('ascii'))
 
     # patch EAN13
-    if type_ == 'ean13' and template.find(EAN13_PLACEHOLDER) < 0:
-        raise Exception('EAN13 placeholder missing in EZPL file')
+    if type_ == 'ean13':
+        if template.find(EAN13_PLACEHOLDER) < 0:
+            raise Exception('EAN13 placeholder missing in EZPL file')
 
-    template = template.replace(EAN13_PLACEHOLDER, SKU_TO_GTIN[sku].encode('ascii'))
+        template = template.replace(EAN13_PLACEHOLDER, SKU_TO_GTIN[sku].encode('ascii'))
 
     # patch copies
     copies_command = COPIES_FORMAT.format(1).encode('ascii')
