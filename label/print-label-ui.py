@@ -32,7 +32,7 @@ class PrintLabelUI(QMainWindow, Ui_PrintLabelUI):
         self.combo_product.addItem('Manuell')
 
         self.combo_product.currentIndexChanged.connect(lambda *args: self.update_ui_state())
-        
+
         self.update_ui_state()
 
     def update_ui_state(self):
@@ -56,6 +56,7 @@ class PrintLabelUI(QMainWindow, Ui_PrintLabelUI):
             subprocess.check_call([
                 os.path.join(os.path.dirname(os.path.realpath(__file__)), 'print-label.py'),
                 '-c', str(self.spin_copies.value()),
+                '-t', self.combo_type.currentText().lower(),
                 name,
                 sku,
                 datetime.now().strftime('%Y-%m-%d'),
