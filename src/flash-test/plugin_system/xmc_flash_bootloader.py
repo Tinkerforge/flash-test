@@ -59,7 +59,7 @@ def xmc_write_firmwares_to_ram(zbin, master, non_standard_print = None):
         raise Exception('Bricklet', 'Start Boostrapper Schreib-Fehler: ' + str(ret.return_value))
 
 
-    print_func('Schreibe Bootstrapper')
+    print_func('Schreibe Bootstrapper in Bricklet RAM')
     bootstrapper_chunks = [bootstrapper[i:i + 64] for i in range(0, len(bootstrapper), 64)]
     bootstrapper_chunks[-1].extend([0]*(64-len(bootstrapper_chunks[-1])))
     for chunk in bootstrapper_chunks:
@@ -72,14 +72,14 @@ def xmc_write_firmwares_to_ram(zbin, master, non_standard_print = None):
     if ret.return_value != 0:
         raise Exception('Bricklet', 'Start Bootloader Schreib-Fehler: ' + str(ret.return_value))
 
-    print_func('Schreibe Bootloader')
+    print_func('Schreibe Bootloader in Bricklet RAM')
     bootloader_chunks = [bootloader[i:i + 64] for i in range(0, len(bootloader), 64)]
     for chunk in bootloader_chunks:
         ret = master.set_bricklet_xmc_flash_data(chunk)
         if ret != 0:
             raise Exception('Bricklet', 'Bootloader schreiben Chunk Fehler: ' + str(ret))
 
-def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_off_duration=None):
+def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_off_duration=None, try_count=10):
     if non_standard_print != None:
         print_func = non_standard_print
     else:
@@ -116,17 +116,21 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
 
     errors = set()
     time.sleep(0.2)
-    i = 10
+    i = try_count
     start = time.time()
+
+    loop_timeout = 3
+    if try_count > 10:
+        loop_timeout = 10
 
     ret = True
     while True:
-        if time.time() - start > 3:
+        if time.time() - start > loop_timeout:
             print_func('Timeout beim Bootloader schreiben')
             ret = False
             break
 
-        if i == 10:
+        if i == try_count:
             if len(errors) > 0:
                 print_func('Errors: {0}'.format(str(errors)))
                 errors.clear()
@@ -138,6 +142,9 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
         i += 1
         try:
             time.sleep(0.001)
+            if try_count > 10:
+                print_func('Try to flash Bootstrapper and Bootloader {0} of {1}'.format(i, try_count))
+
             ret = master.set_bricklet_xmc_flash_config(2, 0, 0, [0]*52)
             if ret.return_value == 0:
                 break
@@ -159,6 +166,9 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Please give .zbin as parameter')
+        print('Please give .zbin as first parameter and try count as second parameter')
     else:
-        xmc_flash_bootloader(sys.argv[1])
+        if len(sys.argv) > 2:
+            xmc_flash_bootloader(sys.argv[1], try_count=int(sys.argv[2]))
+        else:
+            xmc_flash_bootloader(sys.argv[1])
