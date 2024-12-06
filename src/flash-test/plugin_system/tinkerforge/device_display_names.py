@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #############################################################
-# This file was automatically generated on 2024-02-20.      #
+# This file was automatically generated on 2024-12-06.      #
 #                                                           #
 # Python Bindings Version 2.1.31                            #
 #                                                           #
@@ -157,7 +157,10 @@ DEVICE_DISPLAY_NAMES = {
     2165: 'DC Bricklet 2.0',
     2166: 'Silent Stepper Bricklet 2.0',
     2171: 'GPS Bricklet 3.0',
-    2174: 'Industrial Dual AC In Bricklet'
+    2174: 'Industrial Dual AC In Bricklet',
+    2176: 'Quad Load Cell Bricklet',
+    2178: 'WARP Energy Manager Bricklet 2.0',
+    2179: 'WARP Front Panel Bricklet'
 }
 
 def get_device_display_name(device_identifier):

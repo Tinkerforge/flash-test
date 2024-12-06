@@ -80,9 +80,9 @@ class CoMCUBrickletBase(PluginBase):
     def is_comcu(self):
         return True
 
-    def flash_bricklet(self, plugin_filename, power_off_duration=None, sku_override=None):
+    def flash_bricklet(self, plugin_filename, power_off_duration=None, sku_override=None, try_count=None):
         self.comcu_uid_to_flash = None
-        bootloader_success = self.write_bootloader_to_bricklet(plugin_filename, power_off_duration=power_off_duration)
+        bootloader_success = self.write_bootloader_to_bricklet(plugin_filename, power_off_duration=power_off_duration, try_count=try_count)
         firmware_success, label_info = self.write_firmware_and_uid_to_bricklet(plugin_filename, sku_override=sku_override)
 
         if bootloader_success and firmware_success:
@@ -285,7 +285,7 @@ class CoMCUBrickletBase(PluginBase):
             self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
             return False, None
 
-    def write_bootloader_to_bricklet(self, plugin_filename, power_off_duration=None):
+    def write_bootloader_to_bricklet(self, plugin_filename, power_off_duration=None, try_count=None):
         uid_master = self.mw.device_manager.flash_master_brick_v3_uid
         if uid_master == None:
             self.mw.set_flash_status_error('Kein Master Brick HW Version 3.0 angeschlossen')
@@ -294,7 +294,7 @@ class CoMCUBrickletBase(PluginBase):
         try:
             return xmc_flash_bootloader(plugin_filename, uid_master=uid_master,
                                         non_standard_print=self.mw.set_flash_status_action,
-                                        power_off_duration=power_off_duration)
+                                        power_off_duration=power_off_duration, try_count=try_count)
         except Exception as e:
             self.mw.set_flash_status_error(str(e))
             return False

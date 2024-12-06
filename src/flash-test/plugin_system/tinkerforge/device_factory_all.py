@@ -795,6 +795,16 @@ except (ValueError, ImportError):
     from bricklet_warp_energy_manager import BrickletWARPEnergyManager
 
 try:
+    from .bricklet_warp_energy_manager_v2 import BrickletWARPEnergyManagerV2
+except (ValueError, ImportError):
+    from bricklet_warp_energy_manager_v2 import BrickletWARPEnergyManagerV2
+
+try:
+    from .bricklet_warp_front_panel import BrickletWARPFrontPanel
+except (ValueError, ImportError):
+    from bricklet_warp_front_panel import BrickletWARPFrontPanel
+
+try:
     from .bricklet_xmc1400_breakout import BrickletXMC1400Breakout
 except (ValueError, ImportError):
     from bricklet_xmc1400_breakout import BrickletXMC1400Breakout
@@ -983,6 +993,8 @@ DEVICE_CLASSES = {
     BrickletVoltageCurrent.DEVICE_IDENTIFIER: BrickletVoltageCurrent,
     BrickletVoltageCurrentV2.DEVICE_IDENTIFIER: BrickletVoltageCurrentV2,
     BrickletWARPEnergyManager.DEVICE_IDENTIFIER: BrickletWARPEnergyManager,
+    BrickletWARPEnergyManagerV2.DEVICE_IDENTIFIER: BrickletWARPEnergyManagerV2,
+    BrickletWARPFrontPanel.DEVICE_IDENTIFIER: BrickletWARPFrontPanel,
     BrickletXMC1400Breakout.DEVICE_IDENTIFIER: BrickletXMC1400Breakout,
     TNGAI4U4I.DEVICE_IDENTIFIER: TNGAI4U4I,
     TNGAO4U4I.DEVICE_IDENTIFIER: TNGAO4U4I,
