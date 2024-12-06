@@ -122,6 +122,8 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
     loop_timeout = 3
     if try_count > 10:
         loop_timeout = 10
+    if power_off_duration > 5:
+        loop_timeout += 10
 
     ret = True
     while True:
