@@ -54,6 +54,7 @@ class EVSEV3Tester:
         self.idai.set_sample_rate(self.idai.SAMPLE_RATE_4_SPS)
         self.io4.register_callback(self.io4.CALLBACK_INPUT_VALUE, self.cb_io4_value)
         self.io4.set_input_value_callback_configuration(3, 100, True)
+        self.led.set_status_led_config(self.led.STATUS_LED_CONFIG_OFF)
 
     def cb_enumerate(self, uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type):
         global UID_EVSE
