@@ -54,6 +54,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self, parent)
         parser = argparse.ArgumentParser()
         parser.add_argument('--no-report')
+        parser.add_argument('--device-identifier', type=int)
         args = parser.parse_args()
         self.no_report = args.no_report == '1'
 
@@ -136,9 +137,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if device_identifier != None:
                 self.device_by_identifier[device_identifier] = instance
 
+        selected_combo_device_index = None
+
         for di in sorted(device_identifiers, key=lambda x: x[1]):
             name = di[1]
             device_identifier = di[0]
+
+            if device_identifier == args.device_identifier:
+                selected_combo_device_index = self.combo_device.count()
+
             self.combo_device.addItem(name, self.device_by_identifier.get(device_identifier))
 
         self.combo_device.insertSeparator(self.combo_device.count())
@@ -164,6 +171,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_continue.hide()
 
         self.device_index_changed(0)
+
+        if selected_combo_device_index != None:
+            self.combo_device.setCurrentIndex(selected_combo_device_index)
 
         self.qtcb_foot_pedal.connect(self.cb_foot_pedal)
 
