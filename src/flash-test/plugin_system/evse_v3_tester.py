@@ -25,7 +25,7 @@ from .tinkerforge.bricklet_rgb_led_v2                   import BrickletRGBLEDV2
 import time
 import sys
 
-log = print 
+log = print
 
 class EVSEV3Tester:
     def __init__(self, log_func = None):
@@ -61,7 +61,7 @@ class EVSEV3Tester:
             UID_EVSE = uid
 
     def cb_io4_value(self, channel, changed, value):
-        if channel == 3 and changed and not value:
+        if channel == 3 and changed:
             self.set_led(0, 0, 0)
 
     def set_led(self, r, g, b):
