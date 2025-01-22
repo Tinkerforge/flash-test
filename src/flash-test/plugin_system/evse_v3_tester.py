@@ -44,20 +44,25 @@ class EVSEV3Tester:
         log("Found EVSE Bricklet: {0}".format(UID_EVSE))
 
         self.evse = BrickletEVSEV2(UID_EVSE, self.ipcon)
-    
         self.idai = BrickletIndustrialDualAnalogInV2(UID_IDAI, self.ipcon)
-        self.io4  = BrickletIO4V2(UID_IO4,                     self.ipcon) 
+        self.io4  = BrickletIO4V2(UID_IO4,                     self.ipcon)
         self.iqr1 = BrickletIndustrialQuadRelayV2(UID_IQR1,    self.ipcon)
         self.iqr2 = BrickletIndustrialQuadRelayV2(UID_IQR2,    self.ipcon)
         self.iqr3 = BrickletIndustrialQuadRelayV2(UID_IQR3,    self.ipcon)
         self.iaci = BrickletIndustrialDualACIn(UID_IACI,       self.ipcon)
         self.led  = BrickletRGBLEDV2(UID_LED,                  self.ipcon)
         self.idai.set_sample_rate(self.idai.SAMPLE_RATE_4_SPS)
+        self.io4.register_callback(self.io4.CALLBACK_INPUT_VALUE, self.cb_io4_value)
+        self.io4.set_input_value_callback_configuration(3, 100, True)
 
     def cb_enumerate(self, uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type):
         global UID_EVSE
         if device_identifier == BrickletEVSEV2.DEVICE_IDENTIFIER:
             UID_EVSE = uid
+
+    def cb_io4_value(self, channel, changed, value):
+        if channel == 3 and changed and not value:
+            self.set_led(0, 0, 0)
 
     def set_led(self, r, g, b):
         self.led.set_rgb_value(r, g, b)
