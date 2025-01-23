@@ -47,6 +47,7 @@ class Plugin(CoMCUBrickletBase):
     def __init__(self, *args):
         CoMCUBrickletBase.__init__(self, *args)
         self.after_flash_clicked = False
+        self.test_running = False
 
     def start(self):
         CoMCUBrickletBase.start(self)
@@ -80,12 +81,25 @@ class Plugin(CoMCUBrickletBase):
             self.restart_button_clicked()
 
     def restart_button_clicked(self):
-        self.mw.evse_textedit.clear()
-        QtWidgets.QApplication.processEvents()
-        test_iterator = evse_v3_test_generator()
-        for i in test_iterator:
-            self.mw.evse_textedit.append(i)
+        if self.test_running:
+            return
+
+        try:
+            self.test_running = True
+
+            self.mw.evse_textedit.clear()
             QtWidgets.QApplication.processEvents()
+
+            test_iterator = evse_v3_test_generator()
+
+            for i in test_iterator:
+                self.mw.evse_textedit.append(i)
+                QtWidgets.QApplication.processEvents()
+        except:
+            import traceback
+            traceback.print_exc()
+        finally:
+            self.test_running = False
 
 TEST_LOG_FILENAME = "full_test_log.csv"
 TEST_LOG_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..', '..', 'wallbox', 'evse_v3_test_report'))
