@@ -88,13 +88,13 @@ class Plugin(CoMCUBrickletBase):
             self.test_running = True
 
             self.mw.evse_textedit.clear()
-            QtWidgets.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
             test_iterator = evse_v3_test_generator()
 
             for i in test_iterator:
                 self.mw.evse_textedit.append(i)
-                QtWidgets.QApplication.processEvents()
+                QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
         except:
             import traceback
             traceback.print_exc()
