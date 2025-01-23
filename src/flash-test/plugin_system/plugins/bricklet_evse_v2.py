@@ -163,6 +163,8 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
 def evse_v3_test_generator():
+    yield("Aktualisiere Testreports...")
+
     ok, s = test_log_pull()
     yield(s)
     if ok != 0:
@@ -180,7 +182,7 @@ def evse_v3_test_generator():
     yield('Prüfe Hardware-Version (erwarte V3)')
     hv = evse_tester.get_hardware_version()
     if hv == 30:
-        yield('...OK')
+        yield('... OK')
     else:
         yield('-----------------> NICHT OK: {0}'.format(hv))
         evse_tester.exit(1)
@@ -503,6 +505,7 @@ def evse_v3_test_generator():
         yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
         evse_tester.exit(1)
         return
+
     yield('Teste LED B')
     evse_tester.set_evse_led(False, False, True)
     time.sleep(1)
@@ -514,7 +517,7 @@ def evse_v3_test_generator():
         evse_tester.exit(1)
         return
 
-
+    yield("Speichere Testreport...")
     with open(os.path.join(TEST_LOG_DIRECTORY, TEST_LOG_FILENAME), 'a+') as f:
         f.write(', '.join(data) + '\n')
 
