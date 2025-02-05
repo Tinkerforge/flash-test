@@ -83,7 +83,10 @@ class DeviceManager(QtCore.QObject):
                 if self.mw.current_plugin.get_device_identifier() == device_identifier or self.mw.current_plugin.handles_device_identifier(device_identifier):
                     is_first_brick_in_stack_or_bricklet_or_hat = not str(device_identifier).startswith('1') or position == '0' or device_identifier in (111, 112, 102)
                     if is_first_brick_in_stack_or_bricklet_or_hat:
-                        self.mw.current_plugin.new_enum(device_information)
+                        try:
+                            self.mw.current_plugin.new_enum(device_information)
+                        except Exception as e:
+                            self.mw.set_tool_status_error('Fehler beim Start des Tests: ' + str(e))
                         return
 
             if device_identifier == BrickMaster.DEVICE_IDENTIFIER and \
