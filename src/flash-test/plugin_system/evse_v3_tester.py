@@ -7,9 +7,10 @@ PORT     = 4223
 UID_EVSE = None
 UID_IDAI = "23RC" # PP, CP
 UID_IO4  = "27q9" # LED R, G, B, Start Flash
-UID_IQR1 = "RVG"  # Front Switch, CP B, CP C, CP D
+UID_IQR1 = "RVG"  # Front Switch
 UID_IQR2 = "RNW"  # PP 13A, 20A, 32A, 63A
 UID_IQR3 = "RzF"  # Enable, 230V, Contactor Check 0, Contactor Check 1
+UID_IQR4 = "2dVY" # CP B, CP C, CP D
 UID_IACI = "28Af" # Lsw0, Lsw1
 UID_LED  = "29aw" # RGB LED
 
@@ -49,6 +50,7 @@ class EVSEV3Tester:
         self.iqr1 = BrickletIndustrialQuadRelayV2(UID_IQR1,    self.ipcon)
         self.iqr2 = BrickletIndustrialQuadRelayV2(UID_IQR2,    self.ipcon)
         self.iqr3 = BrickletIndustrialQuadRelayV2(UID_IQR3,    self.ipcon)
+        self.iqr4 = BrickletIndustrialQuadRelayV2(UID_IQR4,    self.ipcon)
         self.iaci = BrickletIndustrialDualACIn(UID_IACI,       self.ipcon)
         self.led  = BrickletRGBLEDV2(UID_LED,                  self.ipcon)
         self.idai.set_sample_rate(self.idai.SAMPLE_RATE_4_SPS)
@@ -85,11 +87,9 @@ class EVSEV3Tester:
         self.iqr1.set_selected_value(0, value)
         log("Press button {0}".format(value))
 
-
     def set_230v(self, value):
         self.iqr3.set_selected_value(1, value)
         log("Set 230V to {0}".format(value))
-
 
     # Live = True
     def set_contactor_fb(self, value):
@@ -99,11 +99,11 @@ class EVSEV3Tester:
         self.iqr3.set_selected_value(3, value)
 
     def set_cp_pe_resistor(self, r2700, r880, r240):
-        value = list(self.iqr1.get_value())
+        value = list(self.iqr4.get_value())
         value[1] = r2700
         value[2] = r880
         value[3] = r240
-        self.iqr1.set_value(value)
+        self.iqr4.set_value(value)
 
         l = []
         if r2700: l.append("2700 Ohm")
@@ -182,3 +182,4 @@ class EVSEV3Tester:
         self.iqr1.set_value([False]*4)
         self.iqr2.set_value([False]*4)
         self.iqr3.set_value([False]*4)
+        self.iqr4.set_value([False]*4)
