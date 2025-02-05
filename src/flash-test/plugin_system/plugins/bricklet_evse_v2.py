@@ -303,7 +303,7 @@ def evse_v3_test_generator():
         return
 
     yield(' * 240 Ohm')
-    evse_tester.set_cp_pe_resistor(True, True, True)
+    evse_tester.set_cp_pe_resistor(True, False, True)
     time.sleep(0.5)
     res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
     data.append(str(res_cppe))
@@ -314,7 +314,7 @@ def evse_v3_test_generator():
         evse_tester.exit(1)
         return
     vol_cppe = evse_tester.get_cp_pe_voltage()
-    if test_value(vol_cppe, 2646):
+    if test_value(vol_cppe, 3039):
         yield(' * ... OK ({0} mV)'.format(vol_cppe))
     else:
         yield('-----------------> NICHT OK {0} mV (erwartet 2646 mV)'.format(vol_cppe))

@@ -117,17 +117,17 @@ class EVSEV3Tester:
         self.iqr3.set_selected_value(2, value)
         self.iqr3.set_selected_value(3, value)
 
-    def set_cp_pe_resistor(self, r2700, r880, r240):
+    def set_cp_pe_resistor(self, r2700, r1300, r270):
         value = list(self.iqr4.get_value())
         value[1] = r2700
-        value[2] = r880
-        value[3] = r240
+        value[2] = r1300
+        value[3] = r270
         self.iqr4.set_value(value)
 
         l = []
         if r2700: l.append("2700 Ohm")
-        if r880:  l.append("880 Ohm")
-        if r240:  l.append("240 Ohm")
+        if r1300: l.append("1300 Ohm")
+        if r270:  l.append("270 Ohm")
     
         log("Set CP/PE resistor: " + ', '.join(l))
 
