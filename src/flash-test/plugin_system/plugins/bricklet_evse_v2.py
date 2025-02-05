@@ -65,6 +65,7 @@ class Plugin(CoMCUBrickletBase):
         return BrickletEVSEV2.DEVICE_IDENTIFIER
 
     def flash_clicked(self):
+        self.mw.evse_textedit.clear()
         self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART), 0.5)
         self.after_flash_clicked = True
 
