@@ -1,18 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
+
 HOST     = "localhost"
 PORT     = 4223
 
 UID_EVSE = None
-UID_IDAI = "23RC" # PP, CP
-UID_IO4  = "27q9" # LED R, G, B, Start Flash
-UID_IQR1 = "RVG"  # Front Switch
-UID_IQR2 = "RNW"  # PP 13A, 20A, 32A, 63A
-UID_IQR3 = "RzF"  # Enable, 230V, Contactor Check 0, Contactor Check 1
-UID_IQR4 = "2dVY" # CP B, CP C, CP D
-UID_IACI = "28Af" # Lsw0, Lsw1
-UID_LED  = "29aw" # RGB LED
+
+try:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', 'evse_v3_tester_id.txt'), 'rb') as f:
+        tester_id = f.read().decode('utf-8').split('\n')[0].strip()
+except FileNotFoundError:
+    tester_id = '1'
+
+if tester_id == '1':
+    UID_IDAI = "23RC" # PP, CP
+    UID_IO4  = "27q9" # LED R, G, B, Start Flash
+    UID_IQR1 = "RVG"  # Front Switch
+    UID_IQR2 = "RNW"  # PP 13A, 20A, 32A, 63A
+    UID_IQR3 = "RzF"  # Enable, 230V, Contactor Check 0, Contactor Check 1
+    UID_IQR4 = "2dVY" # CP B, CP C, CP D
+    UID_IACI = "28Af" # Lsw0, Lsw1
+    UID_LED  = "29aw" # RGB LED
+else:
+    UID_IDAI = "28rh" # PP, CP
+    UID_IO4  = "27ny" # LED R, G, B, Start Flash
+    UID_IQR1 = "2bmU" # Front Switch
+    UID_IQR2 = "2bnK" # PP 13A, 20A, 32A, 63A
+    UID_IQR3 = "2bmW" # Enable, 230V, Contactor Check 0, Contactor Check 1
+    UID_IQR4 = "2dVX" # CP B, CP C, CP D
+    UID_IACI = "28zG" # Lsw0, Lsw1
+    UID_LED  = "298V" # RGB LED
 
 from .tinkerforge.ip_connection import IPConnection
 from .tinkerforge.bricklet_evse_v2 import BrickletEVSEV2
