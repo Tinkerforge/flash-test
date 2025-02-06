@@ -27,12 +27,14 @@ from ..tinkerforge.bricklet_evse_v2 import BrickletEVSEV2
 from ..comcu_bricklet_base import CoMCUBrickletBase, get_bricklet_firmware_filename
 from ..callback_emulator import CallbackEmulator
 
-
 import time
 import subprocess
 import os
+import traceback
 
 from ..evse_v3_tester import EVSEV3Tester
+
+evse_tester = None
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
@@ -97,8 +99,12 @@ class Plugin(CoMCUBrickletBase):
                 self.mw.evse_textedit.append(i)
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
         except:
-            import traceback
-            traceback.print_exc()
+            self.mw.evse_textedit.append('-----------------> Fehler im Testablauf:\n' + traceback.format_exc())
+
+            try:
+                evse_tester.exit(1)
+            except:
+                pass
         finally:
             self.test_running = False
 
@@ -167,6 +173,7 @@ def evse_v3_test_generator():
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
+    global evse_tester
     evse_tester = EVSEV3Tester(log_func = no_log)
     evse_tester.set_led(0, 0, 255)
     yield('... OK')
