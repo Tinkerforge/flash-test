@@ -164,6 +164,13 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
 def evse_v3_test_generator():
+    yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
+
+    yield('Suche EVSE Bricklet 3.0 und Tester')
+    evse_tester = EVSEV3Tester(log_func = no_log)
+    evse_tester.set_led(0, 0, 255)
+    yield('... OK')
+
     yield("Aktualisiere Testreports...")
 
     ok, s = test_log_pull()
@@ -171,13 +178,8 @@ def evse_v3_test_generator():
     if ok != 0:
         yield("Konnte wallbox git nicht finden.")
         yield("Wallbox git wird benötigt um den Testbericht zu speichern.")
+        evse_tester.exit(1)
         return
-
-    yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
-
-    yield('Suche EVSE Bricklet 3.0 und Tester')
-    evse_tester = EVSEV3Tester(log_func = no_log)
-    evse_tester.set_led(0, 0, 255)
     yield('... OK')
 
     yield('Prüfe Hardware-Version (erwarte V3)')
