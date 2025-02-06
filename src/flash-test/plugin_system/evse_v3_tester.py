@@ -6,8 +6,6 @@ import os
 HOST     = "localhost"
 PORT     = 4223
 
-UID_EVSE = None
-
 try:
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', 'evse_v3_tester_id.txt'), 'rb') as f:
         tester_id = f.read().decode('utf-8').split('\n')[0].strip()
@@ -53,17 +51,18 @@ class EVSEV3Tester:
             global log
             log = log_func
 
+        self.uid_evse = None
         self.ipcon = IPConnection()
         self.ipcon.connect(HOST, PORT)
         self.ipcon.register_callback(IPConnection.CALLBACK_ENUMERATE, self.cb_enumerate)
         self.ipcon.enumerate()
 
         log("Trying to find EVSE Bricklet...")
-        while UID_EVSE == None:
+        while self.uid_evse == None:
             time.sleep(0.1)
-        log("Found EVSE Bricklet: {0}".format(UID_EVSE))
+        log("Found EVSE Bricklet: {0}".format(self.uid_evse))
 
-        self.evse = BrickletEVSEV2(UID_EVSE, self.ipcon)
+        self.evse = BrickletEVSEV2(self.uid_evse,              self.ipcon)
         self.idai = BrickletIndustrialDualAnalogInV2(UID_IDAI, self.ipcon)
         self.io4  = BrickletIO4V2(UID_IO4,                     self.ipcon)
         self.iqr1 = BrickletIndustrialQuadRelayV2(UID_IQR1,    self.ipcon)
@@ -72,15 +71,28 @@ class EVSEV3Tester:
         self.iqr4 = BrickletIndustrialQuadRelayV2(UID_IQR4,    self.ipcon)
         self.iaci = BrickletIndustrialDualACIn(UID_IACI,       self.ipcon)
         self.led  = BrickletRGBLEDV2(UID_LED,                  self.ipcon)
+
+        self.idai.reset()
+        time.sleep(0.2)
+
+        self.evse.set_response_expected_all(True)
+        self.idai.set_response_expected_all(True)
+        self.io4.set_response_expected_all(True)
+        self.iqr1.set_response_expected_all(True)
+        self.iqr2.set_response_expected_all(True)
+        self.iqr3.set_response_expected_all(True)
+        self.iqr4.set_response_expected_all(True)
+        self.iaci.set_response_expected_all(True)
+        self.led.set_response_expected_all(True)
+
         self.idai.set_sample_rate(self.idai.SAMPLE_RATE_4_SPS)
         self.io4.register_callback(self.io4.CALLBACK_INPUT_VALUE, self.cb_io4_value)
         self.io4.set_input_value_callback_configuration(3, 100, True)
         self.led.set_status_led_config(self.led.STATUS_LED_CONFIG_OFF)
 
     def cb_enumerate(self, uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type):
-        global UID_EVSE
         if device_identifier == BrickletEVSEV2.DEVICE_IDENTIFIER:
-            UID_EVSE = uid
+            self.uid_evse = uid
 
     def cb_io4_value(self, channel, changed, value):
         if channel == 3 and changed:
