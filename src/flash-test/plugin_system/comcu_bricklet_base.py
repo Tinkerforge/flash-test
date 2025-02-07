@@ -89,6 +89,8 @@ class CoMCUBrickletBase(PluginBase):
             if self.mw.check_print_label.isChecked():
                 self.mw.print_label(label_info)
 
+        return bootloader_success and firmware_success
+
     def write_firmware_and_uid_to_bricklet(self, plugin_filename, sku_override=None):
         start = time.time()
         while self.comcu_uid_to_flash == None:
@@ -146,6 +148,7 @@ class CoMCUBrickletBase(PluginBase):
                     self.mw.set_flash_status_error('Gerät nicht im Bootloader-Modus nach 2,5s.')
                     traceback.print_exception(*last_exc_tup)
                     QMessageBox.critical(self.mw, 'Gerät nicht im Bootloader-Modus nach 2,5s.', 'Gerät nicht im Bootloader-Modus nach 2,5s\nTraceback ist im Terminal.')
+                    ipcon.disconnect()
                     return False, None
 
                 time.sleep(0.25)
@@ -211,6 +214,7 @@ class CoMCUBrickletBase(PluginBase):
                         continue
 
                     self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
+                    ipcon.disconnect()
                     return False, None
 
                 # Everything OK, we dont have to try a second time
@@ -230,6 +234,7 @@ class CoMCUBrickletBase(PluginBase):
                     self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 25s.')
                     traceback.print_exception(*last_exc_tup)
                     QMessageBox.critical(self.mw, 'Gerät nicht im Firmware-Modus nach 25s.', 'Gerät nicht im Firmware-Modus nach 25s\nTraceback ist im Terminal.')
+                    ipcon.disconnect()
                     return False, None
 
                 time.sleep(0.25)
@@ -243,6 +248,7 @@ class CoMCUBrickletBase(PluginBase):
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
                 QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen:\nTraceback ist im Terminal.")
+                ipcon.disconnect()
                 return False, None
 
             try:
@@ -251,6 +257,7 @@ class CoMCUBrickletBase(PluginBase):
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte Identity nicht abfragen')
                 QMessageBox.critical(self.mw, "Konnte Identity nicht abfragen.", "Konnte Identity nicht abfragen:\nTraceback ist im Terminal.")
+                ipcon.disconnect()
                 return False, None
 
             try:
@@ -259,11 +266,13 @@ class CoMCUBrickletBase(PluginBase):
                     uid_read = device.read_uid()
                     if uid != uid_read:
                         self.mw.set_uid_status_error("Konnte UID nicht verifizieren")
+                        ipcon.disconnect()
                         return False, None
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte UID nicht setzen')
                 QMessageBox.critical(self.mw, "Konnte UID nicht setzen.", "Konnte UID nicht setzen:\nTraceback ist im Terminal.")
+                ipcon.disconnect()
                 return False, None
 
             self.mw.set_uid_status_okay('Neue UID "' + base58encode(uid) + '" gesetzt')
@@ -279,6 +288,7 @@ class CoMCUBrickletBase(PluginBase):
             else:
                 sku = identity.device_identifier
 
+            ipcon.disconnect()
             return True, LabelInfo(sku, base58encode(uid), identity.firmware_version, None)
         except:
             traceback.print_exc()

@@ -34,8 +34,6 @@ import traceback
 
 from ..evse_v3_tester import EVSEV3Tester
 
-evse_tester = None
-
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
 1. EVSE 3.0 Bricklet an EVSE-Tester anschließen
@@ -50,6 +48,11 @@ class Plugin(CoMCUBrickletBase):
         CoMCUBrickletBase.__init__(self, *args)
         self.after_flash_clicked = False
         self.test_running = False
+        self.evse_tester = None
+        self.auto_flash_locked = False
+        self.auto_flash_requested = False
+        self.auto_flash_timer = QtCore.QTimer(self)
+        self.auto_flash_timer.timeout.connect(self.cb_check_auto_flash)
 
     def start(self):
         CoMCUBrickletBase.start(self)
@@ -57,19 +60,43 @@ class Plugin(CoMCUBrickletBase):
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
 
+        self.evse_tester = EVSEV3Tester(log_func=no_log, start_func=self.request_auto_flash)
+        self.evse_tester.setup()
+
+        self.auto_flash_locked = False
+        self.auto_flash_requested = False
+        self.auto_flash_timer.start(500)
+
     def stop(self):
         CoMCUBrickletBase.stop(self)
         l = self.mw.evse_layout
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(False)
 
+        self.auto_flash_timer.stop()
+
     def get_device_identifier(self):
         return BrickletEVSEV2.DEVICE_IDENTIFIER
 
+    def request_auto_flash(self):
+        if not self.auto_flash_locked:
+            self.auto_flash_requested = True
+
+    def cb_check_auto_flash(self):
+        if self.auto_flash_requested:
+            self.auto_flash_locked = True
+            self.auto_flash_requested = False
+            QtCore.QTimer.singleShot(500, self.flash_clicked)
+
     def flash_clicked(self):
         self.mw.evse_textedit.clear()
-        self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART), 0.5)
-        self.after_flash_clicked = True
+        self.evse_tester.set_led(0, 0, 255)
+
+        if not self.flash_bricklet(get_bricklet_firmware_filename(BrickletEVSEV2.DEVICE_URL_PART), 0.5):
+            self.evse_tester.set_led(255, 0, 0)
+            self.auto_flash_locked = False
+        else:
+            self.after_flash_clicked = True
 
     def new_enum(self, device_information):
         CoMCUBrickletBase.new_enum(self, device_information)
@@ -84,29 +111,47 @@ class Plugin(CoMCUBrickletBase):
             self.restart_button_clicked()
 
     def restart_button_clicked(self):
+        self.start_test(True, True, False)
+
+    def start_test(self, retry_allowed, clear_textedit, is_retry):
         if self.test_running:
             return
+
+        retry = False
 
         try:
             self.test_running = True
 
-            self.mw.evse_textedit.clear()
-            QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
+            if clear_textedit:
+                self.mw.evse_textedit.clear()
+                QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
-            test_iterator = evse_v3_test_generator()
+            test_iterator = evse_v3_test_generator(self.evse_tester)
 
             for i in test_iterator:
                 self.mw.evse_textedit.append(i)
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
-        except:
-            self.mw.evse_textedit.append('-----------------> Fehler im Testablauf:\n' + traceback.format_exc())
 
-            try:
-                evse_tester.exit(1)
-            except:
-                pass
+            if is_retry:
+                self.mw.evse_textedit.append('Dies ware der zweite Versuch!')
+                QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
+        except:
+            self.mw.evse_textedit.append('-----------------> Fehler im Testablauf:\n' + traceback.format_exc() + '\n')
+
+            if retry_allowed:
+                retry = True
+            else:
+                try:
+                    evse_tester.exit(1)
+                except:
+                    pass
         finally:
             self.test_running = False
+
+        if retry:
+            self.start_test(False, False, True)
+        else:
+            self.auto_flash_locked = False
 
 TEST_LOG_FILENAME = "full_test_log.csv"
 TEST_LOG_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..', '..', 'wallbox', 'evse_v3_test_report'))
@@ -154,7 +199,6 @@ def test_log_commit_and_push(uid):
         ret = 'Error: git push failed:\n' + str(e)
         return 1, ret
 
-
 def no_log(s):
     pass
 
@@ -169,14 +213,19 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
 
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
-def evse_v3_test_generator():
+def evse_v3_test_generator(evse_tester):
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
-    global evse_tester
-    evse_tester = EVSEV3Tester(log_func = no_log)
+    evse_tester.setup()
     evse_tester.set_led(0, 0, 255)
-    yield('... OK')
+
+    if evse_tester.find_evse():
+        yield('... OK')
+    else:
+        yield("Konnte EVSE Bricklet 3.0 nicht finden.")
+        evse_tester.exit(1)
+        return
 
     yield("Aktualisiere Testreports...")
 
@@ -189,7 +238,7 @@ def evse_v3_test_generator():
         return
     yield('... OK')
 
-    yield('Prüfe Hardware-Version (erwarte V3)')
+    yield('Prüfe Hardware-Version (erwarte 3.0)')
     hv = evse_tester.get_hardware_version()
     if hv == 30:
         yield('... OK')
@@ -334,7 +383,6 @@ def evse_v3_test_generator():
     evse_tester.set_cp_pe_resistor(False, False, False)
     time.sleep(0.5)
 
-
     yield('Teste PP/PE...')
     yield(' * 220 Ohm')
     res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
@@ -413,7 +461,6 @@ def evse_v3_test_generator():
     evse_tester.set_pp_pe_resistor(False, False, True, False)
     time.sleep(0.5)
 
-
     yield('Beginne Test-Ladung')
 
     evse_tester.set_contactor_fb(False)
@@ -428,8 +475,12 @@ def evse_v3_test_generator():
     yield('... OK')
 
     yield('Aktiviere Schütz')
-    evse_tester.wait_for_contactor_gpio(False)
-    yield('... OK')
+    if evse_tester.wait_for_contactor_gpio(False):
+        yield('... OK')
+    else:
+        yield('-----------------> NICHT OK')
+        evse_tester.exit(1)
+        return
 
     yield('Aktiviere Schütz Test')
     evse_tester.set_contactor_fb(True)
@@ -467,11 +518,13 @@ def evse_v3_test_generator():
     else:
         yield('... OK: {0}, {1}'.format(hw.energy_meter_type, values.phases_connected[0]))
 
-
     yield('Ausschaltzeit messen')
     t1 = time.time()
     evse_tester.set_cp_pe_resistor(True, False, False)
-    evse_tester.wait_for_contactor_gpio(True)
+    if not evse_tester.wait_for_contactor_gpio(True):
+        yield('-----------------> NICHT OK: Schütz hat nicht geschaltet')
+        evse_tester.exit(1)
+        return
     evse_tester.set_contactor_fb(False)
     t2 = time.time()
 
@@ -490,8 +543,12 @@ def evse_v3_test_generator():
     yield('Teste Front-Taster')
     evse_tester.press_button(True)
 
-    evse_tester.wait_for_button_gpio(True) # Button True = Pressed
-    yield('... OK')
+    if evse_tester.wait_for_button_gpio(True): # Button True = Pressed
+        yield('... OK')
+    else:
+        yield('-----------------> NICHT OK')
+        evse_tester.exit(1)
+        return
     evse_tester.press_button(False)
 
     yield('Teste LED R')

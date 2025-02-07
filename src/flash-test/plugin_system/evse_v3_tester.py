@@ -46,23 +46,26 @@ import sys
 log = print
 
 class EVSEV3Tester:
-    def __init__(self, log_func = None):
+    def __init__(self, log_func=None, start_func=None):
         if log_func:
             global log
             log = log_func
 
-        self.uid_evse = None
+        self.start_func = start_func
         self.ipcon = IPConnection()
+
+    def setup(self):
+        try:
+            self.ipcon.disconnect()
+        except:
+            pass
+
         self.ipcon.connect(HOST, PORT)
         self.ipcon.register_callback(IPConnection.CALLBACK_ENUMERATE, self.cb_enumerate)
         self.ipcon.enumerate()
 
-        log("Trying to find EVSE Bricklet...")
-        while self.uid_evse == None:
-            time.sleep(0.1)
-        log("Found EVSE Bricklet: {0}".format(self.uid_evse))
-
-        self.evse = BrickletEVSEV2(self.uid_evse,              self.ipcon)
+        self.evse_uid = None
+        self.evse = None
         self.idai = BrickletIndustrialDualAnalogInV2(UID_IDAI, self.ipcon)
         self.io4  = BrickletIO4V2(UID_IO4,                     self.ipcon)
         self.iqr1 = BrickletIndustrialQuadRelayV2(UID_IQR1,    self.ipcon)
@@ -72,18 +75,13 @@ class EVSEV3Tester:
         self.iaci = BrickletIndustrialDualACIn(UID_IACI,       self.ipcon)
         self.led  = BrickletRGBLEDV2(UID_LED,                  self.ipcon)
 
-        self.idai.reset()
-        time.sleep(0.2)
+        devices = [self.idai, self.io4, self.iqr1, self.iqr2, self.iqr3, self.iqr4, self.iaci, self.led]
 
-        self.evse.set_response_expected_all(True)
-        self.idai.set_response_expected_all(True)
-        self.io4.set_response_expected_all(True)
-        self.iqr1.set_response_expected_all(True)
-        self.iqr2.set_response_expected_all(True)
-        self.iqr3.set_response_expected_all(True)
-        self.iqr4.set_response_expected_all(True)
-        self.iaci.set_response_expected_all(True)
-        self.led.set_response_expected_all(True)
+        for device in devices:
+            device.set_response_expected_all(True)
+            device.reset()
+
+        time.sleep(0.5)
 
         self.idai.set_sample_rate(self.idai.SAMPLE_RATE_4_SPS)
         self.io4.register_callback(self.io4.CALLBACK_INPUT_VALUE, self.cb_io4_value)
@@ -92,11 +90,32 @@ class EVSEV3Tester:
 
     def cb_enumerate(self, uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type):
         if device_identifier == BrickletEVSEV2.DEVICE_IDENTIFIER:
-            self.uid_evse = uid
+            self.evse_uid = uid
+            self.evse = BrickletEVSEV2(uid, self.ipcon)
 
     def cb_io4_value(self, channel, changed, value):
         if channel == 3 and changed:
             self.set_led(0, 0, 0)
+
+            if not value and self.start_func != None:
+                self.start_func()
+
+    def find_evse(self):
+        self.evse = None
+        self.ipcon.enumerate()
+
+        log("Trying to find EVSE Bricklet...")
+        start = time.time()
+
+        while self.evse == None:
+            if time.time() - start > 10:
+                log("Could not find EVSE Bricklet")
+                return False
+
+            time.sleep(0.1)
+
+        log("Found EVSE Bricklet: {0}".format(self.evse_uid))
+        return True
 
     def set_led(self, r, g, b):
         self.led.set_rgb_value(r, g, b)
@@ -156,32 +175,45 @@ class EVSEV3Tester:
         log("Set PP/PE resistor: " + ', '.join(l)) 
 
     def wait_for_contactor_gpio(self, active):
-        if active:
-            log("Waiting for contactor GPIO to become active...")
-        else:
-            log("Waiting for contactor GPIO to become inactive...")
+        log("Waiting for contactor GPIO to become {0}active...".format("" if active else "in"))
+
+        start = time.time()
+        counter = 0
 
         while True:
             state = self.evse.get_low_level_state()
+
             if state.gpio[11] == active:
                 break
+
+            if counter > 100:
+                counter = 0
+
+                if time.time() - start > 10:
+                    log("Contactor GPIO to did not become {0}active...".format("" if active else "in"))
+                    return False
+
+            counter += 1
             time.sleep(0.01)
 
         log("Done")
+        return True
 
     def wait_for_button_gpio(self, active):
-        if active:
-            log("Waiting for button GPIO to become active...")
-        else:
-            log("Waiting for button GPIO to become inactive...")
+        log("Waiting for button GPIO to become {0}active...".format("" if active else "in"))
 
+        start = time.time()
         while True:
             state = self.evse.get_low_level_state()
             if (not state.gpio[5]) == active:
                 break
+            if time.time() - start > 10:
+                log("Button GPIO to did not become {0}active...".format("" if active else "in"))
+                return False
             time.sleep(0.1)
 
         log("Done")
+        return True
 
     def set_max_charging_current(self, current):
         self.evse.set_charging_slot(5, current, True, False)
