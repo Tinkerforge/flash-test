@@ -325,138 +325,201 @@ def evse_v3_test_generator(evse_tester):
 
     yield(' * 2700 Ohm')
     evse_tester.set_cp_pe_resistor(True, False, False)
-    time.sleep(0.5)
-    res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
-    data.append(str(res_cppe))
-    if test_value(res_cppe, 2700):
-        yield(' * ... OK ({0} Ohm)'.format(res_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 2700 Ohm)'.format(res_cppe))
-        evse_tester.exit(1)
-        return
-    vol_cppe = evse_tester.get_cp_pe_voltage()
-    if test_value(vol_cppe, 9069):
-        yield(' * ... OK ({0} mV)'.format(vol_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} mV (erwartet 9069 mV)'.format(vol_cppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
+        data.append(str(res_cppe))
+        if test_value(res_cppe, 2700):
+            yield(' * ... OK ({0} Ohm)'.format(res_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 2700 Ohm)'.format(res_cppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_cppe = evse_tester.get_cp_pe_voltage()
+        if test_value(vol_cppe, 9069):
+            yield(' * ... OK ({0} mV)'.format(vol_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mV (erwartet 9069 mV)'.format(vol_cppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     yield(' * 880 Ohm')
     evse_tester.set_cp_pe_resistor(True, True, False)
-    time.sleep(0.5)
-    res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
-    data.append(str(res_cppe))
-    if test_value(res_cppe, 880):
-        yield(' * ... OK ({0} Ohm)'.format(res_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
-        evse_tester.exit(1)
-        return
-    vol_cppe = evse_tester.get_cp_pe_voltage()
-    if test_value(vol_cppe, 6049):
-        yield(' * ... OK ({0} mV)'.format(vol_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} mv (erwartet 6049 mV)'.format(vol_cppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
+        data.append(str(res_cppe))
+        if test_value(res_cppe, 880):
+            yield(' * ... OK ({0} Ohm)'.format(res_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_cppe = evse_tester.get_cp_pe_voltage()
+        if test_value(vol_cppe, 6049):
+            yield(' * ... OK ({0} mV)'.format(vol_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mv (erwartet 6049 mV)'.format(vol_cppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     yield(' * 240 Ohm')
     evse_tester.set_cp_pe_resistor(True, False, True)
-    time.sleep(0.5)
-    res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
-    data.append(str(res_cppe))
-    if test_value(res_cppe, 240):
-        yield(' * ... OK ({0} Ohm)'.format(res_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 240 Ohm)'.format(res_cppe))
-        evse_tester.exit(1)
-        return
-    vol_cppe = evse_tester.get_cp_pe_voltage()
-    if test_value(vol_cppe, 3039):
-        yield(' * ... OK ({0} mV)'.format(vol_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} mV (erwartet 2646 mV)'.format(vol_cppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
+        data.append(str(res_cppe))
+        if test_value(res_cppe, 240):
+            yield(' * ... OK ({0} Ohm)'.format(res_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 240 Ohm)'.format(res_cppe))
+                evse_tester.exit(1)
+                return
+
+    while True:
+        vol_cppe = evse_tester.get_cp_pe_voltage()
+        if test_value(vol_cppe, 3039):
+            yield(' * ... OK ({0} mV)'.format(vol_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mV (erwartet 2646 mV)'.format(vol_cppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     evse_tester.set_cp_pe_resistor(False, False, False)
-    time.sleep(0.5)
 
     yield('Teste PP/PE...')
     yield(' * 220 Ohm')
-    res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
-    data.append(str(res_pppe))
-    if test_value(res_pppe, 220):
-        yield(' * ... OK ({0} Ohm)'.format(res_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 220 Ohm)'.format(res_pppe))
-        evse_tester.exit(1)
-        return
-    vol_pppe = evse_tester.get_pp_pe_voltage()
-    if test_value(vol_pppe, 834):
-        yield(' * ... OK ({0} mV)'.format(vol_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} mv (erwartet 834 mV)'.format(vol_pppe))
-        evse_tester.exit(1)
-        return
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
+        data.append(str(res_pppe))
+        if test_value(res_pppe, 220):
+            yield(' * ... OK ({0} Ohm)'.format(res_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 220 Ohm)'.format(res_pppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_pppe = evse_tester.get_pp_pe_voltage()
+        if test_value(vol_pppe, 834):
+            yield(' * ... OK ({0} mV)'.format(vol_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mv (erwartet 834 mV)'.format(vol_pppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     yield(' * 1500 Ohm')
     evse_tester.set_pp_pe_resistor(True, False, False, False)
-    time.sleep(0.5)
-    res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
-    data.append(str(res_pppe))
-    if test_value(res_pppe, 1500):
-        yield(' * ... OK ({0} Ohm)'.format(res_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 1500 Ohm)'.format(res_pppe))
-        evse_tester.exit(1)
-        return
-    vol_pppe = evse_tester.get_pp_pe_voltage()
-    if test_value(vol_pppe, 2313):
-        yield(' * ... OK ({0} mV)'.format(vol_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} mv (erwartet 2313 mV)'.format(vol_pppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
+        data.append(str(res_pppe))
+        if test_value(res_pppe, 1500):
+            yield(' * ... OK ({0} Ohm)'.format(res_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 1500 Ohm)'.format(res_pppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_pppe = evse_tester.get_pp_pe_voltage()
+        if test_value(vol_pppe, 2313):
+            yield(' * ... OK ({0} mV)'.format(vol_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mv (erwartet 2313 mV)'.format(vol_pppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     yield(' * 680 Ohm')
     evse_tester.set_pp_pe_resistor(False, True, False, False)
-    time.sleep(0.5)
-    res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
-    data.append(str(res_pppe))
-    if test_value(res_pppe, 680):
-        yield(' * ... OK ({0} Ohm)'.format(res_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 680 Ohm)'.format(res_pppe))
-        evse_tester.exit(1)
-        return
-    vol_pppe = evse_tester.get_pp_pe_voltage()
-    if test_value(vol_pppe, 1695):
-        yield(' * ... OK ({0} mV)'.format(vol_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} mV (erwartet 1695 mV)'.format(vol_pppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
+        data.append(str(res_pppe))
+        if test_value(res_pppe, 680):
+            yield(' * ... OK ({0} Ohm)'.format(res_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 680 Ohm)'.format(res_pppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_pppe = evse_tester.get_pp_pe_voltage()
+        if test_value(vol_pppe, 1695):
+            yield(' * ... OK ({0} mV)'.format(vol_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mV (erwartet 1695 mV)'.format(vol_pppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     yield(' * 100 Ohm')
     evse_tester.set_pp_pe_resistor(False, False, False, True)
-    time.sleep(0.5)
-    res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
-    data.append(str(res_pppe))
-    if test_value(res_pppe, 100):
-        yield(' * ... OK ({0} Ohm)'.format(res_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm (erwartet 100 Ohm)'.format(res_pppe))
-        evse_tester.exit(1)
-        return
-    vol_pppe = evse_tester.get_pp_pe_voltage()
-    if test_value(vol_pppe, 441):
-        yield(' * ... OK ({0} mV)'.format(vol_pppe))
-    else:
-        yield('-----------------> NICHT OK {0} mV (erwartet 441 mV)'.format(vol_pppe))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
+        data.append(str(res_pppe))
+        if test_value(res_pppe, 100):
+            yield(' * ... OK ({0} Ohm)'.format(res_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 100 Ohm)'.format(res_pppe))
+                evse_tester.exit(1)
+                return
+    while True:
+        vol_pppe = evse_tester.get_pp_pe_voltage()
+        if test_value(vol_pppe, 441):
+            yield(' * ... OK ({0} mV)'.format(vol_pppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} mV (erwartet 441 mV)'.format(vol_pppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
 
     evse_tester.set_pp_pe_resistor(False, False, True, False)
     time.sleep(0.5)
@@ -492,22 +555,32 @@ def evse_v3_test_generator(evse_tester):
     for i, a in enumerate(range(6, 33, 2)):
         yield('Test CP/PE {0}A'.format(a))
         evse_tester.set_max_charging_current(a*1000)
-        time.sleep(0.5)
-        res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
-        data.append(str(res_cppe))
-        if test_value(res_cppe, 880):
-            yield(' * ... OK ({0} Ohm)'.format(res_cppe))
-        else:
-            yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
-            evse_tester.exit(1)
-            return
-        vol_cppe = evse_tester.get_cp_pe_voltage()
-        if test_value(vol_cppe, test_voltages[i], margin_percent=0.15):
-            yield(' * ... OK ({0} mV)'.format(vol_cppe))
-        else:
-            yield('-----------------> NICHT OK {0} mV (erwartet {1} mV) -> Wahrscheinlich kein PWM'.format(vol_cppe, test_voltages[i]))
-            evse_tester.exit(1)
-            return
+        start = time.time()
+        res_cppe_ok = False
+        vol_cppe_ok = False
+        while not (res_cppe_ok and vol_cppe_ok):
+            if not res_cppe_ok:
+                res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
+                data.append(str(res_cppe))
+                if test_value(res_cppe, 880):
+                    yield(' * ... OK ({0} Ohm)'.format(res_cppe))
+                    res_cppe_ok = True
+                else:
+                    if time.time() - start > 5:
+                        yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
+                        evse_tester.exit(1)
+                        return
+            if not vol_cppe_ok:
+                vol_cppe = evse_tester.get_cp_pe_voltage()
+                if test_value(vol_cppe, test_voltages[i], margin_percent=0.15):
+                    yield(' * ... OK ({0} mV)'.format(vol_cppe))
+                    vol_cppe_ok = True
+                else:
+                    if time.time() - start > 5:
+                        yield('-----------------> NICHT OK {0} mV (erwartet {1} mV) -> Wahrscheinlich kein PWM'.format(vol_cppe, test_voltages[i]))
+                        evse_tester.exit(1)
+                        return
+            time.sleep(0.1)
 
     yield('Teste Stromzähler')
     values, detailed_values, hw, error = evse_tester.get_energy_meter_data()
@@ -553,36 +626,51 @@ def evse_v3_test_generator(evse_tester):
 
     yield('Teste LED R')
     evse_tester.set_evse_led(True, False, False)
-    time.sleep(1)
-    led = evse_tester.get_evse_led()
-    if led[0] and (not led[1]) and (not led[2]):
-        yield('... OK')
-    else:
-        yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        led = evse_tester.get_evse_led()
+        if led[0] and (not led[1]) and (not led[2]):
+            yield('... OK')
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                evse_tester.exit(1)
+                return
 
     yield('Teste LED G')
     evse_tester.set_evse_led(False, True, False)
-    time.sleep(1)
-    led = evse_tester.get_evse_led()
-    if led[1] and (not led[0]) and (not led[2]):
-        yield('... OK')
-    else:
-        yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        led = evse_tester.get_evse_led()
+        if led[1] and (not led[0]) and (not led[2]):
+            yield('... OK')
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                evse_tester.exit(1)
+                return
 
     yield('Teste LED B')
     evse_tester.set_evse_led(False, False, True)
-    time.sleep(1)
-    led = evse_tester.get_evse_led()
-    if led[2] and (not led[0]) and (not led[1]):
-        yield('... OK')
-    else:
-        yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
-        evse_tester.exit(1)
-        return
+
+    start = time.time()
+    while True:
+        time.sleep(0.1)
+        led = evse_tester.get_evse_led()
+        if led[2] and (not led[0]) and (not led[1]):
+            yield('... OK')
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                evse_tester.exit(1)
+                return
 
     yield("Speichere Testreport...")
     with open(os.path.join(TEST_LOG_DIRECTORY, TEST_LOG_FILENAME), 'a+') as f:
