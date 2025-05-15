@@ -159,7 +159,7 @@ def xmc_flash_firmware(zbin, uid_bricklet=None):
 
         print('Firmware geschrieben und gestartet')
     except:
-        traceback.print_exception()
+        traceback.print_exc()
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
