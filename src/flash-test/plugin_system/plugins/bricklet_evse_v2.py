@@ -220,7 +220,7 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
 
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
-def evse_v3_test_generator(evse_tester, offline, mw):
+def evse_v3_test_generator(evse_tester, offline, plugin):
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
@@ -267,10 +267,10 @@ def evse_v3_test_generator(evse_tester, offline, mw):
     evse_tester.set_pp_pe_resistor(False, False, True, False)
 
     start = time.time()
-    count = mw.enum_count
+    count = plugin.enum_count
     yield('Reset EVSE Bricklet')
     evse_tester.evse.reset()
-    while mw.enum_count != (count + 1):
+    while plugin.enum_count != (count + 1):
         if (time.time() - start) > 10:
             yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
             evse_tester.exit(1)
@@ -590,9 +590,9 @@ def evse_v3_test_generator(evse_tester, offline, mw):
 
     yield('Reset EVSE Bricklet')
     start = time.time()
-    count = mw.enum_count
+    count = plugin.enum_count
     evse_tester.evse.reset()
-    while mw.enum_count != (count+1):
+    while plugin.enum_count != (count+1):
         if (time.time() - start) > 10:
             yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
             evse_tester.exit(1)
