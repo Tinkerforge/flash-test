@@ -131,7 +131,8 @@ class Plugin(CoMCUBrickletBase):
             test_iterator = evse_v3_test_generator(self.evse_tester)
 
             for i in test_iterator:
-                self.mw.evse_textedit.append(i)
+                if i is not None:
+                    self.mw.evse_textedit.append(i)
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
             if is_retry:
