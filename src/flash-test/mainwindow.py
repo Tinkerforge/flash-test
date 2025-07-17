@@ -129,23 +129,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         from plugin_system.tinkerforge.device_factory_all import DEVICE_CLASSES
         from plugin_system.device_classes import device_classes
 
-        device_identifiers = [] # must match SKU
-
-        for key, value in DEVICE_CLASSES.items():
-            display_name = value.DEVICE_DISPLAY_NAME
-            if display_name == "EVSE Bricklet 2.0":
-                display_name = "EVSE Bricklet 2.0 (flash) and 3.0 (flash+test)"
-            device_identifiers.append((key, display_name))
-
-        device_identifiers.append((31, 'Chibi Extension'))
-        device_identifiers.append((32, 'RS485 Extension'))
-        device_identifiers.append((33, 'WIFI Extension'))
-        device_identifiers.append((34, 'Ethernet Extension (mit PoE)'))
-        device_identifiers.append((35, 'Ethernet Extension (ohne PoE)'))
-        device_identifiers.append((36, 'WIFI Extension 2.0'))
-
-        device_identifiers.append((102, 'Smartbed Brick'))
-
         self.device_by_identifier = {}
         for cls in device_classes:
             instance = cls(self)
@@ -153,6 +136,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             if device_identifier != None:
                 self.device_by_identifier[device_identifier] = instance
+
+        device_identifiers = [] # must match SKU
+
+        for key, value in DEVICE_CLASSES.items():
+            if key not in self.device_by_identifier:
+                continue
+
+            display_name = value.DEVICE_DISPLAY_NAME
+            if display_name == "EVSE Bricklet 2.0":
+                display_name = "EVSE Bricklet 2.0 (flash) and 3.0 (flash+test)"
+            device_identifiers.append((key, display_name))
+
+        for key, value in [
+                (31, 'Chibi Extension'),
+                (32, 'RS485 Extension'),
+                (33, 'WIFI Extension'),
+                (34, 'Ethernet Extension (with PoE)'),
+                (35, 'Ethernet Extension (without PoE)'),
+                (36, 'WIFI Extension 2.0'),
+                (102, 'Smartbed Brick')
+            ]:
+            if key not in self.device_by_identifier:
+                continue
+            device_identifiers.append(key, value)
 
         selected_combo_device_index = None
 
