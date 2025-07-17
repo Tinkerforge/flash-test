@@ -216,7 +216,7 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
 
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
-def evse_v3_test_generator(evse_tester):
+def evse_v3_test_generator(evse_tester, mw):
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
@@ -260,7 +260,19 @@ def evse_v3_test_generator(evse_tester):
     evse_tester.set_230v(True)
     evse_tester.set_cp_pe_resistor(False, False, False)
     evse_tester.set_pp_pe_resistor(False, False, True, False)
+
+    start = time.time()
+    count = mw.enum_count
+    yield('Reset EVSE Bricklet')
     evse_tester.evse.reset()
+    while mw.enum_count != (count + 1):
+        if (time.time() - start) > 10:
+            yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
+            evse_tester.exit(1)
+            return
+        time.sleep(0.1)
+        yield(None)
+    yield('... OK ({0:.1f} Sekunden)'.format(time.time() - start))
 
     yield('Warte auf DC-Schutz Kalibrierung (1.5 Sekunden)')
     time.sleep(1.2)
@@ -533,8 +545,31 @@ def evse_v3_test_generator(evse_tester):
     evse_tester.set_230v(True)
     evse_tester.set_cp_pe_resistor(False, False, False)
     evse_tester.set_pp_pe_resistor(False, False, True, False)
+
+    yield('Reset EVSE Bricklet')
+    start = time.time()
+    count = mw.enum_count
     evse_tester.evse.reset()
-    time.sleep(0.5)
+    while mw.enum_count != (count+1):
+        if (time.time() - start) > 10:
+            yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
+            evse_tester.exit(1)
+            return
+        time.sleep(0.1)
+        yield(None)
+    yield('... OK ({0:.1f} Sekunden)'.format(time.time() - start))
+
+
+    yield('Warte auf DC-Schutz Kalibrierung (1.5 Sekunden)')
+    for i in range(15):
+        time.sleep(0.1)
+        yield(None)
+    yield('... OK')
+
+    yield('Setze 2700 Ohm Widerstand')
+    evse_tester.set_cp_pe_resistor(True, False, False)
+    yield('... OK')
+    time.sleep(0.1)
 
     yield('Setze 2700 Ohm + 1300 Ohm Widerstand')
     evse_tester.set_cp_pe_resistor(True, True, False)
