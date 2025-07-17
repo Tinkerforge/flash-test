@@ -278,7 +278,20 @@ def evse_v3_test_generator(evse_tester, mw):
     time.sleep(1.2)
     yield('... OK')
 
-    hw_conf = evse_tester.evse.get_hardware_configuration()
+    start = time.time()
+    while True:
+        if time.time() - start > 2:
+            yield('-----------------> NICHT OK: Konnte Hardware-Konfiguration nicht abfragen')
+            evse_tester.exit(1)
+            return
+        try:
+            hw_conf = evse_tester.evse.get_hardware_configuration()
+        except:
+            time.sleep(0.1)
+            yield(None)
+            continue
+        break
+
     yield('Teste Schalter-Einstellung')
     if hw_conf.jumper_configuration != 6:
         yield('Falsche Schalter-Einstellung: {0}'.format(hw_conf.jumper_configuration))
@@ -322,14 +335,18 @@ def evse_v3_test_generator(evse_tester, mw):
     yield('Teste CP/PE...')
     yield(' * open')
     evse_tester.set_max_charging_current(0)
-    res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
-    data.append(str(res_cppe))
-    if res_cppe == 4294967295:
-        yield(' * ... OK ({0} Ohm)'.format(res_cppe))
-    else:
-        yield('-----------------> NICHT OK {0} Ohm'.format(res_cppe))
-        evse_tester.exit(1)
-        return
+    while True:
+        res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
+        if res_cppe == 4294967295:
+            yield(' * ... OK ({0} Ohm)'.format(res_cppe))
+            break
+        else:
+            if time.time() - start > 5:
+                yield('-----------------> NICHT OK {0} Ohm (erwartet 4294967295 Ohm)'.format(res_cppe))
+                evse_tester.exit(1)
+                return
+        time.sleep(0.1)
+        yield(None)
     vol_cppe = evse_tester.get_cp_pe_voltage()
     if test_value(vol_cppe, 12213):
         yield(' * ... OK ({0} mV)'.format(vol_cppe))
