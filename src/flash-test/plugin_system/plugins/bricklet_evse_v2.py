@@ -53,6 +53,7 @@ class Plugin(CoMCUBrickletBase):
         self.auto_flash_requested = False
         self.auto_flash_timer = QtCore.QTimer(self)
         self.auto_flash_timer.timeout.connect(self.cb_check_auto_flash)
+        self.enum_count = 0
 
     def start(self):
         CoMCUBrickletBase.start(self)
@@ -99,6 +100,7 @@ class Plugin(CoMCUBrickletBase):
             self.after_flash_clicked = True
 
     def new_enum(self, device_information):
+        self.enum_count += 1
         CoMCUBrickletBase.new_enum(self, device_information)
 
         self.evse = BrickletEVSEV2(device_information.uid, self.get_ipcon())
