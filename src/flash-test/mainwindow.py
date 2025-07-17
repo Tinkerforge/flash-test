@@ -26,14 +26,9 @@ from PyQt5 import Qt, QtGui, QtCore, QtWidgets
 from ui_mainwindow import Ui_MainWindow
 from device_manager import DeviceManager
 from plugin_system.plugin_base import PluginBase
-from plugin_system.plugins.label_brick import Plugin as LabelBrickPlugin
-from plugin_system.plugins.label_brick_wo_master import Plugin as LabelBrickWithoutMasterPlugin
-from plugin_system.plugins.label_bricklet import Plugin as LabelBrickletPlugin
-from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.bricklet_industrial_quad_relay_v2 import BrickletIndustrialQuadRelayV2
 from plugin_system.tinkerforge.device_display_names import get_device_display_name
-from plugin_system.database import insert_report
 
 import urllib.request
 import sys
@@ -43,6 +38,13 @@ import subprocess
 import traceback
 import argparse
 from datetime import datetime
+import time
+import fcntl
+import errno
+import sys
+
+from pathlib import Path
+
 
 class PluginNotImplemented(PluginBase):
     pass
@@ -53,40 +55,55 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
         parser = argparse.ArgumentParser()
-        parser.add_argument('--no-report')
+        parser.add_argument('--no-report', action='store_true')
         parser.add_argument('--device-identifier', type=int)
+        parser.add_argument('--offline', action='store_true')
+
         args = parser.parse_args()
-        self.no_report = args.no_report == '1'
+        self.no_report = args.no_report
+        self.offline = args.offline
 
         file_directory = os.path.dirname(os.path.realpath(__file__))
 
-        try:
-            with open(os.path.join(file_directory, '..', '..', 'staging_password.txt'), 'rb') as f:
-                staging_password = f.read().decode('utf-8').split('\n')[0].strip()
-        except:
-            QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
-            sys.exit(0)
-
-        if not self.no_report:
-            try:
-                with open(os.path.join(file_directory, '..', '..', 'postgres_password.txt'), 'rb') as f:
-                    self.postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
-            except:
-                QtWidgets.QMessageBox.critical(None, 'Error', 'postgres_password.txt missing or malformed')
+        if self.offline:
+            self.next_uid_path = Path.home() / 'next_uid.txt'
+            if not self.next_uid_path.exists():
+                QtWidgets.QMessageBox.critical(None, 'Error', '~/next_uid.txt missing')
                 sys.exit(0)
 
-        context = ssl.create_default_context()
+            try:
+                int(self.next_uid_path.read_text().strip())
+            except:
+                QtWidgets.QMessageBox.critical(None, 'Error', '~/next_uid.txt malformed')
+                sys.exit(0)
+        else:
+            try:
+                with open(os.path.join(file_directory, '..', '..', 'staging_password.txt'), 'rb') as f:
+                    staging_password = f.read().decode('utf-8').split('\n')[0].strip()
+            except:
+                QtWidgets.QMessageBox.critical(None, 'Error', 'staging_password.txt missing or malformed')
+                sys.exit(0)
 
-        https_handler = urllib.request.HTTPSHandler(context=context)
+            if not self.no_report:
+                try:
+                    with open(os.path.join(file_directory, '..', '..', 'postgres_password.txt'), 'rb') as f:
+                        self.postgres_password = f.read().decode('utf-8').split('\n')[0].strip()
+                except:
+                    QtWidgets.QMessageBox.critical(None, 'Error', 'postgres_password.txt missing or malformed')
+                    sys.exit(0)
 
-        auth_handler = urllib.request.HTTPBasicAuthHandler()
-        auth_handler.add_password(realm='Staging',
-                                  uri='https://stagingwww.tinkerforge.com',
-                                  user='staging',
-                                  passwd=staging_password)
+            context = ssl.create_default_context()
 
-        opener = urllib.request.build_opener(https_handler, auth_handler)
-        urllib.request.install_opener(opener)
+            https_handler = urllib.request.HTTPSHandler(context=context)
+
+            auth_handler = urllib.request.HTTPBasicAuthHandler()
+            auth_handler.add_password(realm='Staging',
+                                    uri='https://stagingwww.tinkerforge.com',
+                                    user='staging',
+                                    passwd=staging_password)
+
+            opener = urllib.request.build_opener(https_handler, auth_handler)
+            urllib.request.install_opener(opener)
 
         self.setupUi(self)
         self.resize(800, 800)
@@ -150,15 +167,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.combo_device.insertSeparator(self.combo_device.count())
 
-        self.label_brick_plugin = LabelBrickPlugin(self)
-        self.label_brick_wo_master_plugin = LabelBrickWithoutMasterPlugin(self)
-        self.label_bricklet_plugin = LabelBrickletPlugin(self)
-        self.label_extension_plugin = LabelExtensionPlugin(self)
+        if not self.offline:
+            from plugin_system.plugins.label_brick import Plugin as LabelBrickPlugin
+            from plugin_system.plugins.label_brick_wo_master import Plugin as LabelBrickWithoutMasterPlugin
+            from plugin_system.plugins.label_bricklet import Plugin as LabelBrickletPlugin
+            from plugin_system.plugins.label_extension import Plugin as LabelExtensionPlugin
 
-        self.combo_device.addItem('Brick Etikett drucken', self.label_brick_plugin)
-        self.combo_device.addItem('Brick Etikett drucken (ohne Master Brick)', self.label_brick_wo_master_plugin)
-        self.combo_device.addItem('Bricklet Etikett drucken', self.label_bricklet_plugin)
-        self.combo_device.addItem('Extension Etikett drucken', self.label_extension_plugin)
+            self.label_brick_plugin = LabelBrickPlugin(self)
+            self.label_brick_wo_master_plugin = LabelBrickWithoutMasterPlugin(self)
+            self.label_bricklet_plugin = LabelBrickletPlugin(self)
+            self.label_extension_plugin = LabelExtensionPlugin(self)
+
+            self.combo_device.addItem('Print Brick Label', self.label_brick_plugin)
+            self.combo_device.addItem('Print Brick Label (without Master Brick)', self.label_brick_wo_master_plugin)
+            self.combo_device.addItem('Print Bricklet Label', self.label_bricklet_plugin)
+            self.combo_device.addItem('Print Extension Label', self.label_extension_plugin)
 
         self.combo_device.currentIndexChanged.connect(self.device_index_changed)
         self.button_flash.clicked.connect(self.flash_clicked)
@@ -178,6 +201,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.qtcb_foot_pedal.connect(self.cb_foot_pedal)
 
         self.flashed_count = 0
+
+    # Copied over from https://stagingwww.tinkerforge.com/uid implementation
+    def sn_helper(self):
+        sn_path = str(self.next_uid_path)
+
+        try:
+            f = open(sn_path, 'r+')
+            f.seek(0)
+            timeout = time.time() + 10
+
+            while timeout > time.time():
+                try:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    break
+                except OSError as e:
+                    if e.errno in [errno.EACCES, errno.EAGAIN]:
+                        time.sleep(0.1)
+                        continue
+
+                    raise
+            else:
+                QtWidgets.QMessageBox.critical(None, 'Error', 'timeout while locking ' + sn_path)
+                sys.exit(1)
+
+            sn = int(f.read().strip()) + 1
+
+            f.seek(0)
+            f.write(str(sn))
+            f.close()
+        except:
+            QtWidgets.QMessageBox.critical(None, 'Error', traceback.format_exc())
+            sys.exit(1)
+
+        return sn
 
     def cb_foot_pedal(self, interrupt_mask, value_mask):
         if (interrupt_mask & 1) != 0 and (value_mask & 1) == 0:
@@ -257,6 +314,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             ])
 
             if not self.no_report:
+                from plugin_system.database import insert_report
                 insert_report(
                     self,
                     self.postgres_password,

@@ -31,6 +31,7 @@ import time
 import subprocess
 import os
 import traceback
+from pathlib import Path
 
 from ..evse_v3_tester import EVSEV3Tester
 
@@ -130,7 +131,7 @@ class Plugin(CoMCUBrickletBase):
                 self.mw.evse_textedit.clear()
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
-            test_iterator = evse_v3_test_generator(self.evse_tester, self)
+            test_iterator = evse_v3_test_generator(self.evse_tester, self.mw.offline, self)
 
             for i in test_iterator:
                 if i is not None:
@@ -160,6 +161,7 @@ class Plugin(CoMCUBrickletBase):
 
 TEST_LOG_FILENAME = "full_test_log.csv"
 TEST_LOG_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..', '..', 'wallbox', 'evse_v3_test_report'))
+OFFLINE_TEST_LOG_DIRECTORY = Path.home() / 'evse_v3_test_report'
 
 def test_log_pull():
     try:
@@ -218,7 +220,7 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
 
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
-def evse_v3_test_generator(evse_tester, mw):
+def evse_v3_test_generator(evse_tester, offline, mw):
     yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
 
     yield('Suche EVSE Bricklet 3.0 und Tester')
@@ -232,16 +234,17 @@ def evse_v3_test_generator(evse_tester, mw):
         evse_tester.exit(1)
         return
 
-    yield("Aktualisiere Testreports...")
+    if not offline:
+        yield("Aktualisiere Testreports...")
 
-    ok, s = test_log_pull()
-    yield(s)
-    if ok != 0:
-        yield("Konnte wallbox git nicht finden.")
-        yield("Wallbox git wird benötigt um den Testbericht zu speichern.")
-        evse_tester.exit(1)
-        return
-    yield('... OK')
+        ok, s = test_log_pull()
+        yield(s)
+        if ok != 0:
+            yield("Konnte wallbox git nicht finden.")
+            yield("Wallbox git wird benötigt um den Testbericht zu speichern.")
+            evse_tester.exit(1)
+            return
+        yield('... OK')
 
     yield('Prüfe Hardware-Version (erwarte 3.0)')
     hv = evse_tester.get_hardware_version()
@@ -760,15 +763,21 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
 
-    yield("Speichere Testreport...")
-    with open(os.path.join(TEST_LOG_DIRECTORY, TEST_LOG_FILENAME), 'a+') as f:
-        f.write(', '.join(data) + '\n')
-
-    ok, s = test_log_commit_and_push(ident.uid)
-    yield(s)
-    if ok == 0:
+    if offline:
+        with OFFLINE_TEST_LOG_DIRECTORY.open('a+') as f:
+            f.write(', '.join(data) + '\n')
         yield('')
         yield('Fertig. Alles OK')
+    else:
+        yield("Speichere Testreport...")
+        with open(os.path.join(TEST_LOG_DIRECTORY, TEST_LOG_FILENAME), 'a+') as f:
+            f.write(', '.join(data) + '\n')
+
+        ok, s = test_log_commit_and_push(ident.uid)
+        yield(s)
+        if ok == 0:
+            yield('')
+            yield('Fertig. Alles OK')
 
     evse_tester.exit(0)
     return
