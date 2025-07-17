@@ -36,12 +36,14 @@ from ..evse_v3_tester import EVSEV3Tester
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. EVSE 3.0 Bricklet an EVSE-Tester anschließen
-2. Drücke "Flashen"
-3. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-4. Drücke "Test Neustarten" um Test zu starten
-5. Das Bricklet ist fertig
-6. Gehe zu 1
+1. Set EVSE DIP switches to 32A (1=Off, 2=Off, 3=On, 4=On)
+2. Put EVSE 3.0 Bricklet into EVSE tester
+3. Press "Flash"
+4. Wait for Master Brick restart (Tool status changes to "Plugin found")
+5. Press "Restart Test" to start test
+6. Wait for test completion
+7. Remove EVSE 3.0 Bricklet from EVSE tester
+8. Go to 1
 """
 
     def __init__(self, *args):

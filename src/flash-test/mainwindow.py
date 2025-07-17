@@ -217,7 +217,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 elif label_info.hardware_version[0] == 3:
                     sku = 116
                 else:
-                    raise Exception('Unbekannte Master Brick Hardware Version: {0}'.format(label_info.hardware_version))
+                    raise Exception('Unknown Master Brick Hardware Version: {0}'.format(label_info.hardware_version))
 
                 name = 'Master Brick {0}.{1}'.format(label_info.hardware_version[0], label_info.hardware_version[1])
             elif sku == BrickletIndustrialQuadRelayV2.DEVICE_IDENTIFIER:
@@ -265,7 +265,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     '.'.join([str(x) for x in label_info.firmware_version]),
                     '.'.join([str(x) for x in label_info.hardware_version] if label_info.hardware_version != None else ''))
         except:
-            QtWidgets.QMessageBox.critical(self, 'Druckproblem', 'Konnte Etikett nicht drucken:\n\n' + traceback.format_exc())
+            QtWidgets.QMessageBox.critical(self, 'Printer error', 'Failed to print label:\n\n' + traceback.format_exc())
 
     def device_index_changed(self, index):
         if self.current_plugin != None:

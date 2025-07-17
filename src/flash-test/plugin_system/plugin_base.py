@@ -42,7 +42,7 @@ def base58encode(value):
     return encoded
 
 class PluginBase(QtWidgets.QWidget, object):
-    TODO_TEXT = 'Dieses Plugin ist noch nicht implementiert.'
+    TODO_TEXT = 'This plugin is not yet implemented.'
 
     def __init__(self, mw):
         QtWidgets.QWidget.__init__(self)
@@ -69,10 +69,10 @@ class PluginBase(QtWidgets.QWidget, object):
             self.get_current_master().reset()
         except:
             traceback.print_exc()
-            self.mw.set_tool_status_error('Konnte Master Brick nicht neustarten')
-            QMessageBox.critical(self.mw, "Konnte Master Brick nicht neustarten.", "Konnte Master Brick nicht neustarten:\nTraceback ist im Terminal.")
+            self.mw.set_tool_status_error('Failed to restart Master Brick')
+            QMessageBox.critical(self.mw, "Failed to restart Master Brick", "Failed to restart Master Brick:\nSee traceback in terminal.")
         else:
-            self.mw.set_tool_status_action('Master Brick startet neu')
+            self.mw.set_tool_status_action('Master Brick restarting...')
 
     def flash_bricklet(self, plugin_filename):
         plugin_success = self.write_plugin_to_bricklet(plugin_filename)

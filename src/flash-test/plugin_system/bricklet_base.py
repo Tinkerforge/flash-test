@@ -46,16 +46,16 @@ class BrickletBase(PluginBase):
 
     def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
-            self.mw.set_tool_status_okay("Plugin gefunden")
+            self.mw.set_tool_status_okay("Plugin foubd")
 
             if device_information.uid in ['1', '7xwQ9g']:
-                self.mw.set_uid_status_error("Aktuelle UID " + device_information.uid + " ist ungültig")
+                self.mw.set_uid_status_error("Current UID " + device_information.uid + " is invalid")
             else:
-                self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
+                self.mw.set_uid_status_okay("Current UID lautet " + device_information.uid)
 
-            self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
+            self.mw.set_flash_status_okay("Current firmware version is " + '.'.join([str(fw) for fw in device_information.firmware_version]))
         else:
-            self.mw.set_tool_status_normal("Kein Plugin gefunden")
+            self.mw.set_tool_status_normal("No plugin found")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
 
@@ -89,23 +89,23 @@ class BrickletBase(PluginBase):
 
                 position += 1
 
-                self.mw.set_flash_status_action("Schreibe Port " + port.upper() +  ": " + str(position) + '/' + str(len(plugin_chunks)))
+                self.mw.set_flash_status_action("Writing port " + port.upper() +  ": " + str(position) + '/' + str(len(plugin_chunks)))
 
             position = 0
             for chunk in plugin_chunks:
-                self.mw.set_flash_status_action("Verifiziere Port " + port.upper() + ": " + str(position) + '/' + str(len(plugin_chunks)))
+                self.mw.set_flash_status_action("Verifying port " + port.upper() + ": " + str(position) + '/' + str(len(plugin_chunks)))
                 read_chunk = list(master.read_bricklet_plugin(port, position))
 
                 if read_chunk != chunk:
-                    self.mw.set_flash_status_error("Konnte Plugin an Port " + port.upper() + ' nicht verifizieren')
+                    self.mw.set_flash_status_error("Failed to verify plugin at port " + port.upper())
                     return False
                 position += 1
         except:
             traceback.print_exc()
-            QMessageBox.critical(self.mw, "Schreiben des Plugins fehlgeschlagen.", "Schreiben des Plugins fehlgeschlagen: \n{}\nTraceback ist im Terminal.".format(self.mw.label_flash_status.text()))
+            QMessageBox.critical(self.mw, "Failed to write plugin.", "Failed to write plugin: \n{}\nSee traceback in terminal.".format(self.mw.label_flash_status.text()))
             return False
 
-        self.mw.set_flash_status_okay("Plugin auf Port " + port.upper() + ' geschrieben und verifiziert')
+        self.mw.set_flash_status_okay("Plugin at port " + port.upper() + ' written and verified')
         self.mw.increase_flashed_count()
         return True
 
@@ -114,8 +114,8 @@ class BrickletBase(PluginBase):
             uid = base58encode(int(self.get_new_uid()))
         except:
             traceback.print_exc()
-            self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
-            QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen: \nTraceback ist im Terminal.")
+            self.mw.set_uid_status_error('Failed to get new UID')
+            QMessageBox.critical(self.mw, "Failed to get new UID.", "Failed to get new UID: \nSee traceback in terminal.")
             return False
 
         try:
@@ -123,13 +123,13 @@ class BrickletBase(PluginBase):
             self.get_ipcon().write_bricklet_uid(self.get_current_master(), port, uid)
             uid_read = self.get_ipcon().read_bricklet_uid(self.get_current_master(), port)
             if uid != uid_read:
-                self.mw.set_uid_status_error("Konnte UID an Port " + port.upper() + ' nicht verifizieren')
+                self.mw.set_uid_status_error("Failed to verify UID at port " + port.upper())
                 return False
         except:
             traceback.print_exc()
-            self.mw.set_uid_status_error('Konnte UID für Port ' + port.upper() + ' nicht setzen')
-            QMessageBox.critical(self.mw, 'Konnte UID für Port ' + port.upper() + ' nicht setzen.', 'Konnte UID für Port ' + port.upper() + ' nicht setzen: \nTraceback ist im Terminal.')
+            self.mw.set_uid_status_error('Failed to set UID for port ' + port.upper())
+            QMessageBox.critical(self.mw, 'Failed to set UID for port ' + port.upper(), 'Failed to set UID for port ' + port.upper()": \nSee traceback in terminal.")
             return False
 
-        self.mw.set_uid_status_okay('Neue UID "' + uid + '" für Port ' + port.upper() + ' gesetzt')
+        self.mw.set_uid_status_okay('New UID "' + uid + '" for port ' + port.upper() + ' set')
         return True
