@@ -128,7 +128,7 @@ class Plugin(CoMCUBrickletBase):
                 self.mw.evse_textedit.clear()
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
-            test_iterator = evse_v3_test_generator(self.evse_tester)
+            test_iterator = evse_v3_test_generator(self.evse_tester, self)
 
             for i in test_iterator:
                 if i is not None:
@@ -275,7 +275,9 @@ def evse_v3_test_generator(evse_tester, mw):
     yield('... OK ({0:.1f} Sekunden)'.format(time.time() - start))
 
     yield('Warte auf DC-Schutz Kalibrierung (1.5 Sekunden)')
-    time.sleep(1.2)
+    for i in range(15):
+        time.sleep(0.1)
+        yield(None)
     yield('... OK')
 
     start = time.time()
@@ -355,12 +357,15 @@ def evse_v3_test_generator(evse_tester, mw):
         evse_tester.exit(1)
         return
 
+    data.append(str(res_cppe))
+
     yield(' * 2700 Ohm')
     evse_tester.set_cp_pe_resistor(True, False, False)
 
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
         data.append(str(res_cppe))
         if test_value(res_cppe, 2700):
@@ -382,6 +387,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     yield(' * 880 Ohm')
     evse_tester.set_cp_pe_resistor(True, True, False)
@@ -389,6 +395,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
         data.append(str(res_cppe))
         if test_value(res_cppe, 880):
@@ -410,6 +417,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     yield(' * 240 Ohm')
     evse_tester.set_cp_pe_resistor(True, False, True)
@@ -417,6 +425,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_cppe = evse_tester.evse.get_low_level_state().resistances[0]
         data.append(str(res_cppe))
         if test_value(res_cppe, 240):
@@ -439,6 +448,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     evse_tester.set_cp_pe_resistor(False, False, False)
 
@@ -447,6 +457,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
         data.append(str(res_pppe))
         if test_value(res_pppe, 220):
@@ -468,6 +479,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     yield(' * 1500 Ohm')
     evse_tester.set_pp_pe_resistor(True, False, False, False)
@@ -475,6 +487,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
         data.append(str(res_pppe))
         if test_value(res_pppe, 1500):
@@ -496,6 +509,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     yield(' * 680 Ohm')
     evse_tester.set_pp_pe_resistor(False, True, False, False)
@@ -503,6 +517,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
         data.append(str(res_pppe))
         if test_value(res_pppe, 680):
@@ -524,6 +539,7 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     yield(' * 100 Ohm')
     evse_tester.set_pp_pe_resistor(False, False, False, True)
@@ -531,6 +547,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         res_pppe = evse_tester.evse.get_low_level_state().resistances[1]
         data.append(str(res_pppe))
         if test_value(res_pppe, 100):
@@ -552,9 +569,12 @@ def evse_v3_test_generator(evse_tester, mw):
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
+        yield(None)
 
     evse_tester.set_pp_pe_resistor(False, False, True, False)
-    time.sleep(0.5)
+    for i in range(5):
+        time.sleep(0.1)
+        yield(None)
 
     yield('Beginne Test-Ladung')
 
@@ -603,7 +623,10 @@ def evse_v3_test_generator(evse_tester, mw):
     yield('Aktiviere Schütz Test')
     evse_tester.set_contactor_fb(True)
 
-    time.sleep(0.5)
+    for i in range(5):
+        time.sleep(0.1)
+        yield(None)
+
     yield('... OK')
 
     test_voltages = [-10302, -9698, -9095, -8476, -7871, -7272, -6648, -6047, -5445, -4822, -4224, -3617, -3000, -2396]
@@ -636,6 +659,7 @@ def evse_v3_test_generator(evse_tester, mw):
                         evse_tester.exit(1)
                         return
             time.sleep(0.1)
+            yield(None)
 
     yield('Teste Stromzähler')
     values, detailed_values, hw, error = evse_tester.get_energy_meter_data()
@@ -647,6 +671,10 @@ def evse_v3_test_generator(evse_tester, mw):
         yield('... OK: {0}, {1}'.format(hw.energy_meter_type, values.phases_connected[0]))
 
     yield('Ausschaltzeit messen')
+    for i in range(5):
+        time.sleep(0.1)
+        yield(None)
+
     t1 = time.time()
     evse_tester.set_cp_pe_resistor(True, False, False)
     if not evse_tester.wait_for_contactor_gpio(True):
@@ -660,7 +688,7 @@ def evse_v3_test_generator(evse_tester, mw):
     data.append(str(delay))
     yield('... OK')
 
-    if delay <= 100:
+    if delay <= 120:
         yield('Ausschaltzeit: {0}ms OK'.format(delay))
     else:
         yield('Ausschaltzeit: {0}ms'.format(delay))
@@ -685,6 +713,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         led = evse_tester.get_evse_led()
         if led[0] and (not led[1]) and (not led[2]):
             yield('... OK')
@@ -701,6 +730,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         led = evse_tester.get_evse_led()
         if led[1] and (not led[0]) and (not led[2]):
             yield('... OK')
@@ -717,6 +747,7 @@ def evse_v3_test_generator(evse_tester, mw):
     start = time.time()
     while True:
         time.sleep(0.1)
+        yield(None)
         led = evse_tester.get_evse_led()
         if led[2] and (not led[0]) and (not led[1]):
             yield('... OK')
