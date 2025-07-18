@@ -128,7 +128,7 @@ class BrickletBase(PluginBase):
         except:
             traceback.print_exc()
             self.mw.set_uid_status_error('Failed to set UID for port ' + port.upper())
-            QMessageBox.critical(self.mw, 'Failed to set UID for port ' + port.upper(), 'Failed to set UID for port ' + port.upper()": \nSee traceback in terminal.")
+            QMessageBox.critical(self.mw, 'Failed to set UID for port ' + port.upper(), 'Failed to set UID for port ' + port.upper() + ": \nSee traceback in terminal.")
             return False
 
         self.mw.set_uid_status_okay('New UID "' + uid + '" for port ' + port.upper() + ' set')

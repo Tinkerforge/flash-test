@@ -159,7 +159,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             ]:
             if key not in self.device_by_identifier:
                 continue
-            device_identifiers.append(key, value)
+            device_identifiers.append((key, value))
 
         selected_combo_device_index = None
 
