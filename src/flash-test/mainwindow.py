@@ -108,9 +108,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         if self.offline:
-            self.label_14.hide()
-            self.spin_flashed_count.hide()
-            self.check_print_label.hide()
+            self.label_14.setEnabled(False)
+            self.spin_flashed_count.setEnabled(False)
+            self.check_print_label.setEnabled(False)
 
         self.resize(800, 800)
         self.check_print_label.setChecked(os.path.exists(os.path.join(file_directory, '..', '..', 'enable_label_print')))
