@@ -64,8 +64,13 @@ class Plugin(CoMCUBrickletBase):
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
 
-        self.evse_tester = EVSEV3Tester(log_func=no_log, start_func=self.request_auto_flash)
-        self.evse_tester.setup()
+        self.evse_tester = EVSEV3Tester(log_func=print, start_func=self.request_auto_flash)
+        try:
+            self.evse_tester.setup()
+        except Exception as e:
+            self.mw.set_tool_status_error("Error: " + str(e) + ". Connect EVSE v3 tester and press restart")
+            CoMCUBrickletBase.stop(self)
+            return
 
         self.auto_flash_locked = False
         self.auto_flash_requested = False
