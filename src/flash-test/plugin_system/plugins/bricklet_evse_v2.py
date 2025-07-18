@@ -37,7 +37,7 @@ from ..evse_v3_tester import EVSEV3Tester
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Set EVSE DIP switches to 32A (1=Off, 2=Off, 3=On, 4=On)
+1. Set EVSE 3.0 Bricklet DIP switches to 32A (1=Off, 2=Off, 3=On, 4=On)
 2. Put EVSE 3.0 Bricklet into EVSE tester
 3. Press "Flash"
 4. Wait for Master Brick restart (Tool status changes to "Plugin found")
