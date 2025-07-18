@@ -43,11 +43,11 @@ class Plugin(PluginBase):
 
     def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
-            self.mw.set_tool_status_okay("Firmware gefunden")
-            self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
-            self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
+            self.mw.set_tool_status_okay("Firmware found")
+            self.mw.set_uid_status_okay("Current UID is " + device_information.uid)
+            self.mw.set_flash_status_okay("Installed firmware version is " + '.'.join([str(fw) for fw in device_information.firmware_version]))
         else:
-            self.mw.set_tool_status_normal("Keine Firmware gefunden")
+            self.mw.set_tool_status_normal("No firmware found")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
 

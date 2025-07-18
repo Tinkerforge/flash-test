@@ -64,11 +64,11 @@ class Plugin(CoMCUBrickletBase):
         for i in range(l.count()):
             l.itemAt(i).widget().setVisible(True)
 
-        self.evse_tester = EVSEV3Tester(log_func=print, start_func=self.request_auto_flash)
+        self.evse_tester = EVSEV3Tester(log_func=no_log, start_func=self.request_auto_flash)
         try:
             self.evse_tester.setup()
         except Exception as e:
-            self.mw.set_tool_status_error("Error: " + str(e) + ". Connect EVSE v3 tester and press restart")
+            self.mw.set_tool_status_error("Error: " + str(e) + ". Connect EVSE v3 tester and press restart test")
             CoMCUBrickletBase.stop(self)
             return
 
@@ -144,10 +144,10 @@ class Plugin(CoMCUBrickletBase):
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
 
             if is_retry:
-                self.mw.evse_textedit.append('Dies ware der zweite Versuch!')
+                self.mw.evse_textedit.append('This was the second attempt!')
                 QtWidgets.QApplication.processEvents(QtCore.QEventLoop.AllEvents, 50)
         except:
-            self.mw.evse_textedit.append('-----------------> Fehler im Testablauf:\n' + traceback.format_exc() + '\n')
+            self.mw.evse_textedit.append('-----------------> Error in test run:\n' + traceback.format_exc() + '\n')
 
             if retry_allowed:
                 retry = True
@@ -226,37 +226,35 @@ def test_value(value, expected, margin_percent=0.1, margin_absolute=20):
     return (value*(1-margin_percent) - margin_absolute) < expected < (value*(1+margin_percent) + margin_absolute)
 
 def evse_v3_test_generator(evse_tester, offline, plugin):
-    yield('Schaltereinstellung auf 32A stellen (1=Off, 2=Off, 3=On, 4=On) !!!')
-
-    yield('Suche EVSE Bricklet 3.0 und Tester')
+    yield('Searching EVSE Bricklet 3.0 and tester')
     evse_tester.setup()
     evse_tester.set_led(0, 0, 255)
 
     if evse_tester.find_evse():
         yield('... OK')
     else:
-        yield("Konnte EVSE Bricklet 3.0 nicht finden.")
+        yield("Failed to find EVSE Bricklet 3.0.")
         evse_tester.exit(1)
         return
 
     if not offline:
-        yield("Aktualisiere Testreports...")
+        yield("Updating test reports...")
 
         ok, s = test_log_pull()
         yield(s)
         if ok != 0:
-            yield("Konnte wallbox git nicht finden.")
-            yield("Wallbox git wird benötigt um den Testbericht zu speichern.")
+            yield("Failed to find wallbox git.")
+            yield("Wallbox git is required to save the test report.")
             evse_tester.exit(1)
             return
         yield('... OK')
 
-    yield('Prüfe Hardware-Version (erwarte 3.0)')
+    yield('Checking hardware version (expecting 3.0)')
     hv = evse_tester.get_hardware_version()
     if hv == 30:
         yield('... OK')
     else:
-        yield('-----------------> NICHT OK: {0}'.format(hv))
+        yield('-----------------> NOT OK: {0}'.format(hv))
         evse_tester.exit(1)
         return
 
@@ -277,14 +275,14 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     evse_tester.evse.reset()
     while plugin.enum_count != (count + 1):
         if (time.time() - start) > 10:
-            yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
+            yield('-----------------> NOT OK: EVSE Bricklet did not re-enumerate')
             evse_tester.exit(1)
             return
         time.sleep(0.1)
         yield(None)
-    yield('... OK ({0:.1f} Sekunden)'.format(time.time() - start))
+    yield('... OK ({0:.1f} seconds)'.format(time.time() - start))
 
-    yield('Warte auf DC-Schutz Kalibrierung (1.5 Sekunden)')
+    yield('Waiting for DC protector calibration (1.5 seconds)')
     for i in range(15):
         time.sleep(0.1)
         yield(None)
@@ -293,7 +291,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     start = time.time()
     while True:
         if time.time() - start > 2:
-            yield('-----------------> NICHT OK: Konnte Hardware-Konfiguration nicht abfragen')
+            yield('-----------------> NOT OK: Failed to query hardware configuration')
             evse_tester.exit(1)
             return
         try:
@@ -304,47 +302,47 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             continue
         break
 
-    yield('Teste Schalter-Einstellung')
+    yield('Testing DIP switch setting')
     if hw_conf.jumper_configuration != 6:
-        yield('Falsche Schalter-Einstellung: {0}'.format(hw_conf.jumper_configuration))
-        yield('-----------------> NICHT OK')
+        yield('Wrong DIP switch i: {0}'.format(hw_conf.jumper_configuration))
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
     else:
         yield('... OK')
 
-    yield('Teste Lock-Switch-Einstellung')
+    yield('Testing lock switch setting')
     if hw_conf.has_lock_switch:
-        yield('Falsche Lock-Switch-Einstellung: {0}'.format(hw_conf.has_lock_switch))
-        yield('-----------------> NICHT OK')
+        yield('Wrong lock switch setting: {0}'.format(hw_conf.has_lock_switch))
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
     else:
         yield('... OK')
 
-    yield('Teste Shutdown Input high')
+    yield('Testing Shutdown Input high')
     evse_tester.shutdown_input_enable(True)
     time.sleep(0.1)
     value = evse_tester.evse.get_low_level_state().gpio[18]
     if value:
-        yield('-----------------> NICHT OK')
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
     else:
         yield('... OK')
 
-    yield('Teste Shutdown Input low')
+    yield('Testing Shutdown Input low')
     evse_tester.shutdown_input_enable(False)
     time.sleep(0.1)
     value = evse_tester.evse.get_low_level_state().gpio[18]
     if not value:
-        yield('-----------------> NICHT OK')
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
     else:
         yield('... OK')
 
-    yield('Teste CP/PE...')
+    yield('Testing CP/PE...')
     yield(' * open')
     evse_tester.set_max_charging_current(0)
     while True:
@@ -354,7 +352,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 4294967295 Ohm)'.format(res_cppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 4294967295 Ohm)'.format(res_cppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -363,7 +361,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     if test_value(vol_cppe, 12213):
         yield(' * ... OK ({0} mV)'.format(vol_cppe))
     else:
-        yield('-----------------> NICHT OK {0} mV (erwartet 12213 mV)'.format(vol_cppe))
+        yield('-----------------> NOT OK {0} mV (expected 12213 mV)'.format(vol_cppe))
         evse_tester.exit(1)
         return
 
@@ -383,7 +381,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 2700 Ohm)'.format(res_cppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 2700 Ohm)'.format(res_cppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -393,7 +391,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mV (erwartet 9069 mV)'.format(vol_cppe))
+                yield('-----------------> NOT OK {0} mV (expected 9069 mV)'.format(vol_cppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -413,7 +411,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 880 Ohm)'.format(res_cppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -423,7 +421,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mv (erwartet 6049 mV)'.format(vol_cppe))
+                yield('-----------------> NOT OK {0} mv (expected 6049 mV)'.format(vol_cppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -443,7 +441,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 240 Ohm)'.format(res_cppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 240 Ohm)'.format(res_cppe))
                 evse_tester.exit(1)
                 return
 
@@ -454,7 +452,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mV (erwartet 2646 mV)'.format(vol_cppe))
+                yield('-----------------> NOT OK {0} mV (expected 2646 mV)'.format(vol_cppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -462,7 +460,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
 
     evse_tester.set_cp_pe_resistor(False, False, False)
 
-    yield('Teste PP/PE...')
+    yield('Testing PP/PE...')
     yield(' * 220 Ohm')
     start = time.time()
     while True:
@@ -475,7 +473,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 220 Ohm)'.format(res_pppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 220 Ohm)'.format(res_pppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -485,7 +483,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mv (erwartet 834 mV)'.format(vol_pppe))
+                yield('-----------------> NOT OK {0} mv (expected 834 mV)'.format(vol_pppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -505,7 +503,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 1500 Ohm)'.format(res_pppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 1500 Ohm)'.format(res_pppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -515,7 +513,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mv (erwartet 2313 mV)'.format(vol_pppe))
+                yield('-----------------> NOT OK {0} mv (expected 2313 mV)'.format(vol_pppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -535,7 +533,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 680 Ohm)'.format(res_pppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 680 Ohm)'.format(res_pppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -545,7 +543,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mV (erwartet 1695 mV)'.format(vol_pppe))
+                yield('-----------------> NOT OK {0} mV (expected 1695 mV)'.format(vol_pppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -565,7 +563,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} Ohm (erwartet 100 Ohm)'.format(res_pppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 100 Ohm)'.format(res_pppe))
                 evse_tester.exit(1)
                 return
     while True:
@@ -575,7 +573,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK {0} mV (erwartet 441 mV)'.format(vol_pppe))
+                yield('-----------------> NOT OK {0} mV (expected 441 mV)'.format(vol_pppe))
                 evse_tester.exit(1)
                 return
         time.sleep(0.1)
@@ -586,7 +584,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
         time.sleep(0.1)
         yield(None)
 
-    yield('Beginne Test-Ladung')
+    yield('Starting test charge')
 
     evse_tester.set_contactor_fb(False)
     evse_tester.set_230v(True)
@@ -599,38 +597,38 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     evse_tester.evse.reset()
     while plugin.enum_count != (count+1):
         if (time.time() - start) > 10:
-            yield('-----------------> NICHT OK: EVSE Bricklet hat nicht neu enumeriert')
+            yield('-----------------> NOT OK: EVSE Bricklet did not re-enumerate')
             evse_tester.exit(1)
             return
         time.sleep(0.1)
         yield(None)
-    yield('... OK ({0:.1f} Sekunden)'.format(time.time() - start))
+    yield('... OK ({0:.1f} seconds)'.format(time.time() - start))
 
 
-    yield('Warte auf DC-Schutz Kalibrierung (1.5 Sekunden)')
+    yield('Waiting for DC protector calibration (1.5 seconds)')
     for i in range(15):
         time.sleep(0.1)
         yield(None)
     yield('... OK')
 
-    yield('Setze 2700 Ohm Widerstand')
+    yield('Setting 2700 Ohm resistance')
     evse_tester.set_cp_pe_resistor(True, False, False)
     yield('... OK')
     time.sleep(0.1)
 
-    yield('Setze 2700 Ohm + 1300 Ohm Widerstand')
+    yield('Setting 2700 Ohm + 1300 Ohm resistance')
     evse_tester.set_cp_pe_resistor(True, True, False)
     yield('... OK')
 
-    yield('Aktiviere Schütz')
+    yield('Activating contactor')
     if evse_tester.wait_for_contactor_gpio(False):
         yield('... OK')
     else:
-        yield('-----------------> NICHT OK')
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
 
-    yield('Aktiviere Schütz Test')
+    yield('Activating contactor test')
     evse_tester.set_contactor_fb(True)
 
     for i in range(5):
@@ -655,7 +653,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
                     res_cppe_ok = True
                 else:
                     if time.time() - start > 5:
-                        yield('-----------------> NICHT OK {0} Ohm (erwartet 880 Ohm)'.format(res_cppe))
+                        yield('-----------------> NOT OK {0} Ohm (expected 880 Ohm)'.format(res_cppe))
                         evse_tester.exit(1)
                         return
             if not vol_cppe_ok:
@@ -665,22 +663,22 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
                     vol_cppe_ok = True
                 else:
                     if time.time() - start > 5:
-                        yield('-----------------> NICHT OK {0} mV (erwartet {1} mV) -> Wahrscheinlich kein PWM'.format(vol_cppe, test_voltages[i]))
+                        yield('-----------------> NOT OK {0} mV (expected {1} mV) -> Probably no PWM'.format(vol_cppe, test_voltages[i]))
                         evse_tester.exit(1)
                         return
             time.sleep(0.1)
             yield(None)
 
-    yield('Teste Stromzähler')
+    yield('Testing energy meter')
     values, detailed_values, hw, error = evse_tester.get_energy_meter_data()
     if (not hw.energy_meter_type > 0) or (not values.phases_connected[0]):
-        yield('-----------------> NICHT OK: {0}, {1}, {2}'.format(str(hw), str(error), str(values)))
+        yield('-----------------> NOT OK: {0}, {1}, {2}'.format(str(hw), str(error), str(values)))
         evse_tester.exit(1)
         return
     else:
         yield('... OK: {0}, {1}'.format(hw.energy_meter_type, values.phases_connected[0]))
 
-    yield('Ausschaltzeit messen')
+    yield('Measuing shut down time')
     for i in range(5):
         time.sleep(0.1)
         yield(None)
@@ -688,7 +686,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     t1 = time.time()
     evse_tester.set_cp_pe_resistor(True, False, False)
     if not evse_tester.wait_for_contactor_gpio(True):
-        yield('-----------------> NICHT OK: Schütz hat nicht geschaltet')
+        yield('-----------------> NOT OK: Contactor did not switch')
         evse_tester.exit(1)
         return
     evse_tester.set_contactor_fb(False)
@@ -699,25 +697,25 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     yield('... OK')
 
     if delay <= 120:
-        yield('Ausschaltzeit: {0}ms OK'.format(delay))
+        yield('Shut down time: {0}ms OK'.format(delay))
     else:
-        yield('Ausschaltzeit: {0}ms'.format(delay))
-        yield('-----------------> NICHT OK')
+        yield('Shut down time: {0}ms'.format(delay))
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
 
-    yield('Teste Front-Taster')
+    yield('Testing front button')
     evse_tester.press_button(True)
 
     if evse_tester.wait_for_button_gpio(True): # Button True = Pressed
         yield('... OK')
     else:
-        yield('-----------------> NICHT OK')
+        yield('-----------------> NOT OK')
         evse_tester.exit(1)
         return
     evse_tester.press_button(False)
 
-    yield('Teste LED R')
+    yield('Testing LED R')
     evse_tester.set_evse_led(True, False, False)
 
     start = time.time()
@@ -730,11 +728,11 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                yield('-----------------> NOT OK: {0} {1} {2}'.format(*led))
                 evse_tester.exit(1)
                 return
 
-    yield('Teste LED G')
+    yield('Testing LED G')
     evse_tester.set_evse_led(False, True, False)
 
     start = time.time()
@@ -747,11 +745,11 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                yield('-----------------> NOT OK: {0} {1} {2}'.format(*led))
                 evse_tester.exit(1)
                 return
 
-    yield('Teste LED B')
+    yield('Testing LED B')
     evse_tester.set_evse_led(False, False, True)
 
     start = time.time()
@@ -764,7 +762,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NICHT OK: {0} {1} {2}'.format(*led))
+                yield('-----------------> NOT OK: {0} {1} {2}'.format(*led))
                 evse_tester.exit(1)
                 return
 
@@ -772,9 +770,9 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
         with OFFLINE_TEST_LOG_DIRECTORY.open('a+') as f:
             f.write(', '.join(data) + '\n')
         yield('')
-        yield('Fertig. Alles OK')
+        yield('Done. All OK')
     else:
-        yield("Speichere Testreport...")
+        yield("Saving test report...")
         with open(os.path.join(TEST_LOG_DIRECTORY, TEST_LOG_FILENAME), 'a+') as f:
             f.write(', '.join(data) + '\n')
 
@@ -782,7 +780,7 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
         yield(s)
         if ok == 0:
             yield('')
-            yield('Fertig. Alles OK')
+            yield('Done. All OK')
 
     evse_tester.exit(0)
     return

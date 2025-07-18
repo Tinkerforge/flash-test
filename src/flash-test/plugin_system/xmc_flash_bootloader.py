@@ -103,7 +103,7 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
         while time.time() - start < 1:
             if global_uid_master != None:
                 break
-    
+
             time.sleep(0.1)
 
         if global_uid_master == None:
@@ -131,7 +131,7 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
     ret = True
     while True:
         if time.time() - start > loop_timeout:
-            print_func('Timeout beim Bootloader schreiben')
+            print_func('Writing bootloader timed out')
             ret = False
             break
 
@@ -153,18 +153,18 @@ def xmc_flash_bootloader(zbin, uid_master=None, non_standard_print=None, power_o
             ret = master.set_bricklet_xmc_flash_config(2, 0, 0, [0]*52)
             if ret.return_value == 0:
                 break
-                
+
             errors.add(str(ret.return_value))
         except Exception as e:
             errors.add(str(e))
 
     if ret != False:
         print_func('Done (try ' + str(i) + ')')
-        
+
     master.set_bricklets_enabled(True)
 
     master.reset()
-    
+
     ipcon.disconnect()
 
     return ret

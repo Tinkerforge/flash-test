@@ -29,14 +29,14 @@ from ..callback_emulator import CallbackEmulator
 
 class Plugin(CoMCUBrickletBase):
     TODO_TEXT = u"""\
-1. Verbinde NFC Bricklet mit Port D des Master Bricks 3.0
-2. NFC Tag auf Bricklet legen
-3. Drücke "Flashen"
-4. Warte bis Master Brick neugestartet hat (Tool Status ändert sich auf "Plugin gefunden")
-5. Warte bis "Warte auf Tag" als Wert angezeigt wird
-6. NFC Tag ID und Typ muss angezeigt werden
-7. Das Bricklet ist fertig, in normale ESD-Tüte stecken, zuschweißen, Aufkleber aufkleben
-8. Gehe zu 1
+1. Connect NFC Bricklet with port D of the Master Brick 3.0
+2. Put NFC tag on bricklet
+3. Press "Flash"
+4. Wait for Master Brick restart (Tool status changes to "Plugin found")
+5. Wait until "Waiting for tag" is shown
+6. Wait until "Tag found [...]" is shown
+7. Bricklet is ready, put in standard ESD bag, weld shut, stick label on bag
+8. Go to 1
 """
 
     def __init__(self, *args):
@@ -77,23 +77,23 @@ class Plugin(CoMCUBrickletBase):
 
         if state == self.nfc.READER_STATE_INITIALIZATION:
             self.nfc.set_mode(self.nfc.MODE_READER)
-            self.mw.set_value_normal("Initialisierung")
+            self.mw.set_value_normal("Initialization")
 
         elif state == self.nfc.READER_STATE_IDLE:
-            self.mw.set_value_normal("Warte auf Tag")
+            self.mw.set_value_normal("Waiting for tag")
             self.nfc.reader_request_tag_id()
 
         elif state == self.nfc.READER_STATE_REQUEST_TAG_ID:
-            self.mw.set_value_normal("Warte auf Tag")
+            self.mw.set_value_normal("Waiting for tag")
 
         elif state == self.nfc.READER_STATE_REQUEST_TAG_ID_READY:
             ret = self.nfc.reader_get_tag_id()
 
-            s = 'Tag gefunden mit Typ ' + str(ret.tag_type) + ', ID [' + ' '.join(map(str, map(hex, ret.tag_id))) + "]"
+            s = 'Tag found with type ' + str(ret.tag_type) + ', ID [' + ' '.join(map(str, map(hex, ret.tag_id))) + "]"
 
             self.nfc.reader_request_tag_id()
             self.mw.set_value_okay(s)
 
         elif state == self.nfc.READER_STATE_REQUEST_TAG_ID_ERROR:
-            self.mw.set_value_normal("Warte auf Tag")
+            self.mw.set_value_normal("Waiting for tag")
             self.nfc.reader_request_tag_id()

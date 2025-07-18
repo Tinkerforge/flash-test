@@ -58,16 +58,16 @@ class CoMCUBrickletBase(PluginBase):
 
     def show_device_information(self, device_information, clear_value=False):
         if device_information != None:
-            self.mw.set_tool_status_okay("Plugin gefunden")
+            self.mw.set_tool_status_okay("Plugin found")
 
             if device_information.uid in ['1', '7xwQ9g']:
-                self.mw.set_uid_status_error("Aktuelle UID " + device_information.uid + " ist ungültig")
+                self.mw.set_uid_status_error("Current UID " + device_information.uid + " is invalid")
             else:
-                self.mw.set_uid_status_okay("Aktuelle UID lautet " + device_information.uid)
+                self.mw.set_uid_status_okay("Current UID is " + device_information.uid)
 
-            self.mw.set_flash_status_okay("Aktuelle Firmware Version lautet " + '.'.join([str(fw) for fw in device_information.firmware_version]))
+            self.mw.set_flash_status_okay("Installed firmware version is " + '.'.join([str(fw) for fw in device_information.firmware_version]))
         else:
-            self.mw.set_tool_status_normal("Kein Plugin gefunden")
+            self.mw.set_tool_status_normal("No plugin found")
             self.mw.set_uid_status_normal('-')
             self.mw.set_flash_status_normal('-')
 
@@ -95,7 +95,7 @@ class CoMCUBrickletBase(PluginBase):
         start = time.time()
         while self.comcu_uid_to_flash == None:
             if time.time() - start > 10:
-                self.mw.set_flash_status_error('Timeout beim Firmware schreiben')
+                self.mw.set_flash_status_error('Writing firmware timed out')
                 return False, None
             QtWidgets.QApplication.processEvents()
 
@@ -105,7 +105,7 @@ class CoMCUBrickletBase(PluginBase):
             try:
                 zf = ZipFile(plugin_filename, 'r')
             except:
-                self.mw.set_flash_status_error('Konnte Bricklet Plugin nicht öffnen:\n\n' + traceback.format_exc())
+                self.mw.set_flash_status_error('Failed to open Bricklet plugin:\n\n' + traceback.format_exc())
                 return False, None
 
             plugin_data = None
@@ -115,7 +115,7 @@ class CoMCUBrickletBase(PluginBase):
                     break
 
             if plugin_data == None:
-                self.mw.set_flash_status_error('Konnte Firmware in zbin nicht finden')
+                self.mw.set_flash_status_error('Failed to find firmware in zbin')
                 return False, None
 
             # Now convert plugin to list of bytes
@@ -127,7 +127,7 @@ class CoMCUBrickletBase(PluginBase):
                     break
 
             if regular_plugin_upto == -1:
-                self.mw.set_flash_status_error('Konnte "magic number" in Firmware nicht finden')
+                self.mw.set_flash_status_error('Failed to find "magic number" in firmware')
 
             ipcon = IPConnection()
             device = BrickletUnknown(self.comcu_uid_to_flash, ipcon)
@@ -145,9 +145,9 @@ class CoMCUBrickletBase(PluginBase):
                     last_exc_tup = sys.exc_info()
 
                 if counter == 10:
-                    self.mw.set_flash_status_error('Gerät nicht im Bootloader-Modus nach 2,5s.')
+                    self.mw.set_flash_status_error('Device not in bootloader mode after 2,5 s.')
                     traceback.print_exception(*last_exc_tup)
-                    QMessageBox.critical(self.mw, 'Gerät nicht im Bootloader-Modus nach 2,5s.', 'Gerät nicht im Bootloader-Modus nach 2,5s\nTraceback ist im Terminal.')
+                    QMessageBox.critical(self.mw, 'Device not in bootloader mode after 2,5 s.', 'Device not in bootloader mode after 2,5 s\nSee traceback in terminal.')
                     ipcon.disconnect()
                     return False, None
 
@@ -184,16 +184,16 @@ class CoMCUBrickletBase(PluginBase):
                 if _ == 1:
                     index_list = range(num_packets)
 
-                self.mw.set_flash_status_action('Schreibe Firmware: ' + name)
+                self.mw.set_flash_status_action('Writing firmware: ' + name)
                 to_write = str(len(index_list) - 1)
                 for position in index_list:
                     start = position*64
                     end   = (position+1)*64
-                    self.mw.set_flash_status_action('Schreibe Firmware: ' + str(position) + '/' + to_write)
+                    self.mw.set_flash_status_action('Writing firmware: ' + str(position) + '/' + to_write)
                     device.set_write_firmware_pointer(start)
                     device.write_firmware(plugin[start:end])
 
-                self.mw.set_flash_status_action('Wechsle vom Bootloader-Modus in den Firmware-Modus')
+                self.mw.set_flash_status_action('Changing from bootloader mode to firmware mode')
 
                 mode_ret = device.set_bootloader_mode(device.BOOTLOADER_MODE_FIRMWARE)
                 if mode_ret != 0 and mode_ret != 2: # 0 = ok, 2 = no change
@@ -213,7 +213,7 @@ class CoMCUBrickletBase(PluginBase):
                     if mode_ret == 5:
                         continue
 
-                    self.mw.set_flash_status_error('Konnte nicht vom Bootloader-Modus in den Firmware-Modus wechseln: ' + error_str)
+                    self.mw.set_flash_status_error('Failed to change from bootloader mode to firmware mode: ' + error_str)
                     ipcon.disconnect()
                     return False, None
 
@@ -231,23 +231,23 @@ class CoMCUBrickletBase(PluginBase):
                     last_exc_tup = sys.exc_info()
 
                 if counter == 10:
-                    self.mw.set_flash_status_error('Gerät nicht im Firmware-Modus nach 25s.')
+                    self.mw.set_flash_status_error('Device not in firmware mode after 2,5 s.')
                     traceback.print_exception(*last_exc_tup)
-                    QMessageBox.critical(self.mw, 'Gerät nicht im Firmware-Modus nach 25s.', 'Gerät nicht im Firmware-Modus nach 25s\nTraceback ist im Terminal.')
+                    QMessageBox.critical(self.mw, 'Device not in firmware mode after 2,5 s.', 'Device not in firmware mode after 2,5 s\nSee traceback in terminal.')
                     ipcon.disconnect()
                     return False, None
 
                 time.sleep(0.25)
                 counter += 1
 
-            self.mw.set_flash_status_okay('Firmware geschrieben und gestartet')
+            self.mw.set_flash_status_okay('Firmware written and booted')
 
             try:
                 uid = int(self.get_new_uid())
             except:
                 traceback.print_exc()
                 self.mw.set_uid_status_error('Konnte keine neue UID von tinkerforge.com abfragen')
-                QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen:\nTraceback ist im Terminal.")
+                QMessageBox.critical(self.mw, "Konnte keine neue UID von tinkerforge.com abfragen.", "Konnte keine neue UID von tinkerforge.com abfragen:\nSee traceback in terminal.")
                 ipcon.disconnect()
                 return False, None
 
@@ -255,8 +255,8 @@ class CoMCUBrickletBase(PluginBase):
                 identity = device.get_identity()
             except:
                 traceback.print_exc()
-                self.mw.set_uid_status_error('Konnte Identity nicht abfragen')
-                QMessageBox.critical(self.mw, "Konnte Identity nicht abfragen.", "Konnte Identity nicht abfragen:\nTraceback ist im Terminal.")
+                self.mw.set_uid_status_error('Failed to query device identity')
+                QMessageBox.critical(self.mw, "Failed to query device identity.", "Failed to query device identity:\nSee traceback in terminal.")
                 ipcon.disconnect()
                 return False, None
 
@@ -265,17 +265,17 @@ class CoMCUBrickletBase(PluginBase):
                 if not 'bricklet_isolator_firmware' in plugin_filename:
                     uid_read = device.read_uid()
                     if uid != uid_read:
-                        self.mw.set_uid_status_error("Konnte UID nicht verifizieren")
+                        self.mw.set_uid_status_error("Failed to verify UID")
                         ipcon.disconnect()
                         return False, None
             except:
                 traceback.print_exc()
-                self.mw.set_uid_status_error('Konnte UID nicht setzen')
-                QMessageBox.critical(self.mw, "Konnte UID nicht setzen.", "Konnte UID nicht setzen:\nTraceback ist im Terminal.")
+                self.mw.set_uid_status_error('Failed to set UID')
+                QMessageBox.critical(self.mw, "Failed to set UID.", "Failed to set UID:\nSee traceback in terminal.")
                 ipcon.disconnect()
                 return False, None
 
-            self.mw.set_uid_status_okay('Neue UID "' + base58encode(uid) + '" gesetzt')
+            self.mw.set_uid_status_okay('Set new UID ' + base58encode(uid))
 
             self.comcu_uid_to_flash = None
 
@@ -292,13 +292,13 @@ class CoMCUBrickletBase(PluginBase):
             return True, LabelInfo(sku, base58encode(uid), identity.firmware_version, None)
         except:
             traceback.print_exc()
-            self.mw.set_flash_status_error('Unerwarteter Fehler:\n\n' + traceback.format_exc())
+            self.mw.set_flash_status_error('Unexpected error:\n\n' + traceback.format_exc())
             return False, None
 
     def write_bootloader_to_bricklet(self, plugin_filename, power_off_duration=None, try_count=None):
         uid_master = self.mw.device_manager.flash_master_brick_v3_uid
         if uid_master == None:
-            self.mw.set_flash_status_error('Kein Master Brick HW Version 3.0 angeschlossen')
+            self.mw.set_flash_status_error('No Master Brick >= 3.0 connected')
             return False
 
         try:

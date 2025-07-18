@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Tinkerforge Flash und Test</string>
+   <string>Tinkerforge Flash and Test</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -49,7 +49,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Flashen</string>
+           <string>Flash</string>
           </property>
           <property name="default">
            <bool>true</bool>
@@ -59,14 +59,14 @@
         <item>
          <widget class="QPushButton" name="button_restart_test">
           <property name="text">
-           <string>Test Neustarten</string>
+           <string>Restart test</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_14">
           <property name="text">
-           <string>Anzahl:</string>
+           <string>Label count:</string>
           </property>
          </widget>
         </item>
@@ -80,7 +80,7 @@
         <item>
          <widget class="QCheckBox" name="check_print_label">
           <property name="text">
-           <string>Etikett drucken</string>
+           <string>Print label</string>
           </property>
          </widget>
         </item>
@@ -128,7 +128,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Wert:</string>
+           <string>Value:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
