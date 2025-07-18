@@ -106,6 +106,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             urllib.request.install_opener(opener)
 
         self.setupUi(self)
+
+        if self.offline:
+            self.label_14.hide()
+            self.spin_flashed_count.hide()
+            self.check_print_label.hide()
+
         self.resize(800, 800)
         self.check_print_label.setChecked(os.path.exists(os.path.join(file_directory, '..', '..', 'enable_label_print')))
         temp_layouts = [self.industrial_dual_analog_in_layout,
