@@ -27,6 +27,8 @@ from plugin_system.tinkerforge.ip_connection import IPConnection
 from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
 from plugin_system.tinkerforge.bricklet_dmx import BrickletDMX
+from plugin_system.tinkerforge.bricklet_nfc import BrickletNFC
+from plugin_system.tinkerforge.bricklet_evse_v2 import BrickletEVSEV2
 from collections import namedtuple
 
 DeviceInformation = namedtuple('DeviceInformation', 'uid, connected_uid, position, hardware_version, firmware_version, device_identifier, enumeration_type')
@@ -46,6 +48,11 @@ class DeviceManager(QtCore.QObject):
         self.mw = mw
 
         self.qtcb_enumerate.connect(self.cb_enumerate)
+
+        self.preferred_master_bricks_for_device = {
+            BrickletNFC.DEVICE_IDENTIFIER: ['6KvRZb'], # eltako wallbox tester
+            BrickletEVSEV2.DEVICE_IDENTIFIER: ['6y1Xk9'], # eltako wallbox tester
+        }
 
         self.ipcon = IPConnection()
         self.ipcon.connect(self.HOST, self.PORT)
@@ -67,7 +74,11 @@ class DeviceManager(QtCore.QObject):
 
             # TODO: Add specific list of flash Master Bricks?
             if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and (uid != '6ss6Tw') and (uid != '69hPkG'):
-                self.flash_master_brick_v3_uid = uid
+                # Don't overwrite flash_master_brick_v3_uid if we've already found one of the preferred Master Bricks for the selected Bricklet
+                if self.mw.current_plugin:
+                    did = self.mw.current_plugin.get_device_identifier()
+                    if did not in self.preferred_master_bricks_for_device or self.flash_master_brick_v3_uid not in self.preferred_master_bricks_for_device[did]:
+                        self.flash_master_brick_v3_uid = uid
 #                return
 
             # DMX Master
