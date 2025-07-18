@@ -159,7 +159,7 @@ class EVSEV3Tester:
         if r2700: l.append("2700 Ohm")
         if r1300: l.append("1300 Ohm")
         if r270:  l.append("270 Ohm")
-    
+
         log("Set CP/PE resistor: " + ', '.join(l))
 
     def set_pp_pe_resistor(self, r1500, r680, r220, r100):
@@ -171,8 +171,8 @@ class EVSEV3Tester:
         if r680:  l.append("680 Ohm")
         if r220:  l.append("220 Ohm")
         if r100:  l.append("110 Ohm")
-    
-        log("Set PP/PE resistor: " + ', '.join(l)) 
+
+        log("Set PP/PE resistor: " + ', '.join(l))
 
     def wait_for_contactor_gpio(self, active):
         log("Waiting for contactor GPIO to become {0}active...".format("" if active else "in"))
@@ -223,14 +223,14 @@ class EVSEV3Tester:
 
     def get_hardware_version(self):
         return self.evse.get_hardware_configuration().evse_version
-    
+
     def get_energy_meter_data(self):
         a = self.evse.get_energy_meter_values()
         b = self.evse.get_all_energy_meter_values()
         c = self.evse.get_hardware_configuration()
         d = self.evse.get_energy_meter_errors()
         return (a, b, c, d)
-    
+
     def get_cp_pe_voltage(self):
         return self.idai.get_voltage(1)
 
