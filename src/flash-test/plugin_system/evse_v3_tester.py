@@ -178,26 +178,28 @@ class EVSEV3Tester:
         log("Waiting for contactor GPIO to become {0}active...".format("" if active else "in"))
 
         start = time.time()
-        counter = 0
+
+        uptime_start = 0
+        uptime_end = 0
 
         while True:
             state = self.evse.get_low_level_state()
+            if uptime_start == 0:
+                uptime_start = state.uptime
 
             if state.gpio[11] == active:
                 break
 
-            if counter > 100:
-                counter = 0
+            uptime_end = state.uptime
 
-                if time.time() - start > 10:
-                    log("Contactor GPIO to did not become {0}active...".format("" if active else "in"))
-                    return False
+            if time.time() - start > 10:
+                log("Contactor GPIO to did not become {0}active...".format("" if active else "in"))
+                return (False, 0)
 
-            counter += 1
             time.sleep(0.01)
 
         log("Done")
-        return True
+        return (True, uptime_end - uptime_start)
 
     def wait_for_button_gpio(self, active):
         log("Waiting for button GPIO to become {0}active...".format("" if active else "in"))

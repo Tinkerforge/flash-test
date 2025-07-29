@@ -621,7 +621,8 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     yield('... OK')
 
     yield('Activating contactor')
-    if evse_tester.wait_for_contactor_gpio(False):
+    result, _ = evse_tester.wait_for_contactor_gpio(False)
+    if result:
         yield('... OK')
     else:
         yield('-----------------> NOT OK')
@@ -678,21 +679,21 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
     else:
         yield('... OK: {0}, {1}'.format(hw.energy_meter_type, values.phases_connected[0]))
 
-    yield('Measuing shut down time')
-    for i in range(5):
+    yield('Measuring shut down time')
+    # Wait 600ms because of possible PWM change
+    for i in range(6):
         time.sleep(0.1)
         yield(None)
 
-    t1 = time.time()
     evse_tester.set_cp_pe_resistor(True, False, False)
-    if not evse_tester.wait_for_contactor_gpio(True):
+    yield(None)
+    result, delay  = evse_tester.wait_for_contactor_gpio(True)
+    if not result:
         yield('-----------------> NOT OK: Contactor did not switch')
         evse_tester.exit(1)
         return
     evse_tester.set_contactor_fb(False)
-    t2 = time.time()
 
-    delay = int((t2-t1)*1000)
     data.append(str(delay))
     yield('... OK')
 
