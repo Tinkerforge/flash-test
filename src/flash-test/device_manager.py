@@ -73,7 +73,7 @@ class DeviceManager(QtCore.QObject):
                 return
 
             # TODO: Add specific list of flash Master Bricks?
-            if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and (uid != '6ss6Tw') and (uid != '69hPkG'):
+            if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and uid not in ['6ss6Tw', '69hPkG', '6fdWd3']:
                 # Don't overwrite flash_master_brick_v3_uid if we've already found one of the preferred Master Bricks for the selected Bricklet
                 if self.mw.current_plugin:
                     did = self.mw.current_plugin.get_device_identifier()
