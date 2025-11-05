@@ -87,7 +87,7 @@ class Plugin(CoMCUBrickletBase):
         self.servo.set_enable(0, True)
         self.servo.set_motion_configuration(0, 0xFFFF, 0xFFFF, 0xFFFF)
         self.cbe_servo_current = CallbackEmulator(lambda: self.servo.get_servo_current(0), self.cb_servo_current, ignore_last_data=True)
-        self.cbe_servo_current.set_period(500)
+        self.cbe_servo_current.set_period(2000)
 
         self.show_device_information(device_information)
 
