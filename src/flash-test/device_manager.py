@@ -28,6 +28,7 @@ from plugin_system.tinkerforge.brick_master import BrickMaster
 from plugin_system.tinkerforge.bricklet_io4 import BrickletIO4
 from plugin_system.tinkerforge.bricklet_dmx import BrickletDMX
 from plugin_system.tinkerforge.bricklet_nfc import BrickletNFC
+from plugin_system.tinkerforge.bricklet_can import BrickletCAN
 from plugin_system.tinkerforge.bricklet_evse_v2 import BrickletEVSEV2
 from collections import namedtuple
 
@@ -54,6 +55,8 @@ class DeviceManager(QtCore.QObject):
             BrickletEVSEV2.DEVICE_IDENTIFIER: ['6y1Xk9'], # eltako wallbox tester
         }
 
+        self.can = None
+
         self.ipcon = IPConnection()
         self.ipcon.connect(self.HOST, self.PORT)
         self.ipcon.register_callback(self.ipcon.CALLBACK_ENUMERATE, self.qtcb_enumerate.emit)
@@ -71,6 +74,15 @@ class DeviceManager(QtCore.QObject):
                     self.mw.foot_pedal.set_interrupt(1)
 
                 return
+
+            # CAN tester Bricklet
+            if uid == 'catst':
+                if self.can == None:
+                    self.can = BrickletCAN(uid, self.ipcon)
+                    self.can.enable_frame_read_callback()
+                    self.can.register_callback(BrickletCAN.CALLBACK_FRAME_READ, lambda frame_type, identifier, data, length: self.can.write_frame(frame_type, identifier, data, length))
+                return
+
 
             # TODO: Add specific list of flash Master Bricks?
             if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and uid not in ['6ss6Tw', '69hPkG', '6fdWd3']:
