@@ -165,7 +165,7 @@ class Plugin(CoMCUBrickletBase):
             self.auto_flash_locked = False
 
 TEST_LOG_FILENAME = "full_test_log.csv"
-TEST_LOG_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..', '..', 'wallbox', 'evse_v3_test_report'))
+TEST_LOG_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..', '..', 'test-reports', 'evse_v3'))
 OFFLINE_TEST_LOG_DIRECTORY = Path.home() / 'evse_v3_test_report'
 
 def test_log_pull():
@@ -243,8 +243,8 @@ def evse_v3_test_generator(evse_tester, offline, plugin):
         ok, s = test_log_pull()
         yield(s)
         if ok != 0:
-            yield("Failed to find wallbox git.")
-            yield("Wallbox git is required to save the test report.")
+            yield("Failed to find test-reports git.")
+            yield("Das test-reports git is required to save the test report.")
             evse_tester.exit(1)
             return
         yield('... OK')
