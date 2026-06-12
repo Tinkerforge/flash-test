@@ -85,7 +85,7 @@ class DeviceManager(QtCore.QObject):
 
 
             # TODO: Add specific list of flash Master Bricks?
-            if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and uid not in ['6ss6Tw', '69hPkG', '6fdWd3']:
+            if (device_identifier == BrickMaster.DEVICE_IDENTIFIER) and (hardware_version[0] >= 3) and (position == '0') and uid not in ['6ss6Tw', '69hPkG', '6fdWd3', '6gjegq']:
                 # Don't overwrite flash_master_brick_v3_uid if we've already found one of the preferred Master Bricks for the selected Bricklet
                 if self.mw.current_plugin:
                     did = self.mw.current_plugin.get_device_identifier()
@@ -103,7 +103,10 @@ class DeviceManager(QtCore.QObject):
             # Overwrite device if it already exists
             self.devices[device_identifier] = device_information
             if self.mw.current_plugin:
-                if self.mw.current_plugin.get_device_identifier() == device_identifier or self.mw.current_plugin.handles_device_identifier(device_identifier):
+                current_plugin_device_identifier = self.mw.current_plugin.get_device_identifier()
+                if current_plugin_device_identifier == 2999: # EVSE V4
+                    current_plugin_device_identifier = BrickletEVSEV2.DEVICE_IDENTIFIER
+                if current_plugin_device_identifier == device_identifier or self.mw.current_plugin.handles_device_identifier(device_identifier):
                     is_first_brick_in_stack_or_bricklet_or_hat = not str(device_identifier).startswith('1') or position == '0' or device_identifier in (111, 112, 102)
                     if is_first_brick_in_stack_or_bricklet_or_hat:
                         try:

@@ -153,6 +153,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if display_name == "EVSE Bricklet 2.0":
                 display_name = "EVSE Bricklet 2.0 (flash) and 3.0 (flash+test)"
             device_identifiers.append((key, display_name))
+            if key == 2167:
+                device_identifiers.append((2999, 'EVSE Bricklet 4.0'))
 
         for key, value in [
                 (31, 'Chibi Extension'),
