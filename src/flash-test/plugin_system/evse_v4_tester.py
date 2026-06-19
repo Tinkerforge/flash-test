@@ -82,6 +82,9 @@ class EVSEV4Tester:
         self.io42 = BrickletIO4V2(UID_IO42,                    self.ipcon)
         self.idr  = BrickletIndustrialDualRelay(UID_IDR,       self.ipcon)
 
+        self.initialize()
+
+    def initialize(self):
         devices = [self.iai1, self.io41, self.iqr1, self.iqr2, self.iqr3, self.iqr4, self.iaci, self.led, self.iai2, self.iai3, self.io42, self.idr]
 
         for device in devices:
