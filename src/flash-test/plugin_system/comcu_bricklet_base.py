@@ -85,11 +85,11 @@ class CoMCUBrickletBase(PluginBase):
         bootloader_success = self.write_bootloader_to_bricklet(plugin_filename, power_off_duration=power_off_duration, try_count=try_count)
         firmware_success, label_info = self.write_firmware_and_uid_to_bricklet(plugin_filename, sku_override=sku_override)
 
-        if bootloader_success and firmware_success:
+        if firmware_success:
             if self.mw.check_print_label.isChecked():
                 self.mw.print_label(label_info)
 
-        return bootloader_success and firmware_success
+        return firmware_success
 
     def write_firmware_and_uid_to_bricklet(self, plugin_filename, sku_override=None):
         start = time.time()
