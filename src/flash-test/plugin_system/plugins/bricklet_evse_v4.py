@@ -575,7 +575,7 @@ def evse_v4_test_generator(evse_tester, offline, plugin):
             break
         else:
             if time.time() - start > 5:
-                yield('-----------------> NOT OK {0} Ohm (expected 680 Ohm)'.format(res_pppe))
+                yield('-----------------> NOT OK {0} Ohm (expected 680 Ohm). Jumper nicht auf RES gesetzt?'.format(res_pppe))
                 evse_tester.exit(1)
                 return
     while True:
