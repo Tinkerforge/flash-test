@@ -246,7 +246,7 @@ def evse_v4_test_generator(evse_tester, offline, plugin):
         yield(s)
         if ok != 0:
             yield("Failed to find test-reports git.")
-            yield("Das test-reports git is required to save the test report.")
+            yield("The test-reports git is required to save the test report.")
             evse_tester.exit(1)
             return
         yield('... OK')
