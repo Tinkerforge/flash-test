@@ -29,6 +29,8 @@ if tester_id == '1':
 else:
     pass
 
+# Keep all relative imports below this line!
+# See https://github.com/Tinkerforge/esp32-firmware/commit/6355b8b7
 from .tinkerforge.ip_connection import IPConnection
 from .tinkerforge.bricklet_evse_v2 import BrickletEVSEV2
 
