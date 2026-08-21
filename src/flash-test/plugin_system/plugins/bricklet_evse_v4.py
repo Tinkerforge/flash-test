@@ -750,15 +750,35 @@ def evse_v4_test_generator(evse_tester, offline, plugin):
         return
 
     yield('Testing front button')
+    yield(' * not pressed')
+    evse_tester.press_button(False)
+
+    if evse_tester.wait_for_button_gpio(False): # Button False = Not pressed
+        yield(' * ... OK')
+    else:
+        yield('-----------------> NOT OK (button reads as pressed while not pressed)')
+        evse_tester.exit(1)
+        return
+
+    yield(' * pressed')
     evse_tester.press_button(True)
 
     if evse_tester.wait_for_button_gpio(True): # Button True = Pressed
-        yield('... OK')
+        yield(' * ... OK')
     else:
-        yield('-----------------> NOT OK')
+        yield('-----------------> NOT OK (button reads as not pressed while pressed)')
         evse_tester.exit(1)
         return
+
+    yield(' * released')
     evse_tester.press_button(False)
+
+    if evse_tester.wait_for_button_gpio(False): # Button False = Not pressed
+        yield(' * ... OK')
+    else:
+        yield('-----------------> NOT OK (button reads as pressed after release)')
+        evse_tester.exit(1)
+        return
 
     yield('Testing LED R')
     evse_tester.set_evse_led(True, False, False)
